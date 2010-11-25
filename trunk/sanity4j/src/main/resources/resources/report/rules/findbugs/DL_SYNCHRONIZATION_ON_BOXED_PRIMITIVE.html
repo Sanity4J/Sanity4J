@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<TITLE>DL: Synchronization on boxed primative could lead to deadlock (DL_SYNCHRONIZATION_ON_BOXED_PRIMITIVE)</TITLE>
+</HEAD>
+<BODY>
+<H2>DL: Synchronization on boxed primative could lead to deadlock (DL_SYNCHRONIZATION_ON_BOXED_PRIMITIVE)</H2>
+<p> The code synchronizes on a boxed primitive constant, such as an Integer.
+<pre>
+private static Integer count = 0;
+...
+  synchronized(count) { 
+     count++;
+     }
+...
+</pre>
+</p>
+<p>Since Integer objects can be cached and shared,
+this code could be synchronizing on the same object as other, unrelated code, leading to unresponsiveness
+and possible deadlock</p>
+</BODY>
+</HTML>

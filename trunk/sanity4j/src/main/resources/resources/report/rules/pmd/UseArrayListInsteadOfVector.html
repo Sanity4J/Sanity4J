@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>UseArrayListInsteadOfVector</TITLE>
+</HEAD>
+<BODY>
+<H2>UseArrayListInsteadOfVector</H2>
+ArrayList is a much better Collection implementation than Vector.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//AllocationExpression
+ /ClassOrInterfaceType[@Image='Vector' or @Image='java.util.Vector']
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class SimpleTest extends TestCase {
+ public void testX() {
+  Collection c = new Vector();
+  // This achieves the same with much better performance
+  // Collection c = new ArrayList();
+ }
+}
+
+          
+            </pre></div>
+</BODY>
+</HTML>

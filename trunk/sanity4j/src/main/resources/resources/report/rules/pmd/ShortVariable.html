@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>ShortVariable</TITLE>
+</HEAD>
+<BODY>
+<H2>ShortVariable</H2>
+Detects when a field, local, or parameter has a very short name.
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//VariableDeclaratorId[string-length(@Image) &amp;lt; 3]
+ [not(ancestor::ForInit)]
+ [not((ancestor::FormalParameter) and (ancestor::TryStatement))]
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Something {
+  private int q = 15; // VIOLATION - Field
+  public static void main( String as[] ) {  // VIOLATION - Formal
+    int r = 20 + q; // VIOLATION - Local
+    for (int i = 0; i &lt; 10; i++) { // Not a Violation (inside FOR)
+      r += q;
+    }
+  }
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

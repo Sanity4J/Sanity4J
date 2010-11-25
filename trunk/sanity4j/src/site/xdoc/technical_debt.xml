@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Page Title</title>
+    <!--  <author email="user@company.com">John Doe</author> -->
+  </properties>
+
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <!--
+  <head>
+    <meta ... />
+  </head>
+  -->
+
+  <body>
+
+    <!-- The body of the document contains a number of sections -->
+    <section name="Technical Debt">
+
+	<div class="slide">
+		<div class="twoColumn">
+			<p><span class="highlight">Organisations that do not have mechanisms to measure the quality of code delivered by outsourcers and project teams, risk under-estimating project whole of life costs.</span></p>
+		</div>
+		<div class="columnOne">
+			<p>Hasty software development or cutting corners during project implementation can result in reduced code quality, and a lower quality product being delivered to production. This results in increased operational expenditure on maintenance in future years. Deferring costs for technical activities to future years is sometimes referred to as generating Technical Debt.</p>
+			<blockquote>
+				<p>deferring technical activities to future years only generates a technical debt and increases your costs</p>
+			</blockquote>
+		</div>
+		<div class="columnTwo">
+			<h3>Drivers of Technical Debt</h3>
+			<p>Project pressures often degrade the quality of the finished product, these can include: </p>
+			<ul>
+				<li>profit motive or budget pressures;</li>
+				<li>schedule pressures;</li>
+				<li>implementation complications; and</li>
+				<li>requests for change.</li>
+			</ul>
+			<h3>How Sanity4J can assist with reducing Technical Debt</h3>
+			<p>Sanity 4J is an objective tool which can be embedded in a standard process for tracking quality, 
+			allowing enforceable quality targets to be set and measured against. Enforcement of the Sanity4J 
+			output reduces the Technical Debt that is created during project development: producing a higher 
+			quality product, reducing development costs, and ongoing maintenance costs.</p>
+			<p> Sanity Check for Java has been developed by the Department of Immigration and Citizenship 
+			(DIAC) to provide code quality measurement for Java code. DIAC has a large number of Java 
+			applications and Sanity4J is a key tool for improving application code quality. It helps to 
+			reduce Technical Debt, lowering development and ongoing maintenance costs.</p>
+		</div>
+	</div>
+	
+    </section>
+
+  </body>
+
+</document>

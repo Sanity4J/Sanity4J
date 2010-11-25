@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>SystemPrintln</TITLE>
+</HEAD>
+<BODY>
+<H2>SystemPrintln</H2>
+System.(out|err).print is used, consider using a logger.
+     </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                 
+//Name[
+    starts-with(@Image, 'System.out.print')
+    or
+    starts-with(@Image, 'System.err.print')
+    ]
+                
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+class Foo{
+    Logger log = Logger.getLogger(Foo.class.getName());
+    public void testA () {
+        System.out.println("Entering test");
+        // Better use this
+        log.fine("Entering test");
+    }
+}
+
+     
+            </pre></div>
+</BODY>
+</HTML>

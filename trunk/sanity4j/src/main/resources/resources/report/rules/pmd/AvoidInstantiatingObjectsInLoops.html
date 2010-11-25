@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidInstantiatingObjectsInLoops</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidInstantiatingObjectsInLoops</H2>
+Detects when a new object is created inside a loop
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/optimization/AvoidInstantiatingObjectsInLoops.html">net.sourceforge.pmd.rules.optimization.AvoidInstantiatingObjectsInLoops</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Something {
+  public static void main( String as[] ) {  
+    for (int i = 0; i &lt; 10; i++) {
+      Foo f = new Foo(); //Avoid this whenever you can it's really expensive
+    }
+  }
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

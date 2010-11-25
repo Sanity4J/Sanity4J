@@ -1,0 +1,10 @@
+<FindBugsFilter>
+     <!-- exclude unit tests (class ends with "test") -->
+     <Match>
+        <Class name="~.*\..*[Tt]est" />
+     </Match>
+	<!-- Exclude generated classes (will have package containing e.g. "gen") -->
+	<Match>     
+		<Class name="~.*\.gen\..*" />
+	</Match>
+</FindBugsFilter>

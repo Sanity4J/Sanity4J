@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>TooManyMethods</TITLE>
+</HEAD>
+<BODY>
+<H2>TooManyMethods</H2>
+A class with too many methods is probably a good suspect for refactoring, in order to reduce its complexity and find a way to
+have more fine grained objects.
+            
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+                    
+                     //ClassOrInterfaceDeclaration/ClassOrInterfaceBody
+                    [
+                        count(descendant::MethodDeclarator[
+                            not
+                            (
+                            starts-with(@Image,'get')
+                                or
+                            starts-with(@Image,'set')
+                            )
+                        ]) &amp;gt; $maxmethods
+                    ]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>maxmethods</td>
+                    <td>10</td>
+                    <td>The method count reporting threshold </td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

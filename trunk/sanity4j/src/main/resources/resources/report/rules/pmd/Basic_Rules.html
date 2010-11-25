@@ -1,0 +1,183 @@
+<HTML>
+<HEAD>
+<TITLE>Basic_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Basic_Rules</H2>
+ic_Rules"></a><h3>Basic Rules</h3>
+                            
+                                <li> EmptyCatchBlock: 
+Empty Catch Block finds instances where an exception is caught,
+but nothing is done.  In most circumstances, this swallows an exception
+which should either be acted on or reported.
+      </li>
+                            
+                                <li> EmptyIfStmt: 
+Empty If Statement finds instances where a condition is checked but nothing is done about it.
+    </li>
+                            
+                                <li> EmptyWhileStmt: 
+Empty While Statement finds all instances where a while statement
+does nothing.  If it is a timing loop, then you should use Thread.sleep() for it; if
+it's a while loop that does a lot in the exit expression, rewrite it to make it clearer.
+       </li>
+                            
+                                <li> EmptyTryBlock: 
+Avoid empty try blocks - what's the point?
+      </li>
+                            
+                                <li> EmptyFinallyBlock: 
+Avoid empty finally blocks - these can be deleted.
+      </li>
+                            
+                                <li> EmptySwitchStatements: 
+Avoid empty switch statements.
+      </li>
+                            
+                                <li> JumbledIncrementer: 
+Avoid jumbled loop incrementers - it's usually a mistake, and it's confusing even if it's what's intended.
+     </li>
+                            
+                                <li> ForLoopShouldBeWhileLoop: 
+Some for loops can be simplified to while loops - this makes them more concise.
+      </li>
+                            
+                                <li> UnnecessaryConversionTemporary: 
+Avoid unnecessary temporaries when converting primitives to Strings
+      </li>
+                            
+                                <li> OverrideBothEqualsAndHashcode: 
+Override both public boolean Object.equals(Object other), and public int Object.hashCode(), or override neither.  Even if you are inheriting a hashCode() from a parent class, consider implementing hashCode and explicitly delegating to your superclass.
+      </li>
+                            
+                                <li> DoubleCheckedLocking: 
+Partially created objects can be returned by the Double Checked Locking pattern when used in Java.
+An optimizing JRE may assign a reference to the baz variable before it creates the object the
+  reference is intended to point to.  For more details see http://www.javaworld.com/javaworld/jw-02-2001/jw-0209-double.html.
+      </li>
+                            
+                                <li> ReturnFromFinallyBlock: 
+Avoid returning from a finally block - this can discard exceptions.
+      </li>
+                            
+                                <li> EmptySynchronizedBlock: 
+  Avoid empty synchronized blocks - they're useless.
+      </li>
+                            
+                                <li> UnnecessaryReturn: 
+Avoid unnecessary return statements
+      </li>
+                            
+                                <li> EmptyStaticInitializer: 
+An empty static initializer was found.
+       </li>
+                            
+                                <li> UnconditionalIfStatement: 
+Do not use "if" statements that are always true or always false.
+      </li>
+                            
+                                <li> EmptyStatementNotInLoop: 
+An empty statement (aka a semicolon by itself) that is not used
+as the sole body of a for loop or while loop is probably a bug.  It
+could also be a double semicolon, which is useless and should be
+removed.
+       </li>
+                            
+                                <li> BooleanInstantiation: 
+Avoid instantiating Boolean objects; you can reference Boolean.TRUE, Boolean.FALSE, or call Boolean.valueOf() instead.
+   </li>
+                            
+                                <li> UnnecessaryFinalModifier: 
+When a class has the final modifier, all the methods are automatically final.
+      </li>
+                            
+                                <li> CollapsibleIfStatements: 
+Sometimes two 'if' statements can be consolidated by separating their conditions with a boolean short-circuit operator.
+      </li>
+                            
+                                <li> UselessOverridingMethod: 
+The overriding method merely calls the same method defined in a superclass
+        </li>
+                            
+                                <li> ClassCastExceptionWithToArray: 
+if you need to get an array of a class from your Collection,
+you should pass an array of the desidered class
+as the parameter of the toArray method. Otherwise you will get a
+ClassCastException.
+  </li>
+                            
+                                <li> AvoidDecimalLiteralsInBigDecimalConstructor: 
+     One might assume that "new BigDecimal(.1)" is exactly equal
+     to .1, but it is actually equal
+     to .1000000000000000055511151231257827021181583404541015625.
+     This is so because .1 cannot be represented exactly as a double
+     (or, for that matter, as a binary fraction of any finite length).
+     Thus, the long value that is being passed in to the constructor
+     is not exactly equal to .1, appearances notwithstanding.
+
+     The (String) constructor, on the other hand, is perfectly predictable:
+     'new BigDecimal(".1")' is exactly equal to .1, as one
+     would expect.  Therefore, it is generally recommended that the (String)
+     constructor be used in preference to this one.
+  </li>
+                            
+                                <li> UselessOperationOnImmutable: 
+    An operation on an Immutable object (BigDecimal or BigInteger) won't change the object itself. The
+    result of the operation is a new object. Therefore, ignoring the operation result is an error.
+      </li>
+                            
+                                <li> MisplacedNullCheck: 
+    The null check here is misplaced. if the variable is null you'll get a NullPointerException.
+    Either the check is useless (the variable will never be "null") or it's incorrect.
+      </li>
+                            
+                                <li> UnusedNullCheckInEquals: 
+    After checking an object reference for null, you should invoke equals() on that object rather than passing it to another object's equals() method.
+    </li>
+                            
+                                <li> AvoidThreadGroup: 
+Avoid using ThreadGroup; although it is intended to be used in a threaded environment
+ it contains methods that are not thread safe.
+      </li>
+                            
+                                <li> BrokenNullCheck: 
+The null check is broken since it will throw a NullPointerException itself.
+It is likely that you used || instead of &amp;&amp; or vice versa.
+     </li>
+                            
+                                <li> BigIntegerInstantiation: 
+Don't create instances of already existing BigInteger
+(BigInteger.ZERO, BigInteger.ONE) and for 1.5 on,
+BigInteger.TEN and BigDecimal (BigDecimal.ZERO,
+BigDecimal.ONE, BigDecimal.TEN)
+  </li>
+                            
+                                <li> AvoidUsingOctalValues: 
+    	
+		    Integer literals should not start with zero.
+		    Zero means that the rest of literal will be interpreted as an octal value.
+    	
+    </li>
+                            
+                                <li> AvoidUsingHardCodedIP: 
+	    	
+				An application with hard coded IP may become impossible to deploy in some case. It never hurts
+				to externalize IP adresses.
+	    	
+	    </li>
+                            
+                                <li> CheckResultSet: 
+            
+	            Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet. Indeed,
+	            if the value return is 'false', the developer should deal with it !
+            
+        </li>
+                            
+                                <li> AvoidMultipleUnaryOperators: 
+            
+					Using multiple unary operators may be a bug, and/or is confusing.
+					Check the usage is not a bug, or consider simplifying the expression.
+            
+        </li>
+</BODY>
+</HTML>

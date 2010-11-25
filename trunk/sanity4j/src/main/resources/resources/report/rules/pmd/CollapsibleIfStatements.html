@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<TITLE>CollapsibleIfStatements</TITLE>
+</HEAD>
+<BODY>
+<H2>CollapsibleIfStatements</H2>
+Sometimes two 'if' statements can be consolidated by separating their conditions with a boolean short-circuit operator.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                
+//IfStatement[@Else='false']/Statement
+ /IfStatement[@Else='false']
+ |
+//IfStatement[@Else='false']/Statement
+ /Block[count(BlockStatement)=1]/BlockStatement
+  /Statement/IfStatement[@Else='false']
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ void bar() {
+  if (x) {
+   if (y) {
+    // do stuff
+   }
+  }
+ }
+}
+ 
+      
+            </pre></div>
+</BODY>
+</HTML>

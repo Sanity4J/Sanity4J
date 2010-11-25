@@ -1,0 +1,43 @@
+<HTML>
+<HEAD>
+<TITLE>EmptySynchronizedBlock</TITLE>
+</HEAD>
+<BODY>
+<H2>EmptySynchronizedBlock</H2>
+Avoid empty synchronized blocks - they're useless.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//SynchronizedStatement/Block[1][count(*) = 0]
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ public void bar() {
+  synchronized (this) {
+   // empty!
+  }
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

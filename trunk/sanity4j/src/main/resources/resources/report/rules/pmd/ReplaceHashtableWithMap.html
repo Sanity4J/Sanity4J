@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>ReplaceHashtableWithMap</TITLE>
+</HEAD>
+<BODY>
+<H2>ReplaceHashtableWithMap</H2>
+Consider replacing this Hashtable with the newer java.util.Map
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//Type/ReferenceType/ClassOrInterfaceType[@Image='Hashtable']
+     
+        </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+    public class Foo {
+     void bar() {
+        Hashtable h = new Hashtable();
+     }
+    }
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

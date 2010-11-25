@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<TITLE>ExceptionsShouldHaveAMessage</TITLE>
+</HEAD>
+<BODY>
+<H2>ExceptionsShouldHaveAMessage</H2>
+<p>All exceptions should have a message, to help in problem diagnosis.</p>
+<p>TODO: This only covers the no-arg constructor; there doesn't seem to be a way of 
+      checking the type of a parameter being passed in. For example, the following
+      will pass:<BR/>
+	      throw new RuntimeException(someOtherException).
+</p>		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//AllocationExpression
+ [ClassOrInterfaceType[ends-with(@Image,'Exception')]]
+ [count(Arguments/ArgumentList) = 0]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+class Foo 
+{
+  public void doSomething(int x, int y)
+  {
+  	if (x <= 0)
+  	{
+  		throw new IllegalArgumentException(); // Bad
+  	}
+  	else if (y <= 0)
+  	{
+  		throw new IllegalArgumentException("y must be greater than 0"); // Better
+  	}
+  }
+}
+       
+            </pre></div>
+</BODY>
+</HTML>

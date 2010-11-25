@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>SuspiciousEqualsMethodName</TITLE>
+</HEAD>
+<BODY>
+<H2>SuspiciousEqualsMethodName</H2>
+The method name and parameter number are suspiciously close to
+equals(Object), which may mean you are intending to override the equals(Object)
+method.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+        
+//MethodDeclarator[
+(
+@Image = 'equals'
+  and count(FormalParameters/*) = 1
+  and not (FormalParameters/FormalParameter/Type/ReferenceType/ClassOrInterfaceType
+   [@Image = 'Object' or @Image = 'java.lang.Object'])
+)
+or
+@Image='equal'
+ and count(FormalParameters/*) = 1
+ and (FormalParameters/FormalParameter/Type/ReferenceType/ClassOrInterfaceType
+  [@Image = 'Object' or @Image = 'java.lang.Object'])
+
+]
+        
+                    </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+        
+public class Foo {
+ public int equals(Object o) {
+ // oops, this probably was supposed to be boolean equals
+ }
+ public boolean equals(String s) {
+ // oops, this probably was supposed to be equals(Object)
+ }
+}
+        
+        
+            </pre></div>
+</BODY>
+</HTML>

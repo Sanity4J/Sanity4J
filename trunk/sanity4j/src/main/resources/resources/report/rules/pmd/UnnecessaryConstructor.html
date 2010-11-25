@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>UnnecessaryConstructor</TITLE>
+</HEAD>
+<BODY>
+<H2>UnnecessaryConstructor</H2>
+This rule detects when a constructor is not necessary; i.e., when there's only one constructor,
+it's public, has an empty body, and takes no arguments.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//ClassOrInterfaceBody[count(ClassOrInterfaceBodyDeclaration/ConstructorDeclaration)=1]
+/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration
+[@Public='true']
+[not(FormalParameters/*)]
+[not(BlockStatement)]
+[not(NameList)]
+[count(ExplicitConstructorInvocation/Arguments/ArgumentList/Expression)=0]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ public Foo() {}
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

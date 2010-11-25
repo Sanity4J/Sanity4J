@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>JUnit4TestShouldUseTestAnnotation</TITLE>
+</HEAD>
+<BODY>
+<H2>JUnit4TestShouldUseTestAnnotation</H2>
+In JUnit 3, the framework executed all methods which started with the word test as a unit test. In JUnit 4, only methods annotated
+with the @Test annotation are executed.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//ClassOrInterfaceBodyDeclaration[MethodDeclaration/MethodDeclarator[starts-with(@Image,'test')]]
+[count(Annotation//Name[@Image='Test'])=0]
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class MyTest {
+    public void testBad() {
+        doSomething();
+    }
+
+	@Test
+    public void testGood() {
+        doSomething();
+    }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

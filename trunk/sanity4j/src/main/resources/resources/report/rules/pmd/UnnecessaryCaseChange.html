@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>UnnecessaryCaseChange</TITLE>
+</HEAD>
+<BODY>
+<H2>UnnecessaryCaseChange</H2>
+Using equalsIgnoreCase() is faster than using toUpperCase/toLowerCase().equals()
+       </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/strings/UnnecessaryCaseChange.html">net.sourceforge.pmd.rules.strings.UnnecessaryCaseChange</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+                 
+ public class Foo {
+  public boolean bar(String buz) {
+    // should be buz.equalsIgnoreCase("baz")
+    return buz.toUpperCase().equals("baz");
+    // another unnecessary toUpperCase()
+    // return buz.toUpperCase().equalsIgnoreCase("baz");
+  }
+ }
+                 
+       
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<TITLE>UnusedNullCheckInEquals</TITLE>
+</HEAD>
+<BODY>
+<H2>UnusedNullCheckInEquals</H2>
+After checking an object reference for null, you should invoke equals() on that object rather than passing it to another object's equals() method.
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+        
+//PrimarySuffix[@Image='equals' and not(../PrimaryPrefix/Literal)]
+ /../PrimarySuffix/Arguments/ArgumentList/Expression
+ /PrimaryExpression/PrimaryPrefix
+ /Name[@Image = ./../../../../../../../../../../Expression/ConditionalAndExpression
+ /EqualityExpression[@Image="!=" and count(./preceding-sibling::*)=0 and
+ ./PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
+  /PrimaryExpression/PrimaryPrefix/Name/@Image]
+        
+        </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Test {
+
+public String method1() { return "ok";}
+public String method2() { return null;}
+
+public void method(String a) {
+String b;
+/*
+I don't know it method1() can be "null"
+but I know "a" is not null..
+I'd better write a.equals(method1())
+*/
+if (a!=null &amp;&amp; method1().equals(a)) { // will
+trigger the rule
+//whatever
+}
+
+if (method1().equals(a) &amp;&amp; a != null) { //
+won't trigger the rule
+//whatever
+}
+
+if (a!=null &amp;&amp; method1().equals(b)) { // won't
+trigger the rule
+//whatever
+}
+
+if (a!=null &amp;&amp; "LITERAL".equals(a)) { // won't
+trigger the rule
+//whatever
+}
+
+if (a!=null &amp;&amp; !a.equals("go")) { // won't
+trigger the rule
+a=method2();
+if (method1().equals(a)) {
+//whatever
+}
+}
+}
+}
+
+
+            </pre></div>
+</BODY>
+</HTML>

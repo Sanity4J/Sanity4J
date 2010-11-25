@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>ReplaceEnumerationWithIterator</TITLE>
+</HEAD>
+<BODY>
+<H2>ReplaceEnumerationWithIterator</H2>
+Consider replacing this Enumeration with the newer java.util.Iterator
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ImplementsList/ClassOrInterfaceType[@Image='Enumeration']
+     
+        </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo implements Enumeration {
+    private int x = 42;
+    public boolean hasMoreElements() {
+        return true;
+    }
+    public Object nextElement() {
+        return String.valueOf(i++);
+    }
+}
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

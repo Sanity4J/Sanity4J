@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>PreserveStackTrace</TITLE>
+</HEAD>
+<BODY>
+<H2>PreserveStackTrace</H2>
+Throwing a new exception from a catch block without passing the original exception into the
+new Exception will cause the true stack trace to be lost, and can make it difficult to
+debug effectively.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/PreserveStackTrace.html">net.sourceforge.pmd.rules.design.PreserveStackTrace</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo {
+    void good() {
+        try{
+            Integer.parseInt("a");
+        } catch(Exception e){
+            throw new Exception(e);
+        }
+    }
+    void bad() {
+        try{
+            Integer.parseInt("a");
+        } catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+}
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

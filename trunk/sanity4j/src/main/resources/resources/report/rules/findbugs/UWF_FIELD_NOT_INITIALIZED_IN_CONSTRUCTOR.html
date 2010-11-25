@@ -1,0 +1,14 @@
+<HTML>
+<HEAD>
+<TITLE>UwF: Field not initialized in constructor (UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR)</TITLE>
+</HEAD>
+<BODY>
+<H2>UwF: Field not initialized in constructor (UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR)</H2>
+<p> This field is never initialized within any constructor, and is therefore could be null after
+the object is constructed.
+This could be a either an error or a questionable design, since
+it means a null pointer exception will be generated if that field is dereferenced
+before being initialized.
+</p>
+</BODY>
+</HTML>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+  
+  <id>bin</id>
+  
+  <formats>
+    <format>zip</format>
+  </formats>
+  
+  <files>
+    <file>
+	  <source>target/sanity4j-${project.version}-jar-with-dependencies.jar</source>
+	  <destName>sanity4j.jar</destName>
+	  <outputDirectory>/</outputDirectory>
+    </file>
+  </files>
+  
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>LICENSE.txt</include>
+        <include>License*.txt</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+</assembly>

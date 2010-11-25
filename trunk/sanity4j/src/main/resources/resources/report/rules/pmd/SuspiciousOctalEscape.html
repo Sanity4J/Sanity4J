@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<TITLE>SuspiciousOctalEscape</TITLE>
+</HEAD>
+<BODY>
+<H2>SuspiciousOctalEscape</H2>
+A suspicious octal escape sequence was found inside a String literal.
+The Java language specification (section 3.10.6) says an octal
+escape sequence inside a literal String shall consist of a backslash
+followed by:
+
+   OctalDigit | OctalDigit OctalDigit | ZeroToThree OctalDigit OctalDigit
+
+Any octal escape sequence followed by non-octal digits can be confusing,
+e.g. "\038" is interpreted as the octal escape sequence "\03" followed by
+the literal character "8".
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/SuspiciousOctalEscape.html">net.sourceforge.pmd.rules.SuspiciousOctalEscape</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ public void foo() {
+  // interpreted as octal 12, followed by character '8'
+  System.out.println("suspicious: \128");
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

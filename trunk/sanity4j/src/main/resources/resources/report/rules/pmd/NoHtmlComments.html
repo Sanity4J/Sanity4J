@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>NoHtmlComments</TITLE>
+</HEAD>
+<BODY>
+<H2>NoHtmlComments</H2>
+In a production system, HTML comments increase the payload between the application 
+		  server to the client, and serve little other purpose. Consider switching to 
+		  JSP comments.
+			</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+					 
+	//CommentTag
+					 
+				</pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+			
+&lt;HTML&gt;&lt;title&gt;bad example&gt;&lt;BODY&gt;
+&lt;!-- HTML comment --&gt;
+&lt;/BODY&gt; &lt;/HTML&gt;
+
+&lt;HTML&gt;&lt;title&gt;good example&gt;&lt;BODY&gt;
+&lt;%-- JSP comment --%&gt;
+&lt;/BODY&gt; &lt;/HTML&gt;
+			
+		
+            </pre></div>
+</BODY>
+</HTML>

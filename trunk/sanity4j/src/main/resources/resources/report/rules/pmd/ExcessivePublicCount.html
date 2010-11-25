@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>ExcessivePublicCount</TITLE>
+</HEAD>
+<BODY>
+<H2>ExcessivePublicCount</H2>
+A large number of public methods and attributes declared in a class can indicate the
+ class may need to be broken up as increased effort will be required to thoroughly test it.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/ExcessivePublicCount.html">net.sourceforge.pmd.rules.ExcessivePublicCount</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo {
+ public String value;
+ public Bar something;
+ public Variable var;
+ // [... more more public attributes ...]
+ public void doWork() {}
+ public void doMoreWork() {}
+ public void doWorkAgain() {}
+ // [... more more public methods ...]
+}
+    
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>minimum</td>
+                    <td>45</td>
+                    <td>The public item reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>FinalizeOnlyCallsSuperFinalize</TITLE>
+</HEAD>
+<BODY>
+<H2>FinalizeOnlyCallsSuperFinalize</H2>
+If the finalize() is implemented, it should do something besides just calling
+super.finalize().
+       </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//MethodDeclaration[MethodDeclarator[@Image="finalize"][not(FormalParameters/*)]]
+   /Block[count(BlockStatement)=1]
+     /BlockStatement[
+       Statement/StatementExpression/PrimaryExpression
+      /PrimaryPrefix[@Image="finalize"]
+      ]
+
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+           
+public class Foo {
+   protected void finalize() {
+     super.finalize();
+   }
+}
+           
+       
+            </pre></div>
+</BODY>
+</HTML>

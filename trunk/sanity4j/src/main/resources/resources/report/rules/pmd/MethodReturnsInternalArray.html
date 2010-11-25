@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>MethodReturnsInternalArray</TITLE>
+</HEAD>
+<BODY>
+<H2>MethodReturnsInternalArray</H2>
+Exposing internal arrays directly allows the user to modify some code that could be critical.
+It is safer to return a copy of the array.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/sunsecure/MethodReturnsInternalArray.html">net.sourceforge.pmd.rules.sunsecure.MethodReturnsInternalArray</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class SecureSystem {
+  UserData [] ud;
+  public UserData [] getUserData() {
+      // Don't return directly the internal array, return a copy
+      return ud;
+  }
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

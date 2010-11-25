@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<TITLE>CouplingBetweenObjects</TITLE>
+</HEAD>
+<BODY>
+<H2>CouplingBetweenObjects</H2>
+This rule counts unique attributes, local variables and return types within an object. A number
+ higher than specified threshold can indicate a high degree of coupling.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/CouplingBetweenObjects.html">net.sourceforge.pmd.rules.CouplingBetweenObjects</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+import com.Blah;
+import org.Bar;
+import org.Bardo;
+public class Foo {
+ private Blah var1;
+ private Bar var2;
+ //followed by many imports of unique objects
+ void ObjectC doWork() {
+  Bardo var55;
+  ObjectA var44;
+  ObjectZ var93;
+  return something;
+ }
+}
+
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>threshold</td>
+                    <td>20</td>
+                    <td>The unique type reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

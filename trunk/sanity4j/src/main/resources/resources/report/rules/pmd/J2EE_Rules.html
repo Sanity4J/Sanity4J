@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<TITLE>J2EE_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>J2EE_Rules</H2>
+E_Rules"></a><h3>J2EE Rules</h3>
+                            
+                                <li> UseProperClassLoader: 
+    In J2EE getClassLoader() might not work as expected.  Use Thread.currentThread().getContextClassLoader() instead.
+   </li>
+                            
+                                <li> MDBAndSessionBeanNamingConvention: 
+        The EJB Specification state that any MessageDrivenBean or SessionBean should be suffixed by Bean.
+        </li>
+                            
+                                <li> RemoteSessionInterfaceNamingConvention: 
+        Remote Home interface of a Session EJB should be suffixed by 'Home'.
+        </li>
+                            
+                                <li> LocalInterfaceSessionNamingConvention: 
+        The Local Interface of a Session EJB should be suffixed by 'Local'.
+        </li>
+                            
+                                <li> LocalHomeNamingConvention: 
+        The Local Home interface of a Session EJB should be suffixed by 'LocalHome'.
+        </li>
+                            
+                                <li> RemoteInterfaceNamingConvention: 
+        Remote Interface of a Session EJB should NOT be suffixed.
+        </li>
+                            
+                                <li> DoNotCallSystemExit: Web applications should not call System.exit(), since only the web container or the
+application server should stop the JVM.
+	</li>
+                            
+                                <li> StaticEJBFieldShouldBeFinal: 
+According to the J2EE specification (p.494), an EJB should not have any static fields
+with write access. However, static read only fields are allowed. This ensures proper
+behavior especially when instances are distributed by the container on several JREs.
+    	</li>
+                            
+                                <li> DoNotUseThreads: 
+            
+                The J2EE specification explicitly forbid use of threads.
+            
+        </li>
+</BODY>
+</HTML>

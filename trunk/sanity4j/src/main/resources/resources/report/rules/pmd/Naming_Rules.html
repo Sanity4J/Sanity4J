@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<TITLE>Naming_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Naming_Rules</H2>
+ing_Rules"></a><h3>Naming Rules</h3>
+                            
+                                <li> ShortVariable: 
+Detects when a field, local, or parameter has a very short name.
+    </li>
+                            
+                                <li> LongVariable: 
+Detects when a field, formal or local variable is declared with a long name.
+    </li>
+                            
+                                <li> ShortMethodName: 
+Detects when very short method names are used.
+     </li>
+                            
+                                <li> VariableNamingConventions: 
+A variable naming conventions rule - customize this to your liking.  Currently, it
+ checks for final variables that should be fully capitalized and non-final variables
+ that should not include underscores.
+        </li>
+                            
+                                <li> MethodNamingConventions: 
+Method names should always begin with a lower case character, and should not contain underscores.
+          </li>
+                            
+                                <li> ClassNamingConventions: 
+Class names should always begin with an upper case character.
+      </li>
+                            
+                                <li> AbstractNaming: 
+Abstract classes should be named 'AbstractXXX'.
+       </li>
+                            
+                                <li> AvoidDollarSigns: 
+Avoid using dollar signs in variable/method/class/interface names.
+       </li>
+                            
+                                <li> MethodWithSameNameAsEnclosingClass: 
+Non-constructor methods should not have the same name as the enclosing class.
+       </li>
+                            
+                                <li> SuspiciousHashcodeMethodName: 
+The method name and return type are suspiciously close to hashCode(), which
+may mean you are intending to override the hashCode() method.
+       </li>
+                            
+                                <li> SuspiciousConstantFieldName: 
+A field name is all in uppercase characters, which in Sun's Java naming
+conventions indicate a constant. However, the field is not final.
+       </li>
+                            
+                                <li> SuspiciousEqualsMethodName: 
+The method name and parameter number are suspiciously close to
+equals(Object), which may mean you are intending to override the equals(Object)
+method.
+        </li>
+                            
+                                <li> AvoidFieldNameMatchingTypeName: 
+It is somewhat confusing to have a field name matching the declaring class name.
+This probably means that type and or field names could be more precise.
+      </li>
+                            
+                                <li> AvoidFieldNameMatchingMethodName: 
+It is somewhat confusing to have a field name with the same name as a method.
+While this is totally legal, having information (field) and actions (method) is
+not clear naming.
+      </li>
+                            
+                                <li> NoPackage: 
+Detects when a class or interface does not have a package definition.
+    </li>
+                            
+                                <li> PackageCase: 
+    Detects when a package definition contains upper case characters.
+        </li>
+                            
+                                <li> MisleadingVariableName: 
+Detects when a non-field has a name starting with 'm_'.  This usually
+indicates a field and thus is confusing.
+      </li>
+                            
+                                <li> BooleanGetMethodName: 
+Looks for methods named 'getX()' with 'boolean' as the return type. The convention
+is to name these methods 'isX()'.
+        </li>
+</BODY>
+</HTML>

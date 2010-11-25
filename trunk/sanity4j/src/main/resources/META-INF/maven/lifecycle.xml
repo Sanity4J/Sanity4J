@@ -1,0 +1,17 @@
+<lifecycles>
+  <lifecycle>
+    <id>sanity4j</id>
+    <phases>
+      <phase>
+        <id>site</id>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sanity4j</goal>
+            </goals>
+          </execution>
+        </executions>
+      </phase>
+    </phases>
+  </lifecycle>
+</lifecycles>

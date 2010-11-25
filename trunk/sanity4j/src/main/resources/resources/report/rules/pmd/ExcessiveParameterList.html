@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>ExcessiveParameterList</TITLE>
+</HEAD>
+<BODY>
+<H2>ExcessiveParameterList</H2>
+Long parameter lists can indicate that a new object should be created to
+ wrap the numerous parameters.  Basically, try to group the parameters together.
+   </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/LongParameterListRule.html">net.sourceforge.pmd.rules.design.LongParameterListRule</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ public void addData(
+  int p0, int p1, int p2, int p3, int p4, int p5,
+  int p5, int p6, int p7, int p8, int p9, int p10) {
+  }
+ }
+}
+
+   
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>minimum</td>
+                    <td>10</td>
+                    <td>The parameter count reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

@@ -1,0 +1,19 @@
+<HTML>
+<HEAD>
+<TITLE>Jakarta_Commons_Logging_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Jakarta_Commons_Logging_Rules</H2>
+arta_Commons_Logging_Rules"></a><h3>Jakarta Commons Logging Rules</h3>
+                            
+                                <li> UseCorrectExceptionLogging: 
+To make sure the full stacktrace is printed out, use the logging statement with 2 arguments: a String and a Throwable.
+        </li>
+                            
+                                <li> ProperLogger: 
+A logger should normally be defined private static final and have the correct class.
+Private final Log log; is also allowed for rare cases where loggers need to be passed
+around, with the restriction that the logger needs to be passed into the constructor.
+             </li>
+</BODY>
+</HTML>

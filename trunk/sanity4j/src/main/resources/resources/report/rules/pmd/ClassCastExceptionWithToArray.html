@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<TITLE>ClassCastExceptionWithToArray</TITLE>
+</HEAD>
+<BODY>
+<H2>ClassCastExceptionWithToArray</H2>
+if you need to get an array of a class from your Collection,
+you should pass an array of the desidered class
+as the parameter of the toArray method. Otherwise you will get a
+ClassCastException.
+  </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//CastExpression[Type/ReferenceType/ClassOrInterfaceType[@Image !=
+"Object"]]//PrimaryExpression
+[
+ PrimaryPrefix/Name[ends-with(@Image, '.toArray')]
+ and
+ PrimarySuffix/Arguments[count(*) = 0]
+and
+count(PrimarySuffix) = 1
+]
+
+    </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class Test {
+
+    public static void main(String[] args) {
+        Collection c=new ArrayList();
+        Integer obj=new Integer(1);
+        c.add(obj);
+
+        // this would trigger the rule (and throw a ClassCastException
+if executed)
+        Integer[] a=(Integer [])c.toArray();
+
+        // this wouldn't trigger the rule
+        Integer[] b=(Integer [])c.toArray(new Integer[c.size()]);
+    }
+}
+
+  
+            </pre></div>
+</BODY>
+</HTML>

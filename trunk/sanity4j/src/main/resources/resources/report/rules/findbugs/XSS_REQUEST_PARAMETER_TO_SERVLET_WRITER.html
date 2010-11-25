@@ -1,0 +1,18 @@
+<HTML>
+<HEAD>
+<TITLE>XSS: Servlet reflected cross site scripting vulnerability (XSS_REQUEST_PARAMETER_TO_SERVLET_WRITER)</TITLE>
+</HEAD>
+<BODY>
+<H2>XSS: Servlet reflected cross site scripting vulnerability (XSS_REQUEST_PARAMETER_TO_SERVLET_WRITER)</H2>
+<p>This code directly writes an HTTP parameter to Servlet output, which allows for a reflected cross site scripting
+vulnerability. See <a href="http://en.wikipedia.org/wiki/Cross-site_scripting">http://en.wikipedia.org/wiki/Cross-site_scripting</a>
+for more information.</p>
+<p>FindBugs looks only for the most blatent, obvious cases of cross site scripting.
+If FindBugs found <em>any</em>, you <em>almostly certainly</em> have more cross site scripting
+vulnerabilities that FindBugs doesn't report. If you are concerned about cross site scripting, you should seriously 
+consider using a commercial static analysis or pen-testing tool, such as those provided by <a href="http://www.fortify.com/">Fortify Software</a>,
+a sponsor of the FindBugs project. If your software is open source, Fortify will scan your code for free
+as part of the <a href="http://opensource.fortifysoftware.com/welcome.html">JOR (Java Open Review)</a> effort.
+</p>
+</BODY>
+</HTML>

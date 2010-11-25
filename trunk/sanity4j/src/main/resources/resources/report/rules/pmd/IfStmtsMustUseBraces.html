@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>IfStmtsMustUseBraces</TITLE>
+</HEAD>
+<BODY>
+<H2>IfStmtsMustUseBraces</H2>
+Avoid using if statements without using curly braces.
+     </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                   
+//IfStatement[count(*) &amp;lt; 3][not(Statement/Block)]
+                   
+               </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+ public class Foo {
+   public void bar() {
+     int x = 0;
+     if (foo) x++;
+   }
+ }
+ 
+     
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Page Title</title>
+    <!--  <author email="user@company.com">John Doe</author> -->
+  </properties>
+
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <!--
+  <head>
+    <meta ... />
+  </head>
+  -->
+
+  <body>
+
+    <!-- The body of the document contains a number of sections -->
+    <section name="Features And Benefits">
+
+		<div class="slide">
+			<div class="columnOne">
+				<h2>What is Sanity4J?</h2>
+				<p>Sanity4J is a code quality measurement tool for Java code developed by DIAC. It is:</p>
+				<ul>
+					<li><strong>Proven:</strong> Targets can be written into Contracts and Deeds. </li>
+					<li><strong>Measurable:</strong> Scores are generated for all levels of the code hierarchy.</li>
+					<li><strong>Actionable:</strong> Developers are given advice on how to fix issues.</li>
+					<li><strong>Easy to Use:</strong> Easily integrates into the Software Development Lifecycle (SDLC).</li>
+				</ul>
+				<p>Sanity4J measurements are useful for Stage Gate assessments which internal projects must pass to transition through various environments and ultimately into production.</p>
+				<h3>Sanity4J Proactively Builds Quality</h3>
+				<p>Using Sanity4J allows teams to build quality as they develop code, and provides an opportunity to make quality targets part of the development lifecycle. It helps developers and managers to identify coding issues throughout the process, reducing defect rates and ongoing development costs.</p>
+			</div>
+			<div class="columnTwo">
+				<h3>Feature Summary</h3>
+				<ul>
+					<li><strong>Increases Quality:</strong> Increases Java code quality in an application and increases developer programming skills over time.</li>
+					<li><strong>Reduces Costs:</strong>  Highlights application defects at coding time, thereby reducing development and ongoing maintenance costs.</li>
+					<li><strong>Code Health Check:</strong> Provides an automated code level view of the health of an application.</li>
+					<li><strong>Management Reports:</strong> Provides easy to view graphical reports for both developers and management. </li>
+					<li><strong>Integrated:</strong> Developers can build-in quality as they go using ad-hoc quality reports. Managers can see reports when software builds happen.</li>
+					<li><strong>Automated:</strong> Quality measurement can be run automatically and requires no ongoing effort after setup.</li>
+					<li><strong>Industry-based:</strong> Java Coding Rules are based on popular Open Source Software.</li>
+					<li><strong>Consistent:</strong> All Java projects for an organisation can be measured against the same quality standards, in a repeatable and consistent fashion.</li>
+					<li><strong>Familiar:</strong> Developers navigate through Sanity4J data using the Javadoc presentation layout they are already familiar with.</li>
+					<li><strong>Configurable:</strong> Coding rules are prioritised by risk and impact. Priority can be modified to suit an organisation. </li>
+					<li><strong>Extensible:</strong> Organisations can extend Sanity4J by adding their own coding rules.</li>
+				</ul>
+			</div>
+		</div>
+
+    </section>
+
+  </body>
+
+</document>

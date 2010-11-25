@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>SuspiciousHashcodeMethodName</TITLE>
+</HEAD>
+<BODY>
+<H2>SuspiciousHashcodeMethodName</H2>
+The method name and return type are suspiciously close to hashCode(), which
+may mean you are intending to override the hashCode() method.
+       </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/naming/SuspiciousHashcodeMethodName.html">net.sourceforge.pmd.rules.naming.SuspiciousHashcodeMethodName</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo {
+ public int hashcode() {
+ // oops, this probably was supposed to be hashCode
+ }
+}
+    
+       
+            </pre></div>
+</BODY>
+</HTML>

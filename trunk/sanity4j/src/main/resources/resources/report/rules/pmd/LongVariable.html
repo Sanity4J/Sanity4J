@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>LongVariable</TITLE>
+</HEAD>
+<BODY>
+<H2>LongVariable</H2>
+Detects when a field, formal or local variable is declared with a long name.
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//VariableDeclaratorId[string-length(@Image) &amp;gt; $minimum]
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Something {
+  int reallyLongIntName = -3;  // VIOLATION - Field
+  public static void main( String argumentsList[] ) { // VIOLATION - Formal
+    int otherReallyLongName = -5; // VIOLATION - Local
+    for (int interestingIntIndex = 0;  // VIOLATION - For
+             interestingIntIndex &lt; 10;
+             interestingIntIndex ++ ) {
+    }
+}
+
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>minimum</td>
+                    <td>17</td>
+                    <td>The variable length reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>JUnitUseExpected</TITLE>
+</HEAD>
+<BODY>
+<H2>JUnitUseExpected</H2>
+</p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/migration/JUnitUseExpected.html">net.sourceforge.pmd.rules.migration.JUnitUseExpected</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class MyTest {
+	@Test
+    public void testBad() {
+        try {
+            doSomething();
+            fail("should have thrown an exception");
+        } catch (Exception e) {
+        }
+    }
+
+	@Test(expected=Exception.class)
+    public void testGood() {
+        doSomething();
+    }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

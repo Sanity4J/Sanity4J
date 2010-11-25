@@ -1,0 +1,11 @@
+<HTML>
+<HEAD>
+<TITLE>FI: Finalizer only nulls fields (FI_FINALIZER_ONLY_NULLS_FIELDS)</TITLE>
+</HEAD>
+<BODY>
+<H2>FI: Finalizer only nulls fields (FI_FINALIZER_ONLY_NULLS_FIELDS)</H2>
+<p> This finalizer does nothing except null out fields. This is completely pointless, and requires that
+the object be garbage collected, finalized, and then garbage collected again. You should just remove the finalize
+method.
+</BODY>
+</HTML>

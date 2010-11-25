@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The schema for the PMD CPD result file versions 4.2.1, 4.2.2, 4.2.5 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://net.sf.sanity4j/namespace/pmdcpd-4.2.1"  xmlns:pmdcpd421="http://net.sf.sanity4j/namespace/pmdcpd-4.2.1">
+	<xs:element name="codefragment" type="xs:string"/>
+	<xs:element name="duplication">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pmdcpd421:file" maxOccurs="unbounded"/>
+				<xs:element ref="pmdcpd421:codefragment"/>
+			</xs:sequence>
+			<xs:attribute name="lines" use="required" type="xs:integer"/>
+			<xs:attribute name="tokens" use="required" type="xs:integer"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="file">
+		<xs:complexType>
+			<xs:attribute name="line" use="required" type="xs:integer"/>
+			<xs:attribute name="path" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="pmd-cpd">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pmdcpd421:duplication" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

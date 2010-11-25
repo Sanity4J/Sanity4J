@@ -1,0 +1,273 @@
+<HTML>
+<HEAD>
+<TITLE>Design_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Design_Rules</H2>
+ign_Rules"></a><h3>Design Rules</h3>
+                            
+                                <li> UseSingleton: 
+    	
+If you have a class that has nothing but static methods, consider making it a Singleton.
+Note that this doesn't apply to abstract classes, since their subclasses may
+well include non-static methods.  Also, if you want this class to be a Singleton,
+remember to add a private constructor to prevent instantiation.
+		
+    </li>
+                            
+                                <li> SimplifyBooleanReturns: 
+Avoid unnecessary if..then..else statements when returning a boolean.
+    </li>
+                            
+                                <li> SimplifyBooleanExpressions: 
+Avoid unnecessary comparisons in boolean expressions - this complicates simple code.
+      </li>
+                            
+                                <li> SwitchStmtsShouldHaveDefault: 
+Switch statements should have a default label.
+    </li>
+                            
+                                <li> AvoidDeeplyNestedIfStmts: 
+Deeply nested if..then statements are hard to read.
+    </li>
+                            
+                                <li> AvoidReassigningParameters: 
+Reassigning values to parameters is a questionable practice.  Use a temporary local variable instead.
+    </li>
+                            
+                                <li> SwitchDensity: 
+ A high ratio of statements to labels in a switch statement implies that the switch
+ statement is doing too much work.  Consider moving the statements into new
+ methods, or creating subclasses based on the switch variable.
+      </li>
+                            
+                                <li> ConstructorCallsOverridableMethod: 
+Calling overridable methods during construction poses a risk of invoking methods on an
+incompletely constructed object and can be difficult to discern.
+It may leave the sub-class unable to construct its superclass or forced to
+replicate the construction process completely within itself, losing the ability to call
+super().  If the default constructor contains a call to an overridable method,
+the subclass may be completely uninstantiable.   Note that this includes method calls
+throughout the control flow graph - i.e., if a constructor Foo() calls a private method
+bar() that calls a public method buz(), this denotes a problem.
+      </li>
+                            
+                                <li> AccessorClassGeneration: 
+Instantiation by way of private constructors from outside of the constructor's class often causes the generation of an accessor.
+A factory method, or non-privitization of the constructor can eliminate this situation.
+The generated class file is actually an interface.  It gives the accessing class the ability to invoke a new hidden package
+scope constructor that takes the interface as a supplementary parameter.  This turns a private constructor effectively into
+one with package scope, and is challenging to discern.
+      </li>
+                            
+                                <li> FinalFieldCouldBeStatic: 
+If a final field is assigned to a compile-time constant, it could be
+made static, thus saving overhead in each object at runtime.
+      </li>
+                            
+                                <li> CloseResource: 
+Ensure that resources (like Connection, Statement, and ResultSet objects) are always closed after use.
+    </li>
+                            
+                                <li> NonStaticInitializer: 
+A nonstatic initializer block will be called any time a constructor
+is invoked (just prior to invoking the constructor).  While this
+is a valid language construct, it is rarely used and is confusing.
+       </li>
+                            
+                                <li> DefaultLabelNotLastInSwitchStmt: 
+By convention, the default label should be the last label in a switch statement.
+       </li>
+                            
+                                <li> NonCaseLabelInSwitchStatement: 
+A non-case label (e.g. a named break/continue label) was present in a switch statement.
+This legal, but confusing. It is easy to mix up the case labels and the non-case labels.
+       </li>
+                            
+                                <li> OptimizableToArrayCall: 
+A call to Collection.toArray can use the Collection's size vs an empty Array of the desired type.
+      </li>
+                            
+                                <li> BadComparison: 
+Avoid equality comparisons with Double.NaN - these are likely to be logic errors.
+      </li>
+                            
+                                <li> EqualsNull: 
+Inexperienced programmers sometimes confuse comparison concepts
+and use equals() to compare to null.
+        </li>
+                            
+                                <li> ConfusingTernary: 
+In an "if" expression with an "else" clause, avoid negation in
+the test.  For example, rephrase:
+if (x != y) diff(); else same();
+as:
+if (x == y) same(); else diff();
+Most "if (x != y)" cases without an "else" are often return
+cases, so consistent use of this rule makes the code easier
+to read.  Also, this resolves trivial ordering problems, such
+as "does the error case go first?" or "does the common case
+go first?".
+        </li>
+                            
+                                <li> InstantiationToGetClass: 
+Avoid instantiating an object just to call getClass() on it; use the .class public member instead.
+      </li>
+                            
+                                <li> IdempotentOperations: 
+Avoid idempotent operations - they are have no effect.
+      </li>
+                            
+                                <li> SimpleDateFormatNeedsLocale: 
+Be sure to specify a Locale when creating a new instance of SimpleDateFormat.
+        </li>
+                            
+                                <li> ImmutableField: 
+Identifies private fields whose values never change once they are initialized either in the declaration of the field or by
+a constructor.  This aids in converting existing classes to immutable classes.
+      </li>
+                            
+                                <li> UseLocaleWithCaseConversions: 
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale.  This avoids
+problems with certain locales, i.e. Turkish.
+      </li>
+                            
+                                <li> AvoidProtectedFieldInFinalClass: 
+Do not use protected fields in final classes since they cannot be subclassed.
+Clarify your intent by using private or package access modifiers instead.
+         </li>
+                            
+                                <li> AssignmentToNonFinalStatic: 
+Identifies a possible unsafe usage of a static field.
+       </li>
+                            
+                                <li> MissingStaticMethodInNonInstantiatableClass: 
+A class that has private constructors and does not have any static methods or fields cannot be used.
+      </li>
+                            
+                                <li> AvoidSynchronizedAtMethodLevel: 
+  Method level synchronization can backfire when new code is added to the method.  Block-level
+  synchronization helps to ensure that only the code that needs synchronization gets it.
+      </li>
+                            
+                                <li> MissingBreakInSwitch: 
+A switch statement without an enclosed break statement may be a bug.
+      </li>
+                            
+                                <li> UseNotifyAllInsteadOfNotify: 
+Thread.notify() awakens a thread monitoring the object. If more than one thread is monitoring, then only
+one is chosen.  The thread chosen is arbitrary; thus it's usually safer to call notifyAll() instead.
+      </li>
+                            
+                                <li> AvoidInstanceofChecksInCatchClause: 
+Each caught exception type should be handled in its own catch clause.
+      </li>
+                            
+                                <li> AbstractClassWithoutAbstractMethod: 
+The abstract class does not contain any abstract methods. An abstract class suggests
+an incomplete implementation, which is to be completed by subclasses implementing the
+abstract methods. If the class is intended to be used as a base class only (not to be instantiated
+direcly) a protected constructor can be provided prevent direct instantiation.
+      </li>
+                            
+                                <li> SimplifyConditional: 
+No need to check for null before an instanceof; the instanceof keyword returns false when given a null argument.
+          </li>
+                            
+                                <li> CompareObjectsWithEquals: 
+ Use equals() to compare object references; avoid comparing them with ==.
+  </li>
+                            
+                                <li> PositionLiteralsFirstInComparisons: 
+ Position literals first in String comparisons - that way if the String is null you won't get a NullPointerException, it'll just return false.
+  </li>
+                            
+                                <li> UnnecessaryLocalBeforeReturn: 
+Avoid unnecessarily creating local variables
+      </li>
+                            
+                                <li> NonThreadSafeSingleton: 
+Non-thread safe singletons can result in bad state changes. Eliminate
+static singletons if possible by instantiating the object directly. Static
+singletons are usually not needed as only a single instance exists anyway.
+Other possible fixes are to synchronize the entire method or to use an
+initialize-on-demand holder class (do not use the double-check idiom).
+
+See Effective Java, item 48.
+        </li>
+                            
+                                <li> UncommentedEmptyMethod: 
+Uncommented Empty Method finds instances where a method does not contain
+statements, but there is no comment. By explicitly commenting empty methods
+it is easier to distinguish between intentional (commented) and unintentional
+empty methods.
+      </li>
+                            
+                                <li> UncommentedEmptyConstructor: 
+Uncommented Empty Constructor finds instances where a constructor does not
+contain statements, but there is no comment. By explicitly commenting empty
+constructors it is easier to distinguish between intentional (commented)
+and unintentional empty constructors.
+      </li>
+                            
+                                <li> AvoidConstantsInterface: 
+     An interface should be used only to model a behaviour of a
+    class: using an interface as a container of constants is a poor usage pattern.
+      </li>
+                            
+                                <li> UnsynchronizedStaticDateFormatter: 
+SimpleDateFormat is not synchronized. Sun recomends separate format instances
+for each thread. If multiple threads must access a static formatter, the
+formatter must be synchronized either on method or block level.
+      </li>
+                            
+                                <li> PreserveStackTrace: 
+Throwing a new exception from a catch block without passing the original exception into the
+new Exception will cause the true stack trace to be lost, and can make it difficult to
+debug effectively.
+      </li>
+                            
+                                <li> UseCollectionIsEmpty: 
+The isEmpty() method on java.util.Collection is provided to see if a collection has any elements.
+Comparing the value of size() to 0 merely duplicates existing behavior.
+      </li>
+                            
+                                <li> ClassWithOnlyPrivateConstructorsShouldBeFinal: 
+A class with only private constructors should be final, unless the private
+constructor is called by a inner class.
+        </li>
+                            
+                                <li> EmptyMethodInAbstractClassShouldBeAbstract: 
+An empty method in an abstract class should be abstract instead, as developer may rely on this empty implementation
+rather than code the appropriate one.
+        </li>
+                            
+                                <li> SingularField: 
+      		
+This field is used in only one method and the first usage is assigning a value
+to the field. This probably means that the field can be changed to a local variable.
+			
+      </li>
+                            
+                                <li> ReturnEmptyArrayRatherThanNull: 
+            
+            For any method that returns an array, it's a better behavior to return an empty array rather than a null reference.
+            
+        </li>
+                            
+                                <li> AbstractClassWithoutAnyMethod: 
+            
+			If the abstract class does not provides any methods, it may be just a data container that is not to be instantiated. In this case, it's probably
+			better to use a private or a protected constructor in order to prevent instantiation than make the class misleadingly abstract.
+            
+        </li>
+                            
+                                <li> TooFewBranchesForASwitchStatement: 
+            
+				Swith are designed complex branches, and allow branches to share treatement. Using a switch for only 2
+				branches is ill advised, as switches are not as easy to understand as if. In this case, it's most likely
+				is a good idea to use a if statement instead, at least to increase code readability.
+            
+        </li>
+</BODY>
+</HTML>

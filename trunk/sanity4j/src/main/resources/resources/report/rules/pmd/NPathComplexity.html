@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<TITLE>NPathComplexity</TITLE>
+</HEAD>
+<BODY>
+<H2>NPathComplexity</H2>
+The NPath complexity of a method is the number of acyclic execution paths through that method.
+   A threshold of 200 is generally considered the point where measures should be taken to reduce complexity.
+   </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/NpathComplexity.html">net.sourceforge.pmd.rules.design.NpathComplexity</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+ public class Foo {
+  void bar() {
+   // lots of complicated code
+  }
+ }
+ 
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>minimum</td>
+                    <td>200</td>
+                    <td>The npath reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

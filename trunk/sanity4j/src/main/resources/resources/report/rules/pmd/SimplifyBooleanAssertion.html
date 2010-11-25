@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<TITLE>SimplifyBooleanAssertion</TITLE>
+</HEAD>
+<BODY>
+<H2>SimplifyBooleanAssertion</H2>
+Avoid negation in an assertTrue or assertFalse test.
+For example, rephrase:
+assertTrue(!expr);
+as:
+assertFalse(expr);
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//StatementExpression
+[
+.//Name[@Image='assertTrue' or  @Image='assertFalse']
+and
+PrimaryExpression/PrimarySuffix/Arguments/ArgumentList
+ /Expression/UnaryExpressionNotPlusMinus[@Image='!']
+/PrimaryExpression/PrimaryPrefix
+]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class SimpleTest extends TestCase {
+ public void testX() {
+  assertTrue("not empty", !r.isEmpty()); // replace with assertFalse("not empty", r.isEmpty())
+  assertFalse(!r.isEmpty()); // replace with assertTrue(r.isEmpty())
+ }
+}
+
+          
+            </pre></div>
+</BODY>
+</HTML>

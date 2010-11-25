@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>RemoteInterfaceNamingConvention</TITLE>
+</HEAD>
+<BODY>
+<H2>RemoteInterfaceNamingConvention</H2>
+Remote Interface of a Session EJB should NOT be suffixed.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//ClassOrInterfaceDeclaration
+[
+    (
+        (./ExtendsList/ClassOrInterfaceType[ends-with(@Image,'EJBObject')])
+    )
+    and
+    (
+        ends-with(@Image,'Session')
+        or
+        ends-with(@Image,'EJB')
+        or
+        ends-with(@Image,'Bean')
+    )
+]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+            /* Bad Session suffix */
+            public interface BadSuffixSession extends javax.ejb.EJBObject {}
+            
+        
+            </pre></div>
+  
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+            /* Bad EJB suffix */
+            public interface BadSuffixEJB extends javax.ejb.EJBObject {}
+            
+        
+            </pre></div>
+  
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+            /* Bad Bean suffix */
+            public interface BadSuffixBean extends javax.ejb.EJBObject {}
+            
+        
+            </pre></div>
+</BODY>
+</HTML>

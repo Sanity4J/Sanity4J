@@ -1,0 +1,38 @@
+<HTML>
+<HEAD>
+<TITLE>BooleanInstantiation</TITLE>
+</HEAD>
+<BODY>
+<H2>BooleanInstantiation</H2>
+Avoid instantiating Boolean objects; you can reference Boolean.TRUE, Boolean.FALSE, or call Boolean.valueOf() instead.
+   </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/basic/BooleanInstantiation.html">net.sourceforge.pmd.rules.basic.BooleanInstantiation</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+   
+public class Foo {
+ Boolean bar = new Boolean("true"); // just do a Boolean bar = Boolean.TRUE;
+ Boolean buz = Boolean.valueOf(false); // just do a Boolean buz = Boolean.FALSE;
+}
+   
+   
+            </pre></div>
+</BODY>
+</HTML>

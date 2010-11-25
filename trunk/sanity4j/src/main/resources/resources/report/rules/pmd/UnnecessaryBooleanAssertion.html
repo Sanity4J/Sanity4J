@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>UnnecessaryBooleanAssertion</TITLE>
+</HEAD>
+<BODY>
+<H2>UnnecessaryBooleanAssertion</H2>
+A JUnit test assertion with a boolean literal is unnecessary since it always will eval to the same thing.
+Consider using flow control (in case of assertTrue(false) or similar) or simply removing
+statements like assertTrue(true) and assertFalse(false).  If you just want a test to halt, use the fail method.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//StatementExpression
+[
+.//Name[@Image='assertTrue' or  @Image='assertFalse']
+and
+PrimaryExpression/PrimarySuffix/Arguments/ArgumentList
+ /Expression/PrimaryExpression/PrimaryPrefix
+  /Literal/BooleanLiteral
+or
+(
+.//Name[@Image='assertTrue' or  @Image='assertFalse']
+and
+PrimaryExpression/PrimarySuffix/Arguments/ArgumentList
+ /Expression/UnaryExpressionNotPlusMinus[@Image='!']
+/PrimaryExpression/PrimaryPrefix[Literal/BooleanLiteral or Name[count(../../*)=1]])
+]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class SimpleTest extends TestCase {
+ public void testX() {
+  // Why on earth would you write this?
+  assertTrue(true);
+ }
+}
+
+          
+            </pre></div>
+</BODY>
+</HTML>

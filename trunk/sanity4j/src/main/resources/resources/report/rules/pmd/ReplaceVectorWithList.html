@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>ReplaceVectorWithList</TITLE>
+</HEAD>
+<BODY>
+<H2>ReplaceVectorWithList</H2>
+Consider replacing Vector usages with the newer java.util.ArrayList if expensive threadsafe operation is not required.
+  </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//Type/ReferenceType/ClassOrInterfaceType[@Image='Vector']
+ 
+    </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ void bar() {
+    Vector v = new Vector();
+ }
+}
+
+  
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>UncommentedEmptyConstructor</TITLE>
+</HEAD>
+<BODY>
+<H2>UncommentedEmptyConstructor</H2>
+Uncommented Empty Constructor finds instances where a constructor does not
+contain statements, but there is no comment. By explicitly commenting empty
+constructors it is easier to distinguish between intentional (commented)
+and unintentional empty constructors.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ConstructorDeclaration[@Private='false'][count(BlockStatement) = 0 and ($ignoreExplicitConstructorInvocation = 'true' or not(ExplicitConstructorInvocation)) and @containsComment = 'false']
+ 
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public Foo() {
+  super();
+}
+ 
+      
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>ignoreExplicitConstructorInvocation</td>
+                    <td></td>
+                    <td>Ignore explicit constructor invocation when deciding whether constructor is empty or not</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>EMF: Bad Assignment (EMF_BAD_ASSIGNMENT)</TITLE>
+</HEAD>
+<BODY>
+<H2>EMF: Bad Assignment (EMF_BAD_ASSIGNMENT)</H2>
+
+<p>Investigation of production WebSphere Portal 
+Java Heap Dumps revealed that HTTP sessions
+were "hanging on" to a large number of EMF types (which use
+up a lot of memory) within the Portal applications.  Tracking back 
+some Java reference chains within the heapdumps, this seems to be 
+due to some accidental "shallow copying" of some of the Lists 
+returned within the SDOs. i.e.</p>
+
+<pre>
+	modelObject.setStringList(sdo.getStringList()) 
+</pre>
+
+<p>and</p>
+
+<pre>
+	public void setStringList(final List stringList) {
+		this.stringList = stringList;
+	}
+</pre>
+
+<p>type behaviour, rather than:</p>
+
+<pre>
+	modelObject.setStringList(new ArrayList(sdo.getStringList());
+</pre>
+
+<p>or<p>
+
+<pre>
+	public void setStringList(final List stringList) {
+		this.stringList = new ArrayList(stringList);
+	}
+</pre>
+
+<p>(etc... for more complicated object lists...)</p>
+
+<p>The first example is causing the model object to store 
+a reference to an EMF EcoreEList rather than a simple list
+of Strings. Because the EcoreEList maintains a reference 
+to its "owning" object, which via another set of references 
+means that the entire SDO from which this list was obtained 
+stays in memory.</p>
+
+</BODY>
+</HTML>

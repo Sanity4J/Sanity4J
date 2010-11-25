@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<TITLE>Optimization_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Optimization_Rules</H2>
+imization_Rules"></a><h3>Optimization Rules</h3>
+                            
+                                <li> LocalVariableCouldBeFinal: 
+A local variable assigned only once can be declared final.
+      </li>
+                            
+                                <li> MethodArgumentCouldBeFinal: 
+A method argument that is never assigned can be declared final.
+      </li>
+                            
+                                <li> AvoidInstantiatingObjectsInLoops: 
+Detects when a new object is created inside a loop
+    </li>
+                            
+                                <li> UseArrayListInsteadOfVector: 
+ArrayList is a much better Collection implementation than Vector.
+      </li>
+                            
+                                <li> SimplifyStartsWith: 
+Since it passes in a literal of length 1, this call to String.startsWith can be rewritten using String.charAt(0) to save some time.
+      </li>
+                            
+                                <li> UseStringBufferForStringAppends: 
+Finds usages of += for appending strings.
+           </li>
+                            
+                                <li> UseArraysAsList: 
+   The class java.util.Arrays has a "asList" method that
+   should be use when you want to create a new List from
+   an array of objects. It is faster than executing a loop to
+   cpy all the elements of the array one by one
+     </li>
+                            
+                                <li> AvoidArrayLoops: 
+    Instead of copying data between two arrays, use
+    System.arraycopy method
+      </li>
+                            
+                                <li> UnnecessaryWrapperObjectCreation: 
+Parsing method should be called directy instead.
+      </li>
+                            
+                                <li> AddEmptyString: 
+Finds empty string literals which are being added. This is an inefficient way 
+to convert any type to a String.
+        </li>
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>BrokenNullCheck</TITLE>
+</HEAD>
+<BODY>
+<H2>BrokenNullCheck</H2>
+The null check is broken since it will throw a NullPointerException itself.
+It is likely that you used || instead of &amp;&amp; or vice versa.
+     </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/basic/BrokenNullCheck.html">net.sourceforge.pmd.rules.basic.BrokenNullCheck</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+class Foo {
+ String bar(String string) {
+  // should be &amp;&amp;
+  if (string!=null || !string.equals(""))
+    return string;
+  // should be ||
+  if (string==null &amp;&amp; string.equals(""))
+    return string;
+ }
+}
+        
+        
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<TITLE>DataflowAnomalyAnalysis</TITLE>
+</HEAD>
+<BODY>
+<H2>DataflowAnomalyAnalysis</H2>
+aflowAnomalyAnalysis"></a><h3>DataflowAnomalyAnalysis</h3>
+		<p>Since: PMD 3.9</p>
+		<p>The dataflow analysis tracks local definitions, undefinitions and references to variables on different paths on the data flow.
+From those informations there can be found various problems.
+
+1. UR - Anomaly: There is a reference to a variable that was not defined before. This is a bug and leads to an error.
+2. DU - Anomaly: A recently defined variable is undefined. These anomalies may appear in normal source text.
+3. DD - Anomaly: A recently defined variable is redefined. This is ominous but don't have to be a bug.
+          </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/dfa/DaaRule.html">net.sourceforge.pmd.dfa.DaaRule</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+    public void foo() {
+	 int buz = 5;
+	 buz = 6; // redefinition of buz -&gt; dd-anomaly
+	 foo(buz);
+	 buz = 2;
+    } // buz is undefined when leaving scope -&gt; du-anomaly
+}
+
+          
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>maxviolations</td>
+                    <td>100</td>
+                    <td>The maximum number of violations per class.</td>
+                    </tr>
+                
+                    <tr class="a">
+                    <td>maxpaths</td>
+                    <td>1000</td>
+                    <td>The maximum number of checked paths per method. A lower value will increase the performance of the rule but may decrease the number of found anomalies.</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

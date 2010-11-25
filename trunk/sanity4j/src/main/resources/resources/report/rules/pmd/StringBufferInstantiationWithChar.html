@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>StringBufferInstantiationWithChar</TITLE>
+</HEAD>
+<BODY>
+<H2>StringBufferInstantiationWithChar</H2>
+StringBuffer sb = new StringBuffer('c'); The
+char will be converted into int to intialize
+StringBuffer size.
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//AllocationExpression/ClassOrInterfaceType
+[@Image='StringBuffer']
+/../Arguments/ArgumentList/Expression/PrimaryExpression
+/PrimaryPrefix/
+Literal
+  [starts-with(@Image, "'")]
+  [ends-with(@Image, "'")]
+
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+class Foo {
+  StringBuffer sb1 = new StringBuffer('c'); //Bad
+  StringBuffer sb2 = new StringBuffer("c"); //Better
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

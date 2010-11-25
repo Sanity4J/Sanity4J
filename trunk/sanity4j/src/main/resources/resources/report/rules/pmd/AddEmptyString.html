@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>AddEmptyString</TITLE>
+</HEAD>
+<BODY>
+<H2>AddEmptyString</H2>
+Finds empty string literals which are being added. This is an inefficient way 
+to convert any type to a String.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                     
+//AdditiveExpression/PrimaryExpression/PrimaryPrefix/Literal[@Image='""']
+                
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+             
+        String s = "" + 123; // bad 
+        String t = Integer.toString(456); // ok 
+            
+        
+            </pre></div>
+</BODY>
+</HTML>

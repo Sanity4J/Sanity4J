@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>JspEncoding</TITLE>
+</HEAD>
+<BODY>
+<H2>JspEncoding</H2>
+A missing 'meta' tag or page directive will trigger this rule, as well as a non-UTF-8 charset.
+            
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//Content[
+not(Element[@Name="meta"][
+   Attribute[@Name="content"]/AttributeValue[contains(string:lower-case(@Image),"charset=utf-8")]
+]) 
+and 
+    not(JspDirective[@Name='page']/JspDirectiveAttribute[@Name='contentType'][contains(string:lower-case(@Value),"charset=utf-8")])
+]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+                Most browsers should be able to interpret the following headers:
+                
+                &lt;%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %&gt;
+                    
+                &lt;meta http-equiv="Content-Type"� content="text/html; charset=UTF-8" /&gt;
+            
+        
+            </pre></div>
+</BODY>
+</HTML>

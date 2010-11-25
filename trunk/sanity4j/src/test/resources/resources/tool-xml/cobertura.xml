@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-02.dtd">
+
+<coverage line-rate="0.47951104036569936" branch-rate="0.45379310344827584" version="1.8" timestamp="1223006033800">
+	<sources>
+	</sources>
+	<packages>
+		<package name="package" line-rate="0.5" branch-rate="0.5" complexity="0.0">
+			<classes>
+				<class name="ClassOne" filename="package/ClassOne.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="11" hits="12" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="11" hits="24" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="package.subpackage1" line-rate="0.5" branch-rate="0.5" complexity="0.0">
+			<classes>
+				<class name="ClassTwo" filename="package/subpackage1/ClassTwo.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="22" hits="23" branch="false"/>
+								<line number="33" hits="34" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="22" hits="23" branch="false"/>
+						<line number="33" hits="34" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="package.subpackage2" line-rate="0.5" branch-rate="0.5" complexity="0.0">
+			<classes>
+				<class name="ClassThree" filename="package/subpackage1/ClassThree.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="44" hits="45" branch="false"/>
+								<line number="55" hits="56" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="44" hits="45" branch="false"/>
+						<line number="55" hits="56" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="package.subpackage2" line-rate="0.5" branch-rate="0.5" complexity="0.0">
+			<classes>
+				<class name="ClassFour" filename="package/subpackage1/ClassFour.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="66" hits="67" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="66" hits="67" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+	</packages>
+</coverage>

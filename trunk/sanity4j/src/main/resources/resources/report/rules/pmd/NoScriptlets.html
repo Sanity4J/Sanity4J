@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<TITLE>NoScriptlets</TITLE>
+</HEAD>
+<BODY>
+<H2>NoScriptlets</H2>
+criptlets"></a><h3>NoScriptlets</h3>
+		<p>Since: PMD 3.6</p>
+		<p> Scriptlets should be factored into Tag Libraries or JSP declarations,
+			rather than being part of JSP pages. </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+					
+					//JspScriptlet
+					|
+					//Element[ string:upper-case(@Name)="JSP:SCRIPTLET" ]
+					
+				</pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+			 
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;%
+response.setHeader("Pragma", "No-cache");
+%&gt;
+&lt;/HEAD&gt;
+	&lt;BODY&gt;
+		&lt;jsp:scriptlet&gt;String title = "Hello world!";&lt;/jsp:scriptlet&gt;
+	&lt;/BODY&gt;
+&lt;/HTML&gt;
+					 
+		
+            </pre></div>
+</BODY>
+</HTML>

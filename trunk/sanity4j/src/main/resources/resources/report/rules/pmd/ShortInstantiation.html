@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>ShortInstantiation</TITLE>
+</HEAD>
+<BODY>
+<H2>ShortInstantiation</H2>
+rtInstantiation"></a><h3>ShortInstantiation</h3>
+		<p>Since: PMD 4.0</p>
+		<p>In JDK 1.5, calling new Short() causes memory allocation. Short.valueOf() is more memory friendly.
+          </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//PrimaryPrefix
+/AllocationExpression
+[not (ArrayDimsAndInits)
+and (ClassOrInterfaceType/@Image='Short'
+or ClassOrInterfaceType/@Image='java.lang.Short')]
+
+          </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+private Short i = new Short(0); // change to Short i =
+Short.valueOf(0);
+}
+
+          
+            </pre></div>
+</BODY>
+</HTML>
