@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<TITLE>UseAssertEqualsInsteadOfAssertTrue</TITLE>
+</HEAD>
+<BODY>
+<H2>UseAssertEqualsInsteadOfAssertTrue</H2>
+This rule detects JUnit assertions in object equality. These assertions
+should be made by more specific methods, like assertEquals.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                
+//PrimaryExpression[
+    PrimaryPrefix/Name[@Image = 'assertTrue']
+][
+    PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Name
+    [ends-with(@Image, '.equals')]
+]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+ 
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class FooTest extends TestCase {
+ void testCode() {
+  Object a, b;
+  assertTrue(a.equals(b)); // bad usage
+  assertEquals(?a should equals b?, a, b); // good usage
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+<TITLE>Controversial_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Controversial_Rules</H2>
+troversial_Rules"></a><h3>Controversial Rules</h3>
+                            
+                                <li> UnnecessaryConstructor: 
+This rule detects when a constructor is not necessary; i.e., when there's only one constructor,
+it's public, has an empty body, and takes no arguments.
+      </li>
+                            
+                                <li> NullAssignment: 
+ Assigning a "null" to a variable (outside of its declaration) is usually
+ bad form.  Some times, the assignment is an indication that the programmer doesn't
+ completely understand what is going on in the code.  NOTE: This sort of assignment
+ may in rare cases be useful to encourage garbage collection.  If that's what you're using
+ it for, by all means, disregard this rule :-)
+      </li>
+                            
+                                <li> OnlyOneReturn: 
+A method should have only one exit point, and that should be the last statement in the method.
+     </li>
+                            
+                                <li> UnusedModifier: 
+ Fields in interfaces are automatically public static final, and
+ methods are public abstract.
+ Classes or interfaces nested in an interface are automatically public
+ and static (all nested interfaces are automatically static).
+ For historical reasons, modifiers which are implied by the context
+ are accepted by the compiler, but are superfluous.
+     </li>
+                            
+                                <li> AssignmentInOperand: 
+Avoid assignments in operands; this can make code more complicated and harder to read.
+  </li>
+                            
+                                <li> AtLeastOneConstructor: 
+Each class should declare at least one constructor.
+  </li>
+                            
+                                <li> DontImportSun: 
+Avoid importing anything from the 'sun.*' packages.  These packages are not portable and are likely to change.
+       </li>
+                            
+                                <li> SuspiciousOctalEscape: 
+A suspicious octal escape sequence was found inside a String literal.
+The Java language specification (section 3.10.6) says an octal
+escape sequence inside a literal String shall consist of a backslash
+followed by:
+
+   OctalDigit | OctalDigit OctalDigit | ZeroToThree OctalDigit OctalDigit
+
+Any octal escape sequence followed by non-octal digits can be confusing,
+e.g. "\038" is interpreted as the octal escape sequence "\03" followed by
+the literal character "8".
+      </li>
+                            
+                                <li> CallSuperInConstructor: 
+It is a good practice to call super() in a constructor. If super() is not called but
+ another constructor (such as an overloaded constructor) is called, this rule will not report it.
+      </li>
+                            
+                                <li> UnnecessaryParentheses: 
+Sometimes expressions are wrapped in unnecessary parentheses,
+making them look like a function call.
+      </li>
+                            
+                                <li> DefaultPackage: 
+Use explicit scoping instead of the default package private level.
+        </li>
+                            
+                                <li> BooleanInversion: 
+Use bitwise inversion to invert boolean values - it's the fastest way to do this.
+See http://www.javaspecialists.co.za/archive/newsletter.do?issue=042&amp;locale=en_US for specific details
+      </li>
+                            
+                                <li> DataflowAnomalyAnalysis: The dataflow analysis tracks local definitions, undefinitions and references to variables on different paths on the data flow.
+From those informations there can be found various problems.
+
+1. UR - Anomaly: There is a reference to a variable that was not defined before. This is a bug and leads to an error.
+2. DU - Anomaly: A recently defined variable is undefined. These anomalies may appear in normal source text.
+3. DD - Anomaly: A recently defined variable is redefined. This is ominous but don't have to be a bug.
+          </li>
+                            
+                                <li> AvoidFinalLocalVariable: 
+Avoid using final local variables, turn them into fields.
+         </li>
+                            
+                                <li> AvoidUsingShortType: 
+            
+            Java uses the 'short' type to reduce memory usage, not to optimize calculation. In fact, the jvm does not have any
+            arithmetic capabilities for the short type: the jvm must convert the short into an int, do the proper caculation
+            and convert the int back to a short. So, the use of the 'short' type may have a greater impact than memory usage.
+            
+        </li>
+                            
+                                <li> AvoidUsingVolatile: 
+            
+Use of the keyword 'volatile' is general used to fine tune a Java application, and therefore, requires
+a good expertise of the Java Memory Model. Moreover, its range of action is somewhat misknown. Therefore,
+the volatile keyword should not be used for maintenance purpose and portability.
+            
+        </li>
+                            
+                                <li> AvoidUsingNativeCode: 
+            
+                As JVM and Java language offer already many help in creating application, it should be
+                very rare to have to rely on non-java code. Even though, it is rare to actually have to
+                use Java Native Interface (JNI). As the use of JNI make application less portable, and
+                harder to maintain, it is not recommended.
+            
+        </li>
+                            
+                                <li> AvoidAccessibilityAlteration: 
+            
+            Methods such as getDeclaredConstructors(), getDeclaredConstructor(Class[]) and setAccessible(),
+            as the interface PrivilegedAction, allow to alter, at runtime, the visilibilty of variable, classes, or
+            methods, even if they are private. Obviously, no one should do so, as such behavior is against everything
+            encapsulation principal stands for.
+            
+        </li>
+                            
+                                <li> DoNotCallGarbageCollectionExplicitly: 
+	        
+		        Calls to System.gc(), Runtime.getRuntime().gc(), and System.runFinalization() are not advised. Code should have the
+		        same behavior whether the garbage collection is disabled using the option -Xdisableexplicitgc or not.
+		        Moreover, "modern" jvms do a very good job handling garbage collections. If memory usage issues unrelated to memory
+			leaks develop within an application, it should be dealt with JVM options rather than within the code itself.
+			
+        </li>
+</BODY>
+</HTML>

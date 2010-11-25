@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>UncommentedEmptyMethod</TITLE>
+</HEAD>
+<BODY>
+<H2>UncommentedEmptyMethod</H2>
+Uncommented Empty Method finds instances where a method does not contain
+statements, but there is no comment. By explicitly commenting empty methods
+it is easier to distinguish between intentional (commented) and unintentional
+empty methods.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//MethodDeclaration/Block[count(BlockStatement) = 0 and @containsComment = 'false']
+ 
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public void doSomething() {
+}
+ 
+      
+            </pre></div>
+</BODY>
+</HTML>

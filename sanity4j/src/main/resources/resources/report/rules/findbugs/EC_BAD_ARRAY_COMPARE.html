@@ -1,0 +1,13 @@
+<HTML>
+<HEAD>
+<TITLE>EC: Invocation of equals() on an array, which is equivalent to == (EC_BAD_ARRAY_COMPARE)</TITLE>
+</HEAD>
+<BODY>
+<H2>EC: Invocation of equals() on an array, which is equivalent to == (EC_BAD_ARRAY_COMPARE)</H2>
+<p>
+This method invokes the .equals(Object o) method on an array. Since arrays do not override the equals
+method of Object, calling equals on an array is the same as comparing their addresses. To compare the
+contents of the arrays, use java.util.Arrays.equals(Object[], Object[]).
+</p>
+</BODY>
+</HTML>

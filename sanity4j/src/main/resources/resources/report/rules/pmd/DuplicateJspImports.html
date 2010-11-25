@@ -1,0 +1,36 @@
+<HTML>
+<HEAD>
+<TITLE>DuplicateJspImports</TITLE>
+</HEAD>
+<BODY>
+<H2>DuplicateJspImports</H2>
+licateJspImports"></a><h3>DuplicateJspImports</h3>
+		<p>Since: PMD 3.7</p>
+		<p>Avoid duplicate import statements inside JSP's.  </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/jsp/rules/DuplicateJspImports.html">net.sourceforge.pmd.jsp.rules.DuplicateJspImports</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+			 
+&lt;%@ page import=\"com.foo.MyClass,com.foo.MyClass\"%&gt;&lt;html&gt;&lt;body&gt;&lt;b&gt;&lt;img src=\"&lt;%=Some.get()%&gt;/foo\"&gt;xx&lt;/img&gt;text&lt;/b&gt;&lt;/body&gt;&lt;/html&gt;
+			 
+		
+            </pre></div>
+</BODY>
+</HTML>

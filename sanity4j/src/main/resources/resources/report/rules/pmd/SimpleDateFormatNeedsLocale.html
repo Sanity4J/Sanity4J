@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>SimpleDateFormatNeedsLocale</TITLE>
+</HEAD>
+<BODY>
+<H2>SimpleDateFormatNeedsLocale</H2>
+Be sure to specify a Locale when creating a new instance of SimpleDateFormat.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//AllocationExpression
+ [ClassOrInterfaceType[@Image='SimpleDateFormat']]
+ [Arguments[@ArgumentCount=1]]
+
+                    </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+        
+public class Foo {
+ // Should specify Locale.US (or whatever)
+ private SimpleDateFormat sdf = new SimpleDateFormat("pattern");
+}
+        
+        
+            </pre></div>
+</BODY>
+</HTML>

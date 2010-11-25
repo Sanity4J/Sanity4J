@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Page Title</title>
+    <!--  <author email="user@company.com">John Doe</author> -->
+  </properties>
+
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <!--
+  <head>
+    <meta ... />
+  </head>
+  -->
+
+  <body>
+
+    <!-- The body of the document contains a number of sections -->
+    <section name="Sanity4J plugin installation in eclipse 3.4">
+
+		<p>This document describes the steps necessary to install and run the QA plug-in in the eclispe 3.4 / RSA 7.5 IDE.</p>
+		  
+		<p>
+		1) Launch the IDE and select "Help--&gt;Software Updates" from the menu bar
+		<img src="images/eclipse34_plugin_install/step01.gif"/>
+		</p>
+		
+		<p>
+		2) Select "Add Site".
+		<br/><img src="images/eclipse34_plugin_install/step02.gif"/>
+		</p>
+		
+		<p>
+		3) Select "Local...".
+		<br/><img src="images/eclipse34_plugin_install/step03.gif"/>
+		</p>
+		
+		<p>
+		4) Select the Sanity4J Eclipse plugin folder from wherever you downloaded and extracted the plugin to.
+		<br/><img src="images/eclipse34_plugin_install/step04.gif"/>
+		</p>
+		
+		<p>
+		5) Select "OK".
+		<br/><img src="images/eclipse34_plugin_install/step05.gif"/>
+		</p>
+		
+		<p>
+		6) Select the "Sanity4J feature", click "Install...".
+		<br/><img src="images/eclipse34_plugin_install/step06.gif"/>
+		</p>
+		
+		<p>
+		7) Accept the licence agreement and click "Finish".
+		<br/><img src="images/eclipse34_plugin_install/step07.gif"/>
+		</p>
+		
+		<p>
+		8) Select "Yes" to restart Eclipse.
+		<br/><img src="images/eclipse34_plugin_install/step08.gif"/>
+		</p>
+		
+		<p>
+		9) Before the plugin can be used, some PC-specific configuration parameters must be set. Select "Window--&gt;Preferences" from the menu bar.
+		<br/><img src="images/eclipse34_plugin_install/step09.gif"/>
+		</p>
+		
+		<p>
+		10) Select "Sanity4J Preferences from the left-hand tree view". Select "Browse" for the products directory.
+		<br/><img src="images/eclipse34_plugin_install/step10.gif"/>
+		</p>
+		
+		<p>
+		11) Select the location of the directory which contains the tools necessary for Sanity4J to function, 		
+		currently findbugs-1.3.3, pmd-4.2.2, checkstyle-4.4 and cobertura-1.9. Refer to the user guide for the latest versions.
+		<br/><img src="images/eclipse34_plugin_install/step11.gif"/>
+		</p>
+		
+		<p>
+		12) On returning to the Sanity4J Preferences screen, select "Browse" for the Java 1.5 executable, which is required to run some of the tools. 
+		Select the appropriate runtime executable, for example "java.exe" on a windows platform.
+		<br/><img src="images/eclipse34_plugin_install/step12.gif"/>
+		</p>
+		
+		<p>
+		13) Click ok.
+		<br/><img src="images/eclipse34_plugin_install/step13.gif"/>
+		</p>
+		
+		<p>
+		14) After installing the plug-in, a new "QA" icon should be visible on the tool bar in the Java view. Open up one of your Java files and click the QA button.
+		<br/><img src="images/eclipse34_plugin_install/step14.gif"/>
+		</p>
+		
+		<p>
+		15) A progress dialog should open up while the analysis is being performed.
+		<br/><img src="images/eclipse34_plugin_install/step15.gif"/>
+		</p>
+		
+		<p>
+		16) After the analysis is complete, the standard Sanity4J report should open in a new view part. This view can be docked or made into a separate window.
+		<br/><img src="images/eclipse34_plugin_install/step16.gif"/>
+		</p>
+
+    </section>
+
+  </body>
+
+</document>

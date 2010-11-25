@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>ReturnFromFinallyBlock</TITLE>
+</HEAD>
+<BODY>
+<H2>ReturnFromFinallyBlock</H2>
+Avoid returning from a finally block - this can discard exceptions.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//FinallyStatement//ReturnStatement
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Bar {
+ public String foo() {
+  try {
+   throw new Exception( "My Exception" );
+  } catch (Exception e) {
+   throw e;
+  } finally {
+   return "A. O. K."; // Very bad.
+  }
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

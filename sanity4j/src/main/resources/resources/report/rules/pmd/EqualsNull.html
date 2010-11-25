@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<TITLE>EqualsNull</TITLE>
+</HEAD>
+<BODY>
+<H2>EqualsNull</H2>
+Inexperienced programmers sometimes confuse comparison concepts
+and use equals() to compare to null.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//PrimaryExpression
+ [
+PrimaryPrefix/Name[ends-with(@Image, 'equals')]
+or
+PrimarySuffix[ends-with(@Image, 'equals')]
+]
+[PrimarySuffix/Arguments/ArgumentList[count(Expression)=1]
+  /Expression/PrimaryExpression/PrimaryPrefix
+   /Literal/NullLiteral]
+    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+       
+class Bar {
+   void foo() {
+       String x = "foo";
+       if (x.equals(null)) { // bad!
+        doSomething();
+       }
+   }
+}
+    
+        
+            </pre></div>
+</BODY>
+</HTML>

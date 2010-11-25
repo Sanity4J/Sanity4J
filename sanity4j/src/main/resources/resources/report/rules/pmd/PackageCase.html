@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>PackageCase</TITLE>
+</HEAD>
+<BODY>
+<H2>PackageCase</H2>
+Detects when a package definition contains upper case characters.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                      
+//PackageDeclaration/Name[lower-case(@Image)!=@Image]
+                      
+                  </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+package com.MyCompany;  // &lt;- should be lower case name
+public class SomeClass {
+}
+    
+        
+            </pre></div>
+</BODY>
+</HTML>

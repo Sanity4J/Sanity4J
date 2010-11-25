@@ -1,0 +1,43 @@
+<HTML>
+<HEAD>
+<TITLE>ByteInstantiation</TITLE>
+</HEAD>
+<BODY>
+<H2>ByteInstantiation</H2>
+In JDK 1.5, calling new Byte() causes memory allocation. Byte.valueOf() is more memory friendly.
+          </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+          
+//PrimaryPrefix/AllocationExpression
+[not (ArrayDimsAndInits)
+and (ClassOrInterfaceType/@Image='Byte'
+or ClassOrInterfaceType/@Image='java.lang.Byte')]
+          
+          </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+private Byte i = new Byte(0); // change to Byte i =
+Byte.valueOf(0);
+}
+
+     
+            </pre></div>
+</BODY>
+</HTML>

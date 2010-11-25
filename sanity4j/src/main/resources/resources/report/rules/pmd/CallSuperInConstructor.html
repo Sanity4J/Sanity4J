@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<TITLE>CallSuperInConstructor</TITLE>
+</HEAD>
+<BODY>
+<H2>CallSuperInConstructor</H2>
+It is a good practice to call super() in a constructor. If super() is not called but
+ another constructor (such as an overloaded constructor) is called, this rule will not report it.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ClassOrInterfaceDeclaration[ count (ExtendsList/*) &amp;gt; 0 ]
+/ClassOrInterfaceBody
+ /ClassOrInterfaceBodyDeclaration
+ /ConstructorDeclaration[ count (.//ExplicitConstructorInvocation)=0 ]
+    
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo extends Bar{
+ public Foo() {
+  // call the constructor of Bar
+  super();
+ }
+ public Foo(int code) {
+  // do something with code
+  this();
+  // no problem with this
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>EmptyStaticInitializer</TITLE>
+</HEAD>
+<BODY>
+<H2>EmptyStaticInitializer</H2>
+An empty static initializer was found.
+       </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//Initializer[@Static='true']/Block[count(*)=0]
+
+                 </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+   
+public class Foo {
+ static {
+  // empty
+ }
+ }
+
+       
+            </pre></div>
+</BODY>
+</HTML>

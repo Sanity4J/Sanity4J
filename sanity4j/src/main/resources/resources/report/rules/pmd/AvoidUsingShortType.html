@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidUsingShortType</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidUsingShortType</H2>
+Java uses the 'short' type to reduce memory usage, not to optimize calculation. In fact, the jvm does not have any
+            arithmetic capabilities for the short type: the jvm must convert the short into an int, do the proper caculation
+            and convert the int back to a short. So, the use of the 'short' type may have a greater impact than memory usage.
+            
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+            //PrimitiveType[@Image = 'short']
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+    public class UsingShort
+    {
+        private short doNotUseShort = 0;
+
+		public UsingShort() {
+			short shouldNotBeUsed = 1;
+			doNotUseShort += shouldNotBeUsed;
+		}
+ 	}
+ 			
+ 		
+            </pre></div>
+</BODY>
+</HTML>

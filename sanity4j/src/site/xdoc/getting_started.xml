@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Page Title</title>
+    <!--  <author email="user@company.com">John Doe</author> -->
+  </properties>
+
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <!--
+  <head>
+    <meta ... />
+  </head>
+  -->
+
+  <body>
+
+    <!-- The body of the document contains a number of sections -->
+    <section name="Technical Overview">
+
+		<div class="slide">
+			<div class="columnOne">
+				<h2>Introducing Sanity4J to Projects</h2>
+				<p>DIAC has developed Sanity4J and has released it as Open Source Software licensed under the GNU General Public License.</p>
+				<p>In order to use Sanity4J:</p>
+				<p style="text-align:center;">
+					<a href="http://sanity4j.sourceforge.net/"><img src="images/download.jpg" alt="download icon"/></a>
+				</p>
+				<ol>
+					<li>Download Sanity4J from SourceForge.
+						<br /><a href="http://sanity4j.sourceforge.net/">http://sanity4j.sourceforge.net/</a></li>
+					<li>Familiarise yourself with the Sanity4J configuration and usage documentation.</li>
+					<li>Configure Sanity4J to integrate into your Project Builds. </li>
+					<li>Share reports and analysis information within your organisation 
+					    using your existing project wikis or Intranet sites.
+					</li>
+					<li>DIAC provides support for Sanity4J via the SourceForge 
+					    Forums and Bug reporting capabilities. Improvements 
+					    to Sanity4J can be provided via SourceForge, which 
+					    DIAC will review for inclusion into future releases.
+					</li>
+				</ol>
+			</div>
+			<div class="columnTwo">
+				<h2>Introducing Sanity4J to Developers</h2>
+				
+				<p>As well as providing feedback after automated builds, Sanity4J 
+				includes a plug-in for the Eclipse Integrated Development Environment. 
+				This allows developers to quickly analyse individual Java classes.</p>
+				
+				<p>By using the plug-in as they write code, junior developers can 
+				find and fix mistakes before peer review. This frees up senior 
+				developers from fixing simple "Java 101" mistakes made by junior 
+				staff, allowing them to focus on implementation accuracy.</p>
+			</div>
+		</div>
+
+    </section>
+
+  </body>
+
+</document>

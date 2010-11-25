@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+<TITLE>CyclomaticComplexity</TITLE>
+</HEAD>
+<BODY>
+<H2>CyclomaticComplexity (20)</H2>
+Complexity is determined by the number of decision points in a method plus one for the
+method entry.  The decision points are 'if', 'while', 'for', and 'case labels'.  Generally,
+1-4 is low complexity, 5-7 indicates moderate complexity, 8-10 is high complexity,
+ and 11+ is very high complexity.
+		
+   </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/CyclomaticComplexity.html">net.sourceforge.pmd.rules.CyclomaticComplexity</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+// Cyclomatic Complexity = 12
+public class Foo {
+1   public void example()  {
+2       if (a == b)  {
+3           if (a1 == b1) {
+                fiddle();
+4           } else if a2 == b2) {
+                fiddle();
+            }  else {
+                fiddle();
+            }
+5       } else if (c == d) {
+6           while (c == d) {
+                fiddle();
+            }
+7        } else if (e == f) {
+8           for (int n = 0; n &lt; h; n++) {
+                fiddle();
+            }
+        } else{
+            switch (z) {
+9               case 1:
+                    fiddle();
+                    break;
+10              case 2:
+                    fiddle();
+                    break;
+11              case 3:
+                    fiddle();
+                    break;
+12              default:
+                    fiddle();
+                    break;
+            }
+        }
+    }
+}
+
+   
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>reportLevel</td>
+                    <td>20</td>
+                    <td>The Cyclomatic Complexity reporting threshold</td>
+                    </tr>
+                
+                    <tr class="b">
+                    <td>showClassesComplexity</td>
+                    <td>true</td>
+                    <td>Indicate if class average violation should be added to the report</td>
+                    </tr>
+                
+                    <tr class="a">
+                    <td>showMethodsComplexity</td>
+                    <td>true</td>
+                    <td>Indicate if class average violation should be added to the report</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

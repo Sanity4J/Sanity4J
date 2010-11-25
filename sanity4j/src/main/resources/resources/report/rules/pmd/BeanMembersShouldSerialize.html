@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<TITLE>BeanMembersShouldSerialize</TITLE>
+</HEAD>
+<BODY>
+<H2>BeanMembersShouldSerialize</H2>
+If a class is a bean, or is referenced by a bean directly or indirectly
+it needs to be serializable. Member variables need to be marked as transient,
+static, or have accessor methods in the class. Marking variables
+as transient is the safest and easiest modification. Accessor methods should
+follow the Java naming conventions, i.e.if you have a variable foo, you should
+provide getFoo and setFoo methods.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/BeanMembersShouldSerializeRule.html">net.sourceforge.pmd.rules.BeanMembersShouldSerializeRule</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+  private transient int someFoo;//good, it's transient
+  private static int otherFoo;// also OK
+  private int moreFoo;// OK, has proper accessors, see below
+  private int badFoo;//bad, should be marked transient
+
+
+  private void setMoreFoo(int moreFoo){
+        this.moreFoo = moreFoo;
+  }
+
+  private int getMoreFoo(){
+        return this.moreFoo;
+  }
+
+
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>prefix</td>
+                    <td></td>
+                    <td>A variable prefix to skip, i.e., m_</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

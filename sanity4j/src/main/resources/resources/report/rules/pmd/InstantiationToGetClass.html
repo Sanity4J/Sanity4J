@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>InstantiationToGetClass</TITLE>
+</HEAD>
+<BODY>
+<H2>InstantiationToGetClass</H2>
+Avoid instantiating an object just to call getClass() on it; use the .class public member instead.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                
+//PrimarySuffix
+ [@Image='getClass']
+ [parent::PrimaryExpression
+  [PrimaryPrefix/AllocationExpression]
+  [count(PrimarySuffix) = 2]
+ ]
+     
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo {
+ // Replace this
+ Class c = new String().getClass();
+ // with this:
+ Class c = String.class;
+}
+    
+        
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>JUnit_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>JUnit_Rules</H2>
+it_Rules"></a><h3>JUnit Rules</h3>
+                            
+                                <li> JUnitStaticSuite: 
+The suite() method in a JUnit test needs to be both public and static.
+      </li>
+                            
+                                <li> JUnitSpelling: 
+Some JUnit framework methods are easy to misspell.
+    </li>
+                            
+                                <li> JUnitAssertionsShouldIncludeMessage: 
+JUnit assertions should include a message - i.e., use the three argument version of
+assertEquals(), not the two argument version.
+      </li>
+                            
+                                <li> JUnitTestsShouldIncludeAssert: 
+JUnit tests should include at least one assertion.  This makes the tests more robust, and
+ using assert with messages provide the developer a clearer idea of what the test does.
+        </li>
+                            
+                                <li> TestClassWithoutTestCases: 
+Test classes end with the suffix Test. Having a non-test class with that name is
+not a good practice, since most people will assume it is a test case. Test
+classes have test methods named testXXX.
+      </li>
+                            
+                                <li> UnnecessaryBooleanAssertion: 
+A JUnit test assertion with a boolean literal is unnecessary since it always will eval to the same thing.
+Consider using flow control (in case of assertTrue(false) or similar) or simply removing
+statements like assertTrue(true) and assertFalse(false).  If you just want a test to halt, use the fail method.
+      </li>
+                            
+                                <li> UseAssertEqualsInsteadOfAssertTrue: 
+This rule detects JUnit assertions in object equality. These assertions
+should be made by more specific methods, like assertEquals.
+      </li>
+                            
+                                <li> UseAssertSameInsteadOfAssertTrue: 
+This rule detects JUnit assertions in object references equality. These assertions
+should be made by more specific methods, like assertSame, assertNotSame.
+      </li>
+                            
+                                <li> UseAssertNullInsteadOfAssertTrue: 
+ This rule detects JUnit assertions in object references equality. These assertions
+ should be made by more specific methods, like assertNull, assertNotNull.
+       </li>
+                            
+                                <li> SimplifyBooleanAssertion: 
+Avoid negation in an assertTrue or assertFalse test.
+For example, rephrase:
+assertTrue(!expr);
+as:
+assertFalse(expr);
+      </li>
+</BODY>
+</HTML>

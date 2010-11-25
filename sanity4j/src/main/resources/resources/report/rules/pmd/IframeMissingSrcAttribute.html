@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>IframeMissingSrcAttribute</TITLE>
+</HEAD>
+<BODY>
+<H2>IframeMissingSrcAttribute</H2>
+IFrames which are missing a src element can cause security information popups 
+		  in IE if you are accessing the page through SSL. See http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q261188
+			</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+					 
+	//Element[string:upper-case(@Name)="IFRAME"][count(Attribute[string:upper-case(@Name)="SRC" ]) = 0]
+					 
+				</pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+			
+&lt;HTML&gt;&lt;title&gt;bad example&gt;&lt;BODY&gt;
+&lt;iframe&gt;&lt;/iframe&gt;
+&lt;/BODY&gt; &lt;/HTML&gt;
+
+&lt;HTML&gt;&lt;title&gt;good example&gt;&lt;BODY&gt;
+&lt;iframe src="foo"&gt;&lt;/iframe&gt;
+&lt;/BODY&gt; &lt;/HTML&gt;
+			
+		
+            </pre></div>
+</BODY>
+</HTML>

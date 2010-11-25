@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>UseProperClassLoader</TITLE>
+</HEAD>
+<BODY>
+<H2>UseProperClassLoader</H2>
+In J2EE getClassLoader() might not work as expected.  Use Thread.currentThread().getContextClassLoader() instead.
+   </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//PrimarySuffix[@Image='getClassLoader']
+ 
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ ClassLoader cl = Bar.class.getClassLoader();
+}
+
+  
+            </pre></div>
+</BODY>
+</HTML>

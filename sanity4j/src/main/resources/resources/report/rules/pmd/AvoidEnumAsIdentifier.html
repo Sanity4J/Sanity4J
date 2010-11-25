@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidEnumAsIdentifier</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidEnumAsIdentifier</H2>
+idEnumAsIdentifier"></a><h3>AvoidEnumAsIdentifier</h3>
+		<p>Since: PMD 3.4</p>
+		<p>Finds all places where 'enum' is used as an identifier.</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//VariableDeclaratorId[@Image='enum']
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+    public class A {
+        public  class foo {
+            String enum = "foo";
+        }
+    }
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

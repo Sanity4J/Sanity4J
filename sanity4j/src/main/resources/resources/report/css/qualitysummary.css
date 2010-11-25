@@ -1,0 +1,89 @@
+/* Quality summary table */
+
+*  {
+	font-family: arial, sans-serif;
+}
+
+table.qualitySummary tr td, table.qualitySummary tr th {
+	font-size: 80%;
+    font-size: 11px;
+}
+
+table.qualitySummary {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.qualitySummary td {
+	border: #d0d0d0 1px solid;
+}
+
+table.qualitySummary td.heading {
+    background: #dcecff;
+	font-weight: bold;
+	text-align: center;
+}
+
+table.qualitySummary td.heading:hover {
+    background: #c0ffc0;
+	cursor: pointer;
+}
+
+table.qualitySummary td.value {
+	text-align: right;
+}
+
+div.percentgraph
+{
+	border: #808080 1px solid;
+	height: 1.3em;
+	magin: 0px;
+	padding: 0px;
+	width: 100px;
+}
+
+div.percentgraph div.greenbar
+{
+	background-color: #58f55c;
+	height: 1.3em;
+	magin: 0px;
+	padding: 0px;
+}
+
+div.percentgraph div.na
+{
+	background-color: #eaeaea;
+	height: 1.3em;
+	magin: 0px;
+	padding: 0px;
+}
+
+div.percentgraph span.text
+{
+	display: block;
+	position: absolute;
+	text-align: center;
+	width: 100px;
+}
+
+table.percentgraph {
+	border: 0px;
+	font-size: 130%;
+	margin: 0px;
+	margin-left: auto;
+	margin-right: 0px;
+	padding: 0px;
+}
+
+table.percentgraph tr.percentgraph {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+table.percentgraph td.percentgraph {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 4px;
+}

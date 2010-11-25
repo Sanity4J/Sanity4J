@@ -1,0 +1,251 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <parent>
+    <groupId>net.sf.sanity4j</groupId>
+    <artifactId>sanity4j-parent</artifactId>
+    <version>1.0</version>
+    <relativePath>..</relativePath>    
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>net.sf.sanity4j</groupId>
+  <artifactId>sanity4j</artifactId>
+  <version>1.0</version>
+  <name>Sanity4J</name>
+  <packaging>maven-plugin</packaging>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>bcel</groupId>
+      <artifactId>bcel</artifactId>
+      <version>5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.1.7</version>
+    </dependency>
+    <dependency>
+      <groupId>jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.0.12</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.2.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.reporting</groupId>
+      <artifactId>maven-reporting-impl</artifactId>
+      <version>2.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>2.0.5</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>stax</groupId>
+      <artifactId>stax</artifactId>
+      <version>1.2.0</version>
+      <scope>runtime</scope>
+    </dependency>
+	
+  </dependencies>
+  
+  <description>Sanity4J simplifies running multiple code analysis tools on Java projects on an ad-hoc basis. It provides a single entry point to run the tools and produces a consolidated report, which presents all findings in an easily accessible format. </description>
+  <url>http://sanity4j.sourceforge.net/</url>
+  <issueManagement>
+    <system>SourceForge Tracker</system>
+    <url>https://sourceforge.net/tracker/?group_id=359349</url>
+  </issueManagement>
+  <inceptionYear>2010</inceptionYear>
+  <scm>
+    <connection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</connection>
+    <developerConnection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</developerConnection>
+    <url>http://sanity4j.svn.sourceforge.net/viewvc/sanity4j/</url>
+  </scm>
+  <organization>
+    <name>The Sanity4J project</name>
+    <url>http://sanity4j.sourceforge.net</url>
+  </organization>
+  <build>
+    <plugins>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>2.4.3</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.thoughtworks.qdox</groupId>
+            <artifactId>qdox</artifactId>
+            <version>1.9.2</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+          
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <version>0.7.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <args>
+            <arg>-Xboolean-getter</arg>
+          </args>
+          <plugins>
+            <plugin>
+              <groupId>net.sf.sanity4j</groupId>
+              <artifactId>jaxb-booleangetter-plugin</artifactId>
+              <version>1.0</version>
+              <scope>runtime</scope>
+            </plugin>
+          </plugins>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>net.sf.sanity4j.ui.QaApp</mainClass>
+            </manifest>
+          </archive>          
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>        
+      </plugin>
+      
+	 <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>
+                  src/main/assembly/bin.xml
+                </descriptor>
+                <descriptor>
+                  src/main/assembly/bin-with-tools.xml
+                </descriptor>
+                <descriptor>
+                  src/main/assembly/src.xml
+                </descriptor>
+                <descriptor>
+                  src/main/assembly/maven.xml
+                </descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.0.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.6.1</version>
+        <configuration>
+          <show>private</show>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+      
+      <plugin>
+        <groupId>net.sf.sanity4j</groupId>
+        <artifactId>sanity4j</artifactId>
+        <version>1.0</version>
+                
+        <configuration>
+          <productsDir>../sanity4j-with-tools/src/main/resources/tools</productsDir>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </reporting>
+
+  <repositories>
+    <repository>
+      <id>sanity4j_file_repository</id>
+      <name>Sanity4J file-system based repository</name>
+      <url>file://${basedir}/repository</url>
+    </repository>
+  </repositories>
+
+</project>

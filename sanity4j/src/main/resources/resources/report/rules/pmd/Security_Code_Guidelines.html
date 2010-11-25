@@ -1,0 +1,19 @@
+<HTML>
+<HEAD>
+<TITLE>Security_Code_Guidelines</TITLE>
+</HEAD>
+<BODY>
+<H2>Security_Code_Guidelines</H2>
+urity_Code_Guidelines"></a><h3>Security Code Guidelines</h3>
+                            
+                                <li> MethodReturnsInternalArray: 
+Exposing internal arrays directly allows the user to modify some code that could be critical.
+It is safer to return a copy of the array.
+      </li>
+                            
+                                <li> ArrayIsStoredDirectly: 
+Constructors and methods receiving arrays should clone objects and store the copy.
+This prevents that future changes from the user affect the internal functionality.
+      </li>
+</BODY>
+</HTML>

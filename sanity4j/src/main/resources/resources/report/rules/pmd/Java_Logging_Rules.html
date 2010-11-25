@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<TITLE>Java_Logging_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Java_Logging_Rules</H2>
+a_Logging_Rules"></a><h3>Java Logging Rules</h3>
+                            
+                                <li> MoreThanOneLogger: 
+Normally only one logger is used in each class.
+     </li>
+                            
+                                <li> LoggerIsNotStaticFinal: 
+In most cases, the Logger can be declared static and final.
+     </li>
+                            
+                                <li> SystemPrintln: 
+System.(out|err).print is used, consider using a logger.
+     </li>
+                            
+                                <li> AvoidPrintStackTrace: 
+Avoid printStackTrace(); use a logger call instead.
+           </li>
+</BODY>
+</HTML>

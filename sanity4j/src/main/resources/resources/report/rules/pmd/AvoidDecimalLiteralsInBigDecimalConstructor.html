@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidDecimalLiteralsInBigDecimalConstructor</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidDecimalLiteralsInBigDecimalConstructor</H2>
+One might assume that "new BigDecimal(.1)" is exactly equal
+     to .1, but it is actually equal
+     to .1000000000000000055511151231257827021181583404541015625.
+     This is so because .1 cannot be represented exactly as a double
+     (or, for that matter, as a binary fraction of any finite length).
+     Thus, the long value that is being passed in to the constructor
+     is not exactly equal to .1, appearances notwithstanding.
+
+     The (String) constructor, on the other hand, is perfectly predictable:
+     'new BigDecimal(".1")' is exactly equal to .1, as one
+     would expect.  Therefore, it is generally recommended that the (String)
+     constructor be used in preference to this one.
+  </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//AllocationExpression[ClassOrInterfaceType[@Image="BigDecimal"]
+and
+./Arguments/ArgumentList
+/Expression/PrimaryExpression/PrimaryPrefix/Literal[(not
+(ends-with
+(@Image,'"'))) and contains(@Image,".")]]
+ 
+    </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+import java.math.BigDecimal;
+public class Test {
+
+    public static void main(String[] args) {
+      // this would trigger the rule
+     BigDecimal bd=new BigDecimal(1.123);
+      // this wouldn't trigger the rule
+     BigDecimal bd=new BigDecimal("1.123");
+      // this wouldn't trigger the rule
+     BigDecimal bd=new BigDecimal(12);
+    }
+}
+
+  
+            </pre></div>
+</BODY>
+</HTML>

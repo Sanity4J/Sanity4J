@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>DoNotUseThreads</TITLE>
+</HEAD>
+<BODY>
+<H2>DoNotUseThreads</H2>
+The J2EE specification explicitly forbid use of threads.
+            
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+                        //ClassOrInterfaceType[@Image = 'Thread' or @Image = 'Runnable']
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            	
+            // This is not allowed
+            public class UsingThread extends Thread {
+
+            }
+			// Neither this,
+			public class OtherThread implements Runnable {
+				// Nor this ...
+				public void methode() {
+					Runnable thread = new Thread(); thread.run();
+				}
+			}
+				
+		
+            </pre></div>
+</BODY>
+</HTML>

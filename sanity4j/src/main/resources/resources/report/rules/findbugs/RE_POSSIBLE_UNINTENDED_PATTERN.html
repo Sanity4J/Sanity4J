@@ -1,0 +1,15 @@
+<HTML>
+<HEAD>
+<TITLE>RE: "." used for regular expression (RE_POSSIBLE_UNINTENDED_PATTERN)</TITLE>
+</HEAD>
+<BODY>
+<H2>RE: "." used for regular expression (RE_POSSIBLE_UNINTENDED_PATTERN)</H2>
+<p>
+A String function is being invoked and "." is being passed
+to a parameter that takes a regular expression as an argument. Is this what you intended?
+For example
+s.replaceAll(".", "/") will return a String in which <em>every</em>
+character has been replaced by a / character.
+</p>
+</BODY>
+</HTML>

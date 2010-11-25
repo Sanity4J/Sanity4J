@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>ForLoopShouldBeWhileLoop</TITLE>
+</HEAD>
+<BODY>
+<H2>ForLoopShouldBeWhileLoop</H2>
+Some for loops can be simplified to while loops - this makes them more concise.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                
+//ForStatement
+ [count(*) &amp;gt; 1]
+ [not(ForInit)]
+ [not(ForUpdate)]
+ [not(Type and Expression and Statement)]
+ 
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ void bar() {
+  for (;true;) true; // No Init or Update part, may as well be: while (true)
+ }
+}
+ 
+      
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>MoreThanOneLogger</TITLE>
+</HEAD>
+<BODY>
+<H2>MoreThanOneLogger</H2>
+Normally only one logger is used in each class.
+     </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/MoreThanOneLogger.html">net.sourceforge.pmd.rules.MoreThanOneLogger</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+class Foo{
+    Logger log = Logger.getLogger(Foo.class.getName());
+    // It is very rare to see two loggers on a class, normally
+    // log information is multiplexed by levels
+    Logger log2= Logger.getLogger(Foo.class.getName());
+}
+
+     
+            </pre></div>
+</BODY>
+</HTML>

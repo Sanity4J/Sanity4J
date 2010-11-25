@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>MissingSerialVersionUID</TITLE>
+</HEAD>
+<BODY>
+<H2>MissingSerialVersionUID</H2>
+Classes that are serializable should provide a serialVersionUID field.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ClassOrInterfaceDeclaration
+ [
+  count(ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration
+   /FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='serialVersionUID']) = 0
+and
+  count(ImplementsList
+   [ClassOrInterfaceType/@Image='Serializable'
+   or ClassOrInterfaceType/@Image='java.io.Serializable']) =1
+and
+   @Abstract = 'false'
+]
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo implements java.io.Serializable {
+ String name;
+ // Define serialization id to avoid serialization related bugs
+ // i.e., public static final long serialVersionUID = 4328743;
+}
+
+
+          
+            </pre></div>
+</BODY>
+</HTML>

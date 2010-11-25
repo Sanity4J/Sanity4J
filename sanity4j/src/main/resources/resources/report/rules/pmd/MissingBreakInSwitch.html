@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<TITLE>MissingBreakInSwitch</TITLE>
+</HEAD>
+<BODY>
+<H2>MissingBreakInSwitch</H2>
+A switch statement without an enclosed break statement may be a bug.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//SwitchStatement
+[count(.//BreakStatement)=0]
+[count(SwitchLabel) &amp;gt; 0]
+[count(BlockStatement/Statement/ReturnStatement)
+ + count(BlockStatement/Statement/ThrowStatement)
+     &amp;lt; count (SwitchLabel)]
+    
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ public void bar(int status) {
+  switch(status) {
+   case CANCELLED:
+    doCancelled();
+    // break; hm, should this be commented out?
+   case NEW:
+    doNew();
+   case REMOVED:
+    doRemoved();
+   }
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

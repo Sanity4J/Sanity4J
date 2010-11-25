@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+  
+  <id>maven</id>
+  
+  <formats>
+    <format>zip</format>
+  </formats>
+
+  <files>
+    <file>
+	  <source>target/sanity4j-${project.version}.jar</source>
+	  <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+	  <source>pom.xml</source>
+    </file>
+  </files>
+  
+</assembly>

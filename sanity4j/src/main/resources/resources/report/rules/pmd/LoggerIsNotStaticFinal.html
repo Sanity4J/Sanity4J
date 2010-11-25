@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>LoggerIsNotStaticFinal</TITLE>
+</HEAD>
+<BODY>
+<H2>LoggerIsNotStaticFinal</H2>
+In most cases, the Logger can be declared static and final.
+     </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                 
+//VariableDeclarator
+ [parent::FieldDeclaration]
+ [../Type/ReferenceType
+  /ClassOrInterfaceType[@Image='Logger']
+   and
+  (..[@Final='false'] or ..[@Static = 'false'] ) ]
+                
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+class Foo{
+    Logger log = Logger.getLogger(Foo.class.getName());
+    // It is much better to declare the logger as follows 
+    // static final Logger log = Logger.getLogger(Foo.class.getName());
+}
+
+     
+            </pre></div>
+</BODY>
+</HTML>

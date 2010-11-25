@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<TITLE>OverrideBothEqualsAndHashcode</TITLE>
+</HEAD>
+<BODY>
+<H2>OverrideBothEqualsAndHashcode</H2>
+Override both public boolean Object.equals(Object other), and public int Object.hashCode(), or override neither.  Even if you are inheriting a hashCode() from a parent class, consider implementing hashCode and explicitly delegating to your superclass.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/OverrideBothEqualsAndHashcode.html">net.sourceforge.pmd.rules.OverrideBothEqualsAndHashcode</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+// this is bad
+public class Bar {
+  public boolean equals(Object o) {
+      // do some comparison
+  }
+}
+
+// and so is this
+public class Baz {
+  public int hashCode() {
+      // return some hash value
+  }
+}
+
+// this is OK
+public class Foo {
+  public boolean equals(Object other) {
+      // do some comparison
+  }
+  public int hashCode() {
+      // return some hash value
+  }
+}
+ 
+      
+            </pre></div>
+</BODY>
+</HTML>

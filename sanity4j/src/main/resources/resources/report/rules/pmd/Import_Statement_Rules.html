@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<TITLE>Import_Statement_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Import_Statement_Rules</H2>
+ort_Statement_Rules"></a><h3>Import Statement Rules</h3>
+                            
+                                <li> DuplicateImports: 
+    Avoid duplicate import statements.
+    </li>
+                            
+                                <li> DontImportJavaLang: 
+Avoid importing anything from the package 'java.lang'.  These classes are automatically imported (JLS 7.5.3).
+    </li>
+                            
+                                <li> UnusedImports: 
+    Avoid unused import statements.
+    </li>
+                            
+                                <li> ImportFromSamePackage: 
+ No need to import a type that lives in the same package.
+     </li>
+                            
+                                <li> TooManyStaticImports: 
+If you overuse the static import feature, it can make your program unreadable and 
+unmaintainable, polluting its namespace with all the static members you import. 
+Readers of your code (including you, a few months after you wrote it) will not know 
+which class a static member comes from (Sun 1.5 Language Guide).
+		 </li>
+</BODY>
+</HTML>

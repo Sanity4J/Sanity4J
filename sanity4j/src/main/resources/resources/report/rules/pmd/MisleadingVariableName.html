@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>MisleadingVariableName</TITLE>
+</HEAD>
+<BODY>
+<H2>MisleadingVariableName</H2>
+Detects when a non-field has a name starting with 'm_'.  This usually
+indicates a field and thus is confusing.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//VariableDeclaratorId
+[starts-with(@Image, 'm_')]
+[not (../../../FieldDeclaration)]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+  public class Foo {
+    private int m_foo; // OK
+    public void bar(String m_baz) {  // Bad
+      int m_boz = 42; // Bad
+    }
+  }
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

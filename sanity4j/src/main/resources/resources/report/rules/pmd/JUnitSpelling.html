@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>JUnitSpelling</TITLE>
+</HEAD>
+<BODY>
+<H2>JUnitSpelling</H2>
+Some JUnit framework methods are easy to misspell.
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+              
+//MethodDeclarator[(not(@Image = 'setUp')
+ and translate(@Image, 'SETuP', 'setUp') = 'setUp')
+ or (not(@Image = 'tearDown')
+ and translate(@Image, 'TEARdOWN', 'tearDown') = 'tearDown')]
+ [FormalParameters[count(*) = 0]]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+              
+          </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+import junit.framework.*;
+public class Foo extends TestCase {
+ public void setup() {} // oops, should be setUp
+ public void TearDown() {} // oops, should be tearDown
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

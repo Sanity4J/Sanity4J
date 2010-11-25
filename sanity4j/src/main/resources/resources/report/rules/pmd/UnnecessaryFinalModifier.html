@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>UnnecessaryFinalModifier</TITLE>
+</HEAD>
+<BODY>
+<H2>UnnecessaryFinalModifier</H2>
+When a class has the final modifier, all the methods are automatically final.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ClassOrInterfaceDeclaration[@Final='true' and @Interface='false']
+/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/MethodDeclaration[@Final='true']
+    
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public final class Foo {
+    // This final modifier is not necessary, since the class is final
+    // and thus, all methods are final
+    private final void foo() {
+    }
+}
+
+
+      
+            </pre></div>
+</BODY>
+</HTML>

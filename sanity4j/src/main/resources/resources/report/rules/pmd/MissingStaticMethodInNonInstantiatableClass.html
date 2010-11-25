@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>MissingStaticMethodInNonInstantiatableClass</TITLE>
+</HEAD>
+<BODY>
+<H2>MissingStaticMethodInNonInstantiatableClass</H2>
+A class that has private constructors and does not have any static methods or fields cannot be used.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ClassOrInterfaceDeclaration[@Nested='false'][
+( count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration)&amp;gt;0
+  and count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration) = count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Private='true']) )
+and
+count(.//MethodDeclaration[@Static='true'])=0
+and
+count(.//FieldDeclaration[@Private='false'][@Static='true'])=0
+]
+    
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+/* This class is unusable, since it cannot be
+ instantiated (private constructor),
+ and no static method can be called.
+ */
+public class Foo {
+ private Foo() {}
+ void foo() {}
+}
+
+
+      
+            </pre></div>
+</BODY>
+</HTML>

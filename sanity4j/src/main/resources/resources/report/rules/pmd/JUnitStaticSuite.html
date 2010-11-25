@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>JUnitStaticSuite</TITLE>
+</HEAD>
+<BODY>
+<H2>JUnitStaticSuite</H2>
+The suite() method in a JUnit test needs to be both public and static.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                
+//MethodDeclaration[not(@Static='true') or not(@Public='true')]
+[MethodDeclarator/@Image='suite']
+[MethodDeclarator/FormalParameters/@ParameterCount=0]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+                
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+import junit.framework.*;
+public class Foo extends TestCase {
+ public void suite() {} // oops, should be static
+ private static void suite() {} // oops, should be public
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

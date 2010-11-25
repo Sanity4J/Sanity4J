@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>EmptyFinalizer</TITLE>
+</HEAD>
+<BODY>
+<H2>EmptyFinalizer</H2>
+If the finalize() method is empty, then it does not need to exist.
+       </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//MethodDeclaration[MethodDeclarator[@Image='finalize'][not(FormalParameters/*)]]
+  /Block[count(*)=0]
+
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+   protected void finalize() {}
+}
+
+       
+            </pre></div>
+</BODY>
+</HTML>

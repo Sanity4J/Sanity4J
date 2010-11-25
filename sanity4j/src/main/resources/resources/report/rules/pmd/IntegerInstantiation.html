@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>IntegerInstantiation</TITLE>
+</HEAD>
+<BODY>
+<H2>IntegerInstantiation</H2>
+egerInstantiation"></a><h3>IntegerInstantiation</h3>
+		<p>Since: PMD 3.5</p>
+		<p>In JDK 1.5, calling new Integer() causes memory allocation.  Integer.valueOf() is more memory friendly.</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//PrimaryPrefix
+ /AllocationExpression
+  [not (ArrayDimsAndInits)
+   and (ClassOrInterfaceType/@Image='Integer'
+    or ClassOrInterfaceType/@Image='java.lang.Integer')]
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ private Integer i = new Integer(0); // change to Integer i = Integer.valueOf(0);
+}
+   
+      
+            </pre></div>
+</BODY>
+</HTML>

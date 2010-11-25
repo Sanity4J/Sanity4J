@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Sanity4J">
+  <bannerLeft>
+    <name>Sanity4J</name>
+    <src>images/blank.gif</src>
+    <href>http://sanity4j.sf.net/</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>Sanity4J</name>
+    <src>images/sanity4j-small.gif</src>
+    <href>http://sanity4j.sf.net/</href>
+  </bannerRight>
+  <body>
+  
+    <links>
+      <!-- <item name="Apache" href="http://www.apache.org/" /> -->
+    </links>
+
+    <menu name="About Sanity4J">
+    
+      <item name="Introduction" href="index.html"/>
+      <item name="Acknowledgements" href="acknowledgements.html"/>
+      <item name="Download" href="https://sourceforge.net/projects/sanity4j/files/"/>
+      <item name="About us" href="about_us.html"/>
+      <item name="Whitepaper" href="Sanity4J WhitePaper.pdf"/>
+    </menu>
+
+    <menu name="Why use automated QA?">
+      <item name="Avoiding technical debt" href="technical_debt.html"/>
+      <item name="Features and benefits" href="features_and_benefits.html"/>
+      <item name="Case study" href="case_study.html"/>
+      <item name="Technical overview" href="technical_overview.html"/>
+      <item name="Getting started" href="getting_started.html"/>
+    </menu>
+
+    <menu name="User Documentation">
+      <item name="Ant task user guide" href="ant_task_guide.html"/>
+      <item name="Eclipse plugin user guide" href="eclipse_plugin_guide.html"/>
+      <item name="Maven plugin user guide" href="maven_plugin_guide.html"/>
+      <item name="Sanity4J GUI user guide" href="standalone_app_guide.html"/>
+      <item name="Customising the analysis" href="customising.html"/>
+      <item name="Example issue ratings table" href="issue_ratings.html"/>
+    </menu>
+
+    <menu ref="reports"/>
+
+  </body>
+</project>

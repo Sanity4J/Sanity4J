@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The schema for the Checkstyle 4.4 result file -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://net.sf.sanity4j/namespace/checkstyle-4.4" xmlns:checkstyle44="http://net.sf.sanity4j/namespace/checkstyle-4.4">
+	<xs:element name="checkstyle">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="checkstyle44:file" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:decimal" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="error">
+		<xs:complexType>
+			<xs:attribute name="line" use="required" type="xs:integer"/>
+			<xs:attribute name="column" type="xs:integer"/>
+			<xs:attribute name="severity" use="required" type="xs:NMTOKEN"/>
+			<xs:attribute name="message" type="xs:string" use="required"/>
+			<xs:attribute name="source" use="required" type="xs:NMTOKEN"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="file">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="checkstyle44:error"/>
+			</xs:choice>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

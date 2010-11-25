@@ -1,0 +1,11 @@
+<HTML>
+<HEAD>
+<TITLE>DP: Classloaders should only be created inside doPrivileged block (DP_CREATE_CLASSLOADER_INSIDE_DO_PRIVILEGED)</TITLE>
+</HEAD>
+<BODY>
+<H2>DP: Classloaders should only be created inside doPrivileged block (DP_CREATE_CLASSLOADER_INSIDE_DO_PRIVILEGED)</H2>
+<p> This code creates a classloader,  which requires a security manager.
+  If this code will be granted security permissions, but might be invoked by code that does not
+  have security permissions, then the classloader creation needs to occur inside a doPrivileged block.</p>
+</BODY>
+</HTML>

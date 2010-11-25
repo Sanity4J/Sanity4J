@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>TooFewBranchesForASwitchStatement</TITLE>
+</HEAD>
+<BODY>
+<H2>TooFewBranchesForASwitchStatement</H2>
+Swith are designed complex branches, and allow branches to share treatement. Using a switch for only 2
+				branches is ill advised, as switches are not as easy to understand as if. In this case, it's most likely
+				is a good idea to use a if statement instead, at least to increase code readability.
+            
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//SwitchStatement[
+	(count(.//SwitchLabel) &amp;lt; $minimumNumberCaseForASwitch)
+]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+public class abstract Example {
+	String field;
+	int otherField;
+}
+            
+        
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>minimumNumberCaseForASwitch</td>
+                    <td>3</td>
+                    <td>Minimum number of branches for a switch</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

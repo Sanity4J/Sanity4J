@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>UnnecessaryParentheses</TITLE>
+</HEAD>
+<BODY>
+<H2>UnnecessaryParentheses</H2>
+Sometimes expressions are wrapped in unnecessary parentheses,
+making them look like a function call.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+          //Expression
+           /PrimaryExpression
+            /PrimaryPrefix
+             /Expression[count(*)=1]
+              /PrimaryExpression
+              /PrimaryPrefix
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  public class Foo {
+      boolean bar() {
+          return (true);
+      }
+  }
+      
+            </pre></div>
+</BODY>
+</HTML>

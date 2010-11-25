@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>EmptyStatementNotInLoop</TITLE>
+</HEAD>
+<BODY>
+<H2>EmptyStatementNotInLoop</H2>
+An empty statement (aka a semicolon by itself) that is not used
+as the sole body of a for loop or while loop is probably a bug.  It
+could also be a double semicolon, which is useless and should be
+removed.
+       </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//EmptyStatement
+ [not(
+       ../../../ForStatement
+       or ../../../WhileStatement
+       or ../../../BlockStatement/ClassOrInterfaceDeclaration
+       or ../../../../../../ForStatement/Statement[1]
+        /Block[1]/BlockStatement[1]/Statement/EmptyStatement
+       or ../../../../../../WhileStatement/Statement[1]
+        /Block[1]/BlockStatement[1]/Statement/EmptyStatement)
+ ]
+
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class MyClass {
+   public void doit() {
+      // this is probably not what you meant to do
+      ;
+      // the extra semicolon here this is not necessary
+      System.out.println("look at the extra semicolon");;
+   }
+}
+
+       
+            </pre></div>
+</BODY>
+</HTML>

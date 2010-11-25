@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<TITLE>WCMP: Bad Assignment (WCMP_BAD_ASSIGNMENT)</TITLE>
+</HEAD>
+<BODY>
+<H2>WCMP: Bad Assignment (WCMP_BAD_ASSIGNMENT)</H2>
+<p>
+A bad assignment to a WComponent instance field was detected.
+</p>
+<p>
+Developers that are new to WComponents often create their own WComponents without 
+understanding that a single instance of their component will be shared by many user sessions.
+For this "shared instance pattern" to work it is essential that an application's WComponent structure 
+does not change after initial construction. If the structure does change, the application will almost 
+surely fail in a multi-user environment.
+</p>
+<p>
+Safety features to assist developers in sticking to the pattern include marking WComponent instance variables as 
+<code>private</code> and <code>final</code>, and also calling the <code>assertNotLocked()</code> method before 
+attempting to changing the internal state of a WComponent.
+</p>
+
+<pre>
+public class Example extends WPanel
+{
+    private WComponent label;
+    private WComponent field;
+    
+    // Best - immutable field
+    private final WButton button = new WButton("button");
+   
+    public Example()
+    {
+        // ok, guaranteed to not be updating a shared instance in a constructor
+        label = new WLabel("Default");
+        
+        add(label);
+        add(button);
+    }
+
+    public void setMyWComponent(MyOtherComponent otherComponent)
+    {
+        // Bad - should never alter another WComponent's internal state
+        otherComponent.panel = this;
+    }
+    
+    public void setLabel(WLabel label)
+    {
+        // Bad - unprotected access to a field.
+        this.label = label;
+    }
+    
+    public void setField(WInput field)
+    {
+        // Better. 
+        
+        // This will throw a StaticLockException if an attempt 
+        // is made to update the shared instance after the initial set-up.
+        assertNotLocked();
+        
+        this.field = field;
+    }
+}
+</pre>
+
+
+
+</BODY>
+</HTML>

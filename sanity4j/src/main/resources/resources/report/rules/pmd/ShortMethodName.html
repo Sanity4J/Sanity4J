@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>ShortMethodName</TITLE>
+</HEAD>
+<BODY>
+<H2>ShortMethodName</H2>
+Detects when very short method names are used.
+     </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//MethodDeclarator[string-length(@Image) &amp;lt; 3]
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class ShortMethod {
+  public void a( int i ) { // Violation
+  }
+}
+
+     
+            </pre></div>
+</BODY>
+</HTML>

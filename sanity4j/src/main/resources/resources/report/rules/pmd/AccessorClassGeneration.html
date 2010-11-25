@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>AccessorClassGeneration</TITLE>
+</HEAD>
+<BODY>
+<H2>AccessorClassGeneration</H2>
+Instantiation by way of private constructors from outside of the constructor's class often causes the generation of an accessor.
+A factory method, or non-privitization of the constructor can eliminate this situation.
+The generated class file is actually an interface.  It gives the accessing class the ability to invoke a new hidden package
+scope constructor that takes the interface as a supplementary parameter.  This turns a private constructor effectively into
+one with package scope, and is challenging to discern.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/AccessorClassGeneration.html">net.sourceforge.pmd.rules.AccessorClassGeneration</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Outer {
+ void method(){
+  Inner ic = new Inner();//Causes generation of accessor class
+ }
+ public class Inner {
+  private Inner(){}
+ }
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

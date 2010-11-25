@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>EmptyTryBlock</TITLE>
+</HEAD>
+<BODY>
+<H2>EmptyTryBlock</H2>
+Avoid empty try blocks - what's the point?
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//TryStatement/Block[1][count(*) = 0]
+
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ public void bar() {
+  try {
+  } catch (Exception e) {
+    e.printStackTrace();
+  }
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>ImmutableField</TITLE>
+</HEAD>
+<BODY>
+<H2>ImmutableField</H2>
+Identifies private fields whose values never change once they are initialized either in the declaration of the field or by
+a constructor.  This aids in converting existing classes to immutable classes.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/ImmutableField.html">net.sourceforge.pmd.rules.design.ImmutableField</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+  private int x; // could be final
+  public Foo() {
+      x = 7;
+  }
+  public void foo() {
+     int a = x + 2;
+  }
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

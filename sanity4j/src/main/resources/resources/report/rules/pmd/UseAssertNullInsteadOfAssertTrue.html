@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<TITLE>UseAssertNullInsteadOfAssertTrue</TITLE>
+</HEAD>
+<BODY>
+<H2>UseAssertNullInsteadOfAssertTrue</H2>
+This rule detects JUnit assertions in object references equality. These assertions
+ should be made by more specific methods, like assertNull, assertNotNull.
+       </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                 
+//PrimaryExpression[
+ PrimaryPrefix/Name[@Image = 'assertTrue' or @Image = 'assertFalse']
+][
+ PrimarySuffix/Arguments/ArgumentList[
+  Expression/EqualityExpression/PrimaryExpression/PrimaryPrefix/Literal/NullLiteral
+ ]
+]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+  
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+ public class FooTest extends TestCase {
+  void testCode() {
+   Object a = doSomething();
+   assertTrue(a==null); // bad usage
+   assertNull(a);  // good usage
+   assertTrue(a != null); // bad usage
+   assertNotNull(a);  // good usage
+  }
+ }
+ 
+       
+            </pre></div>
+</BODY>
+</HTML>

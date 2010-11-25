@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>UseEqualsToCompareStrings</TITLE>
+</HEAD>
+<BODY>
+<H2>UseEqualsToCompareStrings</H2>
+Using '==' or '!=' to compare strings only works if intern version is used on both sides
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//EqualityExpression/PrimaryExpression
+[(PrimaryPrefix/Literal
+   [starts-with(@Image, '"')]
+   [ends-with(@Image, '"')]
+and count(PrimarySuffix) = 0)]
+
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+class Foo {
+  boolean test(String s) {
+    if (s == "one") return true; //Bad
+    if ("two".equals(s)) return true; //Better
+    return false;
+  }
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

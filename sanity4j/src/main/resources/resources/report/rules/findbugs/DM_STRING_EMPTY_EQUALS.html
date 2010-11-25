@@ -1,0 +1,10 @@
+<HTML>
+<HEAD>
+<TITLE>Dm: Method invokes inefficient String.equals(""); use String.length() == 0 instead (DM_STRING_EMPTY_EQUALS)</TITLE>
+</HEAD>
+<BODY>
+<H2>Dm: Method invokes inefficient String.equals(""); use String.length() == 0 instead (DM_STRING_EMPTY_EQUALS)</H2>
+<p> An object is compared to the empty String object using the equals() method here.
+      Checking that the String object's length is zero may be faster, and removes String constants from the class file.</p>
+</BODY>
+</HTML>

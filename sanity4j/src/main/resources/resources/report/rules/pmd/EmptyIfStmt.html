@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>EmptyIfStmt</TITLE>
+</HEAD>
+<BODY>
+<H2>EmptyIfStmt</H2>
+Empty If Statement finds instances where a condition is checked but nothing is done about it.
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//IfStatement/Statement
+ [EmptyStatement or Block[count(*) = 0]]
+ 
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo {
+ void bar(int x) {
+  if (x == 0) {
+   // empty!
+  }
+ }
+}
+ 
+       
+            </pre></div>
+</BODY>
+</HTML>

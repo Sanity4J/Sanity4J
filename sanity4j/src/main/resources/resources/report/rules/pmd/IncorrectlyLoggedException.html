@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<TITLE>IncorrectlyLoggedException</TITLE>
+</HEAD>
+<BODY>
+<H2>IncorrectlyLoggedException</H2>
+<p>Do not rely on an Exception's toString() representation when logging errors, 
+as it may not contain enough information (e.g. the Stacktrace). Use the 
+log.error(String, Throwable) method instead.
+</p>		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//CatchStatement/Block/BlockStatement/Statement
+ [ends-with(StatementExpression/PrimaryExpression/PrimaryPrefix/Name/@Image, '.error')]
+ [StatementExpression/PrimaryExpression/PrimarySuffix/Arguments/ArgumentList/Expression/AdditiveExpression/PrimaryExpression/PrimaryPrefix/Name/@Image = ../../../FormalParameter/VariableDeclaratorId/@Image]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+public class MyClass
+{
+	private static final Logger log = Logger.get(MyClass.class);
+	
+	public byte[] getData()
+	{
+		try
+		{
+			return StreamUtils.read(new FileInputStream("data"));
+		}
+		catch (IOException e)
+		{
+		   //log.error("Bad" + e);
+		   //log.error("Ok" + e.getMessage());
+		   log.error("Better", e);
+		}
+	}
+}
+       
+            </pre></div>
+</BODY>
+</HTML>

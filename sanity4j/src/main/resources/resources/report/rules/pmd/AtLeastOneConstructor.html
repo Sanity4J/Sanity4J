@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>AtLeastOneConstructor</TITLE>
+</HEAD>
+<BODY>
+<H2>AtLeastOneConstructor</H2>
+Each class should declare at least one constructor.
+  </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+              
+//ClassOrInterfaceDeclaration[
+	not(ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration)
+	and
+	(@Static = 'false')
+	and
+	(count(./descendant::MethodDeclaration[@Static]) &amp;lt; 1)
+]
+	[@Interface='false']
+
+          </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ // no constructor!  not good!
+}
+  
+  
+            </pre></div>
+</BODY>
+</HTML>

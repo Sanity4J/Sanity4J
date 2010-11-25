@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>ExcessiveImports</TITLE>
+</HEAD>
+<BODY>
+<H2>ExcessiveImports</H2>
+A high number of imports can indicate a high degree of coupling within
+an object. Rule counts the number of unique imports and reports a violation
+if the count is above the user defined threshold.
+  </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/ExcessiveImports.html">net.sourceforge.pmd.rules.ExcessiveImports</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+      
+import blah.blah.Baz;
+import blah.blah.Bif;
+// 18 others from the same package elided
+public class Foo {
+ public void doWork() {}
+}
+      
+  
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>minimum</td>
+                    <td>30</td>
+                    <td>The import count reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

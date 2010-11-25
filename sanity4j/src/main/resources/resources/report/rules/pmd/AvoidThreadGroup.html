@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidThreadGroup</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidThreadGroup</H2>
+Avoid using ThreadGroup; although it is intended to be used in a threaded environment
+ it contains methods that are not thread safe.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//AllocationExpression/ClassOrInterfaceType[contains(@Image,'ThreadGroup')] |
+//PrimarySuffix[contains(@Image, 'getThreadGroup')]
+
+        </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+    public class Bar {
+     void buz() {
+      ThreadGroup tg = new ThreadGroup("My threadgroup") ;
+      tg = new ThreadGroup(tg, "my thread group");
+      tg = Thread.currentThread().getThreadGroup();
+      tg = System.getSecurityManager().getThreadGroup();
+     }
+    }
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

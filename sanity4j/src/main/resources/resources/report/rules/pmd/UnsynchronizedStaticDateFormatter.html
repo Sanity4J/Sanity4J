@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>UnsynchronizedStaticDateFormatter</TITLE>
+</HEAD>
+<BODY>
+<H2>UnsynchronizedStaticDateFormatter</H2>
+SimpleDateFormat is not synchronized. Sun recomends separate format instances
+for each thread. If multiple threads must access a static formatter, the
+formatter must be synchronized either on method or block level.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/UnsynchronizedStaticDateFormatter.html">net.sourceforge.pmd.rules.design.UnsynchronizedStaticDateFormatter</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+public class Foo {
+    private static final SimpleDateFormat sdf = new SimpleDateFormat();
+    void bar() {
+        sdf.format(); // bad
+    }
+    synchronized void foo() {
+        sdf.format(); // good
+    }
+}
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

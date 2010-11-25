@@ -1,0 +1,102 @@
+Overview of Sanity4J
+
+  Sanity4J is primarily a tool for running multiple Java code static analysis tools. 
+
+  Static Analysis tools are used to provide pointers to possible issues in code 
+  during the development cycle, as an automated form of code-review. Use of these 
+  tools helps to improve the quality of code and reduce the amount of software 
+  defects that are delivered for system testing.
+  
+  For more details on the benefits of using Sanity4J, refer to the <<"Why use
+  automated QA">> section using the site navigation on the left. 
+
+* Automated QA process without the use of Sanity4J
+
+  There are a wide variety of code analysis tools available to Java developers. 
+  Each tool has its own features and purpose, and developers may need to use 
+  multiple tools. This introduces two problems: each tool has its own method 
+  for configuration and execution; and each tool produces separate output in 
+  its own format.
+  
+  Each tool will therefore require separate integration into a project's build
+  process, which is tedious and can be cumbersome depending on how project
+  source is structured. For example, some tools do not support multiple source
+  directories.
+  
+  Viewing individual reports also lowers productivity, as developers must flip 
+  between several reports to fix issues during development. Having multiple 
+  reports also does not allow the ability to view the project health on a whole.
+
+[./images/qa_overview_without_sanity4j.png] QA process without the use of Sanity4J.  
+
+* Automated QA process using Sanity4J
+
+  Sanity4J simplifies running multiple static code analysis tools on Java
+  projects on an automated or ad-hoc basis. It provides a single entry point to 
+  run all the selected tools and produces a consolidated report, which presents 
+  all findings in an easily accessible manner. Sanity4J can also be used to resolve 
+  potential problems early on in the development cycle, and has demonstrated 
+  improving quality trends over project life-cycles.
+  
+[./images/qa_overview_with_sanity4j.png] QA process using Sanity4J.  
+
+* Features
+
+** Consolidated and Cut Down Report Output
+
+  Output from a default configuration of the freely available Static Analysis 
+  tools is extremely verbose. Masses of insignificant violations can hide 
+  important ones. Additionally, there is some overlap between the testing 
+  performed by each tool, which results in duplicate violations. Sanity4J 
+  optionally provides a single set of high-value violations. The resulting 
+  reports are much easier to read.
+  
+** Categorised Violations
+
+  Each Static Analysis tool has its own severity classification scheme for 
+  violations. Sanity4J provides a standard violations rating across all 
+  the different tools which it uses. This allows:
+    
+    * Easier prioritisation of issues for scheduling remediation tasks
+    
+    * Better indication of project quality as measured during Code Reviews
+
+** Support for Custom Rules
+
+  Custom rules / rule sets can be can be added to Sanity4J for each of the 
+  tools used for analysis, and tool options can be tweaked using an external 
+  configuration file.
+
+** Inclusion of Automated Test Coverage Statistics
+
+  Most projects require that developers deliver automated unit tests written
+  using jUnit. The greater the amount of code exercised by automated tests 
+  (coverage), the more certain a maintenance developer can be when determining
+  the impact of a change. A jUnit test coverage and quality summary is 
+  included for each package. The "Line coverage" and "Branch coverage" columns
+  indicate the percentage and number of lines/branches covered by jUnit tests. 
+  The "Code quality" column displays a quality metric, based on the number of 
+  issues per line of code, with weighting based on the severity of the issues.
+ 
+[./images/report_extract.gif] Table extract from a Sanity4J report, showing various metrics
+ 
+* Usage
+
+  Sanity4J can currently be run in the following ways: 
+  
+    * Integrated into an Apache Ant script using a supplied Ant task. This lets
+    projects automatically run Sanity4J as part of the build process, and produce
+    trend graphs over time. Project leads can then look at the generated report
+    to determine where resources need to be allocated to resolve any potential
+    problems.
+  
+    * As a GUI application. Sanity4J can be run as a stand-alone desktop 
+    application. This is primarily intended for performing ad-hoc reviews of 
+    external projects. 
+  
+    * On single source files using an Eclipse plug-in. Developers are also able 
+    to run the QA tool on a single Java file during development, to identify any 
+    major issues before their code changes are committed to the source 
+    repository. This analysis runs much faster than when run on the whole 
+    project, at the trade off of some analytical accuracy.  
+  
