@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidAssertAsIdentifier</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidAssertAsIdentifier</H2>
+idAssertAsIdentifier"></a><h3>AvoidAssertAsIdentifier</h3>
+		<p>Since: PMD 3.4</p>
+		<p>Finds all places where 'assert' is used as an identifier.</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//VariableDeclaratorId[@Image='assert']
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+    public class A {
+        public  class foo {
+            String assert = "foo";
+        }
+    }
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

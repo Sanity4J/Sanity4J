@@ -1,0 +1,38 @@
+<HTML>
+<HEAD>
+<TITLE>Finalizer_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Finalizer_Rules</H2>
+alizer_Rules"></a><h3>Finalizer Rules</h3>
+                            
+                                <li> EmptyFinalizer: 
+If the finalize() method is empty, then it does not need to exist.
+       </li>
+                            
+                                <li> FinalizeOnlyCallsSuperFinalize: 
+If the finalize() is implemented, it should do something besides just calling
+super.finalize().
+       </li>
+                            
+                                <li> FinalizeOverloaded: 
+Methods named finalize() should not have parameters.  It is
+confusing and probably a bug to overload finalize().  It will
+not be called by the VM.
+   </li>
+                            
+                                <li> FinalizeDoesNotCallSuperFinalize: 
+If the finalize() is implemented, its last action should be to call super.finalize.
+       </li>
+                            
+                                <li> FinalizeShouldBeProtected: 
+If you override finalize(), make it protected.  If you make
+ it public, other classes may call it.
+      </li>
+                            
+                                <li> AvoidCallingFinalize: 
+Object.finalize() is called by the garbage collector on an object when garbage collection determines
+that there are no more references to the object.
+      </li>
+</BODY>
+</HTML>

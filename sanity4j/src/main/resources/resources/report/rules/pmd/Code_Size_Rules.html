@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>Code_Size_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Code_Size_Rules</H2>
+e_Size_Rules"></a><h3>Code Size Rules</h3>
+                            
+                                <li> NPathComplexity: 
+   The NPath complexity of a method is the number of acyclic execution paths through that method.
+   A threshold of 200 is generally considered the point where measures should be taken to reduce complexity.
+   </li>
+                            
+                                <li> ExcessiveMethodLength: 
+Violations of this rule usually indicate that the method is doing
+too much.  Try to reduce the method size by creating helper methods and removing any copy/pasted code.
+   </li>
+                            
+                                <li> ExcessiveParameterList: 
+Long parameter lists can indicate that a new object should be created to
+ wrap the numerous parameters.  Basically, try to group the parameters together.
+   </li>
+                            
+                                <li> ExcessiveClassLength: 
+Long Class files are indications that the class may be trying to
+do too much.  Try to break it down, and reduce the size to something
+manageable.
+   </li>
+                            
+                                <li> CyclomaticComplexity: 
+   		
+Complexity is determined by the number of decision points in a method plus one for the
+method entry.  The decision points are 'if', 'while', 'for', and 'case labels'.  Generally,
+1-4 is low complexity, 5-7 indicates moderate complexity, 8-10 is high complexity,
+ and 11+ is very high complexity.
+		
+   </li>
+                            
+                                <li> ExcessivePublicCount: 
+A large number of public methods and attributes declared in a class can indicate the
+ class may need to be broken up as increased effort will be required to thoroughly test it.
+    </li>
+                            
+                                <li> TooManyFields: 
+Classes that have too many fields could be redesigned to have fewer fields, possibly
+ through some nested object grouping of some of the information.  For example, a class with
+ city/state/zip fields could instead have one Address field.
+      </li>
+                            
+                                <li> NcssMethodCount: 
+This rule uses the NCSS (Non Commenting Source Statements) algorithm to determine the number of lines
+of code for a given method. NCSS ignores comments, and counts actual statements. Using this algorithm,
+lines of code that are split are counted as one.
+    </li>
+                            
+                                <li> NcssTypeCount: 
+This rule uses the NCSS (Non Commenting Source Statements) algorithm to determine the number of lines
+of code for a given type. NCSS ignores comments, and counts actual statements. Using this algorithm,
+lines of code that are split are counted as one.
+    </li>
+                            
+                                <li> NcssConstructorCount: 
+This rule uses the NCSS (Non Commenting Source Statements) algorithm to determine the number of lines
+of code for a given constructor. NCSS ignores comments, and counts actual statements. Using this algorithm,
+lines of code that are split are counted as one.
+    </li>
+                            
+                                <li> TooManyMethods: 
+            
+A class with too many methods is probably a good suspect for refactoring, in order to reduce its complexity and find a way to
+have more fine grained objects.
+            
+        </li>
+</BODY>
+</HTML>

@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>AbstractClassWithoutAnyMethod</TITLE>
+</HEAD>
+<BODY>
+<H2>AbstractClassWithoutAnyMethod</H2>
+If the abstract class does not provides any methods, it may be just a data container that is not to be instantiated. In this case, it's probably
+			better to use a private or a protected constructor in order to prevent instantiation than make the class misleadingly abstract.
+            
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//ClassOrInterfaceDeclaration[
+	(@Abstract = 'true')
+	and
+	(count(//MethodDeclaration) + count(//ConstructorDeclaration) = 0)
+]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+public class abstract Example {
+	String field;
+	int otherField;
+}
+            
+        
+            </pre></div>
+</BODY>
+</HTML>

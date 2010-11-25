@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>ExceptionAsFlowControl</TITLE>
+</HEAD>
+<BODY>
+<H2>ExceptionAsFlowControl</H2>
+Using Exceptions as flow control leads to GOTOish code and obscures true exceptions when debugging.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/ExceptionAsFlowControl.html">net.sourceforge.pmd.rules.design.ExceptionAsFlowControl</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ void bar() {
+  try {
+   try {
+   } catch (Exception e) {
+    throw new WrapperException(e);
+    // this is essentially a GOTO to the WrapperException catch block
+   }
+  } catch (WrapperException e) {
+   // do some more stuff
+  }
+ }
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

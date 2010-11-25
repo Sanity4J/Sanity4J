@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>BigIntegerInstantiation</TITLE>
+</HEAD>
+<BODY>
+<H2>BigIntegerInstantiation</H2>
+Don't create instances of already existing BigInteger
+(BigInteger.ZERO, BigInteger.ONE) and for 1.5 on,
+BigInteger.TEN and BigDecimal (BigDecimal.ZERO,
+BigDecimal.ONE, BigDecimal.TEN)
+  </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/basic/BigIntegerInstantiation.html">net.sourceforge.pmd.rules.basic.BigIntegerInstantiation</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Test {
+
+ public static void main(String[] args) {
+   BigInteger bi=new BigInteger(1);
+   BigInteger bi2=new BigInteger("0");
+   BigInteger bi3=new BigInteger(0.0);
+   BigInteger bi4;
+   bi4=new BigInteger(0);
+ }
+}
+
+  
+            </pre></div>
+</BODY>
+</HTML>

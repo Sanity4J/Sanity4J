@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidStringBufferField</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidStringBufferField</H2>
+[
+			StringBuffers can grow quite a lot, and so may become a source of memory leak (if the owning class has a long life time).
+		
+    </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//FieldDeclaration/Type/ReferenceType/ClassOrInterfaceType[@Image = 'StringBuffer']
+
+			</pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+class Foo {
+	private StringBuffer memoryLeak;
+}
+
+		
+            </pre></div>
+</BODY>
+</HTML>

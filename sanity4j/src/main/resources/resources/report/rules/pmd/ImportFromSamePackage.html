@@ -1,0 +1,38 @@
+<HTML>
+<HEAD>
+<TITLE>ImportFromSamePackage</TITLE>
+</HEAD>
+<BODY>
+<H2>ImportFromSamePackage</H2>
+No need to import a type that lives in the same package.
+     </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/imports/ImportFromSamePackageRule.html">net.sourceforge.pmd.rules.imports.ImportFromSamePackageRule</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+ package foo;
+ import foo.Buz; // no need for this
+ import foo.*; // or this
+ public class Bar{}
+ 
+     
+            </pre></div>
+</BODY>
+</HTML>

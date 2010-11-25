@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Page Title</title>
+    <!--  <author email="user@company.com">John Doe</author> -->
+  </properties>
+
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <!--
+  <head>
+    <meta ... />
+  </head>
+  -->
+
+  <body>
+
+    <!-- The body of the document contains a number of sections -->
+    <section name="Case Study">
+
+		<div class="slide">
+		
+			<div class="twoColumn">
+				
+				<h2>How Does it Work in Practice?</h2>
+				
+				<p>The following diagram shows the graph produced by Sanity4J 
+				for a DIAC Portal Development Project. The project began by creating
+				code quickly, with little regard for quality (green line). Sanity4J 
+				reports were configured for the project and an 85% quality target 
+				was set. Developers began to improve code quality by fixing issues 
+				as the project progressed. Towards the go-live date, the team was 
+				advised that their code would be subjected to an external review. 
+				This caused an increased focus on quality which Sanity4J tracked.</p>
+				
+				<div class="imgHolder">
+					<img src="images/caseStudy.png" alt="example graph"/>
+				</div>
+				
+				<p>The external code review pointed out that the project had failed 
+				to reach Departmental targets for automated unit tests, represented 
+				by the red and blue lines. Prior to go-live, the project was able to 
+				dramatically increase their level of automated unit testing and their 
+				progress was tracked by Sanity4J.</p>
+				
+				<p><strong>The result was a higher quality product, which is estimated
+				to cost much less to maintain in future years.</strong></p>
+				
+				<h3>Monitoring Progress</h3>
+				
+				<p>The information that Sanity4J tracks was available to developers, 
+				project staff and the project executive throughout the development
+				of the project. Sanity4J provided the ability to easily measure and 
+				track quality. It is unlikely that the project would have achieved 
+				such significant improvements without support from Sanity4J.</p>
+				
+			</div>
+			
+		</div>
+
+    </section>
+
+  </body>
+
+</document>

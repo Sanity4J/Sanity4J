@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidSynchronizedAtMethodLevel</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidSynchronizedAtMethodLevel</H2>
+Method level synchronization can backfire when new code is added to the method.  Block-level
+  synchronization helps to ensure that only the code that needs synchronization gets it.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//MethodDeclaration[@Synchronized='true']
+    
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ // Try to avoid this
+ synchronized void foo() {
+ }
+ // Prefer this:
+ void bar() {
+  synchronized(this) {
+  }
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

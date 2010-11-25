@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>FinalizeOverloaded</TITLE>
+</HEAD>
+<BODY>
+<H2>FinalizeOverloaded</H2>
+Methods named finalize() should not have parameters.  It is
+confusing and probably a bug to overload finalize().  It will
+not be called by the VM.
+   </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//MethodDeclaration
+ /MethodDeclarator[@Image='finalize'][FormalParameters[count(*)&amp;gt;0]]
+
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+   // this is confusing and probably a bug
+   protected void finalize(int a) {
+   }
+}
+
+   
+            </pre></div>
+</BODY>
+</HTML>

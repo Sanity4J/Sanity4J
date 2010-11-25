@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>UselessOperationOnImmutable</TITLE>
+</HEAD>
+<BODY>
+<H2>UselessOperationOnImmutable</H2>
+An operation on an Immutable object (BigDecimal or BigInteger) won't change the object itself. The
+    result of the operation is a new object. Therefore, ignoring the operation result is an error.
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/UselessOperationOnImmutable.html">net.sourceforge.pmd.rules.UselessOperationOnImmutable</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+import java.math.*;
+class Test {
+ void method1() {
+  BigDecimal bd=new BigDecimal(10);
+  bd.add(new BigDecimal(5)); // this will trigger the rule
+ }
+ void method2() {
+  BigDecimal bd=new BigDecimal(10);
+  bd = bd.add(new BigDecimal(5)); // this won't trigger the rule
+ }
+}
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

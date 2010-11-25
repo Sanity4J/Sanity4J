@@ -1,0 +1,22 @@
+<HTML>
+<HEAD>
+<TITLE>JavaBean_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>JavaBean_Rules</H2>
+aBean_Rules"></a><h3>JavaBean Rules</h3>
+                            
+                                <li> BeanMembersShouldSerialize: 
+If a class is a bean, or is referenced by a bean directly or indirectly
+it needs to be serializable. Member variables need to be marked as transient,
+static, or have accessor methods in the class. Marking variables
+as transient is the safest and easiest modification. Accessor methods should
+follow the Java naming conventions, i.e.if you have a variable foo, you should
+provide getFoo and setFoo methods.
+    </li>
+                            
+                                <li> MissingSerialVersionUID: 
+Classes that are serializable should provide a serialVersionUID field.
+      </li>
+</BODY>
+</HTML>

@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidConstantsInterface</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidConstantsInterface</H2>
+An interface should be used only to model a behaviour of a
+    class: using an interface as a container of constants is a poor usage pattern.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+    
+//ClassOrInterfaceDeclaration[@Interface="true"]
+    [
+     count(.//MethodDeclaration)=0
+     and
+     count(.//FieldDeclaration)&amp;gt;0
+    ]
+    
+        </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    
+    public interface ConstantsInterface {
+     public static final int CONSTANT1=0;
+     public static final String CONSTANT2="1";
+    }
+    
+      
+            </pre></div>
+</BODY>
+</HTML>

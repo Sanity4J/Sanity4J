@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="1" tokens="1">
+<file line="11" path="src\package\ClassOne.java"/>
+<file line="22" path="src\package\subpackage1\ClassTwo.java"/>
+<codefragment>
+<![CDATA[
+message text1
+]]>
+</codefragment>
+</duplication>
+<duplication lines="1" tokens="1">
+<file line="33" path="src\package\subpackage1\ClassTwo.java"/>
+<file line="44" path="src\package\subpackage2\ClassThree.java"/>
+<codefragment>
+<![CDATA[
+message text2
+]]>
+</codefragment>
+</duplication>
+<duplication lines="1" tokens="1">
+<file line="55" path="src\package\subpackage2\ClassThree.java"/>
+<file line="66" path="src\package\subpackage2\ClassFour.java"/>
+<codefragment>
+<![CDATA[
+message text3
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>

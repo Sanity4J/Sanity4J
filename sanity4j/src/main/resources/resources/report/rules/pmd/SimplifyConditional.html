@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<TITLE>SimplifyConditional</TITLE>
+</HEAD>
+<BODY>
+<H2>SimplifyConditional</H2>
+No need to check for null before an instanceof; the instanceof keyword returns false when given a null argument.
+          </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                      
+//Expression
+ [ConditionalOrExpression
+ [EqualityExpression[@Image='==']
+  //NullLiteral
+  and
+  UnaryExpressionNotPlusMinus
+   [@Image='!']//InstanceOfExpression[PrimaryExpression
+     //Name/@Image = ancestor::ConditionalOrExpression/EqualityExpression
+      /PrimaryExpression/PrimaryPrefix/Name/@Image]]
+or
+ConditionalAndExpression
+ [EqualityExpression[@Image='!=']//NullLiteral
+ and
+InstanceOfExpression
+ [PrimaryExpression[count(PrimarySuffix[@ArrayDereference='true'])=0]
+  //Name/@Image = ancestor::ConditionalAndExpression
+   /EqualityExpression/PrimaryExpression/PrimaryPrefix/Name/@Image]]]
+ 
+                  </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+      
+class Foo {
+ void bar(Object x) {
+  if (x != null &amp;&amp; x instanceof Bar) {
+   // just drop the "x != null" check
+  }
+ }
+}      
+           
+            </pre></div>
+</BODY>
+</HTML>

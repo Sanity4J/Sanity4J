@@ -1,0 +1,17 @@
+<HTML>
+<HEAD>
+<TITLE>SA: Self assignment of field (SA_FIELD_SELF_ASSIGNMENT)</TITLE>
+</HEAD>
+<BODY>
+<H2>SA: Self assignment of field (SA_FIELD_SELF_ASSIGNMENT)</H2>
+<p> This method contains a self assignment of a field; e.g.
+</p>
+<pre>
+  int x;
+  public void foo() {
+    x = x;
+  }
+</pre>
+<p>Such assignments are useless, and may indicate a logic error or typo.</p>
+</BODY>
+</HTML>

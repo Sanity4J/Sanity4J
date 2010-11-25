@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>WhileLoopsMustUseBraces</TITLE>
+</HEAD>
+<BODY>
+<H2>WhileLoopsMustUseBraces</H2>
+Avoid using 'while' statements without using curly braces.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//WhileStatement[not(Statement/Block)]
+
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public void doSomething() {
+  while (true)
+      x++;
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

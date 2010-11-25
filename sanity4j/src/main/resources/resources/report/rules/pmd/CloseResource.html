@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE>CloseResource</TITLE>
+</HEAD>
+<BODY>
+<H2>CloseResource</H2>
+Ensure that resources (like Connection, Statement, and ResultSet objects) are always closed after use.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/CloseResource.html">net.sourceforge.pmd.rules.CloseResource</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Bar {
+ public void foo() {
+  Connection c = pool.getConnection();
+  try {
+    // do stuff
+  } catch (SQLException ex) {
+    // handle exception
+  } finally {
+    // oops, should close the connection using 'close'!
+    // c.close();
+  }
+ }
+}
+
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>types</td>
+                    <td>Connection,Statement,ResultSet</td>
+                    <td></td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

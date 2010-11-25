@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<TITLE>UseAssertSameInsteadOfAssertTrue</TITLE>
+</HEAD>
+<BODY>
+<H2>UseAssertSameInsteadOfAssertTrue</H2>
+This rule detects JUnit assertions in object references equality. These assertions
+should be made by more specific methods, like assertSame, assertNotSame.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                
+//PrimaryExpression[
+    PrimaryPrefix/Name
+     [@Image = 'assertTrue' or @Image = 'assertFalse']
+]
+[PrimarySuffix/Arguments
+ /ArgumentList/Expression
+ /EqualityExpression[count(.//NullLiteral) = 0]]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+ 
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class FooTest extends TestCase {
+ void testCode() {
+  Object a, b;
+  assertTrue(a==b); // bad usage
+  assertSame(a, b);  // good usage
+ }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

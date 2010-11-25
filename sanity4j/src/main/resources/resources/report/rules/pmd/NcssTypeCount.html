@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<TITLE>NcssTypeCount</TITLE>
+</HEAD>
+<BODY>
+<H2>NcssTypeCount</H2>
+This rule uses the NCSS (Non Commenting Source Statements) algorithm to determine the number of lines
+of code for a given type. NCSS ignores comments, and counts actual statements. Using this algorithm,
+lines of code that are split are counted as one.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/codesize/NcssTypeCount.html">net.sourceforge.pmd.rules.codesize.NcssTypeCount</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo extends Bar {
+ public Foo() {
+ //this class only has 6 NCSS lines
+     super();
+
+
+
+
+
+      super.foo();
+ }
+}
+
+   
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="a">
+                    <td>minimum</td>
+                    <td>1500</td>
+                    <td>The type NCSS count reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

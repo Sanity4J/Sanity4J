@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<TITLE>VariableNamingConventions</TITLE>
+</HEAD>
+<BODY>
+<H2>VariableNamingConventions</H2>
+A variable naming conventions rule - customize this to your liking.  Currently, it
+ checks for final variables that should be fully capitalized and non-final variables
+ that should not include underscores.
+        </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/VariableNamingConventions.html">net.sourceforge.pmd.rules.VariableNamingConventions</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ public static final int MY_NUM = 0;
+ public String myTest = "";
+ DataModule dmTest = new DataModule();
+}
+
+        
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>staticPrefix</td>
+                    <td></td>
+                    <td>A prefix for static variables</td>
+                    </tr>
+                
+                    <tr class="a">
+                    <td>staticSuffix</td>
+                    <td></td>
+                    <td>A suffix for static variables</td>
+                    </tr>
+                
+                    <tr class="b">
+                    <td>memberPrefix</td>
+                    <td></td>
+                    <td>A prefix for member variables</td>
+                    </tr>
+                
+                    <tr class="a">
+                    <td>memberSuffix</td>
+                    <td></td>
+                    <td>A suffix for member variables</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>Strict_Exception_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Strict_Exception_Rules</H2>
+ict_Exception_Rules"></a><h3>Strict Exception Rules</h3>
+                            
+                                <li> AvoidCatchingThrowable: 
+This is dangerous because it casts too wide a net; it can catch things like OutOfMemoryError.
+      </li>
+                            
+                                <li> SignatureDeclareThrowsException: 
+It is unclear which exceptions that can be thrown from the methods.
+It might be difficult to document and understand the vague interfaces.
+Use either a class derived from RuntimeException or a checked exception.
+      </li>
+                            
+                                <li> ExceptionAsFlowControl: 
+          Using Exceptions as flow control leads to GOTOish code and obscures true exceptions when debugging.
+      </li>
+                            
+                                <li> AvoidCatchingNPE: 
+      Code should never throw NPE under normal circumstances.  A catch block may hide the original error, causing other more subtle errors in its wake.
+    </li>
+                            
+                                <li> AvoidThrowingRawExceptionTypes: 
+Avoid throwing certain exception types. Rather than throw a raw RuntimeException, Throwable,
+Exception, or Error, use a subclassed exception or error instead.
+    </li>
+                            
+                                <li> AvoidThrowingNullPointerException: 
+Avoid throwing a NullPointerException - it's confusing because most people will assume that the
+virtual machine threw it. Consider using an IllegalArgumentException instead; this will be
+clearly seen as a programmer-initiated exception.
+      </li>
+                            
+                                <li> AvoidRethrowingException: 
+     Catch blocks that merely rethrow a caught exception only add to code size and runtime complexity.
+    </li>
+                            
+                                <li> DoNotExtendJavaLangError: 
+      [
+        Errors are system exceptions. Do not extend them.
+      
+    </li>
+                            
+                                <li> DoNotThrowExceptionInFinally: 
+			[
+			      Throwing exception in a finally block is confusing. It may mask exception or a defect of the code,
+			      it also render code cleanup uninstable.
+			Note: This is a PMD implementation of the Lint4j rule "A throw in a finally block"
+			
+		</li>
+</BODY>
+</HTML>

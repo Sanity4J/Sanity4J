@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<TITLE>SimplifyStartsWith</TITLE>
+</HEAD>
+<BODY>
+<H2>SimplifyStartsWith</H2>
+Since it passes in a literal of length 1, this call to String.startsWith can be rewritten using String.charAt(0) to save some time.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//PrimaryExpression
+ [PrimaryPrefix/Name
+  [ends-with(@Image, '.startsWith')]]
+ [PrimarySuffix/Arguments/ArgumentList
+  /Expression/PrimaryExpression/PrimaryPrefix
+  /Literal
+   [string-length(@Image)=3]
+   [starts-with(@Image, '"')]
+   [ends-with(@Image, '"')]
+ ]
+ 
+            </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+  boolean checkIt(String x) {
+      return x.startsWith("a");
+  }
+}
+
+      
+            </pre></div>
+</BODY>
+</HTML>

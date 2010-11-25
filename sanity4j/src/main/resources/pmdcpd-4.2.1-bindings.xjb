@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jxb:bindings version="1.0"
+	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<jxb:bindings schemaLocation="pmdcpd-4.2.1.xsd" node="/xs:schema">	
+	
+		<jxb:schemaBindings>
+            <jxb:package name="net.sf.sanity4j.gen.pmdcpd_4_2_1"/>
+        </jxb:schemaBindings>
+		
+	</jxb:bindings>
+
+</jxb:bindings> 	

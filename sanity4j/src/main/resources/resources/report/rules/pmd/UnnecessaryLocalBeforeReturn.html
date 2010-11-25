@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>UnnecessaryLocalBeforeReturn</TITLE>
+</HEAD>
+<BODY>
+<H2>UnnecessaryLocalBeforeReturn</H2>
+Avoid unnecessarily creating local variables
+      </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/UnnecessaryLocalBeforeReturn.html">net.sourceforge.pmd.rules.design.UnnecessaryLocalBeforeReturn</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+  public class Foo {
+    public int foo() {
+      int x = doSomething();
+      return x;  // instead, just 'return doSomething();'
+    }
+  }
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

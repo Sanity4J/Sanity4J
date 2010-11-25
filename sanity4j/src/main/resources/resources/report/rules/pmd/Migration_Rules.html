@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>Migration_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>Migration_Rules</H2>
+ration_Rules"></a><h3>Migration Rules</h3>
+                            
+                                <li> ReplaceVectorWithList: 
+  Consider replacing Vector usages with the newer java.util.ArrayList if expensive threadsafe operation is not required.
+  </li>
+                            
+                                <li> ReplaceHashtableWithMap: 
+      Consider replacing this Hashtable with the newer java.util.Map
+      </li>
+                            
+                                <li> ReplaceEnumerationWithIterator: 
+      Consider replacing this Enumeration with the newer java.util.Iterator
+      </li>
+                            
+                                <li> AvoidEnumAsIdentifier: Finds all places where 'enum' is used as an identifier.</li>
+                            
+                                <li> AvoidAssertAsIdentifier: Finds all places where 'assert' is used as an identifier.</li>
+                            
+                                <li> IntegerInstantiation: In JDK 1.5, calling new Integer() causes memory allocation.  Integer.valueOf() is more memory friendly.</li>
+                            
+                                <li> ByteInstantiation: 
+              In JDK 1.5, calling new Byte() causes memory allocation. Byte.valueOf() is more memory friendly.
+          </li>
+                            
+                                <li> ShortInstantiation: In JDK 1.5, calling new Short() causes memory allocation. Short.valueOf() is more memory friendly.
+          </li>
+                            
+                                <li> LongInstantiation: In JDK 1.5, calling new Long() causes memory allocation. Long.valueOf() is more memory friendly.</li>
+                            
+                                <li> JUnit4TestShouldUseBeforeAnnotation: 
+In JUnit 3, the setUp method was used to set up all data entities required in running tests. JUnit 4 skips the setUp method 
+and executes all methods annotated with @Before before all tests
+      </li>
+                            
+                                <li> JUnit4TestShouldUseAfterAnnotation: 
+In JUnit 3, the tearDown method was used to clean up all data entities required in running tests. JUnit 4 skips the tearDown method 
+and executes all methods annotated with @After after running each test
+      </li>
+                            
+                                <li> JUnit4TestShouldUseTestAnnotation: 
+In JUnit 3, the framework executed all methods which started with the word test as a unit test. In JUnit 4, only methods annotated
+with the @Test annotation are executed.
+      </li>
+                            
+                                <li> JUnit4SuitesShouldUseSuiteAnnotation: 
+In JUnit 3, test suites are indicated by the suite() method. In JUnit 4, suites are indicated
+through the @RunWith(Suite.class) annotation.
+      </li>
+                            
+                                <li> JUnitUseExpected: 
+      </li>
+</BODY>
+</HTML>

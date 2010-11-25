@@ -1,0 +1,15 @@
+<HTML>
+<HEAD>
+<TITLE>Eq: Covariant equals() method defined for enum (EQ_DONT_DEFINE_EQUALS_FOR_ENUM)</TITLE>
+</HEAD>
+<BODY>
+<H2>Eq: Covariant equals() method defined for enum (EQ_DONT_DEFINE_EQUALS_FOR_ENUM)</H2>
+<p> This class defines an enumeration, and equality on enumerations are defined
+using object identity. Definine a covariant equals method for an enumeration
+value is exceptionally bad practice, since it would likely result
+in having two different enumeration values that compare as equals using
+the covariant enum method, and as not equal when compared normally.
+Don't do it.
+</p>
+</BODY>
+</HTML>

@@ -1,0 +1,40 @@
+<project name="test_sanity4j_ant" default="analyse">
+
+    <!-- Run the analysis -->
+    <target name="analyse"
+        description="This target runs the QA tools against the given project. The project's coverage task should have been run first.">
+
+        <!-- Imports -->
+        <typedef
+            resource  ="sanity4j-ant.xml"
+            classpath ="target/sanity4j-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+
+        <!-- Run the Sanity4J QA task -->
+        <sanity4j.run
+            products.dir="../sanity4j-with-tools/src/main/resources/tools"
+            report.dir="target/sanity4j-ant-report"
+            coverage.data.file="target/cobertura/cobertura.ser">
+
+            <source.path>
+               <fileset dir="src/main/java">
+                  <include name="**/*.java"/>
+               </fileset>
+               <fileset dir="src/test/java">
+                  <include name="**/*.java"/>
+               </fileset>
+            </source.path>
+
+            <class.path>
+               <path path="target/classes"/>
+               <path path="target/test-classes"/>
+            </class.path>
+
+            <library.path>
+               <path path="target/sanity4j-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+            </library.path>
+
+         </sanity4j.run>
+
+    </target>
+
+</project>

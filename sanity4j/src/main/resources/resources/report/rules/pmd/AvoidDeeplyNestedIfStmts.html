@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidDeeplyNestedIfStmts</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidDeeplyNestedIfStmts</H2>
+Deeply nested if..then statements are hard to read.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/AvoidDeeplyNestedIfStmtsRule.html">net.sourceforge.pmd.rules.AvoidDeeplyNestedIfStmtsRule</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+ public void bar(int x, int y, int z) {
+  if (x&gt;y) {
+   if (y&gt;z) {
+    if (z==x) {
+     // whew, too deep
+    }
+   }
+  }
+ }
+}
+
+    
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>problemDepth</td>
+                    <td>3</td>
+                    <td>The if statement depth reporting threshold</td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

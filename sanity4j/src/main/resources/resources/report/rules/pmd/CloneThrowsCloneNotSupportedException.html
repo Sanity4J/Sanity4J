@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<TITLE>CloneThrowsCloneNotSupportedException</TITLE>
+</HEAD>
+<BODY>
+<H2>CloneThrowsCloneNotSupportedException</H2>
+The method clone() should throw a CloneNotSupportedException.
+         </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                     
+//MethodDeclaration
+[
+MethodDeclarator/@Image = 'clone'
+and count(MethodDeclarator/FormalParameters/*) = 0
+and count(NameList/Name[contains
+(@Image,'CloneNotSupportedException')]) = 0
+]
+[
+../../../../ClassOrInterfaceDeclaration[@Final = 'false']
+]
+                     
+                 </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+             
+ public class MyClass implements Cloneable{
+     public Object clone() { // will cause an error
+          MyClass clone = (MyClass)super.clone();
+          return clone;
+     }
+ }
+    
+         
+            </pre></div>
+</BODY>
+</HTML>

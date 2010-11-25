@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<TITLE>MDBAndSessionBeanNamingConvention</TITLE>
+</HEAD>
+<BODY>
+<H2>MDBAndSessionBeanNamingConvention</H2>
+The EJB Specification state that any MessageDrivenBean or SessionBean should be suffixed by Bean.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+//TypeDeclaration/ClassOrInterfaceDeclaration
+[
+    (
+        (./ImplementsList/ClassOrInterfaceType[ends-with(@Image,'SessionBean')])
+        or
+        (./ImplementsList/ClassOrInterfaceType[ends-with(@Image,'MessageDrivenBean')])
+    )
+    and
+    not
+    (
+        ends-with(@Image,'Bean')
+    )
+]
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+            /* Proper name */
+            public class SomeBean implements SessionBean{}
+            
+        
+            </pre></div>
+  
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+            /* Bad name */
+            public class MissingTheProperSuffix implements SessionBean {}
+            
+        
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<TITLE>AvoidFinalLocalVariable</TITLE>
+</HEAD>
+<BODY>
+<H2>AvoidFinalLocalVariable</H2>
+Avoid using final local variables, turn them into fields.
+         </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+//LocalVariableDeclaration[@Final = 'true']
+	             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+public class MyClass {
+    public void foo() {
+        final String finalLocalVariable;
+    }
+}
+	     
+            </pre></div>
+</BODY>
+</HTML>

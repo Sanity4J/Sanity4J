@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>AssignmentInOperand</TITLE>
+</HEAD>
+<BODY>
+<H2>AssignmentInOperand</H2>
+Avoid assignments in operands; this can make code more complicated and harder to read.
+  </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/AssignmentInOperand.html">net.sourceforge.pmd.rules.AssignmentInOperand</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ public void bar() {
+  int x = 2;
+  if ((x = getX()) == 3) {
+   System.out.println("3!");
+  }
+ }
+ private int getX() {
+  return 3;
+ }
+}
+  
+  
+            </pre></div>
+</BODY>
+</HTML>

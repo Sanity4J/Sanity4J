@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>FinalizeShouldBeProtected</TITLE>
+</HEAD>
+<BODY>
+<H2>FinalizeShouldBeProtected</H2>
+If you override finalize(), make it protected.  If you make
+ it public, other classes may call it.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//MethodDeclaration[@Protected="false"]
+  /MethodDeclarator[@Image="finalize"]
+  [not(FormalParameters/*)]
+                    
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Foo {
+ public void finalize() {
+  // do something
+ }
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

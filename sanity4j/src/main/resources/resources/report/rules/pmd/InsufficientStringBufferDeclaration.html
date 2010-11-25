@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>InsufficientStringBufferDeclaration</TITLE>
+</HEAD>
+<BODY>
+<H2>InsufficientStringBufferDeclaration</H2>
+Failing to pre-size a StringBuffer properly could cause it to re-size many times
+during runtime. This rule checks the characters that are actually passed into
+StringBuffer.append(), but represents a best guess "worst case" scenario. An
+empty StringBuffer constructor initializes the object to 16 characters. This default
+is assumed if the length of the constructor can not be determined.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/strings/InsufficientStringBufferDeclaration.html">net.sourceforge.pmd.rules.strings.InsufficientStringBufferDeclaration</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+    void bar() {
+        StringBuffer bad = new StringBuffer();
+        bad.append("This is a long string, will exceed the default 16 characters");//bad
+        StringBuffer good = new StringBuffer(41);
+        good.append("This is a long string, which is pre-sized");//good
+    }
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,14 @@
+<HTML>
+<HEAD>
+<TITLE>Se: Class is Serializable but its superclass doesn't define a void constructor (SE_NO_SUITABLE_CONSTRUCTOR)</TITLE>
+</HEAD>
+<BODY>
+<H2>Se: Class is Serializable but its superclass doesn't define a void constructor (SE_NO_SUITABLE_CONSTRUCTOR)</H2>
+<p> This class implements the <code>Serializable</code> interface
+   and its superclass does not. When such an object is deserialized,
+   the fields of the superclass need to be initialized by
+   invoking the void constructor of the superclass.
+   Since the superclass does not have one,
+   serialization and deserialization will fail at runtime.</p>
+</BODY>
+</HTML>

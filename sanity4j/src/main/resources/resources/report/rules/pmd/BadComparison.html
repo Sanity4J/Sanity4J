@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>BadComparison</TITLE>
+</HEAD>
+<BODY>
+<H2>BadComparison</H2>
+Avoid equality comparisons with Double.NaN - these are likely to be logic errors.
+      </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                  
+//EqualityExpression[@Image='==']
+ /PrimaryExpression/PrimaryPrefix
+ /Name[@Image='Double.NaN' or @Image='Float.NaN']
+                  
+              </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+  
+public class Bar {
+ boolean x = (y == Double.NaN);
+}
+  
+      
+            </pre></div>
+</BODY>
+</HTML>

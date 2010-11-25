@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>DoNotCallSystemExit</TITLE>
+</HEAD>
+<BODY>
+<H2>DoNotCallSystemExit</H2>
+otCallSystemExit"></a><h3>DoNotCallSystemExit</h3>
+		<p>Since: PMD 4.1</p>
+		<p>Web applications should not call System.exit(), since only the web container or the
+application server should stop the JVM.
+	</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+//Name[starts-with(@Image,'System.exit')]
+    		</pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    		
+public class Foo {
+    public void bar() {
+        // NEVER DO THIS IN A APP SERVER !!!
+        System.exit(0);
+    }
+}
+     
+            </pre></div>
+</BODY>
+</HTML>

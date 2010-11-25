@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>String_and_StringBuffer_Rules</TITLE>
+</HEAD>
+<BODY>
+<H2>String_and_StringBuffer_Rules</H2>
+ing_and_StringBuffer_Rules"></a><h3>String and StringBuffer Rules</h3>
+                            
+                                <li> AvoidDuplicateLiterals: 
+Code containing duplicate String literals can usually be improved by declaring the String as a constant field.
+    </li>
+                            
+                                <li> StringInstantiation: 
+Avoid instantiating String objects; this is usually unnecessary.
+    </li>
+                            
+                                <li> StringToString: 
+    Avoid calling toString() on String objects; this is unnecessary.
+    </li>
+                            
+                                <li> InefficientStringBuffering: 
+Avoid concatenating non literals in a StringBuffer constructor or append().
+    </li>
+                            
+                                <li> UnnecessaryCaseChange: 
+Using equalsIgnoreCase() is faster than using toUpperCase/toLowerCase().equals()
+       </li>
+                            
+                                <li> UseStringBufferLength: 
+ Use StringBuffer.length() to determine StringBuffer length rather than using StringBuffer.toString().equals("")
+          or StringBuffer.toString().length() ==.
+      </li>
+                            
+                                <li> AppendCharacterWithChar: 
+Avoid concatenating characters as strings in StringBuffer.append.
+    </li>
+                            
+                                <li> ConsecutiveLiteralAppends: 
+Consecutively calling StringBuffer.append with String literals
+    </li>
+                            
+                                <li> UseIndexOfChar: 
+Use String.indexOf(char) when checking for the index of a single character; it executes faster.
+    </li>
+                            
+                                <li> InefficientEmptyStringCheck: 
+String.trim().length() is an inefficient way to check if a String is really empty, as it
+creates a new String object just to check its size. Consider creating a static function that
+loops through a string, checking Character.isWhitespace() on each character and returning
+false if a non-whitespace character is found.
+    </li>
+                            
+                                <li> InsufficientStringBufferDeclaration: 
+Failing to pre-size a StringBuffer properly could cause it to re-size many times
+during runtime. This rule checks the characters that are actually passed into
+StringBuffer.append(), but represents a best guess "worst case" scenario. An
+empty StringBuffer constructor initializes the object to 16 characters. This default
+is assumed if the length of the constructor can not be determined.
+    </li>
+                            
+                                <li> UselessStringValueOf: 
+No need to call String.valueOf to append to a string; just use the valueOf() argument directly.
+      </li>
+                            
+                                <li> StringBufferInstantiationWithChar: 
+StringBuffer sb = new StringBuffer('c'); The
+char will be converted into int to intialize
+StringBuffer size.
+    </li>
+                            
+                                <li> UseEqualsToCompareStrings: 
+Using '==' or '!=' to compare strings only works if intern version is used on both sides
+    </li>
+                            
+                                <li> AvoidStringBufferField: 
+		[
+			StringBuffers can grow quite a lot, and so may become a source of memory leak (if the owning class has a long life time).
+		
+    </li>
+</BODY>
+</HTML>

@@ -1,0 +1,53 @@
+Appendix - Issue Rating Table
+
+  Sanity4J allocates a severity to all issues found, according to the perceived risk to the project / application.
+  The severity levels from most to least important are "High", "Significant", "Moderate", "Low", and "Info". 
+
+  Projects or organisations should determine an appropriate impact for each type of category to help them 
+  prioritise issues and determine an appropriate remediation plan. The following table presents an example 
+  issue rating table to help you get started.
+
+*------------------+---------------------------------------------+-------------------------------------------+
+| <<Issue Rating>> | <<Description>>                             | <<Suggested Fix>>                         |
+*------------------+---------------------------------------------+-------------------------------------------+
+| High             | * Major impact on other operational         | Prevent issue from occurring at all costs |
+|                  | systems, for example will adversely effect  | OR senior attention needed                |                                          |
+|                  | the operation of another system or          | OR consider implementing additional       |
+|                  |                                             | controls.                                 |
+|                  | * Major maintenance overhead, or            |                                           |
+|                  |                                             |                                           |
+|                  | * The system may have serious performance   |                                           |
+|                  | or reliability issues.                      |                                           |
+*------------------+---------------------------------------------+-------------------------------------------+
+| Significant      | * The project could be subject to           | Prevent issue from occurring              |
+|                  | significant review or changed ways of       | OR senior attention needed                |
+|                  | operation.                                  | OR consider implementing additional       |
+|                  |                                             | controls.                                 |
+|                  | * Moderate impact on operational systems,   |                                           |
+|                  | for example requires an upgrade to other    |                                           |
+|                  | systems or                                  |                                           |
+|                  |                                             |                                           |
+|                  | * Additional maintenance overhead, such as  |                                           |
+|                  | having to support duplicate products, or    |                                           |
+|                  | insufficient documentation to be able to    |                                           |
+|                  | maintain the application.                   |                                           |
+*------------------+---------------------------------------------+-------------------------------------------+
+| Moderate         |  * Threaten the efficiency or effectiveness | Ensure project developers are made aware  |
+|                  | of some aspect of the project, but would be | of violations and remediation measures.   |
+|                  | internally dealt with.                      |                                           |
+|                  |                                             |                                           |
+|                  |  * This includes issues that could cause    |                                           |
+|                  | minor maintenance difficulties but do not   |                                           |
+|                  | result in production issues, or affect      |                                           |
+|                  | other production systems.                   |                                           |
+*------------------+---------------------------------------------+-------------------------------------------+
+| Low              | * Result in consequences that could be      | Continue activity as normal, but address  |
+|                  | dealt with by routine operations. This      | in future.                                |
+|                  | includes issues that would not result in    |                                           |
+|                  | production or maintenance problems, e.g.    |                                           |
+|                  | document formatting.                        |                                           |
+*------------------+---------------------------------------------+-------------------------------------------+
+| Info             | * For information only; documents issues    | N/A                                       |
+|                  | which junior developers may not be aware    |                                           |
+|                  | of.                                         |                                           |
+*------------------+---------------------------------------------+-------------------------------------------+

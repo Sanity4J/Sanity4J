@@ -1,0 +1,135 @@
+div.long {font-size: 0.75em;}
+
+/** Styles for xdoc content */
+
+.slide h1 
+{
+	position: absolute;
+	top: 0.7em;
+	left: 87px;
+	z-index: 1;
+	margin: 0; padding: 0.3em 0 0 50px; white-space: nowrap;
+	font: bold 150%/1em Helvetica, sans-serif; text-transform: capitalize;
+	color: #DDE; background: #005;}
+	
+.slide h2, .slide h3
+{
+	font-family:tahoma, sans-serif;
+	color:#55a;
+	background-color:#ffffff;
+	border:none;
+	margin-bottom:0.5em;
+}
+
+.columnOne, .columnTwo
+{
+	float:left;
+	vertical-align:top;
+	width:46%;
+}
+
+.columnTwo
+{
+	margin-left: 4%;
+}
+
+.twoColumn
+{
+	margin-bottom:0.5em;
+}
+
+.columnOne h2, .columnOne h3,
+.columnTwo h2, .columnTwo h3,
+.twoColumn h2, .twoColumn h3, 
+.twoColumn .highlight
+{
+	margin-bottom:0.5em;
+	color:#2A2A55;
+	font-size: 150%;
+}
+
+.slide .imgHolder
+{
+	float:left;
+	margin-right:0.5em;
+}
+
+.slide ul li
+{
+	margin-bottom: 0.5em;
+}
+
+blockquote>p
+{
+	color:#d0d0d0;
+	font-size: 140%;
+	font-style: italic;
+}
+
+blockquote:before 
+{
+	display: block;
+	content: url(../images/quote_start.gif);
+	height: 0;
+	margin-left: -45px;
+}
+
+blockquote:after 
+{
+	display: block;
+	content: url(../images/quote_end.gif);
+	margin-top: -32px;
+	margin-left: 100%;
+}
+
+/** Overrides for Maven styles. */
+#navcolumn h5
+{
+	margin-top: 0.5em;
+}
+
+#contentBox
+{
+	position: relative;
+	top: -22px;
+}
+
+#breadcrumbs
+{
+	color: #0;
+	background: #ffffff;	
+	position:absolute;
+	left:6px;
+	top:10px;
+	border: none;
+}
+
+#leftColumn
+{
+	margin-top: 0px;
+}
+
+.section h3
+{
+	font-family:tahoma, sans-serif;
+	color:#55a;
+	background-color:#ffffff;
+}
+
+.section h4
+{
+	font-family:tahoma, sans-serif;
+	color:#55a;
+	background-color:#ffffff;
+	border: none;
+}
+
+.section>h2
+{
+	color: #ffffff;
+	background-color: #102952;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#5555aa', endColorstr='#ffffff'); /* for IE */
+	background: -webkit-gradient(linear, left top, right top, from(#5555aa), to(#ffffff)); /* for webkit browsers */
+	background: -moz-linear-gradient(left,  #5555aa,  #ffffff); /* for firefox 3.6+ */	
+	border: none;
+}

@@ -1,0 +1,50 @@
+/* General QAstyle sheet */
+
+/* Page background color */
+body { background-color: #FFFFFF }
+
+table.sourcecode TR TD { padding-right: 1em; }
+table.sourcecode TR TD * { font-family: monospace; }
+
+/* Severity colours */
+.sev-1 { background-color: #FFFFFF; }
+.sev0  { background-color: #EEEEFF; }
+.sev1  { background-color: #DDFFBB; }
+.sev2  { background-color: #F8F8D0; }
+.sev3  { background-color: #FFDDBB; }
+.sev4  { background-color: #FFBB99; }
+
+/* Zebra-striping in tables */
+table TR.odd  { background-color: #FFFFFF; }
+table TR.even { background-color: #F6F6F6; }
+
+/* Zebra-striping severities in source files */
+table.sourcecode TR.odd TD.sev-1  { background-color: #FFFFFF; }
+table.sourcecode TR.even TD.sev-1 { background-color: #F6F6F6; }
+table.sourcecode TR.odd TD.sev0   { background-color: #EEEEFF; }
+table.sourcecode TR.even TD.sev0  { background-color: #E5E5F6; }
+table.sourcecode TR.odd TD.sev1   { background-color: #DDFFBB; }
+table.sourcecode TR.even TD.sev1  { background-color: #D4F6B3; }
+table.sourcecode TR.odd TD.sev2   { background-color: #F8F8D0; }
+table.sourcecode TR.even TD.sev2  { background-color: #F0F0C8; }
+table.sourcecode TR.odd TD.sev3   { background-color: #FFDDBB; }
+table.sourcecode TR.even TD.sev3  { background-color: #F4D2B0; }
+table.sourcecode TR.odd TD.sev4   { background-color: #FFBB99; }
+table.sourcecode TR.even TD.sev4  { background-color: #F6B391; }
+
+/* Line coverage in source files */
+table.sourcecode TR TD.covNA { background-color: #D0D0D0; }
+table.sourcecode TR TD.cov0  { background-color: #FFA0A0; }
+table.sourcecode TR TD.cov1  { background-color: #A0FFA0; }
+table.sourcecode TR TD.covP  { background-color: #FFFFA0; }
+
+/* Preserve whitespace in code */
+table.sourcecode TR TD        { white-space: pre; }
+
+/* Diagnostic summary header table */
+table.diagSummaryHeader { border: 1px solid black; width: 100%; }
+table.diagSummaryHeader TR TD { border-bottom: 1px solid #BBBBBB; border-right: 1px solid #BBBBBB; }
+table.diagSummaryHeader TR TD { width: 16%; text-align: center; font-size: 80%; font-size: 11px; }
+table.diagSummaryHeader TR TD.heading { font-weight: bold; }
+table.diagSummaryHeader TR TD.row-heading { font-weight: bold; text-align: left;}
+table.diagSummaryHeader TR TD.row-sub-heading { text-align: left; padding-left: 2em; }

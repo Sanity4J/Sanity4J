@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>BooleanGetMethodName</TITLE>
+</HEAD>
+<BODY>
+<H2>BooleanGetMethodName</H2>
+Looks for methods named 'getX()' with 'boolean' as the return type. The convention
+is to name these methods 'isX()'.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                    
+//MethodDeclaration[
+MethodDeclarator[count(FormalParameters/FormalParameter) = 0 or $checkParameterizedMethods = 'true']
+                [starts-with(@Image, 'get')]
+and
+ResultType/Type/PrimitiveType[@Image = 'boolean']
+]
+
+                </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+            
+public boolean getFoo(); // bad
+public boolean isFoo(); // ok
+public boolean getFoo(boolean bar); // ok, unless checkParameterizedMethods=true
+     
+            </pre></div>
+  
+        
+
+        
+        
+            
+                <p>This rule has the following properties:</p>
+                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
+                
+                
+                    <tr class="b">
+                    <td>checkParameterizedMethods</td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                
+                </table>
+</BODY>
+</HTML>

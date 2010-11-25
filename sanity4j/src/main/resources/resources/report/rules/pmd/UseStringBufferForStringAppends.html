@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>UseStringBufferForStringAppends</TITLE>
+</HEAD>
+<BODY>
+<H2>UseStringBufferForStringAppends</H2>
+Finds usages of += for appending strings.
+           </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/optimization/UseStringBufferForStringAppends.html">net.sourceforge.pmd.rules.optimization.UseStringBufferForStringAppends</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+      
+public class Foo {
+ void bar() {
+  String a;
+  a = "foo";
+  a += " bar";
+  // better would be:
+  // StringBuffer a = new StringBuffer("foo");
+  // a.append(" bar);
+ }
+}
+      
+           
+            </pre></div>
+</BODY>
+</HTML>

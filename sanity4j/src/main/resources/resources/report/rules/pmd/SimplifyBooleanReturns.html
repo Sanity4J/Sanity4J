@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>SimplifyBooleanReturns</TITLE>
+</HEAD>
+<BODY>
+<H2>SimplifyBooleanReturns</H2>
+Avoid unnecessary if..then..else statements when returning a boolean.
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/SimplifyBooleanReturns.html">net.sourceforge.pmd.rules.SimplifyBooleanReturns</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+  private int bar =2;
+  public boolean isBarEqualsTo(int x) {
+    // this bit of code
+    if (bar == x) {
+     return true;
+    } else {
+     return false;
+    }
+    // can be replaced with a simple
+    // return bar == x;
+  }
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

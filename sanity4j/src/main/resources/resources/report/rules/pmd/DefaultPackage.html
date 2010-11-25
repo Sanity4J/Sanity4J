@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<TITLE>DefaultPackage</TITLE>
+</HEAD>
+<BODY>
+<H2>DefaultPackage</H2>
+Use explicit scoping instead of the default package private level.
+        </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+//ClassOrInterfaceDeclaration[@Interface='false']
+/ClassOrInterfaceBody
+/ClassOrInterfaceBodyDeclaration
+[
+FieldDeclaration[@PackagePrivate='true']
+or MethodDeclaration[@PackagePrivate='true']
+]
+                </pre></div>
+</BODY>
+</HTML>

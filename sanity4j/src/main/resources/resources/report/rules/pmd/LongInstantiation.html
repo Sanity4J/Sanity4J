@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>LongInstantiation</TITLE>
+</HEAD>
+<BODY>
+<H2>LongInstantiation</H2>
+gInstantiation"></a><h3>LongInstantiation</h3>
+		<p>Since: PMD 4.0</p>
+		<p>In JDK 1.5, calling new Long() causes memory allocation. Long.valueOf() is more memory friendly.</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+
+//PrimaryPrefix
+/AllocationExpression
+[not (ArrayDimsAndInits)
+and (ClassOrInterfaceType/@Image='Long'
+or ClassOrInterfaceType/@Image='java.lang.Long')]
+
+    </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class Foo {
+private Long i = new Long(0); // change to Long i =
+Long.valueOf(0);
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<TITLE>DoNotThrowExceptionInFinally</TITLE>
+</HEAD>
+<BODY>
+<H2>DoNotThrowExceptionInFinally</H2>
+[
+			      Throwing exception in a finally block is confusing. It may mask exception or a defect of the code,
+			      it also render code cleanup uninstable.
+			Note: This is a PMD implementation of the Lint4j rule "A throw in a finally block"
+			
+		</p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+			    
+//FinallyStatement[descendant::ThrowStatement]
+			          
+			  </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+    		
+				public class Foo 
+				{
+					public void bar()
+					{
+						try {
+							// Here do some stuff
+						}
+						catch( Exception e) {
+							// Handling the issue
+						}
+						finally 
+						{
+							// is this really a good idea ?
+							throw new Exception();
+						}
+					}
+				}
+	    	
+    	
+            </pre></div>
+</BODY>
+</HTML>

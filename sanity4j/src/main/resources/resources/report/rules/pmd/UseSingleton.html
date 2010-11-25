@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>UseSingleton</TITLE>
+</HEAD>
+<BODY>
+<H2>UseSingleton</H2>
+If you have a class that has nothing but static methods, consider making it a Singleton.
+Note that this doesn't apply to abstract classes, since their subclasses may
+well include non-static methods.  Also, if you want this class to be a Singleton,
+remember to add a private constructor to prevent instantiation.
+		
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/UseSingleton.html">net.sourceforge.pmd.rules.design.UseSingleton</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class MaybeASingleton {
+ public static void foo() {}
+ public static void bar() {}
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>

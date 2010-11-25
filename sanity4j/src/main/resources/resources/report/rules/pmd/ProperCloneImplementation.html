@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<TITLE>ProperCloneImplementation</TITLE>
+</HEAD>
+<BODY>
+<H2>ProperCloneImplementation</H2>
+Object clone() should be implemented with super.clone().
+     </p>
+		
+		
+		    
+    			<p>This rule is defined by the following XPath expression:</p>
+    			
+    			
+    <div class="source"><pre>
+                 
+//MethodDeclarator
+[@Image = 'clone']
+[count(FormalParameters/*) = 0]
+[count(../Block//*[
+    (self::AllocationExpression) and
+    (./ClassOrInterfaceType/@Image = ancestor::
+ClassOrInterfaceDeclaration[1]/@Image)
+  ])&amp;gt; 0
+]
+                
+             </pre></div>
+  
+		    
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+ 
+class Foo{
+    public Object clone(){
+        return new Foo(); // This is bad
+    }
+}
+
+     
+            </pre></div>
+</BODY>
+</HTML>
