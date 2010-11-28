@@ -19,7 +19,7 @@
 
   <fileSets>
     <fileSet>
-	  <directory>../sanity4j-with-tools/src/main/resources</directory>
+	  <directory>assembly/sanity4j-with-tools</directory>
 	  <outputDirectory>/</outputDirectory>
     </fileSet>
   </fileSets>
