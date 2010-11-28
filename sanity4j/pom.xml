@@ -1,20 +1,118 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   
-  <parent>
-    <groupId>net.sf.sanity4j</groupId>
-    <artifactId>sanity4j-parent</artifactId>
-    <version>1.0</version>
-    <relativePath>..</relativePath>    
-  </parent>
-  
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.sf.sanity4j</groupId>
   <artifactId>sanity4j</artifactId>
-  <version>1.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Sanity4J</name>
   <packaging>maven-plugin</packaging>
+
+
+  <description>Sanity4J was created to simplify running multiple static code analysis tools on the Java projects. It provides a single entry point to run all the selected tools and produce a consolidated report, which presents all findings in an easily accessible manner.</description>
+  <url>http://sanity4j.sf.net</url>
+  <licenses>
+    <license>
+      <name>GPLv3</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <distribution>repo,manual</distribution>
+      <comments>GNU General Public License</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>aliasx</id>
+      <name>Yiannis Paschalidis</name>
+      <email>aliasx[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+    <developer>
+      <id>darianb</id>
+      <name>Darian Bridge</name>
+      <email>darianb[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+    <developer>
+      <id>bkavanagh</id>
+      <name>Brian Kavanagh</name>
+      <email>bkavanagh[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+    <developer>
+      <id>cravinithala</id>
+      <name>Chandra Ravinithala</name>
+      <email>cravinithala[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+    <developer>
+      <id>jaustin71</id>
+      <name>Jonathan Austin</name>
+      <email>jaustin71[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+    <developer>
+      <id>steveharney</id>
+      <name>Steve Harney</name>
+      <email>steveharney[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Ziad Haidar</name>
+      <email>ziadh[at]users.sourceforge.net</email>
+      <url></url>
+      <organization></organization>
+      <organizationUrl></organizationUrl>
+      <roles>
+        <role>Project Manager</role>
+      </roles>
+      <timezone>+10</timezone>
+    </contributor>
+  </contributors>
+
+  <organization>
+    <name>The Sanity4J project</name>
+    <url>http://sanity4j.sourceforge.net</url>
+  </organization>
   
+  <issueManagement>
+    <system>SourceForge Tracker</system>
+    <url>https://sourceforge.net/tracker/?group_id=359349</url>
+  </issueManagement>
+  
+  <inceptionYear>2010</inceptionYear>
+  
+  <scm>
+    <connection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</connection>
+    <developerConnection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</developerConnection>
+    <url>http://sanity4j.svn.sourceforge.net/viewvc/sanity4j/</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -77,22 +175,6 @@
 	
   </dependencies>
   
-  <description>Sanity4J simplifies running multiple code analysis tools on Java projects on an ad-hoc basis. It provides a single entry point to run the tools and produces a consolidated report, which presents all findings in an easily accessible format. </description>
-  <url>http://sanity4j.sourceforge.net/</url>
-  <issueManagement>
-    <system>SourceForge Tracker</system>
-    <url>https://sourceforge.net/tracker/?group_id=359349</url>
-  </issueManagement>
-  <inceptionYear>2010</inceptionYear>
-  <scm>
-    <connection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</connection>
-    <developerConnection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</developerConnection>
-    <url>http://sanity4j.svn.sourceforge.net/viewvc/sanity4j/</url>
-  </scm>
-  <organization>
-    <name>The Sanity4J project</name>
-    <url>http://sanity4j.sourceforge.net</url>
-  </organization>
   <build>
     <plugins>
       
@@ -230,17 +312,30 @@
       <plugin>
         <groupId>net.sf.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.0</version>
+        <version>1.0.1-SNAPSHOT</version>
                 
         <configuration>
-          <productsDir>../sanity4j-with-tools/src/main/resources/tools</productsDir>
+          <productsDir>assembly/sanity4j-with-tools/tools</productsDir>
         </configuration>
       </plugin>
 
     </plugins>
   </reporting>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Maven 2 plugin Repository</name>
+      <url>http://download.java.net/maven/2</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <repositories>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Maven 2 Repository</name>
+      <url>http://download.java.net/maven/2</url>
+    </repository>
     <repository>
       <id>sanity4j_file_repository</id>
       <name>Sanity4J file-system based repository</name>
