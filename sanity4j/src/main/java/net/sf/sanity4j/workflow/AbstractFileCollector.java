@@ -2,6 +2,7 @@ package net.sf.sanity4j.workflow;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,7 @@ public abstract class AbstractFileCollector implements WorkUnit
     private final File destDir;
     
     /** The source directories. */
-    private final List<String> sourceDirs;
+    private final List<File> sourceDirs;
     
     /**
      * Creates a AbstractFileCollector.
@@ -42,7 +43,13 @@ public abstract class AbstractFileCollector implements WorkUnit
     {
         this.includedFileExtensions = includedFileExtensions;
         this.destDir = destDir;
-        this.sourceDirs = sourceDirs;
+        
+        this.sourceDirs = new ArrayList<File>(sourceDirs.size());
+        
+        for (String dir : sourceDirs)
+        {
+            this.sourceDirs.add(new File(dir));
+        }
     }
     
     /**
@@ -88,30 +95,25 @@ public abstract class AbstractFileCollector implements WorkUnit
      * 
      * @return the number of files copied
      */
-    private int copyFiles(final List<String> filePaths, final File destDir)
+    private int copyFiles(final List<File> filePaths, final File destDir)
     {
         int count = 0;
 
         // We want to copy files from arbitrary subdirectories,
         // while maintaining the package structure
-        for (Iterator<String> i = filePaths.iterator(); i.hasNext();)
+        for (Iterator<File> i = filePaths.iterator(); i.hasNext();)
         {
-            String fileName = i.next();
-            File source = new File(fileName);
+            File source = i.next();
 
             // If it's a directory, recurse...
             if (source.isDirectory())
             {
-                String[] containedFiles = source.list();
+                String[] containedNames = source.list();
+                File[] containedFiles = new File[containedNames.length];
                 
                 for (int j = 0; j < containedFiles.length; j++)
                 {
-                    StringBuffer sb = new StringBuffer(fileName.length() + containedFiles[j].length() + 1);
-                    sb.append(fileName);
-                    sb.append(File.separatorChar);
-                    sb.append(containedFiles[j]);
-                    
-                    containedFiles[j] = sb.toString();
+                    containedFiles[j] = new File(source, containedNames[j]);
                 }
                 
                 count += copyFiles(Arrays.asList(containedFiles), destDir);
@@ -165,7 +167,7 @@ public abstract class AbstractFileCollector implements WorkUnit
                 
                 for (File f = file.getParentFile(); f != null; f = f.getParentFile())
                 {
-                    if (sourceDirs.contains(f.getPath()))
+                    if (sourceDirs.contains(f))
                     {
                         // We've hit one of the top-level dirs, so copy using the relative path from this dir
                         File dest = new File(destDir, relativePath.toString());
