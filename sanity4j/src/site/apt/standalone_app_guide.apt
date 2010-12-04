@@ -1,7 +1,78 @@
 Sanity4J Stand-alone GUI user guide
 
-  <<Coming soon...>>
+  Sanity4J provides a stand-alone GUI for developers to run ad-hoc static code 
+  analysis on projects for assisting in code reviews. The GUI can be launched 
+  by opening the jar file from a file manager (e.g. double-clicking on 
+  sanity4.jar in Microsoft Windows Explorer) or run using the following 
+  command line:
+  
++-------------------------------+
+java -jar sanity4j.jar
++-------------------------------+
 
-  Sanity4J provides a stand-alone GUI for developers to run ad-hoc QA on projects for 
-  assisting in code reviews. This feature is undergoing final internal QA processes, 
-  and will be made available shortly.
+  After launching the application, the UI will appear, which is used to configure 
+  and run the analysis. 
+    
+[./images/standalone/initial.png] Initial Sanity4J UI screenshot.  
+  
+  Fields for mandatory configuration parameters are marked with an asterisk. The 
+  "Open report on completion" check-box will open the Sanity4J report once the
+  analysis is complete (Java 1.6+ only). The console area shows the progress
+  during analysis as well as any warnings/errors which have been output by the 
+  analysis tools. 
+  
+  The complete list of parameters is decribed in the table below. 
+     
+*-------------------------------+--------------------------------------------------------+-----------+
+|| Parameter                    || Description                                           || Required |
+*-------------------------------+--------------------------------------------------------+-----------+
+| Directory containing          | This parameter must point to a directory containing    | Yes       | 
+| analysis tools                | all the tools in use. For example, with a default      |           |
+|                               | configuration, these could be findbugs-1.3.9,          |           |
+|                               | pmd-4.2.5, checkstyle-4.4 and cobertura-1.9.2.         |           |
+*-------------------------------+--------------------------------------------------------+-----------+
+| Path to java executable       | The full path to the java run-time to use.             | Yes       | 
+*-------------------------------+--------------------------------------------------------+-----------+
+| Source directory (or parent)  | This should be set to the location of the project's    | Yes       | 
+|                               | source only. If you have multiple source directories   |           |
+|                               | contained within a main directory, you can just list   |           |
+|                               | the main directory here - Sanity4J will search for all |           |
+|                               | nested source directories.                             |           |
+*-------------------------------+--------------------------------------------------------+-----------+
+| Class directory (or parent)   | This should be set to the location of the project's    | Yes       | 
+|                               | built classes only. If you have multiple output        |           |
+|                               | directories contained within a main directory, you can |           |
+|                               | just list the main directory here - Sanity4J will      |           |
+|                               | search for all nested classes/jars.                    |           |
+*-------------------------------+--------------------------------------------------------+-----------+
+| Library directory (or parent) | This parameter should be set to the location of jars / | No        |
+|                               | classes which the target project depends on. Don't use |           |
+|                               | e.g. an entire local maven repository; only include    |           |
+|                               | direct dependencies.                                   |           |  
+*-------------------------------+--------------------------------------------------------+-----------+
+| Test coverage data file       | The location of a coverage data file (e.g.             | No        |
+|                               | cobertura.ser for Cobertura) if you want to include    |           |
+|                               | unit testing coverage data in your report.             |           |
+*-------------------------------+--------------------------------------------------------+-----------+
+| Summary data CSV export file  | The location of a (persistent) summary data file if    | No        | 
+|                               | you want to include trend graphs over time.            |           |
+*-------------------------------+--------------------------------------------------------+-----------+
+| Report output directory       | The report output directory. This parameter defaults   | Yes       |
+|                               | to the project's site directory.                       |           | 
+*-------------------------------+--------------------------------------------------------+-----------+
+  
+  Using the "Browse" buttons to the right of each field will bring up a file 
+  dialog for easier selection of the appropriate items.
+    
+[./images/standalone/select_tools_dir.png] Sanity4J UI screenshot showing tool select dialog.  
+  
+  Repeat the process for the remaining options. On exit Sanity4J will save the options as 
+  defaults for the next time the GUI is run.
+  
+[./images/standalone/filled_out.png] Sanity4J UI screenshot showing completed configuration.  
+  
+  Click the "Analyse" button to start the analysis. Once the analysis is complete, the report 
+  can be opened from the file "index.html" in the report output directory which was entered.
+  
+[./images/standalone/complete.png] Sanity4J UI screenshot showing completed analysis.  
+  

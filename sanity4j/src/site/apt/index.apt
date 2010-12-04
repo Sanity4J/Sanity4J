@@ -23,9 +23,9 @@ Overview of Sanity4J
   source is structured. For example, some tools do not support multiple source
   directories.
   
-  Viewing individual reports also lowers productivity, as developers must flip 
+  Viewing individual reports also lowers productivity, as developers must switch 
   between several reports to fix issues during development. Having multiple 
-  reports also does not allow the ability to view the project health on a whole.
+  reports also does not allow the ability to view the project health as a whole.
 
 [./images/qa_overview_without_sanity4j.png] QA process without the use of Sanity4J.  
 
@@ -69,14 +69,15 @@ Overview of Sanity4J
 
 ** Inclusion of Automated Test Coverage Statistics
 
-  Most projects require that developers deliver automated unit tests written
-  using jUnit. The greater the amount of code exercised by automated tests 
-  (coverage), the more certain a maintenance developer can be when determining
-  the impact of a change. A jUnit test coverage and quality summary is 
-  included for each package. The "Line coverage" and "Branch coverage" columns
-  indicate the percentage and number of lines/branches covered by jUnit tests. 
-  The "Code quality" column displays a quality metric, based on the number of 
-  issues per line of code, with weighting based on the severity of the issues.
+  Most serious projects require that developers deliver automated unit tests 
+  written using jUnit. The greater the amount of code exercised by automated 
+  tests (coverage), the more certain a maintenance developer can be when 
+  determining the impact of a change. A jUnit test coverage and quality summary 
+  is included for each package. The "Line coverage" and "Branch coverage" 
+  columns indicate the percentage and number of lines/branches covered by jUnit 
+  tests. The "Code quality" column displays a quality metric, based on the 
+  number of issues per line of code, with weighting based on the severity of 
+  the issues.
  
 [./images/report_extract.gif] Table extract from a Sanity4J report, showing various metrics
  
@@ -84,11 +85,11 @@ Overview of Sanity4J
 
   Sanity4J can currently be run in the following ways: 
   
-    * Integrated into an Apache Ant script using a supplied Ant task. This lets
-    projects automatically run Sanity4J as part of the build process, and produce
-    trend graphs over time. Project leads can then look at the generated report
-    to determine where resources need to be allocated to resolve any potential
-    problems.
+    * Integrated into an Apache Ant or Maven build process using a supplied 
+    Ant task / Maven plugin. This lets projects automatically run Sanity4J as 
+    part of the build process, and produce trend graphs over time. Project 
+    leads can then look at the generated report to determine where resources 
+    need to be allocated to resolve any potential problems.
   
     * As a GUI application. Sanity4J can be run as a stand-alone desktop 
     application. This is primarily intended for performing ad-hoc reviews of 

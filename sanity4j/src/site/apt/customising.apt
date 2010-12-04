@@ -1,8 +1,8 @@
 Customising Sanity4J analysis
 
   The analysis can be customised using an external configuration file. On start-up, Sanity4J
-  attempts to read external configuration from a standard Java properties named "<<<sanity4j.properties>>>" 
-  located in the working directory or the user's home directory.
+  attempts to read external configuration from a standard Java properties file named 
+  "<<<sanity4j.properties>>>" located in the working directory or the user's home directory.
 
 * Customising which tools are run
 
