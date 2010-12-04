@@ -23,6 +23,7 @@
       <item name="Download" href="https://sourceforge.net/projects/sanity4j/files/"/>
       <item name="About us" href="about_us.html"/>
       <item name="Whitepaper" href="Sanity4J WhitePaper.pdf"/>
+      <item name="Example Sanity4J report" href="sanity4j/index.html"/>
     </menu>
 
     <menu name="Why use automated QA?">
@@ -45,4 +46,10 @@
     <menu ref="reports"/>
 
   </body>
+  
+  <poweredBy>
+    <logo name="Maven" href="http://maven.apache.org/" img="images/logos/maven-feather.png"/>
+    <logo name="SourceForge" href="http://sourceforge.net/projects/sanity4j" img="http://sflogo.sourceforge.net/sflogo.php?group_id=359349&amp;type=9" width="80" height="15" alt="Get Sanity4J at SourceForge.net. Fast, secure and Free Open Source software downloads" />    	
+  </poweredBy>
+  
 </project>
