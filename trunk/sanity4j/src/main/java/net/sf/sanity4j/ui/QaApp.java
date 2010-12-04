@@ -262,8 +262,9 @@ public final class QaApp extends JFrame
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Throwable e)
                 {
+                    // Need to catch throwable rather than exception, to e.g. catch JAXB LinkageErrors.
                     QaLogger.getInstance().error("QA failed", e);
                 }
                 finally
