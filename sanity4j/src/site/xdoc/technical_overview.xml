@@ -72,13 +72,14 @@
 				<p>Another factor in reducing project technical debt is the delivery of 
 				a suite of automated Java Unit tests (jUnit). Maintenance developers 
 				rely on these tests to ensure that they don't break existing code 
-				when they make changes</p>
+				when they make changes.</p>
 				
 				<p>Sanity4J integrates results from the open source Code Coverage
-				tool Cobertura. Code Coverage is the proportion of code executed during
-				a jUnit test run. Cobertura watches while jUnit tests run, and records 
-				which lines of code get executed. It then calculates the percentage of
-				lines covered.</p>
+				tool <a href="http://cobertura.sourceforge.net/">Cobetura</a>. Code 
+				Coverage is the proportion of code executed during a jUnit test run. 
+				Cobertura watches while jUnit tests run, and records which lines of 
+				code get executed. It then calculates the percentage of lines 
+				covered.</p>
 				
 				<p>A high Code Coverage % is another important indicator of quality.
 				Sanity4J combines Code Coverage % and Quality % into a single graph 
