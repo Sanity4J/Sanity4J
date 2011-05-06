@@ -1,6 +1,7 @@
 package net.sf.sanity4j.maven.plugin;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -22,7 +23,6 @@ import org.apache.maven.reporting.AbstractMavenReport;
  * method.</p>
  *  
  * @goal sanity4j
- * @execute phase="site" lifecycle="sanity4j"
  * 
  * @author Darian Bridge
  * @since Sanity4J 1.0
@@ -199,6 +199,26 @@ public class RunQAMojo extends AbstractMavenReport
         sanity4j.getConfig().setReportDir(reportDir);
         sanity4j.getConfig().setSummaryDataFile(summaryDataFile);
         sanity4j.getConfig().setTempDir(tempDir);
+
+        FileFilter srcFilter = new FileFilter() 
+        {
+            public boolean accept(final File pathname) 
+            {
+                boolean result = false;
+                if (pathname.getName().endsWith(".java")) 
+                {
+                    result = true;
+                }
+                return result;
+            }
+        };
+
+        File[] combinedSrcDirFiles = sanity4j.getConfig().getCombinedSourceDir().listFiles(srcFilter);
+        if (combinedSrcDirFiles == null || combinedSrcDirFiles.length < 1) 
+        {
+            getLog().warn(project.getName() + " contains no java source files. Skipping analysis.");
+            return;
+        }
 
         // TODO: HACK! Get around Stax using the context classloader rather than this class's.
         //       Need to write a custom class loader which combines the two.
