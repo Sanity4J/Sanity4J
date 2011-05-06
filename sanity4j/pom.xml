@@ -4,7 +4,7 @@
 
   <groupId>net.sf.sanity4j</groupId>
   <artifactId>sanity4j</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2</version>
   <name>Sanity4J</name>
   <packaging>maven-plugin</packaging>
 
@@ -74,6 +74,16 @@
       <id>steveharney</id>
       <name>Steve Harney</name>
       <email>steveharney[at]users.sourceforge.net</email>
+      <roles>
+         <role>Project Admin</role>
+         <role>Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>         
+    <developer>
+      <id>rmccowan</id>
+      <name>Rodney McCowan</name>
+      <email>rmccowan[at]users.sourceforge.net</email>
       <roles>
          <role>Project Admin</role>
          <role>Developer</role>
@@ -312,7 +322,7 @@
       <plugin>
         <groupId>net.sf.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2</version>
                 
         <configuration>
           <productsDir>assembly/sanity4j-with-tools/tools</productsDir>
