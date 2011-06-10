@@ -209,6 +209,21 @@
 	<xsl:template name="emit-javascript">
 		<script type="text/javascript" defer="defer">
 		<xsl:text disable-output-escaping="yes"><![CDATA[
+
+			// Keywords from http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
+			var keywords = 
+			{
+				"abstract":true,"continue":true,"for":true,"new":true,"switch":true,
+				"assert":true,"default":true,"goto":true,"package":true,"synchronized":true,
+				"boolean":true,"do":true,"if":true,"private":true,"this":true,
+				"break":true,"double":true,"implements":true,"protected":true,"throw":true,
+				"byte":true,"else":true,"import":true,"public":true,"throws":true,
+				"case":true,"enum":true,"instanceof":true,"return":true,"transient":true,
+				"catch":true,"extends":true,"int":true,"short":true,"try":true,
+				"char":true,"final":true,"interface":true,"static":true,"void":true,
+				"class":true,"finally":true,"long":true,"strictfp":true,"volatile":true,
+				"const":true,"float":true,"native":true,"super":true,"while":true
+			};
 		
 			// Pops up a new browser window, ensuring that only one popup is active at a time
 			// url: The url to open the new window
@@ -484,30 +499,7 @@
 			//
 			function isJavaKeyword(token)
 			{
-				// Keywords from http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
-				var keywords = new Array
-				(
-					"abstract","continue","for","new","switch",
-					"assert","default","goto","package","synchronized",
-					"boolean","do","if","private","this",
-					"break","double","implements","protected","throw",
-					"byte","else","import","public","throws",
-					"case","enum","instanceof","return","transient",
-					"catch","extends","int","short","try",
-					"char","final","interface","static","void",
-					"class","finally","long","strictfp","volatile",
-					"const","float","native","super","while"
-				);
-				
-				for (var i=0 ; i<keywords.length ; i++)
-				{
-					if (keywords[i] == token)
-					{
-						return true;
-					}
-				}
-				
-				return false;
+				return (token in keywords) && keywords.hasOwnProperty(token);
 			}
 			
 			//
