@@ -801,7 +801,7 @@
 				c = cells[i];
 				if (this.sortTypes[i] != null && this.sortTypes[i] != "None") {
 					img = doc.createElement("IMG");
-					img.src = "images/blank.png";
+					img.src = img.src = "]]></xsl:text><xsl:value-of select="concat(@pathToRoot, 'images/blank.png')"/><xsl:text disable-output-escaping="yes"><![CDATA[";
 					c.appendChild(img);
 					if (this.sortTypes[i] != null)
 						c._sortType = this.sortTypes[i];
