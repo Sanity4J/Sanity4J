@@ -16,11 +16,11 @@
         <include>sanity4j.properties</include>
       </includes>
     </fileSet>
-    
+
     <fileSet>
       <directory>src</directory>
     </fileSet>
-    
+
     <fileSet>
       <directory>repository</directory>
     </fileSet>

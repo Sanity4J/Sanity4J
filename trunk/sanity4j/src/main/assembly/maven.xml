@@ -16,5 +16,12 @@
 	  <source>pom.xml</source>
     </file>
   </files>
+
+  <fileSets>
+    <fileSet>
+	  <directory>assembly/sanity4j-maven</directory>
+	  <outputDirectory>/</outputDirectory>
+    </fileSet>
+  </fileSets>
   
 </assembly>
