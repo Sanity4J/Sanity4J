@@ -200,32 +200,74 @@ public class RunQAMojo extends AbstractMavenReport
         sanity4j.getConfig().setSummaryDataFile(summaryDataFile);
         sanity4j.getConfig().setTempDir(tempDir);
 
+        if (hasSource(sanity4j)) 
+        {
+            // TODO: HACK! Get around Stax using the context classloader rather than this class's.
+            //       Need to write a custom class loader which combines the two.
+            ClassLoader oldLoader = Thread.currentThread().getContextClassLoader(); 
+            Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+            sanity4j.run();
+            Thread.currentThread().setContextClassLoader(oldLoader);
+        }
+        else
+        {
+            getLog().warn(project.getName() + " contains no java source files. Skipping analysis.");
+        }
+    }
+    
+    /**
+     * Indicates whether there are source files available to analyse.
+     * @return true if there is at least one java source file, false otherwise.
+     */
+    private boolean hasSource(final QAProcessor sanity4j)
+    {
+        
+        for (String sourceDir : sanity4j.getConfig().getSourceDirs())
+        {
+            File dir = new File(sourceDir);
+            
+            if (hasSource(dir))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Indicates whether the given directory (or a subdirectory) contains one or more java source files.
+     * @param directory the directory to search.
+     * @return true if there is at least one java source file, false otherwise.
+     */
+    private boolean hasSource(final File directory)
+    {
         FileFilter srcFilter = new FileFilter() 
         {
-            public boolean accept(final File pathname) 
+            public boolean accept(final File file) 
             {
-                boolean result = false;
-                if (pathname.getName().endsWith(".java")) 
-                {
-                    result = true;
-                }
-                return result;
+                return file.isDirectory() || file.getName().endsWith(".java"); 
             }
         };
 
-        File[] combinedSrcDirFiles = sanity4j.getConfig().getCombinedSourceDir().listFiles(srcFilter);
-        if (combinedSrcDirFiles == null || combinedSrcDirFiles.length < 1) 
+        for (File file : directory.listFiles(srcFilter))
         {
-            getLog().warn(project.getName() + " contains no java source files. Skipping analysis.");
-            return;
+            if (file.isDirectory())
+            {
+                // Search sub-dir
+                if (hasSource(file))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // A non-directory was found, must be a source file
+                return true;
+            }
         }
-
-        // TODO: HACK! Get around Stax using the context classloader rather than this class's.
-        //       Need to write a custom class loader which combines the two.
-        ClassLoader oldLoader = Thread.currentThread().getContextClassLoader(); 
-        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-        sanity4j.run();
-        Thread.currentThread().setContextClassLoader(oldLoader);
+        
+        return false;
     }
     
     /**
