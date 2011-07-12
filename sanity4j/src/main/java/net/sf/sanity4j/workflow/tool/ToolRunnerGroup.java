@@ -68,6 +68,12 @@ public final class ToolRunnerGroup extends WorkUnitGroup
                 QaLogger.getInstance().warn(message);
                 continue;
             }
+            else if (Tool.COBERTURA_MERGE.equals(tool) && config.getCoverageDataFileCount() <= 1)
+            {
+                String message = tool.getName() + " not required.";
+                QaLogger.getInstance().info(message);
+                continue;
+            }
 
             String version = getToolVersion(tool);
             String propertyPrefix = "sanity4j.tool." + tool.getId() + '.' + version + '.';
@@ -96,14 +102,17 @@ public final class ToolRunnerGroup extends WorkUnitGroup
             runner.setToolVersion(version);
             add(runner);
 
-            if (config.isIncludeToolOutput())
+            if (runner.getToolResultFile() != null)
             {
-                File resultFile = new File(runner.getToolResultFile());
-                add(new FileCopier(resultFile, new File(config.getReportDir(), resultFile.getName())));
+                if (config.isIncludeToolOutput())
+                {
+                    File resultFile = new File(runner.getToolResultFile());
+                    add(new FileCopier(resultFile, new File(config.getReportDir(), resultFile.getName())));
+                }
+    
+                ResultReader reader = createReader(readerClassName, runner.getToolResultFile());
+                add(reader);
             }
-
-            ResultReader reader = createReader(readerClassName, runner.getToolResultFile());
-            add(reader);
         }
     }
 

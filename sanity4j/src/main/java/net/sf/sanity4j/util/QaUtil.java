@@ -24,6 +24,9 @@ public final class QaUtil
     {
     }
     
+    /** The path location to the external properties file. */
+    private static String externalPropertiesPath;
+    
     /**
      * Reads the properties file located at <code>resourcePath</code> and
      * applies any overrides from external properties files. External 
@@ -80,8 +83,29 @@ public final class QaUtil
      */
     private static Properties readExternalProperties()
     {
-        Properties externalProps = readProperties(new File("sanity4j.properties"));
-        Properties userProps = readProperties(new File(System.getProperty("user.home"), "sanity4j.properties")); 
+        String propFile;
+        
+        if (externalPropertiesPath != null && externalPropertiesPath.length() > 0)
+        {
+            if (externalPropertiesPath.endsWith(File.pathSeparator))
+            {
+                propFile = externalPropertiesPath + "sanity4j.properties";
+            }
+            else
+            {
+                propFile = externalPropertiesPath + File.pathSeparator + "sanity4j.properties";
+            }
+        }
+        else
+        {
+            propFile = "sanity4j.properties";
+        }
+        
+        Properties externalProps = readProperties(new File(propFile));
+        
+        Properties userProps = readProperties(new File(
+            System.getProperty("user.home"), "sanity4j.properties"));
+        
         externalProps.putAll(userProps);
         
         return externalProps;
@@ -319,5 +343,26 @@ public final class QaUtil
         }
 
         return result.toString();
+    }
+
+
+    /**
+     * Set the path location to the external properties file.
+     * 
+     * @param externalPropertiesPath the path location to the external properties file.
+     */
+    public static void setExternalPropertiesPath(final String externalPropertiesPath)
+    {
+        QaUtil.externalPropertiesPath = externalPropertiesPath;
+    }
+
+    /**
+     * Get the path location to the external properties file.
+     * 
+     * @return the path location to the external properties file.
+     */
+    public static String getExternalPropertiesPath()
+    {
+        return externalPropertiesPath;
     }
 }

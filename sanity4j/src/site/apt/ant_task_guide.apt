@@ -11,7 +11,7 @@ Sanity4J Ant Task user guide
   to run all the tools and produce a combined report presenting all the findings 
   in a easily accessible manner.
 
-* Running the Ant task - sanity4j.run
+* Running the Ant task
 
   To run the Ant task, you will need the following:
 
@@ -29,33 +29,52 @@ Sanity4J Ant Task user guide
 	  Ant. This can be set using the ANT_OPTS environment variable, e.g. "<<<set ANT_OPTS=-Xmx512M>>>" 
 	  to use 512MB max heap.
 
+** Ant Macros
+
+  There are two Ant macros that can be run. 
+
+  * sanity4j - The "santy4j" macro supports multiple cobertura coverage datafiles by merging them.
+               This can also be run against a single coverage datafile without merging.
+               Sanity4j will detect whether a merge is required based on the number of supplied datafiles.
+
+  * sanity4j.run - The "sanity4j.run" macro supports only a single cobertura coverage datafile without merging.
+                   This exists primarily to support backward compatability as Ant nested elements cannot
+                   be made optional.
+
 ** Parameters
 
-*------------------------+--------------------------------------------------------+-----------+
-|| Attribute             || Description                                           || Required |
-*------------------------+--------------------------------------------------------+-----------+
-| products.dir           | The products.dir must point to a directory containing  | Yes       | 
-|                        | all the tools in use. For example, with a default      |           |
-|                        | configuration, these could be findbugs-1.3.9,          |           |
-|                        | pmd-4.2.5, checkstyle-4.4 and cobertura-1.9.2          |           |
-*------------------------+--------------------------------------------------------+-----------+
-| report.dir             | The report output directory.                           | Yes       |
-*------------------------+--------------------------------------------------------+-----------+
-| coverage.data.file     | The location of a coverage data file (e.g.             | No        |
-|                        | cobertura.ser for Cobertura) if you want to include    |           |
-|                        | unit testing coverage data in your report.             |           |
-*------------------------+--------------------------------------------------------+-----------+
-| java.runtime           | The full path to the java run-time to use.             | No        | 
-|                        | If not specified, "java" is used.                      |           |
-*------------------------+--------------------------------------------------------+-----------+
-| summary.data.file      | The location of a (persistent) summary data file if    | No        | 
-|                        | you want to include trend graphs over time.            |           |
-*------------------------+--------------------------------------------------------+-----------+
-| include.tool.output    | If set to "true", the raw tool xml output is also      | No        | 
-|                        | copied into the report directory. This is only useful  |           |
-|                        | if there is some other part of your build process that |           |
-|                        | requires it.                                           |           |
-*------------------------+--------------------------------------------------------+-----------+
+*--------------------------+--------------------------------------------------------+-----------+
+|| Attribute               || Description                                           || Required |
+*--------------------------+--------------------------------------------------------+-----------+
+| products.dir             | The products.dir must point to a directory containing  | Yes       | 
+|                          | all the tools in use. For example, with a default      |           |
+|                          | configuration, these could be findbugs-1.3.9,          |           |
+|                          | pmd-4.2.5, checkstyle-4.4 and cobertura-1.9.2          |           |
+*--------------------------+--------------------------------------------------------+-----------+
+| report.dir               | The report output directory.                           | Yes       |
+*--------------------------+--------------------------------------------------------+-----------+
+| coverage.data.file       | The location of a coverage data file (e.g.             | No        |
+|                          | cobertura.ser for Cobertura) if you want to include    |           |
+|                          | unit testing coverage data in your report.             |           |
+*--------------------------+--------------------------------------------------------+-----------+
+| coverage.merge.data.file | The location of the merged coverage data file.         | No        |
+|                          | Must be used in conjunction with a list of             |           |
+|                          | coverage.data.files nested elements, see below.        |           |
+*--------------------------+--------------------------------------------------------+-----------+
+| external.properties.path | The path location of the sanity4j.properties file.     | No        |
+|                          | The default is the current directory.                  |           |
+*--------------------------+--------------------------------------------------------+-----------+
+| java.runtime             | The full path to the java run-time to use.             | No        | 
+|                          | If not specified, "java" is used.                      |           |
+*--------------------------+--------------------------------------------------------+-----------+
+| summary.data.file        | The location of a (persistent) summary data file if    | No        | 
+|                          | you want to include trend graphs over time.            |           |
+*--------------------------+--------------------------------------------------------+-----------+
+| include.tool.output      | If set to "true", the raw tool xml output is also      | No        | 
+|                          | copied into the report directory. This is only useful  |           |
+|                          | if there is some other part of your build process that |           |
+|                          | requires it.                                           |           |
+*--------------------------+--------------------------------------------------------+-----------+
 
 ** Parameters specified as nested elements
 
@@ -78,6 +97,9 @@ Sanity4J Ant Task user guide
 |                        | project depends on. Don't use e.g. an entire local     |           |
 |                        | maven repository; only include direct dependencies.    |           |
 *------------------------+--------------------------------------------------------+-----------+
+| coverage.data.files    | This element accepts nested Paths / FileSets pointing  | No        |
+|                        | to the location of coverage data files to be merged.   |           |
+*------------------------+--------------------------------------------------------+-----------+
 
   The source / class / library path will accept Filesets or Paths. If there are multiple source / class 
   directories, it is possible to specify a common parent directory and have the tool find all the 
@@ -87,47 +109,97 @@ Sanity4J Ant Task user guide
   a default configuration, these could be findbugs-1.3.9, pmd-4.2.5, checkstyle-4.4 and 
   cobertura-1.9.2         
 
-  Below is sample XML file
+  Below is a sample XML file with examples for both Ant macros.
 
 +-------------------------------+
-	<project name="test_sanity4j_ant" default="analyse">
-	
-	    <!-- Run the analysis -->
-	    <target name="analyse"
-	        description="This target runs the QA tools against the given project. The project's coverage task should have been run first.">
-	
-	        <!-- Imports -->
-	        <typedef
-	            resource  ="sanity4j-ant.xml"
-	            classpath ="target/sanity4j.jar"/>
-	
-	        <!-- Run the Sanity4J QA task -->
-	        <sanity4j.run
-	            products.dir="../sanity4j-with-tools/src/main/resources/tools"
-	            report.dir="target/sanity4j-ant-report"
-	            coverage.data.file="target/cobertura/cobertura.ser">
-	
-	            <source.path>
-	               <fileset dir="src/main/java">
-	                  <include name="**/*.java"/>
-	               </fileset>
-	               <fileset dir="src/test/java">
-	                  <include name="**/*.java"/>
-	               </fileset>
-	            </source.path>
-	
-	            <class.path>
-	               <path path="target/classes"/>
-	               <path path="target/test-classes"/>
-	            </class.path>
-	
-	            <library.path>
-	               <path path="target/sanity4j.jar"/>
-	            </library.path>
-	
-	         </sanity4j.run>
-	
-	    </target>
-	
-	</project>
+<project name="test_sanity4j_ant" default="analyse.test">
+
+    <target name="analyse.test" depends="analyse.single, analyse.multi" />
+
+    <!-- Run the analysis -->
+    <target name="analyse.single"
+        description="This target runs the QA tools against the given project. 
+            The project's coverage task should have been run first.">
+
+        <!-- Imports -->
+        <typedef
+            resource  ="sanity4j-ant.xml"
+            classpath ="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+
+        <!-- Run the Sanity4J QA task -->
+        <sanity4j.run
+            products.dir="assembly/sanity4j-with-tools/tools"
+            report.dir="target/sanity4j-ant-report-single"
+            coverage.data.file="target/cobertura/cobertura.ser">
+
+            <source.path>
+               <fileset dir="src/main/java">
+                  <include name="**/*.java"/>
+               </fileset>
+               <fileset dir="src/test/java">
+                  <include name="**/*.java"/>
+               </fileset>
+            </source.path>
+
+            <class.path>
+               <path path="target/classes"/>
+               <path path="target/test-classes"/>
+            </class.path>
+
+            <library.path>
+               <path path="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+            </library.path>
+
+         </sanity4j.run>
+
+    </target>
+
+
+    <!-- Run the analysis -->
+    <target name="analyse.multi"
+        description="This target runs the QA tools against the given project,
+            merging coverage datafiles. The project's coverage task should have been run first.">
+
+        <!-- Imports -->
+        <typedef
+            resource  ="sanity4j-ant.xml"
+            classpath ="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+
+        <!-- Run the Sanity4J QA task -->
+        <sanity4j
+            products.dir="assembly/sanity4j-with-tools/tools"
+            report.dir="target/sanity4j-ant-report-mulit"
+            coverage.merge.data.file="target/cobertura/cobertura-merged.ser">
+
+            <source.path>
+               <fileset dir="../sanity4j-test/maven2-multi/child1/src/main/java">
+                  <include name="**/*.java"/>
+               </fileset>
+               <fileset dir="../sanity4j-test/maven2-multi/child1/src/test/java">
+                  <include name="**/*.java"/>
+               </fileset>
+            </source.path>
+
+            <class.path>
+               <path path="../sanity4j-test/maven2-multi/child1/target/classes"/>
+               <path path="../sanity4j-test/maven2-multi/child1/target/test-classes"/>
+               
+               <path path="../sanity4j-test/maven2-multi/child2/target/classes"/>
+               <path path="../sanity4j-test/maven2-multi/child2/target/test-classes"/>
+            </class.path>
+
+            <library.path>
+               <path path="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+            </library.path>
+
+            <coverage.data.files>
+               <path path="../sanity4j-test/maven2-multi/child1/target/cobertura/cobertura.ser"/>
+               <path path="../sanity4j-test/maven2-multi/child2/target/cobertura/cobertura.ser"/>
+            </coverage.data.files>
+
+         </sanity4j>
+
+    </target>
+
+</project>
 +-------------------------------+
