@@ -153,30 +153,30 @@ public class FindBugsRunner extends AbstractToolRunner
     private String generateFindBugsProjectXml(final List<String> sourcePaths,
                                               final List<String> classPaths, final List<String> libraryPaths)
     {
-        StringBuffer sb = new StringBuffer("<Project filename=\"unnamed project\" projectName=\"unnamed project\">\n");
+        StringBuffer buf = new StringBuffer("<Project filename=\"unnamed project\" projectName=\"unnamed project\">\n");
 
         for (int i = 0; i < classPaths.size(); i++)
         {
-            sb.append("   <Jar>");
-            sb.append(classPaths.get(i));
-            sb.append("</Jar>\n");
+            buf.append("   <Jar>");
+            buf.append(classPaths.get(i));
+            buf.append("</Jar>\n");
         }
 
         for (int i = 0; i < libraryPaths.size(); i++)
         {
-            sb.append("   <AuxClasspathEntry>");
-            sb.append(libraryPaths.get(i));
-            sb.append("</AuxClasspathEntry>\n");
+            buf.append("   <AuxClasspathEntry>");
+            buf.append(libraryPaths.get(i));
+            buf.append("</AuxClasspathEntry>\n");
         }
 
         for (int i = 0; i < sourcePaths.size(); i++)
         {
-            sb.append("   <SrcDir>");
-            sb.append(sourcePaths.get(i));
-            sb.append("</SrcDir>\n");
+            buf.append("   <SrcDir>");
+            buf.append(sourcePaths.get(i));
+            buf.append("</SrcDir>\n");
         }
 
-        sb.append
+        buf.append
         (
               "   <SuppressionFilter>\n"
             + "       <LastVersion value=\"-1\" relOp=\"NEQ\"/>\n"
@@ -184,6 +184,6 @@ public class FindBugsRunner extends AbstractToolRunner
             + "</Project>\n"
         );
 
-        return sb.toString();
+        return buf.toString();
     }
 }

@@ -15,6 +15,8 @@ public final class Tool
 {
     /** <a href="http://checkstyle.sourceforge.net/">Checkstyle</a> static source code analyser. */
     public static final Tool CHECKSTYLE = new Tool("checkstyle", "Checkstyle");
+    /** <a href="http://cobertura.sourceforge.net/">Cobertura</a> datafile merge tool. */
+    public static final Tool COBERTURA_MERGE = new Tool("cobertura-merge", "Cobertura Merge");
     /** <a href="http://cobertura.sourceforge.net/">Cobertura</a> unit test coverage analysis. */
     public static final Tool COBERTURA = new Tool("cobertura", "Cobertura");
     /** <a href="http://findbugs.sourceforge.net/">FindBugs</a> static byte-code analyser. */
@@ -30,6 +32,7 @@ public final class Tool
     public static final List<Tool> TOOLS = Collections.unmodifiableList(Arrays.asList(new Tool[]
     {
        CHECKSTYLE,
+       COBERTURA_MERGE,
        COBERTURA,
        FINDBUGS,
        //JUNIT,

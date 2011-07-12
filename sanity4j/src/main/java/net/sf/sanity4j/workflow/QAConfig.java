@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.sanity4j.util.QaLogger;
+import net.sf.sanity4j.util.QaUtil;
 import net.sf.sanity4j.util.Tool;
 
 /**
@@ -43,15 +44,25 @@ public final class QAConfig
     private String reportDir;
 
     /** 
-     * The file containing the jUnit coverage data. 
+     * The file containing the merged jUnit coverage data. 
      */
-    private String coverageDataFile;
+    private String coverageMergeDataFile;
+
+    /** 
+     * The list of files containing the jUnit coverage data. 
+     */
+    private List<String> coverageDataFiles = new ArrayList<String>();
 
     /** 
      * The summary data file, if used. 
      */
     private String summaryDataFile;
 
+    /**
+     * The path location to the external properties file (sanity4j.properties).
+     */
+    private String externalPropertiesPath;
+    
     /** 
      * The temporary directory.
      */
@@ -192,27 +203,98 @@ public final class QAConfig
      */
     public void setCoverageDataFile(final String coverageDataFile)
     {
-    	if(coverageDataFile != null)
-    	{
-	    	File file = new File(coverageDataFile);
-	    	
-	    	if(file.exists())
-	    	{
-	            this.coverageDataFile = coverageDataFile;
-	    	}
-	    	else
-	    	{
-	    		QaLogger.getInstance().warn("Unabe to locate coverage data file: " + coverageDataFile);
-	    	}
-    	}
+        addCoverageDataFile(coverageDataFile);
     }
 
+    /**
+     * @param coverageDataFile The coverage data file to add to the list.
+     */
+    public void addCoverageDataFile(final String coverageDataFile)
+    {
+        if (coverageDataFile != null && coverageDataFile.length() > 0)
+        {
+            File file = new File(coverageDataFile);
+            
+            if (file.exists() && file.isFile())
+            {
+                if (!coverageDataFiles.contains(coverageDataFile))
+                {
+                    coverageDataFiles.add(coverageDataFile);
+                    QaLogger.getInstance().debug("Added coverage data file to list: " + coverageDataFile);
+                }
+                else
+                {
+                    QaLogger.getInstance().debug("Coverage data file is already in the list: " + coverageDataFile);
+                }
+            }
+            else
+            {
+                QaLogger.getInstance().warn("Unabe to locate coverage data file: " + coverageDataFile);
+            }
+        }
+        else
+        {
+            QaLogger.getInstance().debug("Invalid coverage data file name: " + coverageDataFile);
+        }
+    }
+    
     /**
      * @return Returns the coverage data file.
      */
     public String getCoverageDataFile()
     {
-    	return coverageDataFile;
+        if (coverageDataFiles.size() < 1)
+        {
+            return null;
+        }
+        else if (coverageDataFiles.size() > 1)
+        {
+            return getCoverageMergeDataFile();
+        }
+        else
+        {
+            return coverageDataFiles.get(0);
+        }
+    }
+
+    /**
+     * @return Returns the coverage data file.
+     */
+    public String getCoverageMergeDataFiles()
+    {
+        if (coverageDataFiles.size() < 1)
+        {
+            return null;
+        }
+        else if (coverageDataFiles.size() > 1)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            int index = 0;
+            for (String coverageDataFile : coverageDataFiles)
+            {
+                builder.append(coverageDataFile);
+                
+                if (++index < coverageDataFiles.size())
+                {
+                    builder.append(" ");
+                }
+            }
+            
+            return builder.toString();
+        }
+        else
+        {
+            return coverageDataFiles.get(0);
+        }
+    }
+
+    /**
+     * @return The number of coverage data files.
+     */
+    public int getCoverageDataFileCount()
+    {
+        return coverageDataFiles.size();
     }
 
     /**
@@ -331,6 +413,7 @@ public final class QAConfig
        params.put("classes", getCombinedClassDir().getPath());
        params.put("libs", getCombinedLibraryDir().getPath());
        params.put("coverageDataFile", getCoverageDataFile());
+       params.put("coverageMergeDataFiles", getCoverageMergeDataFiles());
        params.put("tempDir", getTempDir().getPath());
        params.put("File.separatorChar", File.separator);
        params.put("File.pathSeparator", File.pathSeparator);
@@ -346,5 +429,45 @@ public final class QAConfig
     public File getToolResultFile(final Tool tool)
     {
        return new File(getTempDir(), tool.getId() + "_result.xml");
+    }
+
+    /**
+     * The path location to the external properties file (sanity4j.properties).
+     *  
+     * @param externalPropertiesPath the path location to the external properties file.
+     */
+    public void setExternalPropertiesPath(final String externalPropertiesPath)
+    {
+        this.externalPropertiesPath = externalPropertiesPath;
+        QaUtil.setExternalPropertiesPath(externalPropertiesPath);
+    }
+
+    /**
+     * The path location to the external properties file (sanity4j.properties).
+     * 
+     * @return the path location to the external properties file (sanity4j.properties).
+     */
+    public String getExternalPropertiesPath()
+    {
+        return externalPropertiesPath;
+    }
+
+    /**
+     * Set the file containing the merged jUnit coverage data.
+     * 
+     * @param coverageMergeDataFile the file containing the merged jUnit coverage data.
+     */
+    public void setCoverageMergeDataFile(final String coverageMergeDataFile)
+    {
+        this.coverageMergeDataFile = coverageMergeDataFile;
+    }
+
+    /**
+     * Get the file containing the merged jUnit coverage data.
+     * @return the file containing the merged jUnit coverage data.
+     */
+    public String getCoverageMergeDataFile()
+    {
+        return coverageMergeDataFile;
     }
 }
