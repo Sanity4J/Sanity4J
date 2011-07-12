@@ -87,13 +87,13 @@ public final class QaUtil
         
         if (externalPropertiesPath != null && externalPropertiesPath.length() > 0)
         {
-            if (externalPropertiesPath.endsWith(File.pathSeparator))
+            if (externalPropertiesPath.endsWith(File.separator))
             {
                 propFile = externalPropertiesPath + "sanity4j.properties";
             }
             else
             {
-                propFile = externalPropertiesPath + File.pathSeparator + "sanity4j.properties";
+                propFile = externalPropertiesPath + File.separator + "sanity4j.properties";
             }
         }
         else
@@ -121,9 +121,11 @@ public final class QaUtil
     private static Properties readProperties(final File file)
     {
        Properties externalProps = new Properties();
-       
+
        if (file.canRead())
        {
+           QaLogger.getInstance().debug("Reading external properties file: " + file.getPath());
+
            FileInputStream fis = null;
            
            try
