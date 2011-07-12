@@ -17,12 +17,14 @@
 **
 ** Within a project's build.xml file, include the following line:
 **
-**  <typedef
-**    resource  ="sanity4j-ant.xml"
-**    classpath ="${yourSanity4JLibDir}/sanity4j.jar"/>
+**   <typedef
+**       resource  ="sanity4j-ant.xml"
+**       classpath ="${yourSanity4JLibDir}/sanity4j.jar"/>
 **
 ** MACROS
 **   sanity4j.run - Runs Sanity4J against a project
+**   sanity4j     - Runs Sanity4J against a project, with support
+**                  for aggregation of coverage data files.
 **
 ** AUTHOR
 ** Yiannis Paschalidis, 2008.
@@ -66,8 +68,8 @@
     **
     **  Attributes:
     **
-	**     products.dir 
-	**
+    **     products.dir 
+    **
     **          The location of the products vob containing the QA tools 
     **          (FindBugs, PMD, CheckStyle, etc.)
     **
@@ -83,7 +85,7 @@
     **
     **     summary.data.file [optional]
     **
-    **          The location of a (persitent) file to store summary data, if
+    **          The location of a (persistent) file to store summary data, if
     **          you want to include trend graphs in your report.
     **
     **     include.tool.output [optional]
@@ -91,53 +93,58 @@
     **          If set to "true", the raw tool output is also copied to the 
     **          report directory.
     **
-	**     java.runtime [optional]
-	**
+    **     external.properties.path [optional]
+    **
+    **          The location of the sanity4j.properties.
+    **          Defaults to the current directory.
+    **
+    **     java.runtime [optional]
+    **
     **          The location of the java executable; 1.5 or later.
     **
-	** Elements:
-	**
-	**     source.path
-	**	
-    **          This element accepts nested Paths pointing to
-	**	        the location of *this* project's source only.
-	**	        If you have multiple source directories contained within
-	**	        a main directory, you can just list the main directory
-	**	        here - the task will search for all source directories.
+    ** Elements:
     **
-	**     class.path
-	**
+    **     source.path
+    **  
     **          This element accepts nested Paths pointing to
-	**          the location of *this* project's built classes/jars only
-	**    
-	** 	   library.path
-	**
-    **          This element accepts nested Paths pointing to
-	**	        the location of jars/classes that this project depends on. 
-	**	        Don't use e.g. an entire local Maven repository. Only include
-	**	        libraries which the project directly depends on.
+    **          the location of *this* project's source only.
+    **          If you have multiple source directories contained within
+    **          a main directory, you can just list the main directory
+    **          here - the task will search for all source directories.
     **
+    **     class.path
+    **
+    **          This element accepts nested Paths pointing to
+    **          the location of *this* project's built classes/jars only
+    **    
+    **     library.path
+    **
+    **          This element accepts nested Paths pointing to
+    **          the location of jars/classes that this project depends on. 
+    **          Don't use e.g. an entire local Maven repository. Only include
+    **          libraries which the project directly depends on.
+    **    
     ** EXAMPLE:
     **
-    **  <sanity4j.run
-    **      products.dir="${component.rootdir}/tools"
-    **      report.dir="${build.dir}/reports">
+    **     <sanity4j.run
+    **         products.dir="${component.rootdir}/tools"
+    **         report.dir="${build.dir}/reports">
     **    
-    **    <source.path>
-    **      <path path="${component.rootdir}"/>
-    **    </source.path>
-    **    <class.path>
-    **      <path path="${build.dir}/libs"/>
-    **    </class.path>
-    **    <library.path>
-    **      <path>
-    **        <fileset dir="${yourRepository}">
-    **          <include name="yourDependency1/**/*.jar"/>
-    **          <include name="yourDependency2/**/*.jar"/>
-    **        </fileset>
-    **      </path>
-    **    </library.files>      
-    **  </sanity4j.run>
+    **         <source.path>
+    **             <path path="${component.rootdir}"/>
+    **         </source.path>
+    **         <class.path>
+    **             <path path="${build.dir}/libs"/>
+    **         </class.path>
+    **         <library.path>
+    **             <path>
+    **                 <fileset dir="${yourRepository}">
+    **                     <include name="yourDependency1/**/*.jar"/>
+    **                     <include name="yourDependency2/**/*.jar"/>
+    **                 </fileset>
+    **             </path>
+    **         </library.files>      
+    **     </sanity4j.run>
     **
     **************************************************************** -->
     <macrodef name="sanity4j.run">
@@ -148,39 +155,192 @@
         <attribute name="summary.data.file" default=""/>
         <attribute name="java.runtime" default="java"/>
         <attribute name="include.tool.output" default="false"/>
-        
+        <attribute name="external.properties.path" default=""/>
+
         <element name="source.path"/>
         <element name="class.path"/>
         <element name="library.path"/>
+        <element name="coverage.data.files"/>
         
         <sequential>
         
-          <!-- delete all old data/reports -->  
-	 	  <delete dir="@{report.dir}" failonerror="false" />
-		  <mkdir dir="@{report.dir}" />
+            <!-- delete all old data/reports -->  
+            <delete dir="@{report.dir}" failonerror="false" />
+            <mkdir dir="@{report.dir}" />
 
-       	  <!-- generate the raw output -->
-          <echo message="Performing QA analysis"/>
-		  <sanity4j.runtask
-		    productsDir="@{products.dir}"
-		    reportDir="@{report.dir}"
-		    coverageDataFile="@{coverage.data.file}"
-		    summaryDataFile="@{summary.data.file}"
-		    javaRuntime="@{java.runtime}" 
-		    includeToolOutput="@{include.tool.output}">
-		  	
-				<sourcepath>
-					<source.path/>
-				</sourcepath>
-				<classpath>
-					<class.path/>
-				</classpath>
-				<librarypath>
-					<library.path/>
-				</librarypath>
-				        
-	        </sanity4j.runtask>
-			  
+            <!-- generate the raw output -->
+            <echo message="Performing QA analysis"/>
+            <sanity4j.runtask
+                productsDir="@{products.dir}"
+                reportDir="@{report.dir}"
+                coverageDataFile="@{coverage.data.file}"
+                summaryDataFile="@{summary.data.file}"
+                javaRuntime="@{java.runtime}" 
+                includeToolOutput="@{include.tool.output}"
+                externalPropertiesPath="@{external.properties.path}">
+            
+                <sourcepath>
+                    <source.path/>
+                </sourcepath>
+
+                <classpath>
+                    <class.path/>
+                </classpath>
+
+                <librarypath>
+                    <library.path/>
+                </librarypath>
+                
+            </sanity4j.runtask>
+              
+        </sequential>
+    </macrodef>
+
+    <!-- ***************************************************************
+    ** This runs the QA tools against a project and produces reports that
+    ** can be published on a webserver.
+    **
+    **  Attributes:
+    **
+    **     products.dir 
+    **
+    **          The location of the products vob containing the QA tools 
+    **          (FindBugs, PMD, CheckStyle, etc.)
+    **
+    **     report.dir
+    **
+    **          The report output directory. Subdirectories will be created
+    **          for each type of report.    
+    **
+    **     coverage.merge.data.file [optional]
+    **
+    **          A coverage data file (e.g. cobertura-merged.ser) if you want to
+    **          merge multiple coverage data files into single report.
+    **
+    **     summary.data.file [optional]
+    **
+    **          The location of a (persitent) file to store summary data, if
+    **          you want to include trend graphs in your report.
+    **
+    **     include.tool.output [optional]
+    **
+    **          If set to "true", the raw tool output is also copied to the 
+    **          report directory.
+    **
+    **     external.properties.path [optional]
+    **
+    **          The location of the sanity4j.properties.
+    **          Defaults to the current directory.
+    **
+    **     java.runtime [optional]
+    **
+    **          The location of the java executable; 1.5 or later.
+    **
+    ** Elements:
+    **
+    **     source.path
+    **  
+    **          This element accepts nested Paths pointing to
+    **          the location of *this* project's source only.
+    **          If you have multiple source directories contained within
+    **          a main directory, you can just list the main directory
+    **          here - the task will search for all source directories.
+    **
+    **     class.path
+    **
+    **          This element accepts nested Paths pointing to
+    **          the location of *this* project's built classes/jars only
+    **    
+    **     library.path
+    **
+    **          This element accepts nested Paths pointing to
+    **          the location of jars/classes that this project depends on. 
+    **          Don't use e.g. an entire local Maven repository. Only include
+    **          libraries which the project directly depends on.
+    **    
+    **     coverage.data.files
+    **
+    **          This element accepts nested Paths pointing to
+    **          the location of coverage data files to be merged.
+    **
+    ** EXAMPLE:
+    **
+    **     <sanity4j
+    **         products.dir="${component.rootdir}/tools"
+    **         report.dir="${build.dir}/reports"
+    **         coverage.merge.data.file="${build.dir}/cobertura-merged.ser">
+    **    
+    **         <source.path>
+    **             <path path="${component.rootdir}"/>
+    **         </source.path>
+    **         <class.path>
+    **             <path path="${build.dir}/libs"/>
+    **         </class.path>
+    **         <library.path>
+    **             <path>
+    **                 <fileset dir="${yourRepository}">
+    **                     <include name="yourDependency1/**/*.jar"/>
+    **                     <include name="yourDependency2/**/*.jar"/>
+    **                 </fileset>
+    **             </path>
+    **         </library.files>      
+    **         <coverage.data.files>
+    **             <path path="${build.dir}/yourProject1/cobertura.ser"/>
+    **             <path path="${build.dir}/yourProject2/cobertura.ser"/>
+    **         </coverage.data.files>
+    **     </sanity4j>
+    **
+    **************************************************************** -->
+    <macrodef name="sanity4j">
+    
+        <attribute name="products.dir"/>
+        <attribute name="report.dir"/>
+        <attribute name="coverage.merge.data.file" default="cobertura-merged.ser"/>
+        <attribute name="summary.data.file" default=""/>
+        <attribute name="java.runtime" default="java"/>
+        <attribute name="include.tool.output" default="false"/>
+        <attribute name="external.properties.path" default=""/>
+
+        <element name="source.path"/>
+        <element name="class.path"/>
+        <element name="library.path"/>
+        <element name="coverage.data.files"/>
+        
+        <sequential>
+        
+            <!-- delete all old data/reports -->  
+            <delete dir="@{report.dir}" failonerror="false" />
+            <mkdir dir="@{report.dir}" />
+
+            <!-- generate the raw output -->
+            <echo message="Performing QA analysis"/>
+            <sanity4j.runtask
+                productsDir="@{products.dir}"
+                reportDir="@{report.dir}"
+                coverageMergeDataFile="@{coverage.merge.data.file}"
+                summaryDataFile="@{summary.data.file}"
+                javaRuntime="@{java.runtime}" 
+                includeToolOutput="@{include.tool.output}"
+                externalPropertiesPath="@{external.properties.path}">
+            
+                <sourcepath>
+                    <source.path/>
+                </sourcepath>
+
+                <classpath>
+                    <class.path/>
+                </classpath>
+
+                <librarypath>
+                    <library.path/>
+                </librarypath>
+                
+                <coveragedatafiles>
+                    <coverage.data.files/>
+                </coveragedatafiles>
+                        
+            </sanity4j.runtask>
+              
         </sequential>
     </macrodef>
 

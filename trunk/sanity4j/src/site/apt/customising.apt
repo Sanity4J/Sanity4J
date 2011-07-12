@@ -3,27 +3,29 @@ Customising Sanity4J analysis
   The analysis can be customised using an external configuration file. On start-up, Sanity4J
   attempts to read external configuration from a standard Java properties file named 
   "<<<sanity4j.properties>>>" located in the working directory or the user's home directory.
+  (The location of the file can be further specificed by using the <<<externalPropertiesPath>>>.)
 
-* Customising which tools are run
+* Customising which tools are run.
 
   The "<<<sanity4j.toolsToRun>>>" property controls which tools will be run by Sanity4J. Multiple tools
   can be listed here, in a comma-separated list. The Available tools are listed in the table below.
  
-*------------+---------------------------------------------------+------------------------------------+------------------------------+
-| ID         | Tool name                                         | Description                        | Supported versions           |
-*----------------------------------------------------------------+------------------------------------+------------------------------+
-| checkstyle | {{{http://checkstyle.sourceforge.net}Checkstyle}} | Static source code analyser.       | 4.4                          |
-| cobertura  | {{{http://cobertura.sourceforge.net}Cobertura}}   | Unit test coverage analysis.       | 1.8, 1.9, 1.9.2              |
-| findbugs   | {{{http://findbugs.sourceforge.net}FindBugs}}     | Static byte-code analyser.         | 1.3.9                        |
-| pmd        | {{{http://pmd.sourceforge.net/}PMD}}              | Static source code analyser.       | 4.2.1, 4.2.2, 4.2.5          |
-| pmd-cpd    | {{{http://pmd.sourceforge.net/}PMD CPD}}          | Detects copy & pasted source code. | 4.2.1, 4.2.2, 4.2.5          |
-*------------+---------------------------------------------------+------------------------------------+------------------------------+
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
+||ID              || Tool name                                            || Description                                            || Supported versions          |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
+| checkstyle      | {{{http://checkstyle.sourceforge.net}Checkstyle}}     | Static source code analyser.                            | 4.4                          |
+| cobertura-merge | {{{http://cobertura.sourceforge.net}Cobertura Merge}} | Merges multiple datafiles before the coverage analysis. | 1.9.2                        |
+| cobertura       | {{{http://cobertura.sourceforge.net}Cobertura}}       | Unit test coverage analysis.                            | 1.8, 1.9, 1.9.2              |
+| findbugs        | {{{http://findbugs.sourceforge.net}FindBugs}}         | Static byte-code analyser.                              | 1.3.9                        |
+| pmd             | {{{http://pmd.sourceforge.net/}PMD}}                  | Static source code analyser.                            | 4.2.1, 4.2.2, 4.2.5          |
+| pmd-cpd         | {{{http://pmd.sourceforge.net/}PMD CPD}}              | Detects copy & pasted source code.                      | 4.2.1, 4.2.2, 4.2.5          |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 
   The default value for this parameter is:
   
-+-----------------------------------------------------------+
-sanity4j.toolsToRun=checkstyle,cobertura,findbugs,pmd,pmd-cpd
-+-----------------------------------------------------------+
++---------------------------------------------------------------------------+
+sanity4j.toolsToRun=checkstyle,cobertura-merge,cobertura,findbugs,pmd,pmd-cpd
++---------------------------------------------------------------------------+
 
 * Customising tool configuration.
 
@@ -36,22 +38,23 @@ sanity4j.toolsToRun=checkstyle,cobertura,findbugs,pmd,pmd-cpd
   example, $\{java\} will be replaced by the path to the JRE executable. The Variables available are 
   detailed in the table below.
    
-*---------------------+-----------------------------------------------------------------------------+
-| Variable            | Value                                                                       |
-*---------------------+-----------------------------------------------------------------------------+
-| java                | Path to JRE executable.                                                     |
-| javaArgs            | JRE arguments (memory, classpath, defines).                                 |
-| products            | The location of the tools directory.                                        |
-| source              | The path to the directory containing the combined sources to be analysed.   |
-| classes             | The path to the directory containing the combined classes to be analysed.   |
-| libs                | The path to the directory containing the combined libraries to be analysed. |
-| coverageDataFile    | The unit test coverage data file.                                           |
-| tempDir             | The temporary directory location.                                           |
-| File.separatorChar  | OS-specific File path separator character.                                  |
-| File.pathSeparator  | OS-specific path separator character.                                       |
-| outputFile          | The location where the tool should place it's output.                       |
-| toolHome            | The home directory for the tool (not available for ".home" properties).     |
-*---------------------+-----------------------------------------------------------------------------+
+*------------------------+-----------------------------------------------------------------------------+
+|| Variable              || Value                                                                      |
+*------------------------+-----------------------------------------------------------------------------+
+| java                   | Path to JRE executable.                                                     |
+| javaArgs               | JRE arguments (memory, classpath, defines).                                 |
+| products               | The location of the tools directory.                                        |
+| source                 | The path to the directory containing the combined sources to be analysed.   |
+| classes                | The path to the directory containing the combined classes to be analysed.   |
+| libs                   | The path to the directory containing the combined libraries to be analysed. |
+| coverageDataFile       | The unit test coverage data file.                                           |
+| coverageMergeDataFiles | The list of unit test coverage data files.                                  |
+| tempDir                | The temporary directory location.                                           |
+| File.separatorChar     | OS-specific File path separator character.                                  |
+| File.pathSeparator     | OS-specific path separator character.                                       |
+| outputFile             | The location where the tool should place it's output.                       |
+| toolHome               | The home directory for the tool (not available for ".home" properties).     |
+*------------------------+-----------------------------------------------------------------------------+
  
   Here is an example of configuring Checkstyle 4.4 to only use the Sun Code Conventions:
  
@@ -60,7 +63,7 @@ sanity4j.tool.checkstyle.4.4.command="${java}" ${javaArgs} com.puppycrawl.tools.
 -c "${toolHome}${File.separatorChar}sun_checks.xml" -f xml -o "${outputFile}" -r ${source}
 +-------------------------------+
  
-* Customising issue categories and severities
+* Customising issue categories and severities.
 
   Issue weightings and exclusions can be adjusted in settings files for each individual tool 
   (where supported) or centrally in the external Sanity4J property file. The names for each 
@@ -97,7 +100,7 @@ Checkstyle.MagicNumberCheck.severity=1
 Checkstyle.MagicNumberCheck.excludes=Test[A-Z].*,.*Test
 +-----------------------------------------------------+
 
-* Customising report output
+* Customising report output.
 
   The weighting for the quality metric can be modified if necessary. The default weighting is shown below. 
   

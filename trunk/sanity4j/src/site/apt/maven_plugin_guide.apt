@@ -48,6 +48,17 @@ Sanity4J Maven plugin user guide
 |                        | parameter is omitted, it is assumed that the default   |           |
 |                        | Cobertura data file will be used.                      |           |
 *------------------------+--------------------------------------------------------+-----------+
+| aggregate              | If this Maven project is a multi module parent, then   | No        |
+|                        | setting aggregate to true will enable merging of       |           |
+|                        | coverage data files.                                   |           |
+*------------------------+--------------------------------------------------------+-----------+
+| coverageMergeDataFile  | The location of the merged coverage data file.         | No        |
+|                        | Only used when aggregate is true. If this parameter is |           |
+|                        | omitted, then cobertura-merged.ser will be used.       |           |
+*------------------------+--------------------------------------------------------+-----------+
+| externalPropertiesPath | The path location of the sanity4j.properties file.     | No        |
+|                        | The default is the current directory.                  |           |
+*------------------------+--------------------------------------------------------+-----------+
 | javaRuntime            | The full path to the java run-time to use.             | No        | 
 |                        | If not specified, "java" is used.                      |           |
 *------------------------+--------------------------------------------------------+-----------+
@@ -78,6 +89,12 @@ Sanity4J Maven plugin user guide
 |                        | project depends on. Don't use e.g. an entire local     |           |
 |                        | maven repository; only include direct dependencies.    |           |  
 |                        | The default is to use the project's test class path.   |           |
+*------------------------+--------------------------------------------------------+-----------+
+| useHistory             | Allows retrieval of the QA statistics history CSV file | No        |
+|                        | from the current deployed site. For this to work the   |           |
+|                        | Distribution Management must be defined within your    |           |
+|                        | project's POM file for the location of the Site.       |           | 
+|                        | The default is true.                                   |           |
 *------------------------+--------------------------------------------------------+-----------+
 
   The source / class / library paths will accept multiple path entries. If there are multiple 

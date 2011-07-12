@@ -115,10 +115,11 @@ public final class JaxbMarshaller
         {
             fis = new FileInputStream(file);
             InputStream stream = namespace == null ? fis : new RegexpReplaceInputStream(fis, "<([^!?])([^>]*)>", "<$1$2 xmlns=\"" + namespace + "\">");
-
+            
             XMLInputFactory xmlif = XMLInputFactory.newInstance();
-            XMLEventReader eventReader = xmlif.createXMLEventReader(stream);
-
+            xmlif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+            XMLEventReader eventReader = xmlif.createXMLEventReader(stream);    
+            
             // Iterate through all the StartElement events in the filtered event reader
             JAXBContext jaxbContext = JAXBContext.newInstance(pkg, JaxbMarshaller.class.getClassLoader());
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();

@@ -98,6 +98,33 @@ public class RunQA extends Task
     }
     
     /**
+     * @param path The coverageDataFile to add to the list.
+     */
+    public void addConfiguredCoverageDataFiles(final Path path) 
+    {
+        for (String pathElement : path.list())
+        {
+            qaProcessor.getConfig().addCoverageDataFile(pathElement);
+        }
+    }
+    
+    /**
+     * @param coverageMergeDataFile The coverageMergeDataFile to set.
+     */
+    public void setCoverageMergeDataFile(final String coverageMergeDataFile) 
+    {
+        qaProcessor.getConfig().setCoverageMergeDataFile(coverageMergeDataFile);
+    }
+    
+    /**
+     * @param externalPropertiesPath The externalPropertiesPath to set.
+     */
+    public void setExternalPropertiesPath(final String externalPropertiesPath) 
+    {
+        qaProcessor.getConfig().setExternalPropertiesPath(externalPropertiesPath);
+    }
+
+    /**
      * @param summaryDataFile The summaryDataFile to set.
      */
     public void setSummaryDataFile(final String summaryDataFile) 

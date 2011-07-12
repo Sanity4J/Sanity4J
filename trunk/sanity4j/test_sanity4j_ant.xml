@@ -1,18 +1,21 @@
-<project name="test_sanity4j_ant" default="analyse">
+<project name="test_sanity4j_ant" default="analyse.test">
+
+    <target name="analyse.test" depends="analyse.single, analyse.multi" />
 
     <!-- Run the analysis -->
-    <target name="analyse"
-        description="This target runs the QA tools against the given project. The project's coverage task should have been run first.">
+    <target name="analyse.single"
+        description="This target runs the QA tools against the given project. 
+            The project's coverage task should have been run first.">
 
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j.run
-            products.dir="../sanity4j-with-tools/src/main/resources/tools"
-            report.dir="target/sanity4j-ant-report"
+            products.dir="assembly/sanity4j-with-tools/tools"
+            report.dir="target/sanity4j-ant-report-single"
             coverage.data.file="target/cobertura/cobertura.ser">
 
             <source.path>
@@ -30,10 +33,57 @@
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
             </library.path>
 
          </sanity4j.run>
+
+    </target>
+
+
+    <!-- Run the analysis -->
+    <target name="analyse.multi"
+        description="This target runs the QA tools against the given project,
+            merging coverage datafiles. The project's coverage task should have been run first.">
+
+        <!-- Imports -->
+        <typedef
+            resource  ="sanity4j-ant.xml"
+            classpath ="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+
+        <!-- Run the Sanity4J QA task -->
+        <sanity4j
+            products.dir="assembly/sanity4j-with-tools/tools"
+            report.dir="target/sanity4j-ant-report-mulit"
+            coverage.merge.data.file="target/cobertura/cobertura-merged.ser">
+
+            <source.path>
+               <fileset dir="../sanity4j-test/maven2-multi/child1/src/main/java">
+                  <include name="**/*.java"/>
+               </fileset>
+               <fileset dir="../sanity4j-test/maven2-multi/child1/src/test/java">
+                  <include name="**/*.java"/>
+               </fileset>
+            </source.path>
+
+            <class.path>
+               <path path="../sanity4j-test/maven2-multi/child1/target/classes"/>
+               <path path="../sanity4j-test/maven2-multi/child1/target/test-classes"/>
+               
+               <path path="../sanity4j-test/maven2-multi/child2/target/classes"/>
+               <path path="../sanity4j-test/maven2-multi/child2/target/test-classes"/>
+            </class.path>
+
+            <library.path>
+               <path path="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+            </library.path>
+
+            <coverage.data.files>
+               <path path="../sanity4j-test/maven2-multi/child1/target/cobertura/cobertura.ser"/>
+               <path path="../sanity4j-test/maven2-multi/child2/target/cobertura/cobertura.ser"/>
+            </coverage.data.files>
+
+         </sanity4j>
 
     </target>
 
