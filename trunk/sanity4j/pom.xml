@@ -188,7 +188,7 @@
       <version>1.2.0</version>
       <scope>runtime</scope>
     </dependency>
-	
+    
   </dependencies>
   
   <build>
@@ -242,20 +242,9 @@
           </plugins>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-5</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <mainClass>net.sf.sanity4j.ui.QaApp</mainClass>
-            </manifest>
-          </archive>          
-        </configuration>
         <executions>
           <execution>
             <id>make-assembly</id>
@@ -263,13 +252,18 @@
             <goals>
               <goal>single</goal>
             </goals>
+            <configuration>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <archive>
+                <manifest>
+                  <mainClass>net.sf.sanity4j.ui.QaApp</mainClass>
+                </manifest>
+              </archive>          
+            </configuration>
           </execution>
-        </executions>        
-      </plugin>
-      
-	 <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
+
           <execution>
             <id>assembly</id>
             <phase>package</phase>
@@ -296,6 +290,20 @@
         </executions>
       </plugin>
       
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>instrument</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+          
     </plugins>
   </build>
 
@@ -314,11 +322,13 @@
           <show>private</show>
         </configuration>
       </plugin>
+      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>2.3</version>
       </plugin>
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
@@ -357,5 +367,19 @@
       <url>file://${basedir}/repository</url>
     </repository>
   </repositories>
+
+  <!-- @see http://maven.apache.org/plugins/maven-site-plugin/examples/site-deploy-to-sourceforge.net.html -->
+  <distributionManagement>
+    <repository>
+      <id>staging-repository</id>
+      <name>staging-repository</name>
+      <url>scp://shell.sourceforge.net/home/project-web/sanity4j/htdocs/m2-repo</url>
+    </repository>
+    <site>
+      <id>sites</id>
+      <name>sites</name>
+      <url>scp://shell.sourceforge.net/home/project-web/sanity4j/htdocs</url>
+    </site>
+  </distributionManagement>     
 
 </project>
