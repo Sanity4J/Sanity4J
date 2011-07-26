@@ -125,7 +125,7 @@ sanity4j.report.metric.quality.expression=1.0 - ((#highCount * 100.0 + #signific
   into that same jar as your custom rule.
   
   The format of the file consists of a mapping of the name of the 
-  resource to the extracted, to a location of the file for the report.
+  resource to be extracted, to a location of the file for the report.
 
 +-----------------------------------------------------+
 SQL_TIMESTAMP_COMPARISON.html=rules/findbugs/SQL_TIMESTAMP_COMPARISON.html
@@ -139,5 +139,5 @@ SQL_TIMESTAMP_COMPARISON.html=rules/findbugs/SQL_TIMESTAMP_COMPARISON.html
   and correct code, and is linked to by the report.
   
   As the html file would be placed in the same jar as your plugin 
-  class, it needs to be extracted to a location that the report can
+  class, it needs to be extracted to a location where the report can
   reference it, thus the mapping in the properties file.
