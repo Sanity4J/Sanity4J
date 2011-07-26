@@ -108,3 +108,36 @@ Checkstyle.MagicNumberCheck.excludes=Test[A-Z].*,.*Test
 sanity4j.report.metric.quality.expression=1.0 - ((#highCount * 100.0 + #significantCount * 20.0 +
 #moderateCount * 5.0 + #lowCount * 2.0 + #infoCount * 0.0) / #linesOfCode)
 +-------------------------------+
+
+* Customising the static content used by tools in the report.
+
+  Custom rules can be written for each of the tools used by Sanity4J.
+  When a custom rule is written, it usually is accompanied by a page 
+  in the report specific for that custom rule. 
+  
+  Sanity4J uses the properties file "<<<ExtractStaticContent.properties>>>" 
+  to incorporate the page in the report.
+  
+  This properties file can be placed in the working directory, or on
+  the classpath. Therefore, if you write your own custom rule, and 
+  package the compiled class in a plugin jar for the tool, then you 
+  could additionally place the "<<<ExtractStaticContent.properties>>>"
+  into that same jar as your custom rule.
+  
+  The format of the file consists of a mapping of the name of the 
+  resource to the extracted, to a location of the file for the report.
+
++-----------------------------------------------------+
+SQL_TIMESTAMP_COMPARISON.html=rules/findbugs/SQL_TIMESTAMP_COMPARISON.html
++-----------------------------------------------------+
+
+  The above is an example for a custom "findbugs" rule used to
+  check that <<<java.util.Date>>> objects are not being used in 
+  comparison operations with <<<java.sql.Timestamp>>> objects.
+  
+  The above named html file would be a page that describes incorrect 
+  and correct code, and is linked to by the report.
+  
+  As the html file would be placed in the same jar as your plugin 
+  class, it needs to be extracted to a location that the report can
+  reference it, thus the mapping in the properties file.
