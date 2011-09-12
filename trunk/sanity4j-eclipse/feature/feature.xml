@@ -2,7 +2,7 @@
 <feature
       id="net.sf.sanity4j.eclipse.feature"
       label="Sanity4J Feature"
-      version="1.0.0"
+      version="1.0.5"
       provider-name="The Sanity4J Team">
    <install-handler/>
 
@@ -810,7 +810,6 @@ END OF TERMS AND CONDITIONS
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ant.core"/>
       <import plugin="org.apache.ant"/>
-      <import plugin="com.rational.clearcase"/>
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.jface.text"/>
