@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.sf.sanity4j.feature"
+      id="net.sf.sanity4j.eclipse.feature"
       label="Sanity4J Feature"
       version="1.0.0"
       provider-name="The Sanity4J Team">
@@ -820,7 +820,7 @@ END OF TERMS AND CONDITIONS
          id="net.sf.sanity4j.eclipse.plugin"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.5"
          unpack="false"/>
 
 </feature>
