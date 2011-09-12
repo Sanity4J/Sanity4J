@@ -2,7 +2,7 @@
 <feature
       id="net.sf.sanity4j.eclipse.feature"
       label="Sanity4J Feature"
-      version="1.0.5"
+      version="1.0.4"
       provider-name="The Sanity4J Team">
    <install-handler/>
 
