@@ -15,8 +15,8 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin
 {
-    /** The plug-in ID. */
-    public static final String PLUGIN_ID = "sanity4j_plugin";
+    /** The plug-in ID. Must match the id in the plugin.xml.*/
+    public static final String PLUGIN_ID = "net.sf.sanity4j.eclipse.plugin";
 
     /** The shared instance. */
     private static Activator plugin;
