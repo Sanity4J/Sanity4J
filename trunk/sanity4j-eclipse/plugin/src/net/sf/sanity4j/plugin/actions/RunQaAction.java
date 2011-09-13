@@ -99,7 +99,7 @@ public class RunQaAction implements IEditorActionDelegate
 
         try
         {
-            tempFile = new File(System.getProperty("java.io.tmpdir"), "sfpQaPlugin");
+            tempFile = new File(System.getProperty("java.io.tmpdir"), "sanity4jPlugin");
             FileUtil.delete(tempFile);
             
             if (!tempFile.mkdir())
@@ -209,6 +209,10 @@ public class RunQaAction implements IEditorActionDelegate
             {
                 alert("Sanity4J failed:\n" + e.getCause().getMessage());
             }
+            else if (e instanceof InvocationTargetException)
+            {
+                alert("Unknown error running Sanity4J: " + e.getCause());
+            }
             else
             {
                 alert("Unknown error running Sanity4J: " + e);
@@ -251,6 +255,9 @@ public class RunQaAction implements IEditorActionDelegate
         }
     }
     
+    /** The plug-in view. Must match the id in the plugin.xml. */
+    public static final String PLUGIN_VIEW = "net.sf.sanity4j.eclipse.plugin.views.SimpleBrowserView";
+    
     /**
      * Opens a browser window.
      * @param url the url to open
@@ -260,13 +267,13 @@ public class RunQaAction implements IEditorActionDelegate
         IWorkbenchPage[] pages = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages();
         IWorkbenchPage page = pages[0];
 
-        SimpleBrowserView browser = (SimpleBrowserView) page.findView("sanity4j_plugin.views.SimpleBrowserView");
+        SimpleBrowserView browser = (SimpleBrowserView) page.findView(PLUGIN_VIEW);
         
         if (browser == null)
         {
             try
             {
-                browser = (SimpleBrowserView) page.showView("sanity4j_plugin.views.SimpleBrowserView");
+                browser = (SimpleBrowserView) page.showView(PLUGIN_VIEW);
             }
             catch (PartInitException e)
             {
