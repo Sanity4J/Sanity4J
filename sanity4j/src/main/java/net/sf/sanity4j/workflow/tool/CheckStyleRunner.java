@@ -1,10 +1,13 @@
 package net.sf.sanity4j.workflow.tool;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import net.sf.sanity4j.util.ExternalProcessRunner;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
+import net.sf.sanity4j.util.QaLogger;
+import net.sf.sanity4j.util.QaUtil;
 import net.sf.sanity4j.util.Tool;
 
 /**
@@ -33,14 +36,44 @@ public class CheckStyleRunner extends AbstractToolRunner
         FileUtil.createDir(resultFile.getParentFile().getPath());
 
         // Run the process
-        ExternalProcessRunner.runProcess(commandLine, System.out, System.err);
+        ByteArrayOutputStream stdout = null; 
+        ByteArrayOutputStream stderr = null; 
+
+        try
+        {
+            stdout = new ByteArrayOutputStream();
+            stderr = new ByteArrayOutputStream();
+            
+            ExternalProcessRunner.runProcess(commandLine, stdout, stderr);
+            
+            String stdoutString = new String(stdout.toByteArray());
+
+            if (FileUtil.hasValue(stdoutString))
+            {
+                QaLogger.getInstance().info(stdoutString);
+            }
+            
+            String stderrString = new String(stderr.toByteArray());
+
+            if (FileUtil.hasValue(stderrString))
+            {
+                QaLogger.getInstance().error(stderrString);
+            }
+        }
+        finally
+        {
+            QaUtil.safeClose(stdout);
+            QaUtil.safeClose(stderr);
+        }
 
         // The checkstyle result is the number of errors found, so
         // the only way to determine if it succeeded is to check if
         // the output file has been created successfully
         if (!resultFile.exists() || resultFile.length() == 0)
         {
-            throw new QAException("Checkstyle failed to generate output");
+            String out = new String(stdout.toByteArray());
+            String err = new String(stderr.toByteArray());
+            throw new QAException("Checkstyle Command [" + commandLine + "] failed to generate output: [" + out  + "] [" + err + "]");
         }
     }
 

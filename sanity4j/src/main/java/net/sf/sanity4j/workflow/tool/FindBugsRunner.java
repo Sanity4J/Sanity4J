@@ -1,5 +1,6 @@
 package net.sf.sanity4j.workflow.tool;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.Map;
 import net.sf.sanity4j.util.ExternalProcessRunner;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
+import net.sf.sanity4j.util.QaLogger;
+import net.sf.sanity4j.util.QaUtil;
 import net.sf.sanity4j.util.Tool;
 import net.sf.sanity4j.workflow.QAConfig;
 
@@ -44,11 +47,41 @@ public class FindBugsRunner extends AbstractToolRunner
         File resultFile = config.getToolResultFile(Tool.FINDBUGS);
         FileUtil.createDir(resultFile.getParentFile().getPath());
 
-        int result = ExternalProcessRunner.runProcess(commandLine, System.out, System.err);
+        ByteArrayOutputStream stdout = null; 
+        ByteArrayOutputStream stderr = null; 
 
-        if (result != 0)
+        try
         {
-            throw new QAException("FindBugs returned error code " + result);
+            stdout = new ByteArrayOutputStream();
+            stderr = new ByteArrayOutputStream();
+            
+            int result = ExternalProcessRunner.runProcess(commandLine, stdout, stderr);
+
+            String stdoutString = new String(stdout.toByteArray());
+
+            if (FileUtil.hasValue(stdoutString))
+            {
+                QaLogger.getInstance().info(stdoutString);
+            }
+            
+            String stderrString = new String(stderr.toByteArray());
+
+            if (FileUtil.hasValue(stderrString))
+            {
+                QaLogger.getInstance().error(stderrString);
+            }
+
+            if (result != 0)
+            {
+                String out = new String(stdout.toByteArray());
+                String err = new String(stderr.toByteArray());
+                throw new QAException("FindBugs Command [" + commandLine + "] failed : [" + out  + "] [" + err + "]");
+            }
+        }
+        finally
+        {
+            QaUtil.safeClose(stdout);
+            QaUtil.safeClose(stderr);
         }
     }
 
@@ -176,8 +209,7 @@ public class FindBugsRunner extends AbstractToolRunner
             buf.append("</SrcDir>\n");
         }
 
-        buf.append
-        (
+        buf.append(
               "   <SuppressionFilter>\n"
             + "       <LastVersion value=\"-1\" relOp=\"NEQ\"/>\n"
             + "    </SuppressionFilter>\n"

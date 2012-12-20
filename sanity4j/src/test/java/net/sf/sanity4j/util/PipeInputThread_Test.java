@@ -15,8 +15,9 @@ import junit.framework.TestCase;
  */
 public class PipeInputThread_Test extends TestCase
 {
-    // Should complete in far less than 1 second
+    /** Should complete in far less than 1 second. */
     private static final int SLEEP_TIME = 100;
+    /** Retry count. */
     private static final int RETRY_COUNT = 10;
     
     public void testPipeInput()

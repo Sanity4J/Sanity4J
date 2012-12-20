@@ -1,11 +1,14 @@
 package net.sf.sanity4j.workflow.tool;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+import net.sf.sanity4j.maven.plugin.QADependency;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
 import net.sf.sanity4j.util.QaUtil;
@@ -15,9 +18,8 @@ import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.WorkUnit;
 
 /**
- * AbstractToolRunner provides a properties-driven way of running
- * external tools.
- *
+ * AbstractToolRunner provides a properties-driven way of running external tools.
+ * 
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
@@ -34,7 +36,7 @@ public abstract class AbstractToolRunner implements WorkUnit
 
     /**
      * Creates an AbstractToolRunner.
-     *
+     * 
      * @param tool the tool to run.
      */
     protected AbstractToolRunner(final Tool tool)
@@ -47,62 +49,17 @@ public abstract class AbstractToolRunner implements WorkUnit
      */
     protected String getToolHome()
     {
-        Properties props = QaUtil.getProperties("/net/sf/sanity4j/workflow/tool/tools.properties");
-        String homeKey = "sanity4j.tool." + tool.getId() + '.' + toolVersion + ".home";
-
-        String toolHome = props.getProperty(homeKey);
-        toolHome = QaUtil.replaceTokens(toolHome, config.asParameterMap());
-        return toolHome;
+        return config.getToolHome(tool.getId(), toolVersion);
     }
 
     /**
-     * The entry point for the work unit. This implemention looks up the command line necessary
-     * to run the tool, then calls {@link #runTool(String)}.
+     * @return the additional configuration classpath for the tool.
      */
-    public void run()
+    protected String getToolConfigClasspath()
     {
-        Properties props = QaUtil.getProperties("/net/sf/sanity4j/workflow/tool/tools.properties");
-        String commandKey = "sanity4j.tool." + tool.getId() + '.' + toolVersion + ".command";
-
-        if (!props.containsKey(commandKey))
-        {
-            String message = "Missing tool command for " + tool.getName() + ' ' + toolVersion
-                    + ". Please set parameter: " + commandKey
-                    + " in external sanity4j.properties";
-
-            throw new QAException(message);
-        }
-
-        String toolCommandLine = props.getProperty(commandKey);
-        toolCommandLine = QaUtil.replaceTokens(toolCommandLine, getParameterMap());
-        runTool(toolCommandLine);
+    	return config.getToolConfigClasspath(tool.getId(), toolVersion);
     }
-
-    /**
-     * Subclasses must implement this method to actually run the tool.
-     * @param commandLine the tool command line.
-     */
-    protected abstract void runTool(String commandLine);
-
-    /**
-     * Subclasses may override this method to add any additional parameters
-     * specific to the tool.
-     *
-     * @return a map of parameters to use for replacing configuration tokens.
-     */
-    protected Map<String, String> getParameterMap()
-    {
-        Map<String, String> paramMap = config.asParameterMap();
-        paramMap.put("outputFile", getToolResultFile());
-        paramMap.put("toolHome", getToolHome());
-
-        List<String> toolJars = getToolJars();
-        String classPath = StringUtil.concatList(toolJars, File.pathSeparator);
-        paramMap.put("javaArgs", paramMap.get("javaArgs") + " -cp " + classPath);
-
-        return paramMap;
-    }
-
+    
     /**
      * @return a list of paths to all the jars needed to run the tool.
      */
@@ -111,11 +68,41 @@ public abstract class AbstractToolRunner implements WorkUnit
         List<String> toolJars = new ArrayList<String>();
         FileUtil.findJars(new File(getToolHome()), toolJars);
 
+        if (config.getQADependency() != null)
+        {
+	        QADependency toolDependency = config.getQaDependency(tool.getId(), toolVersion);
+	        if (toolDependency != null)
+	        {
+		        List<QADependency> dependencies = toolDependency.getDependencies();
+		        if (dependencies != null)
+		        {
+			        for (QADependency dependency : dependencies)
+			        {
+				        String location = config.getQaDependencyLocation(dependency);
+			            FileUtil.findJars(new File(location), toolJars);
+			        }
+		        }
+	        }
+        }
+        
         if (toolJars.isEmpty())
         {
             throw new QAException("Couldn't find " + tool.getName() + " jars in " + getToolHome());
         }
 
+        String configClasspath = getToolConfigClasspath();
+        
+        if (configClasspath != null)
+        {
+        	String separator = System.getProperty("path.separator");
+        	String[] paths = configClasspath.split(separator);
+        	
+        	for (String path : paths)
+        	{
+        		toolJars.add(path);
+        	}
+        }
+        
         return toolJars;
     }
 
@@ -134,7 +121,147 @@ public abstract class AbstractToolRunner implements WorkUnit
     }
 
     /**
+     * Subclasses may override this method to add any additional parameters specific to the tool.
+     * 
+     * @return a map of parameters to use for replacing configuration tokens.
+     */
+    protected Map<String, String> getParameterMap()
+    {
+        Map<String, String> paramMap = config.asParameterMap();
+
+        String outputFile = getToolResultFile();
+        String toolHome = getToolHome();
+
+        // Retrieve the configuration parameters for this tool.
+        String versionedToolConfigParam = config.getToolConfigParam(tool.getId(), toolVersion);
+        String unversionedToolConfigParam = config.getToolConfigParam(tool.getId(), null);
+
+        if (!paramMap.containsKey(versionedToolConfigParam))
+        {
+            versionedToolConfigParam = unversionedToolConfigParam;
+        }
+
+        // Retrieve the configuration parameter values for this tool.
+        String versionedToolConfig = null;
+
+        if (versionedToolConfigParam != null)
+        {
+            versionedToolConfig = paramMap.get(versionedToolConfigParam);
+        }
+
+        if (FileUtil.hasValue(versionedToolConfig))
+        {
+            InputStream stream = this.getClass().getResourceAsStream("/" + versionedToolConfig);
+
+            if (stream != null)
+            {
+                FileOutputStream fos = null;
+
+                try
+                {
+                    File tempFile = File.createTempFile(tool.getId() + "-", "", config.getTempDir());
+                    fos = new FileOutputStream(tempFile);
+                    QaUtil.copy(stream, fos);
+                    versionedToolConfig = tempFile.getCanonicalPath();
+                }
+                catch (IOException ioe)
+                {
+                    String message = "Error creating temporary configuration file for tool [" + tool.getId() + "]";
+                    throw new QAException(message, ioe);
+                }
+                finally
+                {
+                    QaUtil.safeClose(stream);
+                    QaUtil.safeClose(fos);
+                }
+            }
+        }
+
+        // Retrieve the "unversioned" configuration parameter for this tool.
+        String unversionedToolConfig = null;
+
+        if (unversionedToolConfigParam != null)
+        {
+            unversionedToolConfig = paramMap.get(unversionedToolConfigParam);
+        }
+
+        if (FileUtil.hasValue(unversionedToolConfig))
+        {
+            InputStream stream = this.getClass().getResourceAsStream("/" + unversionedToolConfig);
+
+            if (stream != null)
+            {
+                FileOutputStream fos = null;
+
+                try
+                {
+                    File tempFile = File.createTempFile(tool.getId() + "-", "", config.getTempDir());
+                    fos = new FileOutputStream(tempFile);
+                    QaUtil.copy(stream, fos);
+                    versionedToolConfig = tempFile.getCanonicalPath();
+                }
+                catch (IOException ioe)
+                {
+                    String message = "Error creating temporary configuration file for tool [" + tool.getId() + "]";
+                    throw new QAException(message, ioe);
+                }
+                finally
+                {
+                    QaUtil.safeClose(stream);
+                    QaUtil.safeClose(fos);
+                }
+            }
+        }
+        
+        // Add the class path for this tool to the javaArgs.
+        StringBuffer javaArgsBuf = new StringBuffer();
+        javaArgsBuf.append(paramMap.get("javaArgs"));
+        List<String> toolJars = getToolJars();
+        String classPath = StringUtil.concatList(toolJars, File.pathSeparator);
+        javaArgsBuf.append(" -cp ").append(classPath);
+
+        // Put the "extra" parameters to the parameter map.
+        paramMap.put("outputFile", outputFile);
+        paramMap.put("toolHome", toolHome);
+
+        if (unversionedToolConfig != null)
+        {
+            unversionedToolConfig = QaUtil.replaceTokens(unversionedToolConfig, paramMap);
+            paramMap.put(unversionedToolConfigParam, unversionedToolConfig);
+        }
+
+        if (versionedToolConfig != null)
+        {
+            versionedToolConfig = QaUtil.replaceTokens(versionedToolConfig, paramMap);
+            paramMap.put(versionedToolConfigParam, versionedToolConfig);
+        }
+
+        paramMap.put("javaArgs", javaArgsBuf.toString());
+
+        return paramMap;
+    }
+
+    /**
+     * Subclasses must implement this method to actually run the tool.
+     * 
+     * @param commandLine the tool command line.
+     */
+    protected abstract void runTool(String commandLine);
+
+    /**
+     * The entry point for the work unit. This implementation looks up the command line necessary to run the tool, then
+     * calls {@link #runTool(String)}.
+     */
+    public void run()
+    {
+        String toolCommandLine = config.getToolCommandLine(tool.getId(), toolVersion);
+        toolCommandLine = QaUtil.replaceTokens(toolCommandLine, getParameterMap());
+        runTool(toolCommandLine);
+    }
+
+    /**
      * Sets the QA configuration for the current run.
+     * 
      * @param config the QA configuration.
      */
     public void setConfig(final QAConfig config)
@@ -144,6 +271,7 @@ public abstract class AbstractToolRunner implements WorkUnit
 
     /**
      * Sets the tool version to use.
+     * 
      * @param toolVersion the tool version to use.
      */
     public void setToolVersion(final String toolVersion)

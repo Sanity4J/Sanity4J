@@ -2,7 +2,7 @@ package net.sf.sanity4j.plugin;
 
 import net.sf.sanity4j.plugin.preferences.PreferenceConstants;
 
-import org.eclipse.core.runtime.Preferences;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -67,7 +67,7 @@ public class Activator extends AbstractUIPlugin
      */
     public static String getJavaRuntime()
     {
-        Preferences prefs = getDefault().getPluginPreferences();
+        IPreferenceStore prefs = getDefault().getPreferenceStore();
         return prefs.getString(PreferenceConstants.JAVA_RUNTIME);
     }
     
@@ -76,7 +76,51 @@ public class Activator extends AbstractUIPlugin
      */
     public static String getProductsDir()
     {
-        Preferences prefs = getDefault().getPluginPreferences();
-        return prefs.getString(PreferenceConstants.PRODUCTS_DIR);
+        IPreferenceStore prefs = getDefault().getPreferenceStore();
+        return prefs.getString(PreferenceConstants.PRODUCTS_DIRECTORY);
+    }
+    
+    /**
+     * @return the flag indicating whether diagnostics should be displayed first.
+     */
+    public static boolean getDiagnosticsFirst()
+    {
+        IPreferenceStore prefs = getDefault().getPreferenceStore();
+        return prefs.getBoolean(PreferenceConstants.DIAGNOSTICS_FIRST);
+    }
+    
+    /**
+     * @return the external Sanity4J properties file.
+     */
+    public static String getSanity4JProperties()
+    {
+        IPreferenceStore prefs = getDefault().getPreferenceStore();
+        return prefs.getString(PreferenceConstants.SANITY4J_PROPERTIES);
+    }
+    
+    /**
+     * This method returns the configuration parameters for the specified tool / version.
+     * 
+     * @param tool The name of the tool for which the configuration is to be retrieved.
+     * @param version The version of the tool for which the configuration is to be retrieved.
+     * @return the specified tool's configuration.
+     */
+    public static String getToolConfig(final String tool, final String version)
+    {
+        IPreferenceStore prefs = getDefault().getPreferenceStore();
+        return prefs.getString(PreferenceConstants.TOOL_CONFIG_PREFIX + tool + ":" + version);
+    }
+
+    /**
+     * This method returns the configuration class path parameters for the specified tool / version.
+     * 
+     * @param tool The name of the tool for which the configuration class path is to be retrieved.
+     * @param version The version of the tool for which the configuration class path is to be retrieved.
+     * @return the specified tool's configuration class path.
+     */
+    public static String getToolConfigClasspath(final String tool, final String version)
+    {
+        IPreferenceStore prefs = getDefault().getPreferenceStore();
+        return prefs.getString(PreferenceConstants.TOOL_CONFIG_CLASSPATH_PREFIX + tool + ":" + version);
     }
 }

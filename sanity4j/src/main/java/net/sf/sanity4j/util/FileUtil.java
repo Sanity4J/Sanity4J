@@ -117,29 +117,29 @@ public final class FileUtil
             throw new IOException("Unable to create parent directory" + dest.getParentFile().getPath());
         }
         
-        FileInputStream in = null;
-        FileOutputStream out = null;
+        FileInputStream inStream = null;
+        FileOutputStream outStream = null;
         
         try
         {
-            in = new FileInputStream(source);
-            out = new FileOutputStream(dest);
+            inStream = new FileInputStream(source);
+            outStream = new FileOutputStream(dest);
             
             final byte[] buf = new byte[BUFFER_SIZE];
-            int bytesRead = in.read(buf);
+            int bytesRead = inStream.read(buf);
             
             while (bytesRead != -1)
             {
-                out.write(buf, 0, bytesRead);
-                bytesRead = in.read(buf);
+                outStream.write(buf, 0, bytesRead);
+                bytesRead = inStream.read(buf);
             }
             
-            out.flush();
+            outStream.flush();
         }
         finally
         {
-            QaUtil.safeClose(in);
-            QaUtil.safeClose(out);
+            QaUtil.safeClose(inStream);
+            QaUtil.safeClose(outStream);
         }        
     }
     
@@ -154,23 +154,23 @@ public final class FileUtil
     {
         byte[] data = new byte[(int) file.length()];
         
-        FileInputStream in = null;
+        FileInputStream stream = null;
         
         try
         {
-            in = new FileInputStream(file);
+            stream = new FileInputStream(file);
             int pos = 0;
-            int bytesRead = in.read(data);
+            int bytesRead = stream.read(data);
             
             while (bytesRead != -1 && pos < data.length)
             {
                 pos += bytesRead;
-                bytesRead = in.read(data, pos, data.length - pos);
+                bytesRead = stream.read(data, pos, data.length - pos);
             }
         }
         finally
         {
-            QaUtil.safeClose(in);
+            QaUtil.safeClose(stream);
         }
         
         return data;
@@ -194,5 +194,55 @@ public final class FileUtil
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(string.getBytes("UTF-8"));
         fos.close();
+    }
+    
+    /**
+     * Flattens a list of jars into a classpth.
+     * If an exitsing classpath is provided, then the new list is 
+     * appended to the end of the old classpath.
+     * 
+     * @param jarList the list of jars to flatten.
+     * @param classpath an existing classpath to append to, can be null.
+     * @return the flattened classpath.
+     */
+    public static String flattenClasspath(final List<String> jarList, final String classpath)
+    {
+        if (jarList.isEmpty())
+        {
+        	return "";
+        }
+        else
+        {
+	        StringBuffer buf = new StringBuffer(); 
+
+        	if (classpath != null)
+        	{
+	        	buf.append(classpath);
+        	}
+	        
+        	String separator = System.getProperty("path.separator");
+        	for (String toolJar : jarList)
+        	{
+        		buf.append(separator).append(toolJar);
+        	}
+        	
+        	if (classpath == null)
+        	{
+        		buf.delete(0, separator.length());
+        	}
+        	
+        	return buf.toString();
+        }
+    }
+    
+    /**
+     * Evaluates a string for emptiness.
+     * 
+     * @param str the string to evaluate.
+     * @return true if the string is non-null and has a trimmed length greater than zero.
+     */
+    public static boolean hasValue(final String str)
+    {
+    	return str == null ? false : str.trim().length() > 0;
     }
 }

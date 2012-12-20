@@ -5,14 +5,14 @@
 ** sanity4j-ant.xml
 **
 ** PURPOSE
-** This file is an XML (eXtensible Markup Language) file used to define
+** This file is an XML (eXtensible Mark-up Language) file used to define
 ** an Apache ANT (http://ant.apache.org) library.
 **
-** This macro performs code quality assurance tests using various third 
+** This macro performs code quality assurance tests using various third
 ** party tools.
 **
 ** USAGE
-** Ensure that you are running at least Java 1.5, as some of the tools 
+** Ensure that you are running at least Java 1.5, as some of the tools
 ** don't work on 1.4 or earlier VMs.
 **
 ** Within a project's build.xml file, include the following line:
@@ -36,8 +36,8 @@
     <!-- ***************************************************************
     ** TYPE DEFINITIONS
     **************************************************************** -->
-    
-    <!-- No types -->
+
+    <typedef name="configuration" classname="net.sf.sanity4j.ant.taskdef.RunQA$Configuration"/>
 
     <!-- ***************************************************************
     ** TASK DEFINITIONS
@@ -45,7 +45,7 @@
 
     <!-- ***************************************************************
     ** This runs the QA tools against a project and produces the raw
-    ** output that is used to generate the reports. Projects should use 
+    ** output that is used to generate the reports. Projects should use
     ** the sanity4j.run macro instead.
     **
     ** The QA tools are run using java code rather than a macro as
@@ -64,19 +64,19 @@
 
     <!-- ***************************************************************
     ** This runs the QA tools against a project and produces reports that
-    ** can be published on a webserver.
+    ** can be published on a web server.
     **
     **  Attributes:
     **
-    **     products.dir 
+    **     products.dir
     **
-    **          The location of the products vob containing the QA tools 
+    **          The location of the products VOB containing the QA tools
     **          (FindBugs, PMD, CheckStyle, etc.)
     **
     **     report.dir
     **
-    **          The report output directory. Subdirectories will be created
-    **          for each type of report.    
+    **          The report output directory. Sub-directories will be created
+    **          for each type of report.
     **
     **     coverage.data.file [optional]
     **
@@ -90,7 +90,7 @@
     **
     **     include.tool.output [optional]
     **
-    **          If set to "true", the raw tool output is also copied to the 
+    **          If set to "true", the raw tool output is also copied to the
     **          report directory.
     **
     **     external.properties.path [optional]
@@ -105,7 +105,7 @@
     ** Elements:
     **
     **     source.path
-    **  
+    **
     **          This element accepts nested Paths pointing to
     **          the location of *this* project's source only.
     **          If you have multiple source directories contained within
@@ -116,20 +116,27 @@
     **
     **          This element accepts nested Paths pointing to
     **          the location of *this* project's built classes/jars only
-    **    
+    **
     **     library.path
     **
     **          This element accepts nested Paths pointing to
-    **          the location of jars/classes that this project depends on. 
+    **          the location of jars/classes that this project depends on.
     **          Don't use e.g. an entire local Maven repository. Only include
     **          libraries which the project directly depends on.
-    **    
+    **
+    **     configurations
+    **
+    **          This element accepts nested configuration elements,
+    **          describing parameters that are passed to the underlying tools
+    **          (CheckStyle, FindBugs, PMD, etc...) to configure the particular
+    **          tool.
+    **
     ** EXAMPLE:
     **
     **     <sanity4j.run
     **         products.dir="${component.rootdir}/tools"
     **         report.dir="${build.dir}/reports">
-    **    
+    **
     **         <source.path>
     **             <path path="${component.rootdir}"/>
     **         </source.path>
@@ -143,12 +150,15 @@
     **                     <include name="yourDependency2/**/*.jar"/>
     **                 </fileset>
     **             </path>
-    **         </library.files>      
+    **         </library.files>
+    **         <configurations>
+    **             <configuration tool="checkstyle" config="local-checkstyle.xml"/>
+    **         </configurations>
     **     </sanity4j.run>
     **
     **************************************************************** -->
     <macrodef name="sanity4j.run">
-    
+
         <attribute name="products.dir"/>
         <attribute name="report.dir"/>
         <attribute name="coverage.data.file" default=""/>
@@ -161,24 +171,26 @@
         <element name="class.path"/>
         <element name="library.path"/>
         <element name="coverage.data.files"/>
-        
+        <element name="configurations" optional="true"/>
+
         <sequential>
-        
-            <!-- delete all old data/reports -->  
+
+            <!-- delete all old data/reports -->
             <delete dir="@{report.dir}" failonerror="false" />
             <mkdir dir="@{report.dir}" />
 
             <!-- generate the raw output -->
             <echo message="Performing QA analysis"/>
+
             <sanity4j.runtask
                 productsDir="@{products.dir}"
                 reportDir="@{report.dir}"
                 coverageDataFile="@{coverage.data.file}"
                 summaryDataFile="@{summary.data.file}"
-                javaRuntime="@{java.runtime}" 
+                javaRuntime="@{java.runtime}"
                 includeToolOutput="@{include.tool.output}"
                 externalPropertiesPath="@{external.properties.path}">
-            
+
                 <sourcepath>
                     <source.path/>
                 </sourcepath>
@@ -190,27 +202,30 @@
                 <librarypath>
                     <library.path/>
                 </librarypath>
-                
+
+                <configurations/>
+
             </sanity4j.runtask>
-              
+
         </sequential>
+
     </macrodef>
 
     <!-- ***************************************************************
     ** This runs the QA tools against a project and produces reports that
-    ** can be published on a webserver.
+    ** can be published on a web server.
     **
     **  Attributes:
     **
-    **     products.dir 
+    **     products.dir
     **
-    **          The location of the products vob containing the QA tools 
+    **          The location of the products VOB containing the QA tools
     **          (FindBugs, PMD, CheckStyle, etc.)
     **
     **     report.dir
     **
-    **          The report output directory. Subdirectories will be created
-    **          for each type of report.    
+    **          The report output directory. Sub-directories will be created
+    **          for each type of report.
     **
     **     coverage.merge.data.file [optional]
     **
@@ -219,12 +234,12 @@
     **
     **     summary.data.file [optional]
     **
-    **          The location of a (persitent) file to store summary data, if
+    **          The location of a (persistent) file to store summary data, if
     **          you want to include trend graphs in your report.
     **
     **     include.tool.output [optional]
     **
-    **          If set to "true", the raw tool output is also copied to the 
+    **          If set to "true", the raw tool output is also copied to the
     **          report directory.
     **
     **     external.properties.path [optional]
@@ -239,7 +254,7 @@
     ** Elements:
     **
     **     source.path
-    **  
+    **
     **          This element accepts nested Paths pointing to
     **          the location of *this* project's source only.
     **          If you have multiple source directories contained within
@@ -250,18 +265,25 @@
     **
     **          This element accepts nested Paths pointing to
     **          the location of *this* project's built classes/jars only
-    **    
+    **
     **     library.path
     **
     **          This element accepts nested Paths pointing to
-    **          the location of jars/classes that this project depends on. 
+    **          the location of jars/classes that this project depends on.
     **          Don't use e.g. an entire local Maven repository. Only include
     **          libraries which the project directly depends on.
-    **    
+    **
     **     coverage.data.files
     **
     **          This element accepts nested Paths pointing to
     **          the location of coverage data files to be merged.
+    **
+    **     configurations
+    **
+    **          This element accepts nested configuration elements,
+    **          describing parameters that are passed to the underlying tools
+    **          (CheckStyle, FindBugs, PMD, etc...) to configure the particular
+    **          tool.
     **
     ** EXAMPLE:
     **
@@ -269,7 +291,7 @@
     **         products.dir="${component.rootdir}/tools"
     **         report.dir="${build.dir}/reports"
     **         coverage.merge.data.file="${build.dir}/cobertura-merged.ser">
-    **    
+    **
     **         <source.path>
     **             <path path="${component.rootdir}"/>
     **         </source.path>
@@ -283,16 +305,19 @@
     **                     <include name="yourDependency2/**/*.jar"/>
     **                 </fileset>
     **             </path>
-    **         </library.files>      
+    **         </library.files>
     **         <coverage.data.files>
     **             <path path="${build.dir}/yourProject1/cobertura.ser"/>
     **             <path path="${build.dir}/yourProject2/cobertura.ser"/>
     **         </coverage.data.files>
+    **         <configurations>
+    **             <configuration tool="checkstyle" config="local-checkstyle.xml"/>
+    **         </configurations>
     **     </sanity4j>
     **
     **************************************************************** -->
     <macrodef name="sanity4j">
-    
+
         <attribute name="products.dir"/>
         <attribute name="report.dir"/>
         <attribute name="coverage.merge.data.file" default="cobertura-merged.ser"/>
@@ -305,10 +330,11 @@
         <element name="class.path"/>
         <element name="library.path"/>
         <element name="coverage.data.files"/>
-        
+        <element name="configurations" optional="true"/>
+
         <sequential>
-        
-            <!-- delete all old data/reports -->  
+
+            <!-- delete all old data/reports -->
             <delete dir="@{report.dir}" failonerror="false" />
             <mkdir dir="@{report.dir}" />
 
@@ -319,10 +345,10 @@
                 reportDir="@{report.dir}"
                 coverageMergeDataFile="@{coverage.merge.data.file}"
                 summaryDataFile="@{summary.data.file}"
-                javaRuntime="@{java.runtime}" 
+                javaRuntime="@{java.runtime}"
                 includeToolOutput="@{include.tool.output}"
                 externalPropertiesPath="@{external.properties.path}">
-            
+
                 <sourcepath>
                     <source.path/>
                 </sourcepath>
@@ -334,14 +360,17 @@
                 <librarypath>
                     <library.path/>
                 </librarypath>
-                
+
                 <coveragedatafiles>
                     <coverage.data.files/>
                 </coveragedatafiles>
-                        
+
+                <configurations/>
+
             </sanity4j.runtask>
-              
+
         </sequential>
+
     </macrodef>
 
 </antlib>

@@ -18,6 +18,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
     {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setDefault(PreferenceConstants.JAVA_RUNTIME, "java.exe");
-        store.setDefault(PreferenceConstants.PRODUCTS_DIR, "products");
+        store.setDefault(PreferenceConstants.PRODUCTS_DIRECTORY, "products");
     }
 }

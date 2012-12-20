@@ -100,6 +100,10 @@ Sanity4J Ant Task user guide
 | coverage.data.files    | This element accepts nested Paths / FileSets pointing  | No        |
 |                        | to the location of coverage data files to be merged.   |           |
 *------------------------+--------------------------------------------------------+-----------+
+| configurations         | This element accepts nested "configuration" elements   | No        |
+|                        | describing the "configuration" file passed to the      |           |
+|                        | underlying tools.                                      |           |
+*------------------------+--------------------------------------------------------+-----------+
 
   The source / class / library path will accept Filesets or Paths. If there are multiple source / class 
   directories, it is possible to specify a common parent directory and have the tool find all the 
@@ -108,6 +112,36 @@ Sanity4J Ant Task user guide
   The products.dir must point to a directory containing all the tools in use. For example, with 
   a default configuration, these could be findbugs-1.3.9, pmd-4.2.5, checkstyle-4.4 and 
   cobertura-1.9.2         
+
+  The configurations element accepts nested "configuration" elements.  "configuration" elements
+  have the following attributes:
+
+*---------------+-----------------------------------------------------------------+-----------+
+|| Attribute    || Description                                                    || Required |     
+*---------------+-----------------------------------------------------------------+-----------+
+| tool          | The name of the tool for which the configuration is to be       | Yes       |
+|               | specified ("checkstyle", "findbugs", "pmd")                     |           |
+*---------------+-----------------------------------------------------------------+-----------+
+| version       | The version of the tool for which the configuration is to be    | No        |
+|               | specified.  (If no version is specified this configuration will |           |
+|               | be used by all versions.)                                       |           |
+*---------------+-----------------------------------------------------------------+-----------+
+| config        | The configuration to be used.  Usually this is the name of a    | Yes       |
+|               | file passed to the command line of the tool to specify the      |           |
+|               | tool specific configuration.  However, this parameter is simply |           |
+|               | substituted as the value of the ${sanity4j.tool.<tool>.config}  |           |
+|               | parameter within the ${sanity4j.tool.<tool>.command} parameter  |           |
+|               | that is used to specify the command line of the tool.  So the   |           |
+|               | value specified, can be any set of options that make sense at   |           |
+|               | the point of substitution within the                            |           |
+|               | ${sanity4j.tool.<tool>command}.                                 |           |
+|               |                                                                 |           |
+|               | The resource can be a file contained within a jar file          |           |
+|               | on the classpath, or an external file in the file system.       |           |
+|               | If the resource is a jar, then the name is compared with the    |           |
+|               | classpath and the full path to the jar is then passed to the    |           |
+|               | tool instead.                                                   |           |
+*---------------+-----------------------------------------------------------------+-----------+
 
   Below is a sample XML file with examples for both Ant macros.
 
@@ -124,7 +158,7 @@ Sanity4J Ant Task user guide
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.0.6-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j.run
@@ -147,13 +181,16 @@ Sanity4J Ant Task user guide
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.0.6-jar-with-dependencies.jar"/>
             </library.path>
+
+            <configurations>
+                <configuration tool="checkstyle" config="local_checkstyle_rules.xml"/>
+            </configurations>
 
          </sanity4j.run>
 
     </target>
-
 
     <!-- Run the analysis -->
     <target name="analyse.multi"
@@ -163,7 +200,7 @@ Sanity4J Ant Task user guide
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.0.6-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j
@@ -189,13 +226,18 @@ Sanity4J Ant Task user guide
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.0.4-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.0.6-jar-with-dependencies.jar"/>
             </library.path>
 
             <coverage.data.files>
                <path path="../sanity4j-test/maven2-multi/child1/target/cobertura/cobertura.ser"/>
                <path path="../sanity4j-test/maven2-multi/child2/target/cobertura/cobertura.ser"/>
             </coverage.data.files>
+
+            <configurations>
+                <configuration tool="findbugs" config="-pluginList local_plugin.jar"/>
+                <configuration tool="pmd"      config="local_pmd_rules.xml"/>
+            </configurations>
 
          </sanity4j>
 

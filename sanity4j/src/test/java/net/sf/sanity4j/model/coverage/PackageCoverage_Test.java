@@ -10,7 +10,9 @@ import junit.framework.TestCase;
  */
 public class PackageCoverage_Test extends TestCase
 {
+	/** Dummy Class Name 1. */
     private static final String CLASS_NAME_1 = "DummyClass";
+	/** Dummy Class Name 2. */
     private static final String CLASS_NAME_2 = "AnotherDummyClass";
     
     /** The PackageCoverage to be tested. */

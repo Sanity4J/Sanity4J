@@ -3,6 +3,7 @@ package net.sf.sanity4j.workflow.tool;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBElement;
 
@@ -11,6 +12,7 @@ import net.sf.sanity4j.gen.findbugs_1_3_9.BugInstance;
 import net.sf.sanity4j.gen.findbugs_1_3_9.Clazz;
 import net.sf.sanity4j.gen.findbugs_1_3_9.SourceLine;
 import net.sf.sanity4j.model.diagnostic.Diagnostic;
+import net.sf.sanity4j.model.diagnostic.DiagnosticFactory;
 import net.sf.sanity4j.model.diagnostic.DiagnosticSet;
 import net.sf.sanity4j.util.ExtractStats;
 import net.sf.sanity4j.util.JaxbMarshaller;
@@ -24,10 +26,20 @@ import net.sf.sanity4j.util.QAException;
  */
 public final class FindBugsResultReader implements ResultReader
 {
+	/** The properties used to configure this {@link ResultReader}. */
+	private final Properties properties = new Properties();
+	
     /** The ExtractStats to add the results to. */
     private ExtractStats stats;
+    
     /** The FindBugs XML result file to read from. */
     private File findBugsResultFile;
+
+	/** {@inheritDoc} */
+	public void setProperties(final Properties properties) 
+	{
+		this.properties.putAll(properties);
+	}
 
     /** {@inheritDoc} */
     public void setResultFile(final File resultFile)
@@ -46,7 +58,8 @@ public final class FindBugsResultReader implements ResultReader
      */
     public void run()
     {
-        DiagnosticSet diagnostics = stats.getDiagnostics();
+        DiagnosticFactory diagnosticFactory = DiagnosticFactory.getInstance(properties);
+    	DiagnosticSet diagnostics = stats.getDiagnostics();
 
         BugCollection result = (BugCollection)
         JaxbMarshaller.unmarshal(findBugsResultFile, "net.sf.sanity4j.gen.findbugs_1_3_9", "http://net.sf.sanity4j/namespace/findbugs-1.3.9");
@@ -55,7 +68,7 @@ public final class FindBugsResultReader implements ResultReader
 
         for (BugInstance bug : bugs)
         {
-            Diagnostic diagnostic = new Diagnostic();
+            Diagnostic diagnostic = diagnosticFactory.getDiagnostic();
             diagnostic.setSource(Diagnostic.SOURCE_FINDBUGS);
             diagnostic.setRuleName(bug.getType());
             diagnostic.calcSeverity();

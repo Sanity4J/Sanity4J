@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class WorkUnitGroup implements WorkUnit
 {
-    /** Indicates whether the WorkUnits in this group can be executed concurrently. */
-    private final boolean allowConcurrent;
-    
     /** A short description of this WorkUnitGroup. */
     private final String description;
     
@@ -37,7 +34,7 @@ public class WorkUnitGroup implements WorkUnit
      */
     public WorkUnitGroup(final boolean allowConcurrent, final String description)
     {
-        this.allowConcurrent = allowConcurrent;
+        // TODO: this.allowConcurrent = allowConcurrent;
         this.description = description;
     }
     
