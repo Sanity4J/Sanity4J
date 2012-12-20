@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Properties;
 
 import net.sf.sanity4j.gen.checkstyle_4_4.Checkstyle;
 import net.sf.sanity4j.gen.checkstyle_4_4.Error;
 import net.sf.sanity4j.model.diagnostic.Diagnostic;
+import net.sf.sanity4j.model.diagnostic.DiagnosticFactory;
 import net.sf.sanity4j.model.diagnostic.DiagnosticSet;
 import net.sf.sanity4j.util.ExtractStats;
 import net.sf.sanity4j.util.JaxbMarshaller;
@@ -15,16 +17,26 @@ import net.sf.sanity4j.util.QAException;
 
 /**
  * CheckStyleResultReader - Translates CheckStyle results into the common format used by the QA tool.
- *
+ * 
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
 public final class CheckStyleResultReader implements ResultReader
 {
+    /** The properties used to configure the {@link CheckStyleResultReader}. */
+    private final Properties properties = new Properties();
+
     /** The ExtractStats to add the results to. */
     private ExtractStats stats;
+
     /** The CheckStyle XML result file to read from. */
     private File checkStyleResultFile;
+
+    /** {@inheritDoc} */
+    public void setProperties(final Properties properties)
+    {
+        this.properties.putAll(properties);
+    }
 
     /** {@inheritDoc} */
     public void setResultFile(final File resultFile)
@@ -43,10 +55,12 @@ public final class CheckStyleResultReader implements ResultReader
      */
     public void run()
     {
+        DiagnosticFactory diagnosticFactory = DiagnosticFactory.getInstance(properties);
         DiagnosticSet diagnostics = stats.getDiagnostics();
 
-        Checkstyle result = (Checkstyle)
-            JaxbMarshaller.unmarshal(checkStyleResultFile, "net.sf.sanity4j.gen.checkstyle_4_4", "http://net.sf.sanity4j/namespace/checkstyle-4.4");
+        Checkstyle result = (Checkstyle) JaxbMarshaller.unmarshal(checkStyleResultFile,
+                                                                  "net.sf.sanity4j.gen.checkstyle_4_4",
+                                                                  "http://net.sf.sanity4j/namespace/checkstyle-4.4");
 
         List<net.sf.sanity4j.gen.checkstyle_4_4.File> files = result.getFile();
 
@@ -77,7 +91,7 @@ public final class CheckStyleResultReader implements ResultReader
                         }
                     }
 
-                    Diagnostic diagnostic = new Diagnostic();
+                    Diagnostic diagnostic = diagnosticFactory.getDiagnostic();
                     diagnostic.setSource(Diagnostic.SOURCE_CHECKSTYLE);
 
                     try
@@ -86,8 +100,7 @@ public final class CheckStyleResultReader implements ResultReader
                     }
                     catch (IOException e)
                     {
-                        throw new QAException("Failed to get canonicalPath for "
-                                                 + file.getName(), e);
+                        throw new QAException("Failed to get canonicalPath for " + file.getName(), e);
                     }
 
                     diagnostic.setStartLine(error.getLine().intValue());
@@ -117,4 +130,5 @@ public final class CheckStyleResultReader implements ResultReader
     {
         return "Reading CheckStyle results";
     }
+
 }

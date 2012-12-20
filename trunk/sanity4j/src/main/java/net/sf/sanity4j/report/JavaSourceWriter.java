@@ -32,18 +32,29 @@ public class JavaSourceWriter
     /** The diagnostics that we are writing. */
     private final ExtractStats stats;
     
+    /** Whether or not diagnostics should be printed first or last. */
+    private final boolean diagnosticsFirst;
+
     /** The destination directory. */
     private final File reportDir;
+    
+    /** One hundred. */
+    private static final double HUNDRED = 100.0;
+
+    /** One hundred. */
+    private static final int ONE_HUNDRED = 100;
     
     /**
      * Creates a JavaSourceWriter.
      * 
      * @param stats the stats utility containing the results
+     * @param diagnositcsFirst a flag for diagnositcs first
      * @param reportDir the base directory for the report
      */
-    public JavaSourceWriter(final ExtractStats stats, final File reportDir)
+    public JavaSourceWriter(final ExtractStats stats, final boolean diagnositcsFirst, final File reportDir)
     {
         this.stats = stats;
+        this.diagnosticsFirst = diagnositcsFirst;
         this.reportDir = reportDir;
     }
     
@@ -87,15 +98,15 @@ public class JavaSourceWriter
         
         if (coverage != null)
         {
-            html.append("\" lineCoverage=\"").append((int) (100 * coverage.getLineCoverage()))
-                .append("\" branchCoverage=\"").append((int) (100 * coverage.getBranchCoverage()));
+            html.append("\" lineCoverage=\"").append((int) (ONE_HUNDRED * coverage.getLineCoverage()))
+                .append("\" branchCoverage=\"").append((int) (ONE_HUNDRED * coverage.getBranchCoverage()));
         }
         
-        html.append("\" quality=\"").append((int) (ReportUtil.evaluateMetric("quality", diags, lineCount) * 100.0))
+        html.append("\" quality=\"").append((int) (ReportUtil.evaluateMetric("quality", diags, lineCount) * HUNDRED))
             .append("\"/>\n");
         
         writeSourceLines(sourceFile, diags, orderedDiags, coverage, html);
-        writeErrorsSummary(orderedDiags, html);
+        writeErrorsSummary(orderedDiags, diagnosticsFirst, html);
 
         html.append("</classDetails>\n");
         
@@ -220,13 +231,16 @@ public class JavaSourceWriter
      * Writes a diagnostic summary block at the bottom of the source page.
      * 
      * @param orderedDiags a list of diagnostics for the file, in line number order.
-     * @param html the buffer to write the html output to.
+     * @param diagsFirst a flag indicating whether the diagnostics should be printed first or last.
+     * @param html the buffer to write the HTML output to.
      */
-    private void writeErrorsSummary(final List<Diagnostic> orderedDiags, final StringBuffer html)
+    private void writeErrorsSummary(final List<Diagnostic> orderedDiags, 
+                                    final boolean diagsFirst,
+                                    final StringBuffer html)
     {
         if (orderedDiags != null && !orderedDiags.isEmpty())
         {
-            html.append("<diags>\n");
+            html.append("<diags first=\"").append(diagsFirst).append("\">\n");
             
             for (Diagnostic diagnostic : orderedDiags)
             {

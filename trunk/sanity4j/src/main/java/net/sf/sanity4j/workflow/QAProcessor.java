@@ -21,7 +21,7 @@ import net.sf.sanity4j.workflow.tool.ToolRunnerGroup;
 public class QAProcessor implements Runnable
 {
     /** The current Sanity4J version number. This is the version number which is logged, embedded in reports, etc. */
-    public static final String QA_VERSION = "1.0.4";
+    public static final String QA_VERSION = "1.0.6";
 
     /** The default Java runtime to use when running external tasks. */
     public static final String DEFAULT_JAVA_RUNTIME = "java";
@@ -29,6 +29,9 @@ public class QAProcessor implements Runnable
     /** The maximum heap size to use when running external tasks. */
     public static final String JAVA_RUNTIME_MAX_MEMORY = "-Xmx768M";
 
+    /** The number of milliseconds in a second. */
+    private static final int MILLIS = 1000;
+    
     /**
      * The QA configuration for the current run.
      */
@@ -144,9 +147,9 @@ public class QAProcessor implements Runnable
     }
 
     /**
-     * Creates the work unit which runs the tools against the combined 
+     * Creates the work unit which runs the tools against the combined
      * source/class/library directories.
-     * 
+     *
      * @param stats the stats which will hold the analysis results.
      * @return a WorkUnit which will run the analysis tools.
      */
@@ -162,7 +165,7 @@ public class QAProcessor implements Runnable
                 super.run();
 
                 long elapsed = System.currentTimeMillis() - start;
-                QaLogger.getInstance().info("Combined analysis completed in " + (elapsed / 1000) + "s.");
+                QaLogger.getInstance().info("Combined analysis completed in " + (elapsed / MILLIS) + "s.");
             }
         };
 
@@ -224,9 +227,9 @@ public class QAProcessor implements Runnable
 
         // RunWork is called rather than work.run so that we can indicate progress
         runWork(Arrays.asList(new WorkUnit[]{work}));
-        
+
         long elapsed = System.currentTimeMillis() - start;
-        QaLogger.getInstance().info("Analysis completed in " + (elapsed / 1000) + "s.");                
+        QaLogger.getInstance().info("Analysis completed in " + (elapsed / MILLIS) + "s.");
         QaLogger.getInstance().info("Done!");
     }
 }

@@ -12,6 +12,7 @@ import net.sf.sanity4j.model.diagnostic.DiagnosticSet;
 import net.sf.sanity4j.model.summary.PackageSummary;
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaUtil;
+import net.sf.sanity4j.util.Resources;
 import net.sf.sanity4j.util.math.InfixExpression;
 import net.sf.sanity4j.util.math.SyntaxException;
 
@@ -25,7 +26,7 @@ import net.sf.sanity4j.util.math.SyntaxException;
 public final class ReportUtil
 {
     /** The reporting properties, such as metrics. */
-    private static Properties properties = QaUtil.getProperties("/net/sf/sanity4j/report/report.properties");
+    private static Properties properties = QaUtil.getProperties(Resources.REPORT_PROPERTIES);
     
     /** ReportUtil should not be instantiated. */
     private ReportUtil()
@@ -71,9 +72,9 @@ public final class ReportUtil
         
         for (int i = 0; i < len; i++)
         {
-            char c = text.charAt(i);
+            char chr = text.charAt(i);
             
-            switch (c)
+            switch (chr)
             {
                 case '<':
                     out.append("&lt;");
@@ -89,7 +90,7 @@ public final class ReportUtil
                     break;
                 
                 default:
-                    out.append(c);
+                    out.append(chr);
             }
         }
         

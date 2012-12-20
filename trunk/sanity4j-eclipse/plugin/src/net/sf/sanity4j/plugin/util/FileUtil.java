@@ -39,4 +39,15 @@ public final class FileUtil
             throw new IOException("Failed to delete " + file);
         }
     }    
+
+    /**
+     * Evaluates a string for emptiness.
+     * 
+     * @param str the string to evaluate.
+     * @return true if the string is non-null and has a trimmed length greater than zero.
+     */
+    public static boolean hasValue(final String str)
+    {
+    	return str == null ? false : str.trim().length() > 0;
+    }
 }

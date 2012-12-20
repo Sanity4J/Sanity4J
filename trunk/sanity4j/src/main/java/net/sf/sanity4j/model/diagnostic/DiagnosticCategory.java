@@ -150,7 +150,7 @@ public class DiagnosticCategory
 	/**
 	 * @return an iterator of sub-categories
 	 */
-	public Iterator<DiagnosticCategory> subCategories()
+	public Iterator<DiagnosticCategory> subCategoriesIterator()
 	{
 		return subCategories.iterator();
 	}

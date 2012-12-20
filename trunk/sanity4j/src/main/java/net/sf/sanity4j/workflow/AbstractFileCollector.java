@@ -76,7 +76,7 @@ public abstract class AbstractFileCollector implements WorkUnit
         
         if (count == 0 && isMandatory())
         {
-            throw new QAException("No " + getItemType() + " found");
+            throw new QAException("Item [" + getItemType() + "] is required, but none found.");
         }        
     }
     
@@ -145,7 +145,37 @@ public abstract class AbstractFileCollector implements WorkUnit
         {
             String packageName = QaUtil.getPackageForFile(file);
             
-            if (packageName != null)
+            if (packageName == null)
+            {
+                // Unable to determine package, use relative path from root.
+                StringBuffer relativePath = new StringBuffer(file.getName());
+                File parent = null;
+                
+                for (parent = file.getParentFile(); parent != null; parent = parent.getParentFile())
+                {
+                    if (sourceDirs.contains(parent))
+                    {
+                        // We've hit one of the top-level dirs, so copy using the relative path from this dir
+                        File dest = new File(destDir, relativePath.toString());
+                        FileUtil.copy(file, dest);
+                        break;
+                    }
+                    else
+                    {
+                        // Prepend the parent directory name to the relative path
+                        relativePath.insert(0, File.separatorChar);
+                        relativePath.insert(0, parent.getName());
+                    }
+                }
+                
+                // If we couldn't find a relative path, then just copy the file.
+                if (parent == null)
+                {
+                    File dest = new File(destDir, file.getName());
+                	FileUtil.copy(file, dest);
+                }
+            }
+            else
             {                    
                 String destPath = packageName.replace('.', File.separatorChar) + File.separatorChar + file.getName();
                 File destFile = new File(destDir, destPath);
@@ -158,28 +188,6 @@ public abstract class AbstractFileCollector implements WorkUnit
                 else
                 {
                     FileUtil.copy(file, destFile);
-                }
-            }
-            else
-            {
-                // Unable to determine package, use relative path from root.
-                StringBuffer relativePath = new StringBuffer(file.getName());
-                
-                for (File f = file.getParentFile(); f != null; f = f.getParentFile())
-                {
-                    if (sourceDirs.contains(f))
-                    {
-                        // We've hit one of the top-level dirs, so copy using the relative path from this dir
-                        File dest = new File(destDir, relativePath.toString());
-                        FileUtil.copy(file, dest);
-                        break;
-                    }
-                    else
-                    {
-                        // Prepend the parent directory name to the relative path
-                        relativePath.insert(0, File.separatorChar);
-                        relativePath.insert(0, f.getName());
-                    }
                 }
             }
         }

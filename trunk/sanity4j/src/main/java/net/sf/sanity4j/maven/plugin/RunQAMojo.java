@@ -12,11 +12,15 @@ import java.util.ResourceBundle;
 
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaLoggerMavenImpl;
+import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.QAProcessor;
 
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.doxia.siterenderer.Renderer;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.model.DistributionManagement;
+import org.apache.maven.model.Plugin;
 import org.apache.maven.model.Site;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
@@ -43,10 +47,19 @@ import org.apache.maven.shared.invoker.Invoker;
  * @since Sanity4J 1.0
  *
  */
-public class RunQAMojo extends AbstractMavenReport 
+public class RunQAMojo extends AbstractMavenReport
 {
     /** Mojo and goal to download historical coverage stats. */
     private static final String DOWNLOAD_SINGLE_MOJO = "org.codehaus.mojo:wagon-maven-plugin:1.0-beta-3:download-single";
+    
+    /** The Pmd Tool. */
+    private static final String PMD_TOOL = "pmd";
+    
+    /** The Find Bugs Tool. */
+    private static final String FINDBUGS_TOOL = "findbugs";
+    
+    /** The Check Style Tool. */
+    private static final String CHECKSTYLE_TOOL = "checkstyle";
 
     /**
      * <i>Maven Internal</i>: Project to interact with.
@@ -58,19 +71,19 @@ public class RunQAMojo extends AbstractMavenReport
 
     /**
      * The projects in the reactor for aggregation report.
-     * 
+     *
      * @parameter expression="${reactorProjects}"
      * @readonly
      */
     private List<MavenProject> reactorProjects;
-    
+
     /**
      * Flag to indicate that this mojo should run it in a multi module way.
      *
      * @parameter
      */
     private boolean aggregate;
-    
+
     /**
      * <i>Maven Internal</i>: The Doxia Site Renderer.
      *
@@ -103,10 +116,16 @@ public class RunQAMojo extends AbstractMavenReport
      * The location of the directory containing the various tools.
      *
      * @parameter
-     * @required
      */
     private String productsDir;
 
+    /**
+     * @parameter expression="${localRepository}"
+     * @readonly
+     * @required
+     */
+    protected ArtifactRepository localRepository;
+    
     /**
      * The directory in which to place report output.
      *
@@ -140,11 +159,58 @@ public class RunQAMojo extends AbstractMavenReport
 
     /**
      * The path location to the external properties file (sanity4j.properties).
-     * 
+     *
      * @parameter default-value= ""
      */
     private String externalPropertiesPath;
+
+    /**
+     * The configuration passed to the checkStyle ${sanity4j.tool.checkstyle.command} as ${sanity4j.tool.checkstyle.config}.
+     * @parameter
+     */
+    private String checkStyleConfig;
+
+    /**
+     * The class path used by the configuration passed to the checkStyle ${sanity4j.tool.checkstyle.command} as ${sanity4j.tool.checkstyle.config}.
+     * @parameter
+     */
+    private String checkStyleConfigClasspath;
+
+    /**
+     * The configuration passed to the FindBugs ${sanity4j.tool.findbugs.command} as ${sanity4j.tool.findbugs.config}.
+     *
+     * @parameter
+     */
+    private String findBugsConfig;
+
+    /**
+     * The class path used by the configuration passed to the FindBugs ${sanity4j.tool.findbugs.command} as ${sanity4j.tool.findbugs.config}.
+     *
+     * @parameter
+     */
+    private String findBugsConfigClasspath;
+
+    /**
+     * The configuration passed to the PMD ${sanity4j.tool.pmd.command} as ${sanity4j.tool.pmd.config}.
+     *
+     * @parameter
+     */
+    private String pmdConfig;
+
+    /**
+     * Any additional properties to be passed to the tools.
+     *
+     * @parameter
+     */
+    private String additionalProperties;
     
+    /**
+     * The class path used by the configuration passed to the PMD ${sanity4j.tool.pmd.command} as ${sanity4j.tool.pmd.config}.
+     *
+     * @parameter
+     */
+    private String pmdConfigClasspath;
+
     /**
      * The temporary directory.
      *
@@ -157,14 +223,38 @@ public class RunQAMojo extends AbstractMavenReport
      *
      * @parameter
      */
-    private final String javaRuntime = QAProcessor.DEFAULT_JAVA_RUNTIME;
+    // Please don't allow your IDE to automatically mark this field 
+    // as static or final. 
+    // The Maven Mojo API spec allows for an @parameter annotation 
+    // which can be configured from the POM. The annotation uses 
+    // reflection to set the field rather than using a java setter 
+    // method.
+    // Unfortunately, this also means that the below two rules get 
+    // triggered on this field during static code analysis.
+    //
+    // Moderate Private field could be made final; it is only 
+    //     initialized in the declaration or constructor. 
+    // Moderate This final field could be made static 
+    private String javaRuntime = QAProcessor.DEFAULT_JAVA_RUNTIME;
 
     /**
      * If true, the raw tool output is included in the report directory.
      *
      * @parameter
      */
-    private final boolean includeToolOutput = false;
+    // Please don't allow your IDE to automatically mark this field 
+    // as static or final. 
+    // The Maven Mojo API spec allows for an @parameter annotation 
+    // which can be configured from the POM. The annotation uses 
+    // reflection to set the field rather than using a java setter 
+    // method.
+    // Unfortunately, this also means that the below two rules get 
+    // triggered on this field during static code analysis.
+    //
+    // Moderate Private field could be made final; it is only 
+    //     initialized in the declaration or constructor. 
+    // Moderate This final field could be made static 
+    private boolean includeToolOutput = false;
 
     /**
      * The number of threads to use to run the tools and produce the report
@@ -172,9 +262,21 @@ public class RunQAMojo extends AbstractMavenReport
      *
      * @parameter
      */
-    private final int numThreads = 1; // TODO: Add support for concurrent tasks
-                                        // (Note: some tasks can not be run in
-                                        // parallel).
+    // Please don't allow your IDE to automatically mark this field 
+    // as static or final. 
+    // The Maven Mojo API spec allows for an @parameter annotation 
+    // which can be configured from the POM. The annotation uses 
+    // reflection to set the field rather than using a java setter 
+    // method.
+    // Unfortunately, this also means that the below two rules get 
+    // triggered on this field during static code analysis.
+    //
+    // Moderate Private field could be made final; it is only 
+    //     initialized in the declaration or constructor. 
+    // Moderate This final field could be made static 
+    private int numThreads = 1; 
+    // TODO: Add support for concurrent tasks
+    // (Note: some tasks can not be run in parallel).
 
     /**
      * Whether to use historical statistics when generating sanity4j reports.
@@ -187,7 +289,7 @@ public class RunQAMojo extends AbstractMavenReport
      * Override the default constructor to initialise the logger. No logging
      * methods should be called before this method.
      */
-    public RunQAMojo() 
+    public RunQAMojo()
     {
         QaLogger.setLogger(new QaLoggerMavenImpl(this));
     }
@@ -200,55 +302,56 @@ public class RunQAMojo extends AbstractMavenReport
      * @param locale
      *            The locale
      */
-    public void executeReport(final Locale locale) throws MavenReportException 
+    public void executeReport(final Locale locale) throws MavenReportException
     {
         if (aggregate && !getProject().isExecutionRoot())
         {
             getLog().info(getProject().getName() + " aggregation is on, but this is not the execution root. Skipping 'sanity4j' check.");
 
-            // Write out an small index.html file so that Maven 
+            // Write out an small index.html file so that Maven
             // doesn't complain about empty files when deploying the site.
             File index = new File(reportDir, "index.html");
             writeTextFile(index, " ");
-            
+
             return;
         }
-        
-        boolean aggregating = aggregate && getProject().isExecutionRoot(); 
-        
-        QAProcessor sanity4j = new QAProcessor();
 
+        boolean aggregating = aggregate && getProject().isExecutionRoot();
+
+        QAProcessor sanity4j = new QAProcessor();
+        QAConfig qaConfig = sanity4j.getConfig();
+        
         if (aggregating)
         {
             for (MavenProject reactorProject : reactorProjects)
             {
-                sanity4j.getConfig().addSourcePath(
+                qaConfig.addSourcePath(
                     reactorProject.getBasedir() + "/src");
             }
         }
-        else if (sources == null) 
+        else if (sources == null)
         {
-            sanity4j.getConfig().addSourcePath(
+            qaConfig.addSourcePath(
                 getProject().getBasedir() + "/src");
-        } 
-        else 
+        }
+        else
         {
-            for (String source : sources) 
+            for (String source : sources)
             {
-                sanity4j.getConfig().addSourcePath(source);
+                qaConfig.addSourcePath(source);
             }
         }
-        
+
         boolean sourceFileDetected = false;
-        for (String srcDir : sanity4j.getConfig().getSourceDirs()) 
+        for (String srcDir : qaConfig.getSourceDirs())
         {
-            if (checkForSource(new File(srcDir))) 
+            if (checkForSource(new File(srcDir)))
             {
                 sourceFileDetected = true;
                 break;
             }
         }
-        if (!sourceFileDetected) 
+        if (!sourceFileDetected)
         {
             getLog().info(getProject().getName() + " contains no source code. Skipping 'sanity4j' check.");
             return;
@@ -258,24 +361,24 @@ public class RunQAMojo extends AbstractMavenReport
         {
             for (MavenProject reactorProject : reactorProjects)
             {
-                sanity4j.getConfig().addClassPath(
+                qaConfig.addClassPath(
                     reactorProject.getBasedir() + "/target/classes");
-                sanity4j.getConfig().addClassPath(
+                qaConfig.addClassPath(
                     reactorProject.getBasedir() + "/target/test-classes");
             }
         }
-        else if (classes == null) 
+        else if (classes == null)
         {
-            sanity4j.getConfig().addClassPath(
+            qaConfig.addClassPath(
                 getProject().getBasedir() + "/target/classes");
-            sanity4j.getConfig().addClassPath(
+            qaConfig.addClassPath(
                 getProject().getBasedir() + "/target/test-classes");
-        } 
-        else 
+        }
+        else
         {
-            for (String clazz : classes) 
+            for (String clazz : classes)
             {
-                sanity4j.getConfig().addClassPath(clazz);
+                qaConfig.addClassPath(clazz);
             }
         }
 
@@ -283,14 +386,14 @@ public class RunQAMojo extends AbstractMavenReport
         {
             for (MavenProject reactorProject : reactorProjects)
             {
-                try 
+                try
                 {
-                    for (Object o : reactorProject.getTestClasspathElements()) 
+                    for (Object o : reactorProject.getTestClasspathElements())
                     {
-                        sanity4j.getConfig().addLibraryPath(o.toString());
+                        qaConfig.addLibraryPath(o.toString());
                     }
-                } 
-                catch (DependencyResolutionRequiredException e) 
+                }
+                catch (DependencyResolutionRequiredException e)
                 {
                     // QA task will not be as accurate, log a warning
                     getLog().warn(
@@ -299,28 +402,28 @@ public class RunQAMojo extends AbstractMavenReport
                 }
             }
         }
-        else if (libraries == null) 
+        else if (libraries == null)
         {
-            try 
+            try
             {
-                for (Object o : getProject().getTestClasspathElements()) 
+                for (Object o : getProject().getTestClasspathElements())
                 {
-                    sanity4j.getConfig().addLibraryPath(o.toString());
+                    qaConfig.addLibraryPath(o.toString());
                 }
-            } 
-            catch (DependencyResolutionRequiredException e) 
+            }
+            catch (DependencyResolutionRequiredException e)
             {
                 // QA task will not be as accurate, log a warning
                 getLog().warn(
                     "Unable to resolve library dependencies, analysis may not be as accurate.",
                     e);
             }
-        } 
-        else 
+        }
+        else
         {
-            for (String library : libraries) 
+            for (String library : libraries)
             {
-                sanity4j.getConfig().addLibraryPath(library);
+                qaConfig.addLibraryPath(library);
             }
         }
 
@@ -328,30 +431,84 @@ public class RunQAMojo extends AbstractMavenReport
         {
             for (MavenProject reactorProject : reactorProjects)
             {
-                sanity4j.getConfig().addCoverageDataFile(
+                qaConfig.addCoverageDataFile(
                     reactorProject.getBasedir() + "/target/cobertura/cobertura.ser");
             }
         }
         else
         {
-            sanity4j.getConfig().setCoverageDataFile(coverageDataFile);
+            qaConfig.setCoverageDataFile(coverageDataFile);
+        }
+
+        QADependency qaDependency = getDependencies("net.sf.sanity4j", "sanity4j");
+        if (qaDependency != null)
+        {
+            for (QADependency child : qaDependency.getDependencies())
+            {
+                QADependency qaChildDep = getDependencies(child.getGroupId(), child.getArtifactId());
+                if (qaChildDep != null)
+                {
+                    for (QADependency grandChild : qaChildDep.getDependencies())
+                    {
+                        child.addDependency(grandChild);
+                    }
+                }
+            }
         }
         
-        sanity4j.getConfig().setCoverageMergeDataFile(coverageMergeDataFile);
-        sanity4j.getConfig().setIncludeToolOutput(includeToolOutput);
-        sanity4j.getConfig().setJavaRuntime(javaRuntime);
-        sanity4j.getConfig().setNumThreads(numThreads);
-        sanity4j.getConfig().setProductsDir(productsDir);
-        sanity4j.getConfig().setReportDir(reportDir);
-        sanity4j.getConfig().setSummaryDataFile(summaryDataFile.replaceAll(" ", ""));
-        sanity4j.getConfig().setTempDir(tempDir);
-        sanity4j.getConfig().setExternalPropertiesPath(externalPropertiesPath);
+        if (getLog().isDebugEnabled() && qaDependency != null)
+        {
+            getLog().debug("Effective dependency tree - ");
+            getLog().debug("  " + qaDependency.getGroupId() + ":" + qaDependency.getArtifactId() + ":" + qaDependency.getVersion());
+            for (QADependency child : qaDependency.getDependencies())
+            {
+                getLog().debug("    " + child.getGroupId() + ":" + child.getArtifactId() + ":" + child.getVersion());
+                
+                for (QADependency grandChild : child.getDependencies())
+                {
+                    getLog().debug("      " + grandChild.getGroupId() + ":" + grandChild.getArtifactId() + ":" + grandChild.getVersion());
+                }
+            }
+        }
+        
+        qaConfig.setCoverageMergeDataFile(coverageMergeDataFile);
+        qaConfig.setIncludeToolOutput(includeToolOutput);
+        qaConfig.setJavaRuntime(javaRuntime);
+        qaConfig.setNumThreads(numThreads);
+        qaConfig.setProductsDir(productsDir);
+        qaConfig.setMavenLocalRepository(localRepository.getBasedir());
+        qaConfig.setQADependency(qaDependency);
+        qaConfig.setReportDir(reportDir);
+        qaConfig.setSummaryDataFile(summaryDataFile.replaceAll(" ", ""));
+        qaConfig.setTempDir(tempDir);
+        qaConfig.setExternalPropertiesPath(externalPropertiesPath, additionalProperties);
 
-        if (useHistory) 
+        if (useHistory)
         {
             retrieveSanity4jStats();
-        }           
+        }
 
+        if (checkStyleConfig != null)
+        {
+            String version = qaConfig.getToolVersion(CHECKSTYLE_TOOL);
+            qaConfig.setToolConfig(CHECKSTYLE_TOOL, null, checkStyleConfig, checkStyleConfigClasspath);
+            qaConfig.setToolConfig(CHECKSTYLE_TOOL, version, checkStyleConfig, checkStyleConfigClasspath);
+        }
+
+        if (findBugsConfig != null)
+        {
+            String version = qaConfig.getToolVersion(FINDBUGS_TOOL);
+            qaConfig.setToolConfig(FINDBUGS_TOOL, null, findBugsConfig, findBugsConfigClasspath);
+            qaConfig.setToolConfig(FINDBUGS_TOOL, version, findBugsConfig, findBugsConfigClasspath);
+        }
+
+        if (pmdConfig != null)
+        {
+            String version = qaConfig.getToolVersion(PMD_TOOL);
+            qaConfig.setToolConfig(PMD_TOOL, null, pmdConfig, pmdConfigClasspath);
+            qaConfig.setToolConfig(PMD_TOOL, version, pmdConfig, pmdConfigClasspath);
+        }
+       
         // TODO: HACK! Get around Stax using the context classloader rather than
         // this class's.
         // Need to write a custom class loader which combines the two.
@@ -363,18 +520,81 @@ public class RunQAMojo extends AbstractMavenReport
     }
 
     /**
+     * Retrieve the dependencies from the Maven Build Plugins declaration. 
+     * 
+     * @param groupId The group id to search for.
+     * @param artifactId the artifact id to search for.
+     * @return The dependencies for the matching group id and artifact id, or null if not declared.
+     */
+    private QADependency getDependencies(final String groupId, final String artifactId)
+    {
+        getLog().debug("Looking for dependency - " + groupId + ":" + artifactId);
+        
+        for (Object objPlugin : project.getBuildPlugins())
+        {
+            if (objPlugin instanceof Plugin)
+            {
+                Plugin plugin = (Plugin) objPlugin;
+                
+                if (groupId.equals(plugin.getGroupId()) && artifactId.equals(plugin.getArtifactId()))
+                {
+                    getLog().debug("  " + plugin.getGroupId() + ":" + plugin.getArtifactId() + ":" + plugin.getVersion());
+                    
+                    QADependency dependency = new QADependency();
+                    dependency.setGroupId(plugin.getGroupId());
+                    dependency.setArtifactId(plugin.getArtifactId());
+                    dependency.setVersion(plugin.getVersion());
+                
+                    List/*<Dependency>*/ dependencies = plugin.getDependencies();
+    
+                    for (Object objDependency : dependencies)
+                    {
+                        if (objDependency instanceof Dependency)
+                        {
+                            Dependency dep = (Dependency) objDependency;
+                            
+                            getLog().debug("    " + dep.getGroupId() + ":" + dep.getArtifactId() + ":" + dep.getVersion());
+                            
+                            QADependency childDependency = new QADependency();
+                            childDependency.setGroupId(dep.getGroupId());
+                            childDependency.setArtifactId(dep.getArtifactId());
+                            childDependency.setVersion(dep.getVersion());
+                            
+                            dependency.addDependency(childDependency);
+                        }
+                    }
+                    
+                    return dependency;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
      * If available, retrieves sanity4j historical results from 'site' repository.
      */
-    private void retrieveSanity4jStats() 
+    private void retrieveSanity4jStats()
     {
-        try 
+        try
         {
             DistributionManagement distributionManagement = project.getDistributionManagement();
-            if (distributionManagement != null)
+            if (distributionManagement == null)
+            {
+                getLog().info(
+                    "'Site' distibution management not defined. No build history will be graphed. Continuing 'sanity4j' checks.");
+            }
+            else
             {
                 Site site = distributionManagement.getSite();
-                
-                if (site != null) 
+
+                if (site == null)
+                {
+                    getLog().info(
+                        "'Site' distibution management not defined. No build history will be graphed. Continuing 'sanity4j' checks.");
+                }
+                else
                 {
                     InvocationRequest request = new DefaultInvocationRequest();
                     request.setGoals(Collections.singletonList(DOWNLOAD_SINGLE_MOJO));
@@ -391,19 +611,9 @@ public class RunQAMojo extends AbstractMavenReport
                     Invoker invoker = new DefaultInvoker();
                     invoker.execute(request);
                 }
-                else
-                {
-                    getLog().info(
-                        "'Site' distibution management not defined. No build history will be graphed. Continuing 'sanity4j' checks.");
-                }
             }
-            else
-            {
-                getLog().info(
-                    "'Site' distibution management not defined. No build history will be graphed. Continuing 'sanity4j' checks.");
-            }
-        } 
-        catch (Exception e) 
+        }
+        catch (Exception e)
         {
             getLog().error(
                 "Unable to retrieve extisting report statistics. Continuing 'sanity4j' checks.", e);
@@ -417,36 +627,36 @@ public class RunQAMojo extends AbstractMavenReport
      *            the <code>File</code> to start .java check from
      * @return true if .java file exists; otherwise false
      */
-    private boolean checkForSource(final File srcFile) 
+    private boolean checkForSource(final File srcFile)
     {
-        if (getLog().isDebugEnabled()) 
+        if (getLog().isDebugEnabled())
         {
             getLog().debug("checking if '.java' file: Location: " + srcFile.getAbsolutePath());
         }
         boolean srcFileMatch = false;
-        if (srcFile.isDirectory()) 
+        if (srcFile.isDirectory())
         {
             File[] srcFiles = srcFile.listFiles();
-            for (File files : srcFiles) 
+            for (File files : srcFiles)
             {
-                if (checkForSource(files)) 
+                if (checkForSource(files))
                 {
                     srcFileMatch = true;
                     break;
                 }
             }
         }
-        if (srcFile.getName().endsWith(".java")) 
+        if (srcFile.getName().endsWith(".java"))
         {
             srcFileMatch = true;
             getLog().debug("Found '.java' file. Remaining recursive call will be skipped");
         }
         return srcFileMatch;
     }
-    
+
     /**
      * Write out some small text to a file.
-     * 
+     *
      * @param file The file to write to.
      * @param text The text to write to that file.
      */
@@ -470,7 +680,7 @@ public class RunQAMojo extends AbstractMavenReport
      * @return the maven project.
      */
     @Override
-    public MavenProject getProject() 
+    public MavenProject getProject()
     {
         return project;
     }
@@ -479,7 +689,7 @@ public class RunQAMojo extends AbstractMavenReport
      * @param project
      *            the maven project.
      */
-    public void setProject(final MavenProject project) 
+    public void setProject(final MavenProject project)
     {
         this.project = project;
     }
@@ -490,7 +700,7 @@ public class RunQAMojo extends AbstractMavenReport
      * @return the output directory.
      */
     @Override
-    protected String getOutputDirectory() 
+    protected String getOutputDirectory()
     {
         return reportDir;
     }
@@ -501,7 +711,7 @@ public class RunQAMojo extends AbstractMavenReport
      * @return the site renderer.
      */
     @Override
-    protected Renderer getSiteRenderer() 
+    protected Renderer getSiteRenderer()
     {
         return siteRenderer;
     }
@@ -510,7 +720,7 @@ public class RunQAMojo extends AbstractMavenReport
      * @param siteRenderer
      *            the site renderer.
      */
-    public void setSiteRenderer(final Renderer siteRenderer) 
+    public void setSiteRenderer(final Renderer siteRenderer)
     {
         this.siteRenderer = siteRenderer;
     }
@@ -522,7 +732,7 @@ public class RunQAMojo extends AbstractMavenReport
      *            the locale
      * @return the description.
      */
-    public String getDescription(final Locale locale) 
+    public String getDescription(final Locale locale)
     {
         return getBundle(locale).getString("report.sanity4j.description");
     }
@@ -534,7 +744,7 @@ public class RunQAMojo extends AbstractMavenReport
      *            the locale
      * @return the name.
      */
-    public String getName(final Locale locale) 
+    public String getName(final Locale locale)
     {
         return getBundle(locale).getString("report.sanity4j.name");
     }
@@ -544,7 +754,7 @@ public class RunQAMojo extends AbstractMavenReport
      *
      * @return the output name.
      */
-    public String getOutputName() 
+    public String getOutputName()
     {
         return "sanity4j/index";
     }
@@ -557,7 +767,7 @@ public class RunQAMojo extends AbstractMavenReport
      *
      * @return true to indicate that the report is external.
      */
-    public boolean isExternalReport() 
+    public boolean isExternalReport()
     {
         return true;
     }
@@ -569,7 +779,7 @@ public class RunQAMojo extends AbstractMavenReport
      *            The locale for the report, must not be <code>null</code>.
      * @return The resource bundle for the requested locale.
      */
-    private ResourceBundle getBundle(final Locale locale) 
+    private ResourceBundle getBundle(final Locale locale)
     {
         return ResourceBundle.getBundle("sanity4j-maven-report", locale,
             getClass().getClassLoader());

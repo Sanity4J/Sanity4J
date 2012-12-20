@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaUtil;
+import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.QAProcessor;
 
 
@@ -45,26 +46,48 @@ public final class QaApp extends JFrame
     
     /** File input field for selecting the tools directory. */
     private final FileInput productsDir = new FileInput(true);
+    
     /** File input field for selecting the java runtime executable. */
     private final FileInput javaRuntime = new FileInput(false);
+    
     /** File input field for selecting the project's class directory. */
     private final FileInput classDir = new FileInput(true);
+    
     /** File input field for selecting the project's source directory. */
     private final FileInput srcDir = new FileInput(true);
+    
     /** File input field for selecting the project's library directory. */
     private final FileInput libDir = new FileInput(true);
+    
     /** File input field for selecting the project's coverage data file. */
     private final FileInput coverageFile = new FileInput(false);
+    
     /** File input field for selecting the report output directory. */
     private final FileInput reportDir = new FileInput(true);
+    
     /** File input field for selecting the summary CSV export. */
     private final FileInput summaryOutputFile = new FileInput(false);
+    
     /** Controls whether to open the report on successful completion. */
     private final JCheckBox openReportOnCompletion = new JCheckBox("Open report on completion");
+    
+    /** The button which displays the {@link QaConfigFrame}. */
+    private final JButton advancedButton = new JButton("Advanced");
+    
+    /** The configuration used by the sanity4j application. */
+    private final QAProcessor processor = new QAProcessor();
+    
+    /** A frame used to modify the {@link QAConfig}. */
+    private final QaConfigFrame qaConfigFrame = new QaConfigFrame(processor);
+    
     /** The button which starts the analysis. */
     private final JButton runButton = new JButton("Analyse");
+    
     /** Displays console output which is generated during the analysis process. */
     private final JTextArea console = new JTextArea(10, 60);
+    
+    /** The inset. */
+    private static final int INSET = 5; 
 
     /**
      * Creates a QaApp.
@@ -74,7 +97,7 @@ public final class QaApp extends JFrame
         super("Sanity4J UI " + QAProcessor.QA_VERSION);
         
         JPanel contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setBorder(new EmptyBorder(INSET, INSET, INSET, INSET));
         contentPane.setLayout(new GridBagLayout());
         setContentPane(contentPane);
 
@@ -85,6 +108,20 @@ public final class QaApp extends JFrame
             public void windowClosing(final WindowEvent event)
             {
                 writeConfig();
+            }
+        });
+        
+        advancedButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(final ActionEvent event)
+            {
+                if (!validateInput())
+                {
+                    return;
+                }
+
+                saveConfig();
+                qaConfigFrame.setVisible(true);
             }
         });
         
@@ -112,47 +149,50 @@ public final class QaApp extends JFrame
      */
     private void layoutInterface()
     {
-        int y = 0;
+        int gridy = 0;
 
-        add(new JLabel("Tool configuration"), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(new JLabel("Sanity4j Configuration"), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
         
-        add(new FieldLabel("Directory containing analysis tools", true), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(productsDir, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL); 
+        add(new FieldLabel("Directory containing analysis tools", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(productsDir, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL); 
 
-        add(new FieldLabel("Path to java executable", true), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(javaRuntime, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Path to java executable", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(javaRuntime, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(new JLabel(" "), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-        add(new JLabel("Project settings"), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(new JLabel(" "), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(new JLabel("Project settings"), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
         
-        add(new FieldLabel("Source directory (or parent)", true), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(srcDir, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Source directory (or parent)", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(srcDir, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(new FieldLabel("Class directory (or parent)", true), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(classDir, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Class directory (or parent)", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(classDir, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(new FieldLabel("Library directory (or parent)", false), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(libDir, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Library directory (or parent)", false), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(libDir, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(new FieldLabel("Test coverage data file", false), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(coverageFile, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Test coverage data file", false), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(coverageFile, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(new JLabel(" "), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-        add(new JLabel("Output options"), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(new JLabel(" "), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(new JLabel("Output options"), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
         
-        add(new FieldLabel("Report output directory", true), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(reportDir, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Report output directory", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(reportDir, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(new FieldLabel("Summary data CSV export file", false), 0, y, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
-        add(summaryOutputFile, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        add(new FieldLabel("Summary data CSV export file", false), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(summaryOutputFile, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
-        add(openReportOnCompletion, 1, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        // Disable the "Advanced" button for now.
+        //add(advancedButton, 0, gridy++, 2, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        
+        add(openReportOnCompletion, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
 
-        add(new JLabel(" "), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-        add(runButton, 0, y++, 2, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);        
+        add(new JLabel(" "), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(runButton, 0, gridy++, 2, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);        
         
-        add(new JLabel("Console"), 0, y++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-        add(new JScrollPane(console), 0, y++, 2, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
+        add(new JLabel("Console"), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+        add(new JScrollPane(console), 0, gridy++, 2, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
     }
     
     /**
@@ -197,9 +237,15 @@ public final class QaApp extends JFrame
             return false;
         }
         
+        if (reportDir.getFile() == null || !reportDir.getFile().exists())
+        {
+            JOptionPane.showMessageDialog(this, "The report directory must be specified");
+            return false;
+        }
+        
         return true;
     }
-    
+
     /**
      * Runs the QA tool with the configuration entered through the UI.
      */
@@ -212,24 +258,7 @@ public final class QaApp extends JFrame
         
         runButton.setEnabled(false);
         console.setText("");
-        
-        final QAProcessor processor = new QAProcessor();
-        processor.getConfig().addSourcePath(srcDir.getFile().getPath());
-        processor.getConfig().addClassPath(classDir.getFile().getPath());
-        processor.getConfig().setProductsDir(productsDir.getFile().getPath());
-        
-        if (coverageFile.getFile() != null)
-        {
-            processor.getConfig().setCoverageDataFile(coverageFile.getFile().getPath());
-        }
-        
-        processor.getConfig().setReportDir(reportDir.getFile().getPath());
-        processor.getConfig().setJavaRuntime(javaRuntime.getFile().getPath());
-        
-        if (summaryOutputFile.getFile() != null)
-        {
-            processor.getConfig().setSummaryDataFile(summaryOutputFile.getFile().getPath());
-        }
+        saveConfig();
         
         new Thread()
         {
@@ -251,28 +280,51 @@ public final class QaApp extends JFrame
                             Object instance = clazz.getMethod("getDesktop").invoke(null);
                             clazz.getMethod("open", File.class).invoke(instance, index);
                         }
-                        catch (ClassNotFoundException e)
+                        catch (ClassNotFoundException ex)
                         {
                             // Pre-java 1.6
-                            QaLogger.getInstance().error("Open document failed, Requires java 1.6+");
+                            QaLogger.getInstance().error("Open document failed, Requires java 1.6+", ex);
                         }
-                        catch (Exception e)
+                        catch (Exception ex)
                         {
-                            QaLogger.getInstance().error("Failed to open report", e);
+                            QaLogger.getInstance().error("Failed to open report", ex);
                         }
                     }
                 }
-                catch (Throwable e)
+                catch (Throwable ex)
                 {
                     // Need to catch throwable rather than exception, to e.g. catch JAXB LinkageErrors.
-                    QaLogger.getInstance().error("QA failed", e);
+                    QaLogger.getInstance().error("QA failed", ex);
                 }
                 finally
                 {
                     runButton.setEnabled(true);
                 }
             }
-        }.start();
+        } .start();
+    }
+
+    /**
+     * Save the data input into the QaApp to the processeor configuration.
+     */
+    private void saveConfig()
+    {
+        processor.getConfig().addSourcePath(srcDir.getFile().getPath());
+        processor.getConfig().addClassPath(classDir.getFile().getPath());
+        processor.getConfig().setProductsDir(productsDir.getFile().getPath());
+        
+        if (coverageFile.getFile() != null)
+        {
+            processor.getConfig().setCoverageDataFile(coverageFile.getFile().getPath());
+        }
+        
+        processor.getConfig().setReportDir(reportDir.getFile().getPath());
+        processor.getConfig().setJavaRuntime(javaRuntime.getFile().getPath());
+        
+        if (summaryOutputFile.getFile() != null)
+        {
+            processor.getConfig().setSummaryDataFile(summaryOutputFile.getFile().getPath());
+        }
     }
     
     /**

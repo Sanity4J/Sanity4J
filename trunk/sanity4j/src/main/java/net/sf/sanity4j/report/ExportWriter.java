@@ -34,6 +34,12 @@ public class ExportWriter
     /** The destination directory. */
     private final File reportDir;
     
+    /** One hundred. */
+    private static final double HUNDRED = 100.0;
+
+    /** One hundred. */
+    private static final int ONE_HUNDRED = 100;
+    
     /**
      * Creates a ExportWriter.
      * 
@@ -111,8 +117,8 @@ public class ExportWriter
         if (coverage != null)
         {
             coveredLines = (int) Math.round(numLines * coverage.getLineCoverage());
-            coveredLinePct = (int) (coverage.getLineCoverage() * 100.0);
-            coveredBranchPct = (int) (coverage.getBranchCoverage() * 100.0);
+            coveredLinePct = (int) (coverage.getLineCoverage() * HUNDRED);
+            coveredBranchPct = (int) (coverage.getBranchCoverage() * HUNDRED);
             coveredLines = coverage.getCoveredLineCount();
             branchCount = coverage.getBranchCount();
             coveredBranchCount = coverage.getCoveredBranchCount();
@@ -124,7 +130,7 @@ public class ExportWriter
            .append("\" lineCount=\"").append(numLines);
         
         // Quality
-        int qualityPct = (int) (100 * ReportUtil.evaluateMetric("quality", diags, numLines));
+        int qualityPct = (int) (ONE_HUNDRED * ReportUtil.evaluateMetric("quality", diags, numLines));
         
         xml.append("\" high=\"").append(diags.getCountForSeverity(Diagnostic.SEVERITY_HIGH))
             .append("\" significant=\"").append(diags.getCountForSeverity(Diagnostic.SEVERITY_SIGNIFICANT))
@@ -219,13 +225,13 @@ public class ExportWriter
                 coveredLines = coverage.getCoveredLineCount();
                 branchCount = coverage.getBranchCount();
                 coveredBranchCount = coverage.getCoveredBranchCount();
-                coveredLinePct = (int) (coverage.getLineCoverage() * 100.0);
-                coveredBranchPct = (int) (coverage.getBranchCoverage() * 100.0);
+                coveredLinePct = (int) (coverage.getLineCoverage() * HUNDRED);
+                coveredBranchPct = (int) (coverage.getBranchCoverage() * HUNDRED);
             }
             
             
             // Quality
-            int qualityPct = (int) (100 * ReportUtil.evaluateMetric("quality", diags, numLines));
+            int qualityPct = (int) (ONE_HUNDRED * ReportUtil.evaluateMetric("quality", diags, numLines));
             
             xml.append("<class name=\"").append(className.substring(className.lastIndexOf('.') + 1))
                 .append("\" lineCount=\"").append(numLines)

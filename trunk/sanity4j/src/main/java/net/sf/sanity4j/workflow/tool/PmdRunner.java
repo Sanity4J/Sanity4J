@@ -1,5 +1,6 @@
 package net.sf.sanity4j.workflow.tool;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.io.IOException;
 import net.sf.sanity4j.util.ExternalProcessRunner;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
+import net.sf.sanity4j.util.QaLogger;
+import net.sf.sanity4j.util.QaUtil;
 import net.sf.sanity4j.util.Tool;
 
 /**
@@ -34,23 +37,41 @@ public class PmdRunner extends AbstractToolRunner
         File resultFile = getConfig().getToolResultFile(Tool.PMD);
         FileUtil.createDir(resultFile.getParentFile().getPath());
 
+        FileOutputStream stdout = null; 
+        ByteArrayOutputStream stderr = null; 
+        
         try
         {
             // Run the process
             // PMD sends its output to standard out, so we need to intercept it and write it to a file ourselves
-            FileOutputStream fos = new FileOutputStream(resultFile);
-            int result = ExternalProcessRunner.runProcess(commandLine, fos, System.err);
+            stdout = new FileOutputStream(resultFile);
+            stderr = new ByteArrayOutputStream();
 
+            int result = ExternalProcessRunner.runProcess(commandLine, stdout, stderr);
+
+            String stderrString = new String(stderr.toByteArray());
+
+            if (FileUtil.hasValue(stderrString))
+            {
+                QaLogger.getInstance().error(stderrString);
+            }
+            
             if (result != 0)
             {
-                throw new QAException("PMD returned error code " + result);
+                String err = new String(stderr.toByteArray());
+                throw new QAException("{PMD Command [" + commandLine + "] failed to generate output: [" + err + "]");
             }
 
-            fos.close();
+            stdout.close();
         }
         catch (IOException e)
         {
             throw new QAException("Error writing PMD output to " + resultFile, e);
+        }
+        finally
+        {
+            QaUtil.safeClose(stdout);
+            QaUtil.safeClose(stderr);
         }
     }
 

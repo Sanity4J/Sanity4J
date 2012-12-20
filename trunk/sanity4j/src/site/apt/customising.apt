@@ -14,10 +14,15 @@ Customising Sanity4J analysis
 ||ID              || Tool name                                            || Description                                            || Supported versions          |
 *-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 | checkstyle      | {{{http://checkstyle.sourceforge.net}Checkstyle}}     | Static source code analyser.                            | 4.4                          |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 | cobertura-merge | {{{http://cobertura.sourceforge.net}Cobertura Merge}} | Merges multiple datafiles before the coverage analysis. | 1.9.2                        |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 | cobertura       | {{{http://cobertura.sourceforge.net}Cobertura}}       | Unit test coverage analysis.                            | 1.8, 1.9, 1.9.2              |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 | findbugs        | {{{http://findbugs.sourceforge.net}FindBugs}}         | Static byte-code analyser.                              | 1.3.9                        |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 | pmd             | {{{http://pmd.sourceforge.net/}PMD}}                  | Static source code analyser.                            | 4.2.1, 4.2.2, 4.2.5          |
+*-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 | pmd-cpd         | {{{http://pmd.sourceforge.net/}PMD CPD}}              | Detects copy & pasted source code.                      | 4.2.1, 4.2.2, 4.2.5          |
 *-----------------+-------------------------------------------------------+---------------------------------------------------------+------------------------------+
 
@@ -29,40 +34,119 @@ sanity4j.toolsToRun=checkstyle,cobertura-merge,cobertura,findbugs,pmd,pmd-cpd
 
 * Customising tool configuration.
 
-  The default configuration of each tool may not be appropriate to your project, so tool options can
-  be modified as necessary e.g. to modify the rules in use or adjust performance options. Since each
-  tool is launched in its own separate process, launch options for each tool can be modified 
-  individually using a parameter of the form: <<<sanity4j.tool.<tool id>.<version>.command>>>. 
+  The command line used to run each tool is specified by parameters of the form:
+  <<<sanity4j.tool.>>><<tool>><<<.>>><<version>>.<<<command>>>.
+
+  The default command line used by each tool may not be appropriate to your
+  project, so the tool command lines can be modified as necessary.  i.e. you may
+  wish to modify the JDK used, JVM performance options, or the command line
+  options passed to the actual tools themselves.  As the most common
+  "configuration" changes are expected to be made to the configuration files
+  passed to the tools themselves (i.e. the set of checkstyle rules to apply, the
+  set of findbugs plugins used, or the set of PMD rulesets used.) special
+  parameters of the below form can be used.
+
+  <<<sanity4j.tool.>>><<tool>><<<.>>><<version>>.<<<config>>>
+
+  This can be placed at any point within the command line, and these parameters can
+  then be set from within the Sanity4J invocation shells (ant, maven, eclipse
+  and the GUI.) via more convenient means.
  
-  Variable substitution is available for tool locations and command lines. For 
-  example, $\{java\} will be replaced by the path to the JRE executable. The Variables available are 
-  detailed in the table below.
+  Variable substitution is available for tool locations and command lines. For
+  example, $\{java\} will be replaced by the path to the JRE executable. The
+  Variables available are detailed in the table below.
    
 *------------------------+-----------------------------------------------------------------------------+
 || Variable              || Value                                                                      |
 *------------------------+-----------------------------------------------------------------------------+
 | java                   | Path to JRE executable.                                                     |
+*------------------------+-----------------------------------------------------------------------------+
 | javaArgs               | JRE arguments (memory, classpath, defines).                                 |
+*------------------------+-----------------------------------------------------------------------------+
 | products               | The location of the tools directory.                                        |
+*------------------------+-----------------------------------------------------------------------------+
 | source                 | The path to the directory containing the combined sources to be analysed.   |
+*------------------------+-----------------------------------------------------------------------------+
 | classes                | The path to the directory containing the combined classes to be analysed.   |
+*------------------------+-----------------------------------------------------------------------------+
 | libs                   | The path to the directory containing the combined libraries to be analysed. |
+*------------------------+-----------------------------------------------------------------------------+
 | coverageDataFile       | The unit test coverage data file.                                           |
+*------------------------+-----------------------------------------------------------------------------+
 | coverageMergeDataFiles | The list of unit test coverage data files.                                  |
+*------------------------+-----------------------------------------------------------------------------+
 | tempDir                | The temporary directory location.                                           |
+*------------------------+-----------------------------------------------------------------------------+
 | File.separatorChar     | OS-specific File path separator character.                                  |
+*------------------------+-----------------------------------------------------------------------------+
 | File.pathSeparator     | OS-specific path separator character.                                       |
+*------------------------+-----------------------------------------------------------------------------+
 | outputFile             | The location where the tool should place it's output.                       |
+*------------------------+-----------------------------------------------------------------------------+
 | toolHome               | The home directory for the tool (not available for ".home" properties).     |
 *------------------------+-----------------------------------------------------------------------------+
  
   Here is an example of configuring Checkstyle 4.4 to only use the Sun Code Conventions:
  
 +-------------------------------+
-sanity4j.tool.checkstyle.4.4.command="${java}" ${javaArgs} com.puppycrawl.tools.checkstyle.Main
--c "${toolHome}${File.separatorChar}sun_checks.xml" -f xml -o "${outputFile}" -r ${source}
+sanity4j.tool.checkstyle.4.4.config=${toolHome}${File.separatorChar}sun_checks.xml
+sanity4j.tool.checkstyle.4.4.command="${java}" ${javaArgs} com.puppycrawl.tools.checkstyle.Main -c "${sanity4j.tool.checkstyle.4.4.config}" -f xml -o "${outputFile}" -r ${source} 
 +-------------------------------+
- 
+
+** Resource Expansion.
+  
+  The <<<.config>>> parameter also allows for named resources that will be expanded if they are found on the classpath.
+  
+  Sanity4J will locate the named resource on the classpath and extract it to a temporary location on the filesystem.
+  Then it will modify the <<<.config>>> parameter to the expanded path of the located extracted resource.
+  
+  So instead, the above parameters can be re-written as below.
+  
++-------------------------------+
+sanity4j.tool.checkstyle.4.4.config=sun_checks.xml
+sanity4j.tool.checkstyle.4.4.command="${java}" ${javaArgs} com.puppycrawl.tools.checkstyle.Main -c "${sanity4j.tool.checkstyle.4.4.config}" -f xml -o "${outputFile}" -r ${source} 
++-------------------------------+
+
+  It should be noted that the Sanity4J jar contains the sun_checks.xml. So it is automatically on the classpath.
+  For other resources that are not on the classpath, an additional clsspath can be specified for the tool.
+
++-------------------------------+
+sanity4j.tool.checkstyle.4.4.config=custom_checks.xml
+sanity4j.tool.checkstyle.4.4.classpath=../custom/custom-plugins.jar
++-------------------------------+
+
+  There are some special cases for the resource expansion.
+  
+   * If the name of the resource begins with a "-" or doesn't contain a ".", then no expansion
+     occurs. This allows for arguments such as -pluginList to be passed through unchanged.
+     
+   * If the name of the resource ends with ".jar", then rather than extracting the resource, it
+     searches the classpath for the name of that jar, and then replaces the <<<.config>>> with
+     the matched found location.
+     
+   * The name matching for the jar also allows for name parts. This is useful for Maven
+     dependencies where there is a version number associated with the name of the jar.
+     
+  The resource expansion can also be applied to multiple files. The <<<.config>>> parameter
+  is tokenised for spaces, commas and path seperators, then each token is located and expanded.
+
+  Below is another example showing the use of the special case resources.  
+  Note the use of the custom-plugins.jar resource which will match the
+  custom-plugins-1.0.2.jar and subsequently be expanded. 
+  Note also the use of multiple resources expanded for findbugs.
+
++-------------------------------+
+sanity4j.tool.pmd.4.2.5.config         =custom_pmd_rules.xml
+sanity4j.tool.pmd.4.2.5.classpath      =../custom/custom-plugins-1.0.2.jar
+
+sanity4j.tool.findbugs.1.3.9.config    =-pluginList custom-plugins.jar -exclude sanity4j_filter_exclude.xml
+sanity4j.tool.findbugs.1.3.9.classpath =../custom/custom-plugins-1.0.2.jar
+
+sanity4j.tool.checkstyle.4.4.config    =custom_checks.xml
+sanity4j.tool.checkstyle.4.4.classpath =../custom/custom-plugins-1.0.2.jar
++-------------------------------+
+
+    
 * Customising issue categories and severities.
 
   Issue weightings and exclusions can be adjusted in settings files for each individual tool 

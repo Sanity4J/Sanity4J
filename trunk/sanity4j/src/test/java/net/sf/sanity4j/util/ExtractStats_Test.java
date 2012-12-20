@@ -30,7 +30,19 @@ public class ExtractStats_Test extends TestCase
 {
     /** A temporary directory used to hold test data. */
     private QAConfig config;
+    
+    /** Incorrect classname message. */
+    private static final String INCORRECT_CLASSNAME_MSG = "Incorrect class name";
 
+    /** Incorrect rulename message. */
+    private static final String INCORRECT_RULENAME_MSG = "Incorrect rule name";
+    
+    /** Incorrect message text. */
+    private static final String INCORRECT_MESSAGE_TEXT = "Incorrect message text";
+    
+    /** No stats extracted message. */
+    private static final String NO_STATS_EXTRACTED_MSG = "No stats extracted";
+    
     /**
      * Since ExtractStats uses canonical paths, the test files
      * do actually need to exist on the file system. This sets
@@ -86,7 +98,7 @@ public class ExtractStats_Test extends TestCase
         reader.setResultFile(config.getToolResultFile(Tool.CHECKSTYLE));
         reader.setStats(stats);
         reader.run();
-        assertFalse("No stats extracted", stats.getDiagnostics().isEmpty());
+        assertFalse(NO_STATS_EXTRACTED_MSG, stats.getDiagnostics().isEmpty());
         checkDiagnostics(stats);
     }
 
@@ -122,7 +134,7 @@ public class ExtractStats_Test extends TestCase
         reader.setStats(stats);
         reader.run();
 
-        assertFalse("No stats extracted", stats.getDiagnostics().isEmpty());
+        assertFalse(NO_STATS_EXTRACTED_MSG, stats.getDiagnostics().isEmpty());
         checkDiagnostics(stats);
     }
 
@@ -135,7 +147,7 @@ public class ExtractStats_Test extends TestCase
         reader.setStats(stats);
         reader.run();
 
-        assertFalse("No stats extracted", stats.getDiagnostics().isEmpty());
+        assertFalse(NO_STATS_EXTRACTED_MSG, stats.getDiagnostics().isEmpty());
         checkDiagnostics(stats);
     }
 
@@ -148,7 +160,7 @@ public class ExtractStats_Test extends TestCase
         reader.setStats(stats);
         reader.run();
 
-        assertFalse("No stats extracted", stats.getDiagnostics().isEmpty());
+        assertFalse(NO_STATS_EXTRACTED_MSG, stats.getDiagnostics().isEmpty());
         checkDiagnostics(stats);
     }
 
@@ -163,6 +175,9 @@ public class ExtractStats_Test extends TestCase
 
         xml = replace(xml, "src\\package\\", sourceDir.getCanonicalPath() + "\\package\\");
         xml = replace(xml, "src/package/", sourceDir.getCanonicalPath() + "/package/");
+        
+        // Fix for Bug 3523174 Sanity4J will only build on Windows
+        xml = xml.replace('\\', '/');
 
         FileOutputStream fos = new FileOutputStream(dest);
         fos.write(xml.getBytes("UTF-8"));
@@ -210,41 +225,41 @@ public class ExtractStats_Test extends TestCase
             {
                 case 11:
                 {
-                    assertEquals("Incorrect class name",
+                    assertEquals(INCORRECT_CLASSNAME_MSG,
                                  "package.ClassOne", diag.getClassName());
 
                     break;
                 }
                 case 22:
                 {
-                    assertEquals("Incorrect class name",
+                    assertEquals(INCORRECT_CLASSNAME_MSG,
                                  "package.subpackage1.ClassTwo", diag.getClassName());
                     break;
                 }
                 case 33:
                 {
-                    assertEquals("Incorrect class name",
+                    assertEquals(INCORRECT_CLASSNAME_MSG,
                                  "package.subpackage1.ClassTwo", diag.getClassName());
 
                     break;
                 }
                 case 44:
                 {
-                    assertEquals("Incorrect class name",
+                    assertEquals(INCORRECT_CLASSNAME_MSG,
                                  "package.subpackage2.ClassThree", diag.getClassName());
 
                     break;
                 }
                 case 55:
                 {
-                    assertEquals("Incorrect class name",
+                    assertEquals(INCORRECT_CLASSNAME_MSG,
                                  "package.subpackage2.ClassThree", diag.getClassName());
 
                     break;
                 }
                 case 66:
                 {
-                    assertEquals("Incorrect class name",
+                    assertEquals(INCORRECT_CLASSNAME_MSG,
                                  "package.subpackage2.ClassFour", diag.getClassName());
 
                     break;
@@ -259,9 +274,9 @@ public class ExtractStats_Test extends TestCase
 
             if (diag.getSource() != Diagnostic.SOURCE_PMD_CPD)
             {
-                assertEquals("Incorrect rule name", "rule" + testNum, diag.getRuleName());
+                assertEquals(INCORRECT_RULENAME_MSG, "rule" + testNum, diag.getRuleName());
 
-                assertEquals("Incorrect message text",
+                assertEquals(INCORRECT_MESSAGE_TEXT,
                              "message text" + testNum, diag.getMessage().trim());
             }
         }
@@ -291,21 +306,21 @@ public class ExtractStats_Test extends TestCase
      * Returns a byte array containing all the information contained in the
      * given input stream.
      *
-     * @param in the stream to read from.
+     * @param stream the stream to read from.
      * @return the stream contents as a byte array.
      * @throws IOException if there is an error reading from the stream.
      */
-    private byte[] getBytes(final InputStream in) throws IOException
+    private byte[] getBytes(final InputStream stream) throws IOException
     {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
 
         final byte[] buf = new byte[4096];
-        int bytesRead = in.read(buf);
+        int bytesRead = stream.read(buf);
 
         while (bytesRead != -1)
         {
             result.write(buf, 0, bytesRead);
-            bytesRead = in.read(buf);
+            bytesRead = stream.read(buf);
         }
 
         result.flush();

@@ -19,22 +19,22 @@ public class PipeInputThread extends Thread
     private static final int BUFFER_SIZE = 4096;
 
     /** The stream to read from. */
-    private final InputStream in;
+    private final InputStream inStream;
     /** The stream to write to. */
-    private final OutputStream out;
+    private final OutputStream outStream;
     /** A flag to indicate whether the pipe is still running. */
     private boolean running = false;
 
     /**
      * Creates a PipeInputThread.
      * 
-     * @param in the input stream to read from
-     * @param out the output stream to write to
+     * @param inStream the input stream to read from
+     * @param outStream the output stream to write to
      */
-    public PipeInputThread(final InputStream in, final OutputStream out)
+    public PipeInputThread(final InputStream inStream, final OutputStream outStream)
     {
-        this.in = in;
-        this.out = out;
+        this.inStream = inStream;
+        this.outStream = outStream;
     }
 	
     /**
@@ -47,9 +47,9 @@ public class PipeInputThread extends Thread
 
         try
         {
-            for (int len = in.read(buf); len != -1; len = in.read(buf))
+            for (int len = inStream.read(buf); len != -1; len = inStream.read(buf))
             {
-                out.write(buf, 0, len);
+                outStream.write(buf, 0, len);
             }
         }
         catch (IOException ignored)
@@ -61,11 +61,11 @@ public class PipeInputThread extends Thread
         {
             try
             {
-                out.flush();
+                outStream.flush();
             }
             catch (IOException ignored)
             {
-                /* don't care */
+                // don't care 
             }
         }
 

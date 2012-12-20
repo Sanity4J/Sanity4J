@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.sf.sanity4j.eclipse.feature"
-      label="Sanity4J Feature"
-      version="1.0.4"
-      provider-name="The Sanity4J Team">
-   <install-handler/>
+    id            ="net.sf.sanity4j.eclipse.feature"
+    label         ="Sanity4J Feature"
+    version       ="1.0.6"
+    provider-name ="The Sanity4J Team">
 
-   <description url="[Enter Feature URL here.]">
-      This feature is used to allow the Sanity4J plugin to be
-installed via the Eclipse Update Manager.
-   </description>
+    <install-handler/>
 
-   <copyright url="[Enter Copyright URL here.]">
-      2010 The Sanity4J project
-   </copyright>
+    <description url="[Enter Feature URL here.]">
+        This feature is used to allow the Sanity4J plugin to be
+        installed via the Eclipse Update Manager.
+    </description>
 
-   <license url="http://www.gnu.org/licenses/gpl-3.0.txt">
+    <copyright url="[Enter Copyright URL here.]">
+        2010 The Sanity4J project
+    </copyright>
+
+    <license url="http://www.gnu.org/licenses/gpl-3.0.txt">
 License Agreement
 
 You must accept this license agreement in order to install this
@@ -642,24 +643,24 @@ Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.
 
                      END OF TERMS AND CONDITIONS
-   </license>
+    </license>
 
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.jdt.ui"/>
-      <import plugin="org.eclipse.jface.text"/>
-   </requires>
+    <requires>
+        <import plugin="org.eclipse.ui"/>
+        <import plugin="org.eclipse.core.runtime"/>
+        <import plugin="org.eclipse.core.resources"/>
+        <import plugin="org.eclipse.ant.core"/>
+        <import plugin="org.apache.ant"/>
+        <import plugin="org.eclipse.jdt.core"/>
+        <import plugin="org.eclipse.jdt.ui"/>
+        <import plugin="org.eclipse.jface.text"/>
+    </requires>
 
-   <plugin
-         id="net.sf.sanity4j.eclipse.plugin"
-         download-size="0"
-         install-size="0"
-         version="1.0.4"
-         unpack="false"/>
+    <plugin
+        id            ="net.sf.sanity4j.eclipse.plugin"
+        download-size ="0"
+        install-size  ="0"
+        version       ="1.0.6"
+        unpack        ="false"/>
 
 </feature>

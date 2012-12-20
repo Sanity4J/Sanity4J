@@ -17,17 +17,20 @@ import net.sf.sanity4j.util.QaLogger;
  */
 public final class ReportProducer implements WorkUnit
 {
+    /** The number of milli-seconds in a second. */
+    private static final int MILLISECONDS_PER_SECOND = 1000;
+    
     /** The QA configuration for the current run. */
     private final QAConfig config;
     
-    /** The stats the stats/diagnostics for the current run. */
+    /** The statistics/diagnostics for the current run. */
     private final ExtractStats stats;
     
     /**
      * Creates a ReportProducer.
      * 
      * @param config the configuration for the current run.
-     * @param stats the stats/diagnostics for the current run.
+     * @param stats the statistics/diagnostics for the current run.
      */
     public ReportProducer(final QAConfig config, final ExtractStats stats)
     {
@@ -46,8 +49,9 @@ public final class ReportProducer implements WorkUnit
         try
         {
             File reportDirFile = new File(config.getReportDir());
-            ReportWriter reportWriter = new ReportWriter(stats, reportDirFile);
-            reportWriter.produceReport();
+            boolean diagnosticsFirst = config.getDiagnosticsFirst();
+            ReportWriter reportWriter = new ReportWriter(stats, diagnosticsFirst, reportDirFile);
+            reportWriter.produceReport(config);
         }
         catch (IOException e)
         {
@@ -55,7 +59,7 @@ public final class ReportProducer implements WorkUnit
         }
         
         long elapsed = System.currentTimeMillis() - start;
-        QaLogger.getInstance().info("Report generated in " + (elapsed / 1000) + "s.");        
+        QaLogger.getInstance().info("Report generated in " + (elapsed / MILLISECONDS_PER_SECOND) + "s.");        
     }
     
     /** {@inheritDoc} */
