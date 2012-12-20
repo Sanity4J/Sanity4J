@@ -1,12 +1,17 @@
-package net.sf.sanity4j.workflow.tool; 
+package net.sf.sanity4j.workflow.tool;
+
+import java.io.ByteArrayOutputStream;
 
 import net.sf.sanity4j.util.ExternalProcessRunner;
+import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
+import net.sf.sanity4j.util.QaLogger;
+import net.sf.sanity4j.util.QaUtil;
 import net.sf.sanity4j.util.Tool;
 
 /**
  * CoberturaMergeRunner - a work unit that merges Cobertura data files.
- *
+ * 
  * @author Darian Bridge
  * @since Sanity4J 1.0.4
  */
@@ -22,15 +27,48 @@ public class CoberturaMergeRunner extends AbstractToolRunner
 
     /**
      * Produces the Merged Cobertura data file.
+     * 
      * @param commandLine the Merge Cobertura data file command line.
      */
     public void runTool(final String commandLine)
     {
-        int result = ExternalProcessRunner.runProcess(commandLine, System.out, System.err);
+        // Run the process
+        ByteArrayOutputStream stdout = null;
+        ByteArrayOutputStream stderr = null;
 
-        if (result != 0)
+        try
         {
-            throw new QAException("Cobertura Merge returned error code " + result);
+            stdout = new ByteArrayOutputStream();
+            stderr = new ByteArrayOutputStream();
+
+            // Run the process
+            int result = ExternalProcessRunner.runProcess(commandLine, stdout, stderr);
+
+            String stdoutString = new String(stdout.toByteArray());
+
+            if (FileUtil.hasValue(stdoutString))
+            {
+                QaLogger.getInstance().info(stdoutString);
+            }
+
+            String stderrString = new String(stderr.toByteArray());
+
+            if (FileUtil.hasValue(stderrString))
+            {
+                QaLogger.getInstance().error(stderrString);
+            }
+            
+            if (result != 0)
+            {
+                String out = new String(stdout.toByteArray());
+                String err = new String(stderr.toByteArray());
+                throw new QAException("Cobertura Merge Command [" + commandLine + "] failed : [" + out  + "] [" + err + "]");
+            }
+        }
+        finally
+        {
+            QaUtil.safeClose(stdout);
+            QaUtil.safeClose(stderr);
         }
     }
 

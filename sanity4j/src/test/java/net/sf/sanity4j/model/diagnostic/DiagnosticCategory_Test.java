@@ -116,7 +116,7 @@ public class DiagnosticCategory_Test extends TestCase
         addDiagnostic(root, "category/subcategory2");
         
         // Root should have one subcategory
-        Iterator<DiagnosticCategory> iterator = root.subCategories();
+        Iterator<DiagnosticCategory> iterator = root.subCategoriesIterator();
         assertTrue("Iterator should have next", iterator.hasNext());
         
         Object next = iterator.next();
@@ -130,7 +130,7 @@ public class DiagnosticCategory_Test extends TestCase
         assertFalse("Iterator should not have next", iterator.hasNext());
         
         // Child should have two subcategories
-        iterator = child.subCategories();
+        iterator = child.subCategoriesIterator();
         assertTrue("Iterator should have next", iterator.hasNext());        
         next = iterator.next();
         assertTrue("Iterator should have next", iterator.hasNext());        

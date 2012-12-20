@@ -50,6 +50,8 @@ public class SummaryCsvMarshaller
     private static final int HIGH_COUNT_COLUMN_INDEX = 8;
     /** The column index for the number the source line count. */
     private static final int LINE_COUNT_COLUMN_INDEX = 9;
+    /** The number of characters on a line. */
+    private static final int CHARS_PER_LINE = 80;
     
     
     /** The character encoding when writing the file. */
@@ -65,7 +67,7 @@ public class SummaryCsvMarshaller
      */
     public PackageSummary[] read(final File file)
     {
-        List<PackageSummary> entries = new ArrayList<PackageSummary>((int) (file.length() / 80)); // assume approx 80 chars per line
+        List<PackageSummary> entries = new ArrayList<PackageSummary>((int) (file.length() / CHARS_PER_LINE)); // assume approx 80 chars per line
 
         BufferedReader reader = null;
 

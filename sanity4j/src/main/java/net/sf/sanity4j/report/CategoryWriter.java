@@ -57,8 +57,12 @@ public class CategoryWriter
         
         if (packageName != null)
         {
-            fileName = packageName.replace('.', File.separatorChar) 
-                                     + File.separatorChar + fileName;
+        	StringBuffer buf = new StringBuffer();
+        	buf.append(packageName.replace('.', File.separatorChar))
+        		.append(File.separatorChar)
+        		.append(fileName);
+        	
+            fileName = buf.toString();  
         }
 
         String summary = generateCategoryPage(packageName);       
@@ -178,7 +182,7 @@ public class CategoryWriter
         }       
         
         // Output subcategories (if any)
-        for (Iterator<DiagnosticCategory> i = category.subCategories(); i.hasNext();)
+        for (Iterator<DiagnosticCategory> i = category.subCategoriesIterator(); i.hasNext();)
         {
             DiagnosticCategory subCategory = i.next();
             generateCategoryDetails(subCategory, xml);

@@ -127,19 +127,10 @@ public final class JaxbMarshaller
             for (XMLEvent currentEvent = eventReader.peek(); currentEvent != null; currentEvent = eventReader.peek())
             {
                 // We can't use a filter on the reader, as JAXB needs all events
-                if (!currentEvent.isStartElement())
+                if (currentEvent.isStartElement())
                 {
-                    if (!eventReader.hasNext())
-                    {
-                        break;
-                    }
-
-                    eventReader.nextEvent();
-                }
-                else
-                {
-                    StartElement e = currentEvent.asStartElement();
-                    listener.foundElement(e, eventReader, unmarshaller);
+                    StartElement element = currentEvent.asStartElement();
+                    listener.foundElement(element, eventReader, unmarshaller);
 
                     // If the event has not been 'consumed' by the listener, move on to the next event
                     XMLEvent nextEvent = eventReader.peek();
@@ -149,17 +140,26 @@ public final class JaxbMarshaller
                         eventReader.nextEvent();
                     }
                 }
+                else
+                {
+                    if (!eventReader.hasNext())
+                    {
+                        break;
+                    }
+
+                    eventReader.nextEvent();
+                }
             }
 
             eventReader.close();
         }
-        catch (IOException e)
+        catch (IOException ex)
         {
-            throw new QAException("Error reading result file: " + file.getName(), e);
+            throw new QAException("Error reading result file: " + file.getName(), ex);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new QAException("Error reading xml: " + file.getName(), e);
+            throw new QAException("Error reading xml: " + file.getName(), ex);
         }
         finally
         {

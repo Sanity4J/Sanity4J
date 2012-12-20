@@ -15,6 +15,7 @@ import net.sf.sanity4j.util.ExtractStats;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
 import net.sf.sanity4j.util.QaLogger;
+import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.QAProcessor;
 
 
@@ -28,14 +29,19 @@ public class ReportWriter
 {
     /** A list of package names that need to be written. */
     private final List<String> packages = new ArrayList<String>();
+    
     /** A list of source file paths that need to be written. */
     private final List<String> sources = new ArrayList<String>();
+    
     /** Source file paths, keyed by their package name. */
     private final Map<String, List<String>> sourcesByPackage = new HashMap<String, List<String>>();
 
     /** The diagnostics that we are writing. */
     private final ExtractStats stats;
 
+    /** Whether or not diagnostics should be printed first or last. */
+    private final boolean diagnosticsFirst;
+    
     /** The destination directory. */
     private final File reportDir;
 
@@ -43,20 +49,23 @@ public class ReportWriter
      * Creates a ReportWriter.
      * 
      * @param stats the stats utility containing the results
+     * @param diagnosticsFirst flag for diagnostics first
      * @param reportDir the base directory for the report
      */
-    public ReportWriter(final ExtractStats stats, final File reportDir)
+    public ReportWriter(final ExtractStats stats, final boolean diagnosticsFirst, final File reportDir)
     {
         this.stats = stats;
+        this.diagnosticsFirst = diagnosticsFirst;
         this.reportDir = reportDir;
     }
     
     /**
      * Produces the combined report in the given directory.
      * 
-     * @throws IOException if there is an error writing any file
+     * @param config The configuration object for the Sanity4J tool.
+     * @throws IOException if there is an error writing any file.
      */
-    public void produceReport() throws IOException
+    public void produceReport(final QAConfig config) throws IOException
     {
         findSourceFiles(new File(stats.getSourceDirectory()));
 
@@ -75,7 +84,7 @@ public class ReportWriter
         
         // Set up the default frames
         QaLogger.getInstance().debug("Extracting static content");
-        ExtractStaticContent.extractContent(reportDir);
+        ExtractStaticContent.extractContent(config, reportDir, "ExtractStaticContent.properties");
 
         writePackagesFrame();
         
@@ -101,7 +110,7 @@ public class ReportWriter
         }
         
         // Write sources
-        JavaSourceWriter sourceWriter = new JavaSourceWriter(stats, reportDir);
+        JavaSourceWriter sourceWriter = new JavaSourceWriter(stats, diagnosticsFirst, reportDir);
 
         for (String sourceName : sources)
         {

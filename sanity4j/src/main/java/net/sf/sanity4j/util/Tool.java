@@ -41,26 +41,26 @@ public final class Tool
     }));
 
     /** The tool id, which is used to e.g. look up values in tools.properties. */
-    private final String id;
+    private final String toolId;
 
     /** The human-readable tool name. */
     private final String name;
 
     /**
      * Creates a tool with the given id and name.
-     * @param id the tool id
+     * @param toolId the tool id
      * @param name the tool name
      */
-    private Tool(final String id, final String name)
+    private Tool(final String toolId, final String name)
     {
-       this.id = id;
+       this.toolId = toolId;
        this.name = name;
     }
 
     /** @return the id */
     public String getId()
     {
-        return id;
+        return toolId;
     }
 
     /** @return the name */
@@ -72,19 +72,19 @@ public final class Tool
     /** @return the id */
     public String toString()
     {
-        return id;
+        return toolId;
     }
 
     /**
      * Retrieves the tool with the given id.
-     * @param id the tool id.
+     * @param toolId the tool id.
      * @return the tool with the given id, or null if the tool does not exist.
      */
-    public static Tool get(final String id)
+    public static Tool get(final String toolId)
     {
         for (Tool tool : TOOLS)
         {
-            if (tool.getId().equals(id))
+            if (tool.getId().equals(toolId))
             {
                 return tool;
             }
@@ -102,12 +102,12 @@ public final class Tool
      */
     public boolean equals(final Object obj)
     {
-        return obj instanceof Tool && ((Tool) obj).id.equals(id);
+        return obj instanceof Tool && ((Tool) obj).toolId.equals(toolId);
     }
 
     /** {@inheritDoc} */
     public int hashCode()
     {
-        return id.hashCode();
+        return toolId.hashCode();
     }
 }

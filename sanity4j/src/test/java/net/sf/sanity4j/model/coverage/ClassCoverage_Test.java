@@ -13,9 +13,12 @@ public class ClassCoverage_Test extends TestCase
     /** The ClassCoverage to be tested. */
     private ClassCoverage coverage;
     
+    /** A dummy string. */
+    private static final String DUMMY_STRING = "dummy";
+    
     public void setUp()
     {
-        coverage = new ClassCoverage("dummy");
+        coverage = new ClassCoverage(DUMMY_STRING);
         coverage.addLineCoverage(121, 0, false);
         coverage.addLineCoverage(122, 0, true);
         coverage.addLineCoverage(123, 1, true);
@@ -49,7 +52,7 @@ public class ClassCoverage_Test extends TestCase
     public void testGetInvocationsForLine()
     {
         assertEquals("Incorrect invocations returned for empty coverage", 
-                     -1, new ClassCoverage("dummy").getInvocationsForLine(1));
+                     -1, new ClassCoverage(DUMMY_STRING).getInvocationsForLine(1));
         
         assertEquals("Incorrect invocations returned for line 121", 
                      0, coverage.getInvocationsForLine(121));
@@ -70,7 +73,7 @@ public class ClassCoverage_Test extends TestCase
     public void testGetLineCount()
     {
         assertEquals("Incorrect line count returned for empty coverage", 
-                     0, new ClassCoverage("dummy").getLineCount());
+                     0, new ClassCoverage(DUMMY_STRING).getLineCount());
         
         assertEquals("Incorrect line count returned", 
                      4, coverage.getLineCount());
@@ -79,7 +82,7 @@ public class ClassCoverage_Test extends TestCase
     public void testGetCoveredLineCount()
     {
         assertEquals("Incorrect covered line count returned for empty coverage", 
-                     0, new ClassCoverage("dummy").getCoveredLineCount());
+                     0, new ClassCoverage(DUMMY_STRING).getCoveredLineCount());
         
         assertEquals("Incorrect covered line count returned", 
                      2, coverage.getCoveredLineCount());
@@ -88,7 +91,7 @@ public class ClassCoverage_Test extends TestCase
     public void testGetBranchCount()
     {
         assertEquals("Incorrect branch count returned for empty coverage", 
-                     0, new ClassCoverage("dummy").getBranchCount());
+                     0, new ClassCoverage(DUMMY_STRING).getBranchCount());
         
         assertEquals("Incorrect branch count returned", 2, coverage.getBranchCount());
     }
@@ -96,7 +99,7 @@ public class ClassCoverage_Test extends TestCase
     public void testGetCoveredBranchCount()
     {
         assertEquals("Incorrect covered branch count returned for empty coverage", 
-                     0, new ClassCoverage("dummy").getCoveredBranchCount());
+                     0, new ClassCoverage(DUMMY_STRING).getCoveredBranchCount());
         
         assertEquals("Incorrect covered branch count returned", 
                      1, coverage.getCoveredBranchCount());

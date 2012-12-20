@@ -86,17 +86,17 @@ public class PostfixExpression
             // The result should now be the only element on the stack.
             result = stack[--stackIndex];
         }
-        catch (ArrayIndexOutOfBoundsException e)
+        catch (ArrayIndexOutOfBoundsException ex)
         {
-            throw new SyntaxException("Stack underflow", e);
+            throw new SyntaxException("Stack underflow", ex);
         }
-        catch (NumberFormatException e)
+        catch (NumberFormatException ex)
         {
-            throw new SyntaxException("Number format exception / Illegal operator", e);
+            throw new SyntaxException("Number format exception / Illegal operator", ex);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new SyntaxException("Unknown error during evaluation: " + e.getMessage(), e);
+            throw new SyntaxException("Unknown error during evaluation: " + ex.getMessage(), ex);
         }
 
         if (stackIndex != 0)
@@ -123,21 +123,21 @@ public class PostfixExpression
 
         for (int i = 0; i < terms.length; i++)
         {
-            if (terms[i].charAt(0) != '#')
+            if (terms[i].charAt(0) == '#')
             {
-                newOp[i] = terms[i];
-            }
-            else
-            {
-                String id = terms[i].substring(1);
-                Object value = values.get(id);
+                String key = terms[i].substring(1);
+                Object value = values.get(key);
                 
                 if (value == null)
                 {
-                    throw new SyntaxException("Bad variable id: " + id);
+                    throw new SyntaxException("Bad variable id: " + key);
                 }
                 
                 newOp[i] = value.toString();
+            }
+            else
+            {
+                newOp[i] = terms[i];
             }
         }
 
@@ -152,7 +152,8 @@ public class PostfixExpression
      */
     public PostfixExpression(final String[] terms)
     {
-        this.terms = terms;
+    	this.terms = new String[terms.length];
+    	System.arraycopy(terms, 0, this.terms, 0, terms.length);
     }
 
     /**

@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/sanity4j"/>
-	<classpathentry kind="lib" path="lib/sanity4j-1.0.4-jar-with-dependencies.jar" sourcepath="/sanity4j"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Sanity4J"/>
+	<classpathentry kind="lib" path="lib/sanity4j-1.0.6-jar-with-dependencies.jar" sourcepath="/sanity4j"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -18,7 +18,7 @@ import net.sf.sanity4j.model.summary.PackageSummary;
 import net.sf.sanity4j.model.summary.SummaryCsvMarshaller;
 
 /**
- * Utility class for extracting stats from the various tool's XML outputs.
+ * Utility class for extracting statistics from the various tool's XML outputs.
  * Since many of the tools use different versions of paths (e.g. short
  * file names on win32), the canonical path must be used when referring
  * to any path.
@@ -30,20 +30,30 @@ public final class ExtractStats
 {
     /** The directory containing the source code. */
     private final String sourceDirectory;
+    
     /** The set of diagnostics for the current run. */
     private final DiagnosticSet diagnostics = new DiagnosticSet();
+    
     /** Top-level Unit test coverage. */
     private final Coverage coverage = new Coverage();
+    
     /** Lines of code, by package name. */
     private final Map<String, Integer> lineCountByPackage = new HashMap<String, Integer>();
+    
     /** Lines of code, by class name. */
     private final Map<String, Integer> lineCountByClass = new HashMap<String, Integer>();
+    
     /** Number of classes per package, by package name. */
     private final Map<String, Integer> classCountByPackage = new HashMap<String, Integer>();
+    
     /** Run summaries, by package name. */
     private final Map<String, List<PackageSummary>> summaryByPackage = new HashMap<String, List<PackageSummary>>();
+    
     /** Summarised data for the current run. */
     private PackageSummary[] currentRunSummary;
+    
+    /** A default size for a buffer. */
+    private static final int BUF_SIZE = 4096;
 	
 	/**
      * Creates an ExtractStats.
@@ -109,6 +119,11 @@ public final class ExtractStats
             String className = getClassNameForSourcePath(path);
             String packageName = getPackageName(path);
 
+            if ("".equals(packageName))
+            {
+                packageName = "default";
+            }
+
             lineCountByClass.put(className, lineCount);
 
             Integer packageLineCount = lineCountByPackage.get(packageName);
@@ -150,7 +165,7 @@ public final class ExtractStats
 
         if (file.length() > 0)
         {
-            byte[] buf = new byte[4096];
+            byte[] buf = new byte[BUF_SIZE];
             FileInputStream fis = null;
 
             try
@@ -244,22 +259,27 @@ public final class ExtractStats
      */
     public String getPackageName(final String sourceFilePath)
     {
-        // Special case for the "default" package
-        if (sourceFilePath.equals(getSourceDirectory()))
+    	// Find the directory containing for the given sourceFilePath.
+    	String sourceDir = sourceFilePath;
+        File sourceFile = new File(sourceFilePath);
+
+        if (!sourceFile.isDirectory())
+        {
+            sourceDir = sourceFile.getParent();
+        }
+
+        // If we are in the default package return "";
+        int sourceDirectoryLength = getSourceDirectory().length() + 1;
+
+        if (sourceDir.equals(getSourceDirectory()) || sourceDir.length() < sourceDirectoryLength)
         {
             return "";
         }
 
-        File file = new File(sourceFilePath);
-        int basePathLength = getSourceDirectory().length() + 1;
-        String sourceDir = sourceFilePath;
-
-        if (!file.isDirectory())
-        {
-            sourceDir = file.getParent();
-        }
-
-        return sourceDir.substring(basePathLength).replace(File.separatorChar, '.');
+        String relativePath = sourceDir.substring(sourceDirectoryLength);
+        String packageName = relativePath.replace(File.separatorChar, '.');
+        
+        return packageName;
     }
 
     /**

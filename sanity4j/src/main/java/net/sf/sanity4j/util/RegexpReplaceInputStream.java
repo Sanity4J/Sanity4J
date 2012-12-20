@@ -243,7 +243,7 @@ public class RegexpReplaceInputStream extends InputStream
         }
         else if (lookaheadOffset < matchFinishOffset)
         {
-            int c = replace.charAt(replaceOffset++);
+            int chr = replace.charAt(replaceOffset++);
 
             if (replaceOffset >= replace.length())
             {
@@ -258,7 +258,7 @@ public class RegexpReplaceInputStream extends InputStream
                 }
             }
 
-            return c;
+            return chr;
         }
         else
         {

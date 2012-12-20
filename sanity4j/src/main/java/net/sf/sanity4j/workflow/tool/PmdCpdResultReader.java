@@ -3,10 +3,12 @@ package net.sf.sanity4j.workflow.tool;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import net.sf.sanity4j.gen.pmdcpd_4_2_1.Duplication;
 import net.sf.sanity4j.gen.pmdcpd_4_2_1.PmdCpd;
 import net.sf.sanity4j.model.diagnostic.Diagnostic;
+import net.sf.sanity4j.model.diagnostic.DiagnosticFactory;
 import net.sf.sanity4j.model.diagnostic.DiagnosticSet;
 import net.sf.sanity4j.util.ExtractStats;
 import net.sf.sanity4j.util.JaxbMarshaller;
@@ -23,10 +25,23 @@ public final class PmdCpdResultReader implements ResultReader
     /** The rule name to use for Diagnostics, as PMD-CPD doesn't have rules. */
     private static final String PMD_CPD_RULE_NAME = "DoNotCopyAndPasteCode";
 
+    /** The properties used to configure this {@link ResultReader}. */
+    private final Properties properties = new Properties();
+    
     /** The ExtractStats to add the results to. */
     private ExtractStats stats;
+    
     /** The PMD CPD XML result file to read from. */
     private File pmdCpdResultFile;
+    
+    /** The threshold for severity. */
+    private static final int SEVERITY_THRESHOLD = 100;
+
+	/** {@inheritDoc} */
+	public void setProperties(final Properties properties) 
+	{
+		this.properties.putAll(properties);
+	}
 
     /** {@inheritDoc} */
     public void setResultFile(final File resultFile)
@@ -45,6 +60,7 @@ public final class PmdCpdResultReader implements ResultReader
      */
     public void run()
     {
+        DiagnosticFactory diagnosticFactory = DiagnosticFactory.getInstance(properties);
         DiagnosticSet diagnostics = stats.getDiagnostics();
 
         PmdCpd result = (PmdCpd)
@@ -62,11 +78,11 @@ public final class PmdCpdResultReader implements ResultReader
                 String fileName2 = stats.getCanonicalPath(file2.getPath()).substring(stats.getSourceDirectory().length() + 1);
 
                 // severity is based on the size of the duplication
-                int severity = duplication.getLines().intValue() < 100
+                int severity = duplication.getLines().intValue() < SEVERITY_THRESHOLD
                                ? Diagnostic.SEVERITY_LOW
                                : Diagnostic.SEVERITY_MODERATE;
 
-                Diagnostic diagnostic = new Diagnostic();
+                Diagnostic diagnostic = diagnosticFactory.getDiagnostic();
                 diagnostic.setSource(Diagnostic.SOURCE_PMD_CPD);
                 diagnostic.setRuleName(PMD_CPD_RULE_NAME);
                 diagnostic.setSeverity(severity);
@@ -80,7 +96,7 @@ public final class PmdCpdResultReader implements ResultReader
 
                 diagnostics.add(diagnostic);
 
-                diagnostic = new Diagnostic();
+                diagnostic = diagnosticFactory.getDiagnostic();
                 diagnostic.setSource(Diagnostic.SOURCE_PMD_CPD);
                 diagnostic.setRuleName(PMD_CPD_RULE_NAME);
                 diagnostic.setSeverity(severity);

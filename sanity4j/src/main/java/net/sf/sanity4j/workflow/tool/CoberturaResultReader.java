@@ -2,6 +2,7 @@ package net.sf.sanity4j.workflow.tool;
 
 import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -27,13 +28,22 @@ import net.sf.sanity4j.util.StartElementListener;
  */
 public final class CoberturaResultReader implements ResultReader, StartElementListener
 {
+	/** The properties used to configure this {@link ResultReader}. */
+	private final Properties properties = new Properties();
+	
     /** The ExtractStats to add the results to. */
     private ExtractStats stats;
 
     /** The Cobertura result file to read from. */
     private File coberturaResultFile;
 
-    /** {@inheritDoc} */
+	/** {@inheritDoc} */
+	public void setProperties(final Properties properties) 
+	{
+		this.properties.putAll(properties);
+	}
+
+	/** {@inheritDoc} */
     public void setResultFile(final File resultFile)
     {
         this.coberturaResultFile = resultFile;

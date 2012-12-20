@@ -29,10 +29,18 @@ public final class ChartFactory
 {
     /** The width of the generated chart, in pixels. */
     private static final int IMAGE_WIDTH = 600;
+    
     /** The height of the generated chart, in pixels. */
     private static final int IMAGE_HEIGHT = 400;
+    
     /** The maximum number of data points before data point markers are turned off. */
     private static final int MAX_RUNS_FOR_SHAPES = 20;
+    
+    /** The inset. */
+    private static final double INSET = 5.0;
+    
+    /** One hundred. */
+    private static final double HUNDRED = 100.0;
     
     /** ChartFactory should never be instantiated. */
     private ChartFactory()
@@ -55,11 +63,11 @@ public final class ChartFactory
         {
             Second second = new Second(summaries[i].getRunDate());
             
-            lineCoverage.add(second, 100.0 * summaries[i].getLineCoverage());
-            branchCoverage.add(second, 100.0 * summaries[i].getBranchCoverage());
+            lineCoverage.addOrUpdate(second, HUNDRED * summaries[i].getLineCoverage());
+            branchCoverage.addOrUpdate(second, HUNDRED * summaries[i].getBranchCoverage());
             
             double qualityValue = ReportUtil.evaluateMetric("quality", summaries[i]);
-            quality.add(second, 100.0 * qualityValue);
+            quality.addOrUpdate(second, HUNDRED * qualityValue);
         }
         
         TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -101,7 +109,7 @@ public final class ChartFactory
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
-        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+        plot.setAxisOffset(new RectangleInsets(INSET, INSET, INSET, INSET));
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
         
@@ -127,7 +135,7 @@ public final class ChartFactory
         
         plot.getRangeAxis().setAutoRange(false);
         plot.getRangeAxis().setLowerBound(0.0);
-        plot.getRangeAxis().setUpperBound(100.0);
+        plot.getRangeAxis().setUpperBound(HUNDRED);
 
         return chart;
     }
@@ -140,8 +148,7 @@ public final class ChartFactory
      * 
      * @return an Image showing the summary for the given package
      */
-    public static BufferedImage createImage(final PackageSummary[] summaries, 
-                                            final String packageName)
+    public static BufferedImage createImage(final PackageSummary[] summaries, final String packageName)
     {
         JFreeChart chart = createChart(summaries, packageName);
         return chart.createBufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT);

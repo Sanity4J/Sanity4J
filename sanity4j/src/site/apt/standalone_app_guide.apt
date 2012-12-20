@@ -61,18 +61,27 @@ java -jar sanity4j.jar
 |                               | to the project's site directory.                       |           | 
 *-------------------------------+--------------------------------------------------------+-----------+
   
-  Using the "Browse" buttons to the right of each field will bring up a file 
+  Using the "Browse" buttons to the right of each field will bring up a file
   dialog for easier selection of the appropriate items.
     
 [./images/standalone/select_tools_dir.png] Sanity4J UI screenshot showing tool select dialog.  
   
-  Repeat the process for the remaining options. On exit Sanity4J will save the options as 
-  defaults for the next time the GUI is run.
+  Repeat the process for the remaining options. On exit Sanity4J will save the
+  options as defaults for the next time the GUI is run.
   
 [./images/standalone/filled_out.png] Sanity4J UI screenshot showing completed configuration.  
   
-  Click the "Analyse" button to start the analysis. Once the analysis is complete, the report 
-  can be opened from the file "index.html" in the report output directory which was entered.
+  Click the "Analyse" button to start the analysis. Once the analysis is
+  complete, the report can be opened from the file "index.html" in the report
+  output directory which was entered.
   
 [./images/standalone/complete.png] Sanity4J UI screenshot showing completed analysis.  
+
+~~  To modify the command line options used to run the underlying tools
+~~  (<CheckStyle>, <FindBugs>, <PMD>), click the "Advanced" button to display the
+~~  "Advanced" properties configuration dialog.  This dialog is used to modify the
+~~  properties specified within the <<sanity4j.properties>> file (See
+~~  {{{customising.html}Customising}})
+~~  
+~~[./images/standalone/advanced.png] Sanity4J UI screenshot showing the advanced configuration dialog.
   

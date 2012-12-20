@@ -10,6 +10,7 @@ import net.sf.sanity4j.plugin.Activator;
 import net.sf.sanity4j.plugin.util.FileUtil;
 import net.sf.sanity4j.plugin.views.SimpleBrowserView;
 import net.sf.sanity4j.util.QAException;
+import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.QAProcessor;
 import net.sf.sanity4j.workflow.WorkUnit;
 
@@ -18,6 +19,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -35,10 +37,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.ide.dialogs.InternalErrorDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * RunQaAction - an eclipse action to run the Sanity4J task. 
+ * RunQaAction - an eclipse action to run the Sanity4J task.
  * 
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
@@ -53,7 +56,7 @@ public class RunQaAction implements IEditorActionDelegate
      * 
      * @param action the action proxy that handles presentation portion of the action
      * @param targetEditor the new editor
-     */  
+     */
     public void setActiveEditor(final IAction action, final IEditorPart targetEditor)
     {
         editor = targetEditor;
@@ -67,7 +70,7 @@ public class RunQaAction implements IEditorActionDelegate
     public void run(final IAction proxyAction)
     {
         IJavaElement javaElement = JavaUI.getEditorInputJavaElement(editor.getEditorInput());
-        
+
         if (javaElement == null)
         {
             alert("QA can only be run on files that are part of a java project.");
@@ -80,17 +83,21 @@ public class RunQaAction implements IEditorActionDelegate
                 IWorkbenchPage page = editor.getSite().getPage();
                 page.saveEditor(editor, false);
             }
-            
+
             String outputDir = getProjectOutputLocation().toOSString();
-            String projectSourceLocation = getProjectSourceLocation().toOSString();
-            String targetClass = getTargetClassName();
-    
-            runQa(targetClass, projectSourceLocation, outputDir);
+            IPath projectSourceLocation = getProjectSourceLocation();
+
+            if (projectSourceLocation != null)
+            {
+                String targetClass = getTargetClassName();
+                runQa(targetClass, projectSourceLocation.toOSString(), outputDir);
+            }
         }
     }
 
     /**
      * Creates a temporary directory on the file system, to be used by the QA task.
+     * 
      * @return the temporary directory File, or null if there was an error.
      */
     private File createTempDir()
@@ -101,7 +108,7 @@ public class RunQaAction implements IEditorActionDelegate
         {
             tempFile = new File(System.getProperty("java.io.tmpdir"), "sanity4jPlugin");
             FileUtil.delete(tempFile);
-            
+
             if (!tempFile.mkdir())
             {
                 throw new IOException("Mkdir returned false");
@@ -110,14 +117,15 @@ public class RunQaAction implements IEditorActionDelegate
         catch (IOException e)
         {
             tempFile = null;
-            alert("Failed to create temp dir: " + e);
+            alert("Failed to create temporary directory", e);
         }
 
         return tempFile;
     }
-    
+
     /**
      * Creates a Runnable version of the Plugin QA Ant task.
+     * 
      * @param runQA the QA task
      * @return a runnable that can be monitored by the eclispse UI
      */
@@ -128,14 +136,14 @@ public class RunQaAction implements IEditorActionDelegate
             public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
             {
                 monitor.setTaskName("Sanity4J task");
-                monitor.beginTask("Analysis", /*1*/IProgressMonitor.UNKNOWN);
-                
+                monitor.beginTask("Analysis", /* 1 */IProgressMonitor.UNKNOWN);
+
                 try
                 {
                     runQA.setProgressMonitor(monitor);
                     runQA.run();
-                    //monitor.subTask("xxx");
-                    //monitor.worked(1);
+                    // monitor.subTask("xxx");
+                    // monitor.worked(1);
                 }
                 finally
                 {
@@ -155,47 +163,61 @@ public class RunQaAction implements IEditorActionDelegate
     private void runQa(final String className, final String sourceDir, final String classDir)
     {
         File reportDir = createTempDir();
-        
+
         if (reportDir == null)
         {
             // Failed to clean out temp dir
             return;
         }
-        
+
         // Ant uses '/' as the path separator regardless of OS
         String sourceFilePath = sourceDir + '/' + className.replace('.', '/') + ".java";
         String classFilePath = classDir + '/' + className.replace('.', '/') + ".class"; // TODO: Inner classes?
-        
+
         if (!new File(sourceFilePath.replace('/', File.separatorChar)).exists())
         {
-            alert("Can not find source file for " + className 
-                  + ".\n Expected to find source at "
+            alert("Can not find source file for " + className + ".\n Expected to find source at "
                   + sourceFilePath.replace('/', File.separatorChar));
-            
+
             return;
         }
 
         if (!new File(classFilePath.replace('/', File.separatorChar)).exists())
         {
-            alert("Can not find class file for " + className 
-                  + ". \n Expected to find class at "
-                  + classFilePath.replace('/', File.separatorChar)
-                  + " . \nCheck 'Problems' view for build errors.");
-            
+            alert("Can not find class file for " + className + ". \n Expected to find class at "
+                  + classFilePath.replace('/', File.separatorChar) + " . \nCheck 'Problems' view for build errors.");
+
             return;
         }
-        
+
         boolean runSucceed = false;
 
         PluginQAProcessor runQA = new PluginQAProcessor();
         runQA.getConfig().setJavaRuntime(Activator.getJavaRuntime());
         runQA.getConfig().setProductsDir(Activator.getProductsDir());
+        runQA.getConfig().setExternalPropertiesPath(Activator.getSanity4JProperties());
+        runQA.getConfig().setDiagnosticsFirst(Activator.getDiagnosticsFirst());
         runQA.getConfig().addSourcePath(sourceFilePath);
         runQA.getConfig().addClassPath(classFilePath);
         runQA.getConfig().setReportDir(reportDir.getPath());
 
+        for (String tool : runQA.getConfig().getToolsToRun())
+        {
+            QAConfig config = runQA.getConfig();
+            String version = config.getToolVersion(tool);
+
+            String toolConfig = Activator.getToolConfig(tool, version);
+            String toolConfigClasspath = Activator.getToolConfigClasspath(tool, version);
+            
+            if (FileUtil.hasValue(toolConfig))
+            {
+                config.setToolConfig(tool, null, toolConfig, toolConfigClasspath);
+                config.setToolConfig(tool, version, toolConfig, toolConfigClasspath);
+            }
+        }
+
         ProgressMonitorDialog progressDialog = new ProgressMonitorDialog(editor.getEditorSite().getShell());
-        
+
         try
         {
             progressDialog.run(true, false, getRunQARunnable(runQA));
@@ -204,35 +226,41 @@ public class RunQaAction implements IEditorActionDelegate
         catch (Exception e)
         {
             // Cancelled ?
-            
+
             if (e.getCause() instanceof QAException)
             {
-                alert("Sanity4J failed:\n" + e.getCause().getMessage());
+                Activator.getDefault().getLog()
+                    .log(new Status(Status.ERROR, "net.sf.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
+                alert("Sanity4J failed", e);
             }
             else if (e instanceof InvocationTargetException)
             {
-                alert("Unknown error running Sanity4J: " + e.getCause());
+                Activator.getDefault().getLog()
+                    .log(new Status(Status.ERROR, "net.sf.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
+                alert("Unknown error running Sanity4J",  e.getCause());
             }
             else
             {
-                alert("Unknown error running Sanity4J: " + e);
+                Activator.getDefault().getLog()
+                    .log(new Status(Status.ERROR, "net.sf.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
+                alert("Unknown error running Sanity4J", e);
             }
         }
-        
+
         if (runSucceed)
         {
             // Resultant file should be reportDir/packageName/className.html
             File file = new File(reportDir, className.replace('.', File.separatorChar) + ".html");
-    
+
             if (file.exists())
             {
                 try
                 {
-                    openBrowser(file.toURL());
+                    openBrowser(file.toURI().toURL());
                 }
                 catch (Exception e)
                 {
-                    alert("Failed to open QA result file:\n" + file);
+                    alert("Failed to open QA result file [" + file + "]", e);
                 }
             }
             else
@@ -243,23 +271,24 @@ public class RunQaAction implements IEditorActionDelegate
                 {
                     try
                     {
-                        openBrowser(file.toURL());
+                        openBrowser(file.toURI().toURL());
                     }
                     catch (Exception e)
                     {
-                        alert("Failed to open QA result file:\n" + file);
+                        alert("Failed to open QA result file [" + file + "]", e);
                     }
                 }
-                
+
             }
         }
     }
-    
+
     /** The plug-in view. Must match the id in the plugin.xml. */
     public static final String PLUGIN_VIEW = "net.sf.sanity4j.eclipse.plugin.views.SimpleBrowserView";
-    
+
     /**
      * Opens a browser window.
+     * 
      * @param url the url to open
      */
     private void openBrowser(final URL url)
@@ -268,7 +297,7 @@ public class RunQaAction implements IEditorActionDelegate
         IWorkbenchPage page = pages[0];
 
         SimpleBrowserView browser = (SimpleBrowserView) page.findView(PLUGIN_VIEW);
-        
+
         if (browser == null)
         {
             try
@@ -277,7 +306,7 @@ public class RunQaAction implements IEditorActionDelegate
             }
             catch (PartInitException e)
             {
-                alert("Error initialising browser view: " + e);
+                alert("Error initialising browser view", e);
             }
         }
 
@@ -290,16 +319,30 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Presents an alert dialog to the user.
+     * 
      * @param message the message to display
      */
     private void alert(final String message)
     {
         Shell shell = editor.getEditorSite().getShell();
-        MessageDialog.openInformation(shell, "Eclipse QA plugin", message);
+        MessageDialog.openInformation(shell, "Eclipse Sanity4J plugin", message);
+    }
+
+    /**
+     * Presents an alert dialog to the user.
+     * 
+     * @param message the message to display
+     * @param detail the exception which caused the error.
+     */
+    private void alert(final String message, Throwable detail)
+    {
+        Shell shell = editor.getEditorSite().getShell();
+        InternalErrorDialog.openQuestion(shell, "Eclipse Sanity4J plugin", message, detail, 0);
     }
 
     /**
      * Determines the target class name, based on the active editor's content.
+     * 
      * @return the fully qualified name of the target class
      */
     private String getTargetClassName()
@@ -309,6 +352,7 @@ public class RunQaAction implements IEditorActionDelegate
 
         String sourceName = javaSourcePath.substring(projectSourcePath.length() + 1); // trailing slash
         String className = sourceName.substring(0, sourceName.toLowerCase().indexOf(".java")).replace('/', '.');
+
         return className;
     }
 
@@ -359,9 +403,11 @@ public class RunQaAction implements IEditorActionDelegate
         }
         catch (JavaModelException e)
         {
-            alert("Unable to determine project source location: " + e);
+            alert("Unable to determine project source location", e);
         }
 
+        alert("Unable to determine project source location");
+        
         return null;
     }
 
@@ -385,9 +431,9 @@ public class RunQaAction implements IEditorActionDelegate
         }
     }
 
-    /** 
-     * Called when the selection in the workbench has changed. 
-     * This implementation does nothing, as the plugin is not dependant on selection.
+    /**
+     * Called when the selection in the workbench has changed. This implementation does nothing, as the plugin is not
+     * dependant on selection.
      * 
      * @param proxyAction the action proxy that handles the presentation portion of the action
      * @param selection the new selection
@@ -398,8 +444,7 @@ public class RunQaAction implements IEditorActionDelegate
     }
 
     /**
-     * An extension of the RunQA task, so that progress 
-     * can be monitored in the eclipse UI.
+     * An extension of the RunQA task, so that progress can be monitored in the eclipse UI.
      */
     private static final class PluginQAProcessor extends QAProcessor
     {
@@ -408,6 +453,7 @@ public class RunQaAction implements IEditorActionDelegate
 
         /**
          * Sets the progress monitor.
+         * 
          * @param monitor the monitor to set
          */
         public void setProgressMonitor(final IProgressMonitor monitor)
@@ -417,19 +463,20 @@ public class RunQaAction implements IEditorActionDelegate
 
         /**
          * Override runWork so that we can update the progress monitor.
+         * 
          * @param workUnits the units of work to run.
          */
-        protected void runWork(final List workUnits)
+        protected void runWork(final List<WorkUnit> workUnits)
         {
             for (int i = 0; i < workUnits.size(); i++)
             {
                 WorkUnit work = (WorkUnit) workUnits.get(i);
-                
+
                 if (monitor != null)
                 {
                     monitor.subTask(work.getDescription());
                 }
-                
+
                 work.run();
             }
         }

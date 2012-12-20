@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- *******************************************************************
+**
+** NAME
+** build.xml
+**
+** PURPOSE
+** This file is an Apache ANT (http://ant.apache.org) build.xml file.
+** It is used to demonstrate the 'sanity4j.run' ant target.
+**
+** AUTHOR
+** Brian Kavanagh.
+**
+******************************************************************** -->
+<project
+    name    ="sanity4j"
+    default ="analyse">
+
+    <property name="products.home"  value="../../sanity4j/target/tools"/>
+    <property name="junit.home"     value="${products.home}/junit4.8.2"/>
+    <property name="cobertura.home" value="${products.home}/cobertura-1.9.2"/>
+    <property name="sanity4j.home"  value="../../sanity4j/target"/>
+
+    <property name="build.dir" value="target"/>
+    <property name="lib.dir"   value="${build.dir}/lib"/>
+
+    <path id="junit.path">
+        <fileset dir="${junit.home}">
+            <include name="**/junit*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="cobertura.path">
+        <fileset dir="${cobertura.home}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="sanity4j.path">
+        <fileset dir="${sanity4j.home}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path
+        id          ="test-classpath"
+        description ="The path used when running JUnits">
+
+        <path refid="junit.path"/>
+        <path path="${build.dir}/classes"/>
+        <path path="${build.dir}/test-classes"/>
+    </path>
+
+    <!-- ***************************************************************
+    ** INTERNAL TARGETS
+    **************************************************************** -->
+
+    <target
+        name        ="clean"
+        description ="Remove the files created by the build process">
+
+        <delete dir="${build.dir}"/>
+        <delete dir="${lib.dir}/sanity4j.jar"/>
+
+    </target>
+
+    <target
+        name        ="build.java"
+        description ="Compile the java source code to the classes directory">
+
+        <mkdir dir="${build.dir}/classes"/>
+
+        <javac
+            srcdir       ="src/main/java"
+            debug        ="true"
+            destdir      ="${build.dir}/classes"/>
+
+    </target>
+
+    <target
+        name        ="build.test"
+        description ="Compile the java test code to the test-classes directory">
+
+        <mkdir dir="${build.dir}/test-classes"/>
+
+        <javac
+            srcdir       ="src/test/java"
+            classpathref ="test-classpath"
+            debug        ="true"
+            destdir      ="${build.dir}/test-classes"/>
+
+    </target>
+
+    <target
+        name        ="instrument.cobertura"
+        description ="Instrument the compiled classes / test classes to enable the recording of coverage statistics.">
+
+        <taskdef resource="tasks.properties">
+            <classpath refid="cobertura.path"/>
+        </taskdef>
+
+        <mkdir dir="${build.dir}/cobertura/classes"/>
+
+        <cobertura-instrument
+            todir    ="${build.dir}/cobertura/classes"
+            datafile ="${build.dir}/cobertura/cobertura.ser">
+
+            <fileset dir="${build.dir}/classes"/>
+            <fileset dir="${build.dir}/test-classes"/>
+
+        </cobertura-instrument>
+
+    </target>
+
+    <target
+        name        ="run.junit"
+        description ="Run the junit tests using the instrumented classes.">
+
+        <mkdir dir="${build.dir}/test"/>
+
+        <path id="run.junit.path">
+            <path refid="cobertura.path"/>
+            <path path="${build.dir}/cobertura/classes"/>
+            <path refid="junit.path"/>
+            <path path="src/test/resources"/>
+        </path>
+
+        <junit printsummary="true">
+
+            <classpath refid="run.junit.path"/>
+            <formatter type="xml"/>
+
+            <sysproperty
+                key   ="net.sourceforge.cobertura.datafile"
+                value ="${build.dir}/cobertura/cobertura.ser"/>
+
+            <test
+                name  ="muck.HelloTest"
+                fork  ="true"
+                todir ="${build.dir}/test"/>
+
+        </junit>
+
+    </target>
+
+    <target
+        name        ="report.analyse"
+        description ="Run the sanity4j.run task over the Hello World application.">
+
+        <!-- Import the <sanity4j.run ...> task. -->
+        <typedef
+            resource     ="sanity4j-ant.xml"
+            classpathref ="sanity4j.path"/>
+
+        <mkdir dir="${build.dir}/site/sanity4j"/>
+
+        <!-- Run the Sanity4J task. -->
+        <sanity4j.run
+            products.dir       ="${products.home}"
+            report.dir         ="${build.dir}/site/sanity4j"
+            coverage.data.file ="${build.dir}/cobertura/cobertura.ser">
+
+            <source.path>
+
+                <fileset dir="src/main/java">
+                    <include name="**/*.java"/>
+                </fileset>
+
+                <fileset dir="src/test/java">
+                    <include name="**/*.java"/>
+                </fileset>
+
+            </source.path>
+
+            <class.path>
+                <pathelement path="${build.dir}/classes"/>
+                <pathelement path="${build.dir}/test-classes"/>
+            </class.path>
+
+            <library.path>
+                <path refid="sanity4j.path"/>
+            </library.path>
+
+            <configurations>
+                <configuration tool="findbugs"   config="-exclude sanity4j_filter_exclude.xml"/>
+                <configuration tool="pmd"        config="sanity4j_pmd_rules.xml"/>
+                <configuration tool="checkstyle" config="sanity4j_checks.xml"/>
+            </configurations>
+            
+        </sanity4j.run>
+
+        <!-- Print out the location of the sanity4j report HTML. -->
+        <path id="build.dir.absolute" location="${build.dir}"/>
+        <pathconvert property="build.dir.url" refid="build.dir.absolute" dirsep="/"/>
+
+        <echo>
+**********************************************************************
+Sanity4j Report written to: file:///${build.dir.url}/site/sanity4j/index.html
+**********************************************************************
+        </echo>
+
+    </target>
+
+    <!-- ***************************************************************
+    ** EXTERNAL TARGETS
+    **************************************************************** -->
+
+    <target
+        name        ="analyse"
+        description ="Run the sanity4j QA analysis over the Hello World test code."
+        depends     ="clean,
+                      build.java,
+                      build.test,
+                      instrument.cobertura,
+                      run.junit,
+                      report.analyse"/>
+
+</project>

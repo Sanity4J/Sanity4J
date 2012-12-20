@@ -1,6 +1,7 @@
 package net.sf.sanity4j.workflow.tool; 
 
 import java.io.File;
+import java.util.Properties;
 
 import net.sf.sanity4j.util.ExtractStats;
 
@@ -13,6 +14,15 @@ import net.sf.sanity4j.util.ExtractStats;
  */
 public class CoberturaMergeReader implements ResultReader
 {
+	/** The properties used to configure this {@link ResultReader}. */
+	private final Properties properties = new Properties();
+	
+	/** {@inheritDoc} */
+	public void setProperties(final Properties properties) 
+	{
+		this.properties.putAll(properties);
+	}
+
     /**
      * Do nothing.
      * @param resultFile the result file.

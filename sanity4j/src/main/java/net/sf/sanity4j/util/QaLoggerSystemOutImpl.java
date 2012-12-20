@@ -14,6 +14,7 @@ public class QaLoggerSystemOutImpl extends QaLogger
     /** Hide the constructor - instances must be obtained using getInstance. */
     protected QaLoggerSystemOutImpl()
     {
+    	// Hide the constructor - instances must be obtained using getInstance.
     }
     
     /**
