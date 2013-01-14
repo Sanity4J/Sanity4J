@@ -247,7 +247,10 @@
             </td>
             <td>
                 <a>
-                    <xsl:attribute name="href">javascript:popupwindow('<xsl:value-of select="concat(//classDetails/@pathToRoot, 'rules/', @tool, '/', @rule)"/>.html');</xsl:attribute>
+                    <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+                    <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+                
+                    <xsl:attribute name="href">javascript:popupwindow('<xsl:value-of select="concat(//classDetails/@pathToRoot, 'rules/', translate(@tool, $uppercase, $lowercase), '/', @rule)"/>.html');</xsl:attribute>
                     <xsl:value-of select="text()"/>
                 </a>
                 <br />
