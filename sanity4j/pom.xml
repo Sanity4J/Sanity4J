@@ -8,7 +8,7 @@
 
     <groupId>net.sf.sanity4j</groupId>
     <artifactId>sanity4j</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <name>Sanity4J</name>
     <packaging>maven-plugin</packaging>
 
@@ -151,6 +151,12 @@
             <version>1.0.12</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+        
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
@@ -588,7 +594,7 @@
 
                     <findBugsConfig>-exclude sanity4j_filter_exclude.xml</findBugsConfig>
                     <pmdConfig>sanity4j_pmd_rules.xml</pmdConfig>
-                    <checkStyleConfig>sanity4j_checks.xml sun_checks.xml import-control.xml suppressions.xml checkstyle_checks.xml</checkStyleConfig>
+                    <checkStyleConfig>sanity4j_checks.xml</checkStyleConfig>
                     
                     <additionalProperties>
                         PMD.DoNotUseThreads.excludes       =.*

@@ -2,6 +2,8 @@ package net.sf.sanity4j.util;
 
 import java.io.OutputStream;
 
+import org.apache.commons.lang.SystemUtils;
+
 /**
  * Runs an external process.
  * 
@@ -19,7 +21,7 @@ public final class ExternalProcessRunner
     /** ExternalProcessRunner should not be instantiated. */
     private ExternalProcessRunner() 
     {        
-    	// ExternalProcessRunner should not be instantiated.
+        // ExternalProcessRunner should not be instantiated.
     }
 
     /**
@@ -42,6 +44,11 @@ public final class ExternalProcessRunner
             if (cmdLine[i].indexOf(' ') == -1)
             {
                 cmdLineStr.append(cmdLine[i]);
+            }
+            else if (SystemUtils.IS_OS_UNIX)
+            {
+                // escape any spaces.
+                cmdLineStr.append(cmdLine[i].replace(" ", "\\ "));
             }
             else
             {
@@ -79,8 +86,31 @@ public final class ExternalProcessRunner
             StringBuffer cmdBuf = new StringBuffer();
             for (int index = 0; index < cmdArray.length; index++)
             {
-                // remove quotes
-                cmdArray[index] = cmdArray[index].replace("\"", "");
+                if (SystemUtils.IS_OS_UNIX)
+                {
+                    // remove quotes.
+                    String cmdItem = cmdArray[index].replace("\"", "");
+                    cmdArray[index] = cmdItem; 
+                    
+                    if (cmdArray[index].contains(" "))
+                    {
+                        // escape any spaces.
+                        cmdItem = cmdArray[index].replace(" ", "\\ ");
+                        cmdArray[index] = cmdItem;
+                    }
+                }
+                else
+                {
+                    if (!cmdArray[index].startsWith("\"")
+                        && !cmdArray[index].endsWith("\"")
+                        && cmdArray[index].contains(" "))
+                    {
+                        // add quotes if none already, and only if the param contains a space.
+                        String cmdItem = '"' + cmdArray[index] + '"';
+                        cmdArray[index] = cmdItem;
+                    }
+                }
+                
                 cmdBuf.append(cmdArray[index]).append(' ');
                 
                 QaLogger.getInstance().debug("cmdArg[" + index + "]: " + cmdArray[index]);
