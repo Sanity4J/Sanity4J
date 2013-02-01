@@ -3,7 +3,7 @@
    <description name="Local DIAC Eclipse Update Site" url="file://IMMI.LOCAL/Dfs/Groups/ACT/BEL/Developer%20Software/Eclipse/site.xml">
       Eclipse Update Site containing plugins used by / developed within the DIAC (Department of Immigration and Citizenship) development areas.
    </description>
-   <feature url="features/net.sf.sanity4j.eclipse.feature_1.0.6.jar" id="net.sf.sanity4j.eclipse.feature" version="1.0.6">
+   <feature url="features/net.sf.sanity4j.eclipse.feature_1.0.7.jar" id="net.sf.sanity4j.eclipse.feature" version="1.0.7">
       <category name="qa"/>
    </feature>
    <category-def name="qa" label="Quality Assurance"/>

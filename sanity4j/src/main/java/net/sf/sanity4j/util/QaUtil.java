@@ -188,17 +188,43 @@ public final class QaUtil
     }
 
     /**
-     * Reads in properties from the user's home directory. This method will user the java system properties "user.home"
-     * to search for the user's home directory, and the look for a file called "sanity4j.properties" within this
-     * directory.
+     * Reads in properties from the user's home directory. This method will use the java system properties "user.home"
+     * to search for the user's home directory, and look for a file called "sanity4j.properties" within this
+     * directory. If the externalPropertiesPath is set, then it will attempt to use the filename of the externalPropertiesPath
+     * (not the full path name) to lookup a properties file in the user's home directory.
      * 
      * @return The properties defined within the sanity4j properties file within the user's home directory.
      */
     private static Properties readUserHomeProperties()
     {
         String userHome = System.getProperty("user.home");
-        File userHomeFile = new File(userHome, "sanity4j.properties");
+        File userHomeFile = null;
+        
+        // We are just using the externalPropertiesPath to get the name of the file,
+        // not the full pathname. Then we use that name to check if the
+        // named file exists in the user home directory.
+        
+        if (FileUtil.hasValue(externalPropertiesPath))
+        {
+            File externalProperties = new File(externalPropertiesPath);
+
+            if (externalProperties.isDirectory())
+            {
+            	userHomeFile = new File(userHome, "sanity4j.properties");
+            }
+            else
+            {
+            	String filename = externalProperties.getName();
+            	userHomeFile = new File(userHome, filename);
+            }
+        }
+        else
+        {
+        	userHomeFile = new File(userHome, "sanity4j.properties");
+        }
+
         Properties userHomeProperties = readProperties(userHomeFile);
+        
         return userHomeProperties;
     }
 
