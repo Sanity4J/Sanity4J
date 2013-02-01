@@ -57,7 +57,7 @@
                         <plugin>
                             <groupId>net.sf.sanity4j</groupId>
                             <artifactId>sanity4j</artifactId>
-                            <version>1.0.6</version>
+                            <version>1.0.7</version>
                             <configuration>
                                 <findBugsConfig>-exclude sanity4j_filter_exclude.xml</findBugsConfig>
                                 <pmdConfig>sanity4j_pmd_rules.xml</pmdConfig>
@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>net.sf.sanity4j</groupId>
                 <artifactId>sanity4j</artifactId>
-                <version>1.0.6</version>
+                <version>1.0.7</version>
                 <dependencies>
                     <dependency>
                         <groupId>checkstyle</groupId>

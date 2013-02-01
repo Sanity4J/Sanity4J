@@ -153,7 +153,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>net.sf.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
                 
         <configuration>
           <!-- Replace the following parameter with the location of the analysis tools --> 
@@ -178,7 +178,7 @@ Sanity4J Maven plugin user guide
         <plugin>
           <groupId>net.sf.sanity4j</groupId>
           <artifactId>sanity4j</artifactId>
-          <version>1.0.6</version>
+          <version>1.0.7</version>
           <configuration>
             <findBugsConfig>-exclude sanity4j_filter_exclude.xml</findBugsConfig>
             <pmdConfig>sanity4j_pmd_rules.xml</pmdConfig>
@@ -257,7 +257,7 @@ Sanity4J Maven plugin user guide
                         <plugin>
                             <groupId>net.sf.sanity4j</groupId>
                             <artifactId>sanity4j</artifactId>
-                            <version>1.0.6</version>
+                            <version>1.0.7</version>
                         </plugin>
                     </reportPlugins>
                 </configuration>
@@ -281,7 +281,7 @@ Sanity4J Maven plugin user guide
             <plugin>
                 <groupId>net.sf.sanity4j</groupId>
                 <artifactId>sanity4j</artifactId>
-                <version>1.0.6</version>
+                <version>1.0.7</version>
                 <dependencies>
                     <dependency>
                         <groupId>checkstyle</groupId>
@@ -716,7 +716,7 @@ Sanity4J Maven plugin user guide
     <plugin>
         <groupId>net.sf.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
         <configuration>
             <productsDir>${project.build.directory}/tools</productsDir>
         </configuration>
