@@ -9,9 +9,10 @@
     <groupId>net.sf.sanity4j</groupId>
     <artifactId>sanity4j</artifactId>
     <version>1.0.7</version>
+    
     <name>Sanity4J</name>
+    
     <packaging>maven-plugin</packaging>
-
 
     <description>
         Sanity4J was created to simplify running multiple static code
@@ -20,7 +21,9 @@
         report, which presents all findings in an easily accessible
         manner.
     </description>
+    
     <url>http://sanity4j.sf.net</url>
+    
     <licenses>
         <license>
             <name>GPLv3</name>
@@ -210,6 +213,36 @@
                 </configuration>
             </plugin>
 
+            <!-- Required for deployment to Maven Central. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Required for deployment to Maven Central. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
@@ -250,7 +283,9 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>            
                 <executions>
                     <execution>
                         <id>make-assembly</id>
@@ -293,6 +328,25 @@
                             </descriptors>
                         </configuration>
                     </execution>
+
+                    <!--
+                        TODO for some reason this causes a NPE
+                        
+                    <execution>
+                        <id>site-assembly</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>
+                                    src/main/assembly/site.xml
+                                </descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    -->
                 </executions>
             </plugin>
 
@@ -567,14 +621,14 @@
                 <version>2.0.1</version>
             </plugin>
             <!--
-                <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.6.1</version>
                 <configuration>
-                <show>private</show>
+                    <show>private</show>
                 </configuration>
-                </plugin>
+            </plugin>
             -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -587,9 +641,7 @@
                 <artifactId>sanity4j</artifactId>
                 <version>${project.version}</version>
                 <configuration>
-                    <!--
-                    <productsDir>assembly/sanity4j-with-tools/tools</productsDir>
-                    -->
+                
                     <productsDir>${project.build.directory}/tools</productsDir>
 
                     <findBugsConfig>-exclude sanity4j_filter_exclude.xml</findBugsConfig>
@@ -606,6 +658,11 @@
         </plugins>
     </reporting>
 
+    <!--
+        https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+        AVOID RELEASE REPOSITORY/PLUGINREPOSITORY
+    -->
+    <!--
     <pluginRepositories>
         <pluginRepository>
             <id>maven2-repository.dev.java.net</id>
@@ -620,14 +677,8 @@
             <name>Java.net Maven 2 Repository</name>
             <url>http://download.java.net/maven/2</url>
         </repository>
-        <!--
-        <repository>
-            <id>sanity4j_file_repository</id>
-            <name>Sanity4J file-system based repository</name>
-            <url>file://${basedir}/repository</url>
-        </repository>
-        -->
     </repositories>
+    -->
 
     <!-- @see http://maven.apache.org/plugins/maven-site-plugin/examples/site-deploy-to-sourceforge.net.html -->
     <distributionManagement>
