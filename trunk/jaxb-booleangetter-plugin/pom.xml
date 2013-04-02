@@ -12,6 +12,128 @@
     
     <name>jaxb-booleangetter-plugin</name>
     
+    <description>
+        JAXB 2.1.x XJC Boolean-Getter Plugin
+        This plugin causes getter methods for Boolean Objects to be called "getXX" instead of "isXX".
+
+        Downloaded from 
+            http://fisheye5.atlassian.com/browse/~raw,r=1.1/jaxb2-commons/www/boolean-getter/index.html
+            
+        on 18/03/10
+
+        Yiannis Paschalidis
+    
+        Sanity4J was created to simplify running multiple static code
+        analysis tools on the Java projects. It provides a single entry
+        point to run all the selected tools and produce a consolidated
+        report, which presents all findings in an easily accessible
+        manner.
+    </description>
+    
+    <url>http://sanity4j.sf.net</url>
+    
+    <licenses>
+        <license>
+            <name>GPLv3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <distribution>repo,manual</distribution>
+            <comments>GNU General Public License</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>aliasx</id>
+            <name>Yiannis Paschalidis</name>
+            <email>aliasx[at]users.sourceforge.net</email>
+            <roles>
+                <role>Project Admin</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+        <developer>
+            <id>darianb</id>
+            <name>Darian Bridge</name>
+            <email>darianb[at]users.sourceforge.net</email>
+            <roles>
+                <role>Project Admin</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+        <developer>
+            <id>bkavanagh</id>
+            <name>Brian Kavanagh</name>
+            <email>bkavanagh[at]users.sourceforge.net</email>
+            <roles>
+                <role>Project Admin</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+        <developer>
+            <id>jaustin71</id>
+            <name>Jonathan Austin</name>
+            <email>jaustin71[at]users.sourceforge.net</email>
+            <roles>
+                <role>Project Admin</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+        <developer>
+            <id>steveharney</id>
+            <name>Steve Harney</name>
+            <email>steveharney[at]users.sourceforge.net</email>
+            <roles>
+                <role>Project Admin</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+        <developer>
+            <id>rmccowan</id>
+            <name>Rodney McCowan</name>
+            <email>rmccowan[at]users.sourceforge.net</email>
+            <roles>
+                <role>Project Admin</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Ziad Haidar</name>
+            <email>ziadh[at]users.sourceforge.net</email>
+            <url></url>
+            <organization></organization>
+            <organizationUrl></organizationUrl>
+            <roles>
+                <role>Project Manager</role>
+            </roles>
+            <timezone>+10</timezone>
+        </contributor>
+    </contributors>
+
+    <organization>
+        <name>The Sanity4J project</name>
+        <url>http://sanity4j.sourceforge.net</url>
+    </organization>
+
+    <issueManagement>
+        <system>SourceForge Tracker</system>
+        <url>https://sourceforge.net/tracker/?group_id=359349</url>
+    </issueManagement>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <scm>
+        <connection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</connection>
+        <developerConnection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</developerConnection>
+        <url>http://sanity4j.svn.sourceforge.net/viewvc/sanity4j/</url>
+    </scm>
+    
     <build>
         <plugins>
 
