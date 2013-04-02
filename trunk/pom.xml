@@ -6,6 +6,16 @@
 
     <modelVersion>4.0.0</modelVersion>
     
+    <!--
+        Required for deployment to Maven Central.
+        https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+    -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+  
     <groupId>net.sf.sanity4j</groupId>
     <artifactId>sanity4j-parent</artifactId>
     <version>1.0.7</version>
