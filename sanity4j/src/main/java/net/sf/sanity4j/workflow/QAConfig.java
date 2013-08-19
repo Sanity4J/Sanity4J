@@ -1,8 +1,8 @@
 package net.sf.sanity4j.workflow;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +11,10 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import net.sf.sanity4j.maven.plugin.QADependency;
-import net.sf.sanity4j.report.ExtractStaticContent;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaUtil;
-import net.sf.sanity4j.util.Resources;
 import net.sf.sanity4j.util.StringUtil;
 import net.sf.sanity4j.util.Tool;
 
@@ -118,7 +116,7 @@ public final class QAConfig
     private int numThreads = 1; // TODO: Add support for concurrent tasks (Note: some tasks can not be run in parallel).
 
     /**
-     * The configuration properties. This is a combination of the internal defaults {@link Resources#TOOL_PROPERTIES}
+     * The configuration properties. This is a combination of the internal defaults {@link #TOOL_PROPERTIES}
      * and the {@link #externalPropertiesPath}.
      */
     private Properties properties = QaUtil.getProperties(TOOL_PROPERTIES);
@@ -304,7 +302,7 @@ public final class QAConfig
             }
             else
             {
-                QaLogger.getInstance().warn("Unabe to locate coverage data file: " + coverageDataFile);
+                QaLogger.getInstance().warn("Unable to locate coverage data file: " + coverageDataFile);
             }
         }
         else
@@ -699,7 +697,7 @@ public final class QAConfig
                 }
     
                 String versionHome = properties.getProperty(homeKey);
-                versionHome = QaUtil.replaceTokens(versionHome, asParameterMap());
+                versionHome = QaUtil.replaceTokens(versionHome, asParameterMap(), this, null);
     
                 if (new File(versionHome).exists())
                 {
@@ -739,29 +737,32 @@ public final class QAConfig
                     String message = "Maven POM does not contain build plugin for " + tool + ' ' + version 
                         + ". Please define a Maven dependency for build plugin: " + mavenGav
                         + " in the Maven POM.";
-
-                   throw new QAException(message);
-                }
-                
-                String toolHome = getQaDependencyLocation(qaDependency);
-
-                
-                if (new File(toolHome).exists())
-                {
-                    if (!version.equals(firstVersion))
-                    {
-                        String msg = "WARNING: Running an out-dated version [" + version + "] of tool [" + tool
-                                     + "]. The current version is [" + firstVersion + "]";
-    
-                        QaLogger.getInstance().warn(msg);
-                    }
-    
-                    return version;
+                    
+                    QaLogger.getInstance().warn(message);
                 }
                 else
                 {
-                    String msg = "WARNING: Could not find [" + toolHome + "] directory";
-                    QaLogger.getInstance().warn(msg);
+                    File path = qaDependency.getPath();
+                    
+                    String toolHome = path.isDirectory() ? path.getPath() : path.getParent();
+                    
+                    if (new File(toolHome).exists())
+                    {
+                        if (!version.equals(firstVersion))
+                        {
+                            String msg = "WARNING: Running an out-dated version [" + version + "] of tool [" + tool
+                                + "]. The current version is [" + firstVersion + "]";
+                            
+                            QaLogger.getInstance().warn(msg);
+                        }
+                        
+                        return version;
+                    }
+                    else
+                    {
+                        String msg = "WARNING: Could not find [" + toolHome + "] directory";
+                        QaLogger.getInstance().warn(msg);
+                    }
                 }
             }
             else
@@ -788,15 +789,17 @@ public final class QAConfig
         {
             String homeKey = QA_TOOL_PREFIX + tool + '.' + version + ".home";
             String toolHome = properties.getProperty(homeKey);
-            toolHome = QaUtil.replaceTokens(toolHome, asParameterMap());
+            toolHome = QaUtil.replaceTokens(toolHome, asParameterMap(), this, null);
             
             QaLogger.getInstance().debug("Tool Home: " + toolHome);
             return toolHome;
         }
         else if (mavenLocalRepository != null)
         {
-            QADependency qaDependency = getQaDependency(tool, version);
-            String toolHome = getQaDependencyLocation(qaDependency);
+            QADependency qaDependency = getQaDependency(tool, version);            
+            File path = qaDependency.getPath();
+            
+            String toolHome = path.isDirectory() ? path.getPath() : path.getParent();
 
             QaLogger.getInstance().debug("Tool Home: " + toolHome);
             return toolHome;
@@ -809,7 +812,7 @@ public final class QAConfig
     
     /**
      * Lookup the tool and version in the sanity4j properties, then confirm it's
-     * existence in the Maven Project Build declaraion, then return the actual
+     * existence in the Maven Project Build declaration, then return the actual
      * dependency. 
      * 
      * @param tool the tool to look up.
@@ -861,15 +864,24 @@ public final class QAConfig
         QADependency toolDependency = getQaDependency(toolId, version);
         if (toolDependency != null)
         {
-	        List<QADependency> dependencies = toolDependency.getDependencies();
+	        Collection<QADependency> dependencies = toolDependency.getDependencies();
+	        
 	        if (dependencies != null)
 	        {
 	        	List<String> toolJars = new ArrayList<String>();
 	        	
 		        for (QADependency dependency : dependencies)
 		        {
-			        String location = getQaDependencyLocation(dependency);
-		            FileUtil.findJars(new File(location), toolJars);
+			        File path = dependency.getPath();
+			        
+			        if (path.isDirectory())
+			        {
+			            FileUtil.findJars(path, toolJars);
+			        }
+			        else
+			        {
+			            toolJars.add(path.getPath());
+			        }
 		        }
 		        
 		        return toolJars;
@@ -878,29 +890,12 @@ public final class QAConfig
 
         return null;
     }
-
-    /**
-     * Format a dependency as a file path location.
-     * 
-     * @param qaDependency the dependency to format.
-     * @return the dependency formatted as a file path location.
-     */
-    public String getQaDependencyLocation(final QADependency qaDependency)
-    {
-        String location = mavenLocalRepository + File.separator 
-            + qaDependency.getGroupId().replace(".", File.separator) + File.separator
-            + qaDependency.getArtifactId() + File.separator
-            + qaDependency.getVersion();
-        
-        return location;
-    }
     
     /**
      * This method returns the name of the configuration parameter that specifies the configuration for a given tool.
      *
      * @param tool The name of the tool for which the configuration parameter is to be retrieved.
-     * @param version The version of the tool for which the configuration parameter is to be retrieved. If the
-     *            configuration is valid for "all" versions of a given tool, then this parameter may be null.
+     * @param version The version of the tool for which the configuration parameter is to be retrieved.
      * @return the <b>name</b> of the tool "configuration" parameter.
      */
     public String getToolConfigParam(final String tool, final String version)
@@ -912,8 +907,7 @@ public final class QAConfig
      * This method returns the name of a parameter that specifies the configuration for a given tool.
      *
      * @param tool The name of the tool for which the parameter is to be retrieved.
-     * @param version The version of the tool for which the parameter is to be retrieved. If the
-     *            configuration is valid for "all" versions of a given tool, then this parameter may be null.
+     * @param version The version of the tool for which the parameter is to be retrieved.
      * @param key the name of the key for the parameter.
      * @return the name of the tool parameter.
      */
@@ -946,7 +940,7 @@ public final class QAConfig
     {
         String configKey = getToolConfigParam(tool, version);
         String toolConfig = properties.getProperty(configKey);
-        toolConfig = QaUtil.replaceTokens(toolConfig, asParameterMap());
+        toolConfig = QaUtil.replaceTokens(toolConfig, asParameterMap(), this, null);
 
         return toolConfig;
     }
@@ -962,7 +956,7 @@ public final class QAConfig
     public void setToolConfig(final String tool, final String version, final String config, final String classpath)
     {
         String configKey = getToolConfigParam(tool, version);
-        String toolConfig = QaUtil.replaceTokens(config, asParameterMap());
+        String toolConfig = QaUtil.replaceTokens(config, asParameterMap(), this, null);
         properties.setProperty(configKey, toolConfig);
 
         QaLogger.getInstance().debug("Config set: " + configKey + " = " + toolConfig);
@@ -970,7 +964,7 @@ public final class QAConfig
         if (classpath != null)
         {
             String configClasspathKey = getToolConfigClasspathParam(tool, version);
-            String configClasspath = QaUtil.replaceTokens(classpath, asParameterMap());
+            String configClasspath = QaUtil.replaceTokens(classpath, asParameterMap(), this, null);
 
             properties.setProperty(configClasspathKey, configClasspath);
         }
@@ -1001,38 +995,9 @@ public final class QAConfig
     {
         String configClasspathKey = getToolConfigClasspathParam(tool, version);
         String toolConfigClasspath = properties.getProperty(configClasspathKey);
-        toolConfigClasspath = QaUtil.replaceTokens(toolConfigClasspath, asParameterMap());
+        toolConfigClasspath = QaUtil.replaceTokens(toolConfigClasspath, asParameterMap(), this, null);
 
         return toolConfigClasspath;
-    }
-
-    /**
-     * This method returns the name of the configuration parameter that specifies the extraction properties for a given tool.
-     *
-     * @param tool The name of the tool for which the configuration parameter is to be retrieved.
-     * @param version The version of the tool for which the configuration parameter is to be retrieved. If the
-     *            configuration is valid for "all" versions of a given tool, then this parameter may be null.
-     * @return the <b>name</b> of the tool "configuration" parameter.
-     */
-    public String getToolExtractListParam(final String tool, final String version)
-    {
-        return getToolParam(tool, version, "extractList");
-    }
-    
-    /**
-     * This method returns the extraction properties configuration for a given tool.
-     *
-     * @param tool The tool for which the configuration is to be retrieved.
-     * @param version the version of the tool for which the configuration is to be retrieved.
-     * @return the <b>value</b> of the tool "configuration" parameter.
-     */
-    public String getToolExtractList(final String tool, final String version)
-    {
-        String configKey = getToolExtractListParam(tool, version);
-        String toolConfig = properties.getProperty(configKey);
-        toolConfig = QaUtil.replaceTokens(toolConfig, asParameterMap());
-
-        return toolConfig;
     }
     
     /**
@@ -1117,55 +1082,4 @@ public final class QAConfig
 
         return toolCommandLine;
     }
-    
-    /**
-     * Extract any tool configuration properties (if required).
-     * 
-     * @param tool The tool to extract configuration properties for.
-     * @param toolVersion the version of the tool.
-     */
-    public void extractConfig(final Tool tool, final String toolVersion)
-    {
-        String toolExtractList = getToolExtractList(tool.getId(), toolVersion);
-        if (toolExtractList != null)
-        {
-            QaLogger.getInstance().debug("Tool Extract List: " + toolExtractList);
-            
-            try 
-            {
-                ExtractStaticContent.extractContent(this, getTempDir(), toolExtractList);
-            } 
-            catch (IOException ex) 
-            {
-                String message = "Error extracting configuration file for tool [" + tool.getId() + "]";
-                throw new QAException(message, ex);
-            }
-        }
-    }
-    
-    /**
-     * Extract any tool resources.
-     * 
-     * @param tool The tool to extract resources for.
-     * @param toolVersion the version of the tool.
-     */
-    public void expandResource(final Tool tool, final String toolVersion)
-    {
-        String toolConfig = getToolConfig(tool.getId(), toolVersion);
-        if (toolConfig != null)
-        {
-            QaLogger.getInstance().debug("Expanding Tool Config: " + toolConfig);
-            
-            try 
-            {
-                ExtractStaticContent.expandResource(this, getTempDir(), toolConfig, tool, toolVersion);
-            } 
-            catch (IOException ex) 
-            {
-                String message = "Error extracting resource for tool [" + tool.getId() + "]";
-                throw new QAException(message, ex);
-            }
-        }
-    }
-    
 }

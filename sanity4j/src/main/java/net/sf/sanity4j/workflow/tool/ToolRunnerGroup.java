@@ -62,9 +62,6 @@ public final class ToolRunnerGroup extends WorkUnitGroup
             String runnerClassName = config.getToolRunner(tool.getId(), version);
             AbstractToolRunner runner = createRunner(runnerClassName);
             runner.setToolVersion(version);
-
-            config.extractConfig(tool, version);
-            config.expandResource(tool, version);
             
             add(runner);
 

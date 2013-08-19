@@ -29,7 +29,6 @@
         <!-- Handled by PMD
         <module name="UnusedImports"/>
         -->
-        <module name="FileLength"/>
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
         <module name="EmptyForIteratorPad"/>
@@ -65,7 +64,9 @@
         <!-- Unused
         <module name="AvoidInlineConditionals"/>
         -->
-        <module name="DoubleCheckedLocking"/>
+        <!-- No longer supported         
+        <module name="DoubleCheckedLocking"/> 
+        -->
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="HiddenField">
@@ -113,10 +114,8 @@
 	    <module name="JavadocVariable"/>
 	    <module name="JavadocStyle"/>
     </module>
-    <!-- Unused
-    <module name="PackageHtml"/>
-    -->
+    <module name="FileLength"/>
     <module name="NewlineAtEndOfFile"/>
     <module name="Translation"/>
-    <module name="PackageHtml"/>
+    <module name="JavadocPackage"/>
 </module>

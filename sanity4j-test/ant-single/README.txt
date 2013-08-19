@@ -20,12 +20,12 @@ line prompt to run the sanity4j application from ant:
 Where:
 
   <products-home> is the location of a directory containing binary
-  distributesion for:
+  distributions of:
 
-    checkstyle-4.4
-    cobertura-1.9.2
-    findbugs-1.3.9
+    checkstyle-5.6
+    cobertura-2.0.1
+    findbugs-2.0.1
     junit4.8.2
-    pmd-4.2.5
+    pmd-5.0.4
     sanity4j
 

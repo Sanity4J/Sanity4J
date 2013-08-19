@@ -3,7 +3,6 @@ package net.sf.sanity4j.model.diagnostic;
 import java.util.Properties;
 
 import net.sf.sanity4j.util.QaUtil;
-import net.sf.sanity4j.util.Resources;
 
 /**
  * A factory for creating {@link Diagnostic} Messages. The factory is associated with a given set of
@@ -19,7 +18,7 @@ public final class DiagnosticFactory
      * exclusions and categorisation of the {@link Diagnostic} messages created by the default {@link DiagnosticFactory}
      * .
      */
-    private final Properties properties = QaUtil.getProperties(Resources.DIAGNOSTIC_PROPERTIES);
+    private static final Properties properties = QaUtil.getProperties("/net/sf/sanity4j/model/diagnostic/Diagnostic.properties");
 
     /**
      * The default {@link DiagnosticFactory} instance.

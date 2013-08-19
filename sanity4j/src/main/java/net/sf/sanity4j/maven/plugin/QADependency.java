@@ -1,6 +1,8 @@
 package net.sf.sanity4j.maven.plugin;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ public class QADependency
 	private String artifactId;
 	/** The Maven Version. */
 	private String version;
+	/** The artifact path. */
+	private File path;
 	
 	/** A List of child dependencies. */
 	private final List<QADependency> dependencies = new ArrayList<QADependency>();
@@ -72,7 +76,7 @@ public class QADependency
 	/**
 	 * @return The list of dependencies.
 	 */
-	public List<QADependency> getDependencies() 
+	public Collection<QADependency> getDependencies() 
 	{
 		return dependencies;
 	}
@@ -82,7 +86,10 @@ public class QADependency
 	 */
 	public void addDependency(final QADependency dependency) 
 	{
-		this.dependencies.add(dependency);
+	    if (dependency != null && !dependency.equals(this))
+	    {
+	        dependencies.add(dependency);
+	    }
 	}
 	
 	/**
@@ -103,4 +110,44 @@ public class QADependency
 		
 		return null;
 	}
+
+    /**
+     * @return Returns the artifact path.
+     */
+    public File getPath()
+    {
+        return path;
+    }
+
+    /**
+     * Sets the artifact path.
+     * @param path The path to set.
+     */
+    public void setPath(final File path)
+    {
+        this.path = path;
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode()
+    {
+        return groupId.hashCode() + artifactId.hashCode() + version.hashCode();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof QADependency))
+        {
+            return false;
+        }
+        
+        QADependency other = (QADependency) obj;
+        
+        return groupId.equals(other.groupId)
+             && artifactId.equals(other.artifactId)
+             && version.equals(other.version);
+    }
 }
