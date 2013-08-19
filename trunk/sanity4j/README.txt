@@ -136,3 +136,5 @@ Basic Sanity4J workflow:
    
 3) The tool output is then read and converted into a common format which is used
    to create the combined report.
+
+   
