@@ -185,7 +185,7 @@ public class PackageWriter
         
         for (String sourcePath : packageSources)
         {
-            String className = ReportUtil.getRelativeSourcePath(stats.getSourceDirectory(), sourcePath).replaceAll(".xml", "").replaceAll("[\\\\/]", ".");
+            String className = ReportUtil.getRelativeSourcePath(stats.getSourceDirectory(), sourcePath).replaceAll(".xml\\z", "").replaceAll("[\\\\/]", ".");
             DiagnosticSet diagsForFile = stats.getDiagnostics().getDiagnosticsForFile(sourcePath);
             
             html.append("<class name=\"").append(className)

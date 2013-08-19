@@ -4,12 +4,21 @@ import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+
+import net.sf.sanity4j.report.ExtractStaticContent;
+import net.sf.sanity4j.workflow.QAConfig;
 
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
@@ -89,7 +98,7 @@ public final class QaUtil
             safeClose(inputStream);
         }
         
-        // parse the string as if it where a properties file.
+        // parse the string as if it were a properties file.
         if (FileUtil.hasValue(propertiesString))
         {
         	InputStream stringStream = null;
@@ -413,14 +422,16 @@ public final class QaUtil
     private static final int TOKENLENGTH = 3;
 
     /**
-     * Replaces parameter tokens in the command-line with their equivalents from the given map. Tokens are specified
-     * using ${variableName} syntax.
+     * Replaces parameter tokens in the given String with their equivalents from the given map, 
+     * System properties or resources on the classpath. Tokens are specified using ${variableName} syntax.
      * 
      * @param string the String to modify
      * @param paramMap the parameter map
+     * @param config the current configuration
+     * @param auxClasspath an optional auxillary class path to search for resources.
      * @return the modified String
      */
-    public static String replaceTokens(final String string, final Map<String, String> paramMap)
+    public static String replaceTokens(final String string, final Map<String, String> paramMap, final QAConfig config, final String auxClasspath)
     {
         int lastTokenEnd = -1;
         int tokenStart = ((string == null) ? -1 : string.indexOf('$'));
@@ -447,13 +458,39 @@ public final class QaUtil
             {
                 String paramKey = string.substring(tokenStart + 2, tokenEnd);
 
+                // First try substitution from the map
                 if (paramMap.containsKey(paramKey))
                 {
                     result.append(paramMap.get(paramKey));
                 }
+                // Next try a system property
+                else if (System.getProperty(paramKey) != null)
+                {
+                    result.append(System.getProperty(paramKey));
+                }
                 else
                 {
-                    result.append(string.substring(tokenStart, tokenEnd + 1));
+                    // Finally, see if it's a resource in the classpath which we need to extract.
+                    File expanded;
+                    
+                    try
+                    {
+                        expanded = extractResource(config, paramKey, auxClasspath);
+                    }
+                    catch (IOException e)
+                    {
+                        expanded = null;
+                    }
+                    
+                    if (expanded == null)
+                    {
+                        // Give up - just leave the token as is
+                        result.append(string.substring(tokenStart, tokenEnd + 1));
+                    }
+                    else
+                    {
+                        result.append(expanded.getPath());
+                    }
                 }
 
                 lastTokenEnd = tokenEnd;
@@ -493,5 +530,134 @@ public final class QaUtil
     public static String getExternalPropertiesPath()
     {
         return externalPropertiesPath;
+    }
+    
+    /**
+     * Attempts to extract a resource to the temp directory.
+     *
+     * @param config the current configuration.
+     * @param resourceName the name of the resource to extract.
+     * @param auxClasspath an optional auxillary class path to search for resources.
+     * @return the path to the extracted resource, or null if nothing was extracted
+     * @throws IOException if there is an error extracting the resource.
+     */
+    public static File extractResource(final QAConfig config, final String resourceName, final String auxClasspath) throws IOException
+    {
+        // Search for the Resource on the filesystem. 
+        File resourceFile = new File(resourceName);
+        
+        if (resourceFile.exists())
+        {
+            // File found, add it as-is.
+            QaLogger.getInstance().debug("Resource File: " + resourceName);
+            return resourceFile;
+        }
+        else
+        {
+            // Search for the Resource on the classpath.
+            URL resourceUrl = null;
+            Enumeration<URL> resourceEnum = QaUtil.class.getClassLoader().getResources(resourceName);
+            
+            if (resourceEnum == null || !resourceEnum.hasMoreElements())
+            {
+                resourceEnum = ExtractStaticContent.class.getClassLoader().getResources(resourceName);
+            }
+            
+            if (resourceEnum != null && resourceEnum.hasMoreElements())
+            {
+                QaLogger.getInstance().debug("Resource: " + resourceName);
+                resourceUrl = resourceEnum.nextElement();
+                
+                if (resourceEnum.hasMoreElements())
+                {                
+                    QaLogger.getInstance().info("Resource [" + resourceName + "] found in multiple locations, using first.");
+                }
+            }
+            
+            if (resourceUrl == null && !StringUtil.empty(auxClasspath))
+            {
+                StringTokenizer tok = new StringTokenizer(auxClasspath, System.getProperty("path.separator"));
+
+                while (tok.hasMoreTokens())
+                {
+                    File pathElem = new File(tok.nextToken());
+                    
+                    if (pathElem.canRead())
+                    {
+                        if (pathElem.isDirectory())
+                        {
+                            resourceFile = new File(pathElem, resourceName.replace('/', File.separatorChar));
+                            
+                            if (resourceFile.exists())
+                            {
+                                QaLogger.getInstance().debug("Resource File: " + resourceName);
+                                return resourceFile;
+                            }
+                        }
+                        else
+                        {
+                            // Try it as a jar
+                            try
+                            {
+                                JarFile jar = new JarFile(pathElem);
+                                ZipEntry entry = jar.getEntry(resourceName);
+                                
+                                if (entry != null)
+                                {
+                                    resourceUrl = new URL("jar:" + pathElem.toURL().toString() + "!/" + resourceName);
+                                    QaLogger.getInstance().debug("Resource: " + resourceUrl);
+                                    break;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                // Not a jar file, or could not read.
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (resourceUrl != null)
+            {
+                QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);                
+                InputStream inStream = resourceUrl.openConnection().getInputStream();
+                
+                if (inStream == null)
+                {
+                    // If not found, try loading from the current classloader. 
+                    inStream = QaUtil.class.getClassLoader().getResourceAsStream(resourceName);
+                }
+                
+                if (inStream == null)
+                {
+                    throw new IllegalArgumentException("Resource [" + resourceName + "] doesn't exist");
+                }
+
+                // Set up the destination file
+                File destFile = new File(config.getTempDir(), resourceName.replaceAll(".*/", ""));
+
+                if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs())
+                {
+                    throw new IOException("Failed to create parent directory for file " + destFile.getPath());
+                }
+
+                // Copy the data
+                FileOutputStream fos = new FileOutputStream(destFile);
+                byte[] buf = new byte[BUFFER_SIZE];
+
+                for (int count = inStream.read(buf); count != -1; count = inStream.read(buf))
+                {
+                    fos.write(buf, 0, count);
+                }
+
+                fos.close();
+                inStream.close();
+                return destFile;
+            }
+        }
+        
+        QaLogger.getInstance().debug("Can't find file or resource on classpath: " + resourceName);
+        return null;
     }
 }

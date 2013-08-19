@@ -8,7 +8,7 @@
 
     <groupId>net.sf.sanity4j</groupId>
     <artifactId>sanity4j</artifactId>
-    <version>1.0.7</version>
+    <version>1.1.0</version>
     
     <name>Sanity4J</name>
     
@@ -169,7 +169,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>2.2.1</version>
+            <version>3.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -196,6 +196,18 @@
             <artifactId>stax</artifactId>
             <version>1.2.0</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-api</artifactId>
+            <version>1.8</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-util</artifactId>
+            <version>1.8</version>
         </dependency>
 
     </dependencies>
@@ -353,7 +365,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.5.2</version>
                 <executions>
                     <execution>
                         <phase>pre-site</phase>
@@ -362,13 +374,64 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
+		            </plugin>
+		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.0</version>
+				<inherited>false</inherited>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.0.1</version>
+						</plugin>
+						<!-- 
+						<plugin> 
+						    <groupId>org.apache.maven.plugins</groupId> 
+						    <artifactId>maven-javadoc-plugin</artifactId> 
+							<version>2.6.1</version> 
+							<configuration> 
+							    <show>private</show> 
+							</configuration> 
+						</plugin> 
+						-->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-report-plugin</artifactId>
+							<version>2.6</version>
+						</plugin>
+	
+						<plugin>
+							<groupId>net.sf.sanity4j</groupId>
+							<artifactId>sanity4j</artifactId>
+							<version>${project.version}</version>
+							<configuration>
+	
+								<productsDir>${project.build.directory}/tools</productsDir>
+	
+								<findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
+								<pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
+								<checkStyleConfig>$${sanity4j_checks.xml}</checkStyleConfig>
+	
+								<additionalProperties>
+									PMD.DoNotUseThreads.excludes =.*
+									PMD.UseProperClassLoader.excludes =.*
+								</additionalProperties>
+								
+							</configuration>
+						</plugin>		
+					</reportPlugins>
+				</configuration>
+			</plugin>
+			
             <!-- Copy the tools from a maven repository instead of using them from the local file system. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.7</version>
                 <executions>
                     <execution>
                         <id>sanity4j-tools-checkstyle</id>
@@ -377,41 +440,41 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/checkstyle-4.4</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/checkstyle-5.6</outputDirectory>
 
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>checkstyle</groupId>
+                                    <groupId>com.puppycrawl.tools</groupId>
                                     <artifactId>checkstyle</artifactId>
-                                    <version>4.4</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>commons-cli</groupId>
-                                    <artifactId>commons-cli</artifactId>
-                                    <version>1.0</version>
+                                    <version>5.6</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>antlr</groupId>
                                     <artifactId>antlr</artifactId>
-                                    <version>2.7.6</version>
+                                    <version>2.7.7</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>commons-beanutils</groupId>
                                     <artifactId>commons-beanutils-core</artifactId>
-                                    <version>1.7.0</version>
+                                    <version>1.8.3</version>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>commons-collections</groupId>
-                                    <artifactId>commons-collections</artifactId>
-                                    <version>2.1</version>
+                                    <groupId>commons-cli</groupId>
+                                    <artifactId>commons-cli</artifactId>
+                                    <version>1.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.google.collections</groupId>
+                                    <artifactId>google-collections</artifactId>
+                                    <version>1.0</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>commons-logging</groupId>
                                     <artifactId>commons-logging</artifactId>
-                                    <version>1.0.3</version>
+                                    <version>1.0.4</version>
                                 </artifactItem>
                             </artifactItems>
-
+                            
                         </configuration>
                     </execution>
                     <execution>
@@ -421,41 +484,56 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/cobertura-1.9.2</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/cobertura-2.0.2</outputDirectory>
 
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>net.sourceforge.cobertura</groupId>
-                                    <artifactId>cobertura</artifactId>
-                                    <version>1.9.2</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm</artifactId>
-                                    <version>3.0</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-tree</artifactId>
-                                    <version>3.0</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>log4j</groupId>
-                                    <artifactId>log4j</artifactId>
-                                    <version>1.2.9</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.ant</groupId>
-                                    <artifactId>ant</artifactId>
-                                    <version>1.7.0</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>oro</groupId>
-                                    <artifactId>oro</artifactId>
-                                    <version>2.0.8</version>
-                                </artifactItem>
+								<artifactItem>
+									<groupId>net.sourceforge.cobertura</groupId>
+									<artifactId>cobertura</artifactId>
+									<version>2.0.2</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm</artifactId>
+									<version>4.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-tree</artifactId>
+									<version>4.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-commons</artifactId>
+									<version>4.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-util</artifactId>
+									<version>4.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-analysis</artifactId>
+									<version>4.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>oro</groupId>
+									<artifactId>oro</artifactId>
+									<version>2.0.8</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>jaxen</groupId>
+									<artifactId>jaxen</artifactId>
+									<version>1.1-beta-8</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>log4j</groupId>
+									<artifactId>log4j</artifactId>
+									<version>1.2.9</version>
+								</artifactItem>
                             </artifactItems>
-
+                            
                         </configuration>
                     </execution>
                     <execution>
@@ -465,81 +543,66 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/findbugs-1.3.9</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/findbugs-2.0.1</outputDirectory>
 
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>findbugs</artifactId>
-                                    <version>1.3.9</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-tree</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-analysis</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-commons</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-util</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-xml</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>dom4j</groupId>
-                                    <artifactId>dom4j</artifactId>
-                                    <version>1.6.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>commons-lang</groupId>
-                                    <artifactId>commons-lang</artifactId>
-                                    <version>2.4</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jaxen</groupId>
-                                    <artifactId>jaxen</artifactId>
-                                    <version>1.1.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>annotations</artifactId>
-                                    <version>1.3.9</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>bcel</artifactId>
-                                    <version>1.3.9</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>jFormatString</artifactId>
-                                    <version>1.3.9</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>jsr305</artifactId>
-                                    <version>1.3.9</version>
-                                </artifactItem>
-                            </artifactItems>
-
+								<artifactItem>
+								    <groupId>com.google.code.findbugs</groupId>
+								    <artifactId>findbugs</artifactId>
+								    <version>2.0.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>bcel</artifactId>
+									<version>2.0.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>jsr305</artifactId>
+									<version>2.0.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>jFormatString</artifactId>
+									<version>2.0.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>annotations</artifactId>
+									<version>2.0.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>dom4j</groupId>
+									<artifactId>dom4j</artifactId>
+									<version>1.6.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>jaxen</groupId>
+									<artifactId>jaxen</artifactId>
+									<version>1.1.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>asm</groupId>
+									<artifactId>asm</artifactId>
+									<version>3.3</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>asm</groupId>
+									<artifactId>asm-tree</artifactId>
+									<version>3.3</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>asm</groupId>
+									<artifactId>asm-commons</artifactId>
+									<version>3.3</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>commons-lang</groupId>
+									<artifactId>commons-lang</artifactId>
+									<version>2.4</version>
+								</artifactItem>                           
+							</artifactItems>
+							
                         </configuration>
                     </execution>
                     <execution>
@@ -549,26 +612,68 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/pmd-4.2.5</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/pmd-5.0.4</outputDirectory>
 
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>pmd</groupId>
-                                    <artifactId>pmd</artifactId>
-                                    <version>4.2.5</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm</artifactId>
-                                    <version>3.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jaxen</groupId>
-                                    <artifactId>jaxen</artifactId>
-                                    <version>1.1.1</version>
-                                </artifactItem>
-                            </artifactItems>
-
+								<artifactItem>
+								    <groupId>net.sourceforge.pmd</groupId>
+								    <artifactId>pmd</artifactId>
+								    <version>5.0.4</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>jaxen</groupId>
+									<artifactId>jaxen</artifactId>
+									<version>1.1.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.beust</groupId>
+									<artifactId>jcommander</artifactId>
+									<version>1.27</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>asm</groupId>
+									<artifactId>asm</artifactId>
+									<version>3.2</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>net.sourceforge.saxon</groupId>
+									<artifactId>saxon</artifactId>
+									<version>9.1.0.8</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>net.sourceforge.saxon</groupId>
+									<artifactId>saxon</artifactId>
+									<version>9.1.0.8</version>
+									<classifier>dom</classifier>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.mozilla</groupId>
+									<artifactId>rhino</artifactId>
+									<version>1.7R3</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>junit</groupId>
+									<artifactId>junit</artifactId>
+									<version>4.4</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>xerces</groupId>
+									<artifactId>xercesImpl</artifactId>
+									<version>2.9.1</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>net.java.dev.javacc</groupId>
+									<artifactId>javacc</artifactId>
+									<version>4.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>commons-io</groupId>
+									<artifactId>commons-io</artifactId>
+									<version>2.2</version>
+								</artifactItem>
+	                        </artifactItems>
+	                        
                         </configuration>
                     </execution>
                 </executions>
@@ -612,51 +717,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.0.1</version>
-            </plugin>
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.6.1</version>
-                <configuration>
-                    <show>private</show>
-                </configuration>
-            </plugin>
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.6</version>
-            </plugin>
-
-            <plugin>
-                <groupId>net.sf.sanity4j</groupId>
-                <artifactId>sanity4j</artifactId>
-                <version>${project.version}</version>
-                <configuration>
-                
-                    <productsDir>${project.build.directory}/tools</productsDir>
-
-                    <findBugsConfig>-exclude sanity4j_filter_exclude.xml</findBugsConfig>
-                    <pmdConfig>sanity4j_pmd_rules.xml</pmdConfig>
-                    <checkStyleConfig>sanity4j_checks.xml</checkStyleConfig>
-                    
-                    <additionalProperties>
-                        PMD.DoNotUseThreads.excludes       =.*
-                        PMD.UseProperClassLoader.excludes  =.*
-                    </additionalProperties>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </reporting>
 
     <!--
         https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide

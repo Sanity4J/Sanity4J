@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -67,19 +68,28 @@ public abstract class AbstractToolRunner implements WorkUnit
     {
         List<String> toolJars = new ArrayList<String>();
         FileUtil.findJars(new File(getToolHome()), toolJars);
-
+        
         if (config.getQADependency() != null)
         {
 	        QADependency toolDependency = config.getQaDependency(tool.getId(), toolVersion);
 	        if (toolDependency != null)
 	        {
-		        List<QADependency> dependencies = toolDependency.getDependencies();
+		        Collection<QADependency> dependencies = toolDependency.getDependencies();
+		        
 		        if (dependencies != null)
 		        {
 			        for (QADependency dependency : dependencies)
 			        {
-				        String location = config.getQaDependencyLocation(dependency);
-			            FileUtil.findJars(new File(location), toolJars);
+				        File path = dependency.getPath();
+				        
+				        if (path.isDirectory())
+				        {
+				            FileUtil.findJars(path, toolJars);
+				        }
+				        else
+				        {
+				            toolJars.add(path.getPath());
+				        }
 			        }
 		        }
 	        }
@@ -133,25 +143,20 @@ public abstract class AbstractToolRunner implements WorkUnit
         String toolHome = getToolHome();
 
         // Retrieve the configuration parameters for this tool.
-        String versionedToolConfigParam = config.getToolConfigParam(tool.getId(), toolVersion);
-        String unversionedToolConfigParam = config.getToolConfigParam(tool.getId(), null);
-
-        if (!paramMap.containsKey(versionedToolConfigParam))
-        {
-            versionedToolConfigParam = unversionedToolConfigParam;
-        }
+        String toolConfigParam = config.getToolConfigParam(tool.getId(), toolVersion);
+        String toolAuxClasspath = config.getToolConfigClasspath(tool.getId(), toolVersion);
 
         // Retrieve the configuration parameter values for this tool.
-        String versionedToolConfig = null;
+        String toolConfig = null;
 
-        if (versionedToolConfigParam != null)
+        if (toolConfigParam != null)
         {
-            versionedToolConfig = paramMap.get(versionedToolConfigParam);
+            toolConfig = paramMap.get(toolConfigParam);
         }
 
-        if (FileUtil.hasValue(versionedToolConfig))
+        if (FileUtil.hasValue(toolConfig))
         {
-            InputStream stream = this.getClass().getResourceAsStream("/" + versionedToolConfig);
+            InputStream stream = this.getClass().getResourceAsStream("/" + toolConfig);
 
             if (stream != null)
             {
@@ -162,43 +167,7 @@ public abstract class AbstractToolRunner implements WorkUnit
                     File tempFile = File.createTempFile(tool.getId() + "-", "", config.getTempDir());
                     fos = new FileOutputStream(tempFile);
                     QaUtil.copy(stream, fos);
-                    versionedToolConfig = tempFile.getCanonicalPath();
-                }
-                catch (IOException ioe)
-                {
-                    String message = "Error creating temporary configuration file for tool [" + tool.getId() + "]";
-                    throw new QAException(message, ioe);
-                }
-                finally
-                {
-                    QaUtil.safeClose(stream);
-                    QaUtil.safeClose(fos);
-                }
-            }
-        }
-
-        // Retrieve the "unversioned" configuration parameter for this tool.
-        String unversionedToolConfig = null;
-
-        if (unversionedToolConfigParam != null)
-        {
-            unversionedToolConfig = paramMap.get(unversionedToolConfigParam);
-        }
-
-        if (FileUtil.hasValue(unversionedToolConfig))
-        {
-            InputStream stream = this.getClass().getResourceAsStream("/" + unversionedToolConfig);
-
-            if (stream != null)
-            {
-                FileOutputStream fos = null;
-
-                try
-                {
-                    File tempFile = File.createTempFile(tool.getId() + "-", "", config.getTempDir());
-                    fos = new FileOutputStream(tempFile);
-                    QaUtil.copy(stream, fos);
-                    versionedToolConfig = tempFile.getCanonicalPath();
+                    toolConfig = tempFile.getCanonicalPath();
                 }
                 catch (IOException ioe)
                 {
@@ -224,19 +193,12 @@ public abstract class AbstractToolRunner implements WorkUnit
         paramMap.put("outputFile", outputFile);
         paramMap.put("toolHome", toolHome);
 
-        if (unversionedToolConfig != null)
-        {
-            unversionedToolConfig = QaUtil.replaceTokens(unversionedToolConfig, paramMap);
-            paramMap.put(unversionedToolConfigParam, unversionedToolConfig);
-        }
-
-        if (versionedToolConfig != null)
-        {
-            versionedToolConfig = QaUtil.replaceTokens(versionedToolConfig, paramMap);
-            paramMap.put(versionedToolConfigParam, versionedToolConfig);
-        }
+        toolAuxClasspath = QaUtil.replaceTokens(toolAuxClasspath, paramMap, config, null);
+        toolConfig = QaUtil.replaceTokens(toolConfig, paramMap, config, toolAuxClasspath);
+        paramMap.put(toolConfigParam, toolConfig);
 
         paramMap.put("javaArgs", javaArgsBuf.toString());
+        paramMap.put("auxClasspath", toolAuxClasspath);
 
         return paramMap;
     }
@@ -254,8 +216,10 @@ public abstract class AbstractToolRunner implements WorkUnit
      */
     public void run()
     {
+        Map<String, String> params = getParameterMap();
+        String auxClasspath = params.get("auxClasspath");
         String toolCommandLine = config.getToolCommandLine(tool.getId(), toolVersion);
-        toolCommandLine = QaUtil.replaceTokens(toolCommandLine, getParameterMap());
+        toolCommandLine = QaUtil.replaceTokens(toolCommandLine, getParameterMap(), config, auxClasspath);
         runTool(toolCommandLine);
     }
 
