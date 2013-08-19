@@ -28,8 +28,8 @@ java -jar sanity4j.jar
 *-------------------------------+--------------------------------------------------------+-----------+
 | Directory containing          | This parameter must point to a directory containing    | Yes       | 
 | analysis tools                | all the tools in use. For example, with a default      |           |
-|                               | configuration, these could be findbugs-1.3.9,          |           |
-|                               | pmd-4.2.5, checkstyle-4.4 and cobertura-1.9.2.         |           |
+|                               | configuration, these could be findbugs-2.0.1,          |           |
+|                               | pmd-5.0.4, checkstyle-5.6 and cobertura-2.0.1.         |           |
 *-------------------------------+--------------------------------------------------------+-----------+
 | Path to java executable       | The full path to the java run-time to use.             | Yes       | 
 *-------------------------------+--------------------------------------------------------+-----------+

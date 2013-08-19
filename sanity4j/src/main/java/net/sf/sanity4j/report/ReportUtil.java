@@ -12,7 +12,6 @@ import net.sf.sanity4j.model.diagnostic.DiagnosticSet;
 import net.sf.sanity4j.model.summary.PackageSummary;
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaUtil;
-import net.sf.sanity4j.util.Resources;
 import net.sf.sanity4j.util.math.InfixExpression;
 import net.sf.sanity4j.util.math.SyntaxException;
 
@@ -26,7 +25,7 @@ import net.sf.sanity4j.util.math.SyntaxException;
 public final class ReportUtil
 {
     /** The reporting properties, such as metrics. */
-    private static Properties properties = QaUtil.getProperties(Resources.REPORT_PROPERTIES);
+    private static Properties properties = QaUtil.getProperties("/net/sf/sanity4j/report/report.properties");
     
     /** ReportUtil should not be instantiated. */
     private ReportUtil()
@@ -138,7 +137,7 @@ public final class ReportUtil
         }
         
         int basePathLength = basePath.length() + 1;
-        return sourcePath.substring(basePathLength).replaceAll("\\.java", ".xml");
+        return sourcePath.substring(basePathLength).replaceAll("\\.java\\z", ".xml");
     }
     
     /**

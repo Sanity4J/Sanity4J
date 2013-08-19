@@ -46,9 +46,6 @@ import net.sf.sanity4j.workflow.QAProcessor;
  */
 public class QaConfigFrame extends JFrame
 {
-    /** Default serialization identifier. */
-    private static final long serialVersionUID = 1L;
-    
     /** The column count. */
     private static final int COLUMN_COUNT = 3;
     /** The inset. */
@@ -68,9 +65,6 @@ public class QaConfigFrame extends JFrame
      */
     private static class QaPropertyTableModel extends AbstractTableModel
     {
-        /** Default serialization identifier. */
-        private static final long serialVersionUID = 1L;
-
         /** The values modelled by this object. */
         private String[][] values;
 
@@ -134,6 +128,7 @@ public class QaConfigFrame extends JFrame
         }
 
         /** {@inheritDoc} */
+        @Override
         public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex)
         {
             if ((rowIndex < values.length) && (columnIndex < COLUMN_COUNT))
@@ -191,7 +186,7 @@ public class QaConfigFrame extends JFrame
             for (String key : keys)
             {
                 String defaultValue = properties.getProperty(key);
-                String value = QaUtil.replaceTokens(defaultValue, config.asParameterMap());
+                String value = QaUtil.replaceTokens(defaultValue, config.asParameterMap(), config, null);
 
                 this.values[index][0] = key;
                 this.values[index][1] = defaultValue;
@@ -466,9 +461,6 @@ public class QaConfigFrame extends JFrame
 
         Action okAction = new AbstractAction()
         {
-            /** Default serialization identifier. */
-            private static final long serialVersionUID = 1L;
-
             public void actionPerformed(final ActionEvent event)
             {
                 table.editingStopped(new ChangeEvent(table));
@@ -481,9 +473,6 @@ public class QaConfigFrame extends JFrame
 
         Action cancelAction = new AbstractAction()
         {
-            /** Default serialization identifier. */
-            private static final long serialVersionUID = 1L;
-
             public void actionPerformed(final ActionEvent event)
             {
                 reset();
@@ -542,6 +531,7 @@ public class QaConfigFrame extends JFrame
 
         addWindowListener(new WindowAdapter()
         {
+            @Override
             public void windowClosing(final WindowEvent event)
             {
                 reset();

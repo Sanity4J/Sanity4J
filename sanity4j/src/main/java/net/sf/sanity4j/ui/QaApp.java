@@ -27,9 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaUtil;
-import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.QAProcessor;
-
 
 /** 
  * QaApp is the main entry point to the Swing UI interface to Sanity4J.
@@ -71,14 +69,15 @@ public final class QaApp extends JFrame
     /** Controls whether to open the report on successful completion. */
     private final JCheckBox openReportOnCompletion = new JCheckBox("Open report on completion");
     
-    /** The button which displays the {@link QaConfigFrame}. */
-    private final JButton advancedButton = new JButton("Advanced");
+    ///** The button which displays the {@link QaConfigFrame}. */
+    //private final JButton advancedButton = new JButton("Advanced");
     
     /** The configuration used by the sanity4j application. */
     private final QAProcessor processor = new QAProcessor();
     
-    /** A frame used to modify the {@link QAConfig}. */
-    private final QaConfigFrame qaConfigFrame = new QaConfigFrame(processor);
+    // Disable the advanced button for now
+    ///** A frame used to modify the {@link QAConfig}. */
+    //private final QaConfigFrame qaConfigFrame = new QaConfigFrame(processor);
     
     /** The button which starts the analysis. */
     private final JButton runButton = new JButton("Analyse");
@@ -105,25 +104,27 @@ public final class QaApp extends JFrame
         
         addWindowListener(new WindowAdapter()
         {
+            @Override
             public void windowClosing(final WindowEvent event)
             {
                 writeConfig();
             }
         });
         
-        advancedButton.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(final ActionEvent event)
-            {
-                if (!validateInput())
-                {
-                    return;
-                }
-
-                saveConfig();
-                qaConfigFrame.setVisible(true);
-            }
-        });
+        // Disable the "Advanced" button for now.
+        //advancedButton.addActionListener(new ActionListener()
+        //{
+        //    public void actionPerformed(final ActionEvent event)
+        //    {
+        //        if (!validateInput())
+        //        {
+        //            return;
+        //        }
+        //
+        //        saveConfig();
+        //        qaConfigFrame.setVisible(true);
+        //    }
+        //});
         
         runButton.addActionListener(new ActionListener()
         {
@@ -186,8 +187,16 @@ public final class QaApp extends JFrame
         // Disable the "Advanced" button for now.
         //add(advancedButton, 0, gridy++, 2, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
         
-        add(openReportOnCompletion, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
-
+        try
+        {
+            Class.forName("java.awt.Desktop");
+            add(openReportOnCompletion, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            openReportOnCompletion.setVisible(false);
+        }
+        
         add(new JLabel(" "), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
         add(runButton, 0, gridy++, 2, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);        
         
@@ -262,13 +271,14 @@ public final class QaApp extends JFrame
         
         new Thread()
         {
+            @Override
             public void run()
             {
                 try
                 {
                     processor.run();
                     
-                    if (openReportOnCompletion.isSelected())
+                    if (openReportOnCompletion.isVisible() && openReportOnCompletion.isSelected())
                     {
                         File index = new File(reportDir.getFile(), "index.html");
                         
