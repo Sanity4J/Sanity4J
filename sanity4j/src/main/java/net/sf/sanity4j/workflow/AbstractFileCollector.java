@@ -68,20 +68,23 @@ public abstract class AbstractFileCollector implements WorkUnit
      */
     public void run()
     {
-        QaLogger.getInstance().info("Creating combined " + getItemType() + " directory");        
+        QaLogger.getInstance().info("Creating combined " + getItemType() + " directory.");        
         FileUtil.createDir(destDir.getPath());
         
         int count = copyFiles(sourceDirs, destDir);        
-        QaLogger.getInstance().info("Copied " + count + " files");
+        QaLogger.getInstance().info("Copied " + count + " files.");
         
         if (count == 0 && isMandatory())
         {
-            throw new QAException("Item [" + getItemType() + "] is required, but none found.");
+            throw new QAException("\"" + getItemDescription() + "\" are required, but none were found.");
         }        
     }
     
-    /** @return the type of item being copied, e.g. "source", "classes". */
+    /** @return the type of item being copied, e.g. "source", "class". */
     protected abstract String getItemType();
+    
+    /** @return the brief description of the type of item being copied, e.g. "sources", "classes". */
+    protected abstract String getItemDescription();
     
     /**
      * Copies class files to the given directory, correcting for package names
@@ -172,7 +175,7 @@ public abstract class AbstractFileCollector implements WorkUnit
                 if (parent == null)
                 {
                     File dest = new File(destDir, file.getName());
-                	FileUtil.copy(file, dest);
+                    FileUtil.copy(file, dest);
                 }
             }
             else

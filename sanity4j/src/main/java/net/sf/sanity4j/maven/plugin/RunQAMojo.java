@@ -4,15 +4,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
 import net.sf.sanity4j.util.QaLogger;
 import net.sf.sanity4j.util.QaLoggerMavenImpl;
@@ -20,32 +22,38 @@ import net.sf.sanity4j.util.Tool;
 import net.sf.sanity4j.workflow.QAConfig;
 import net.sf.sanity4j.workflow.QAProcessor;
 
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.artifact.handler.DefaultArtifactHandler;
 import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.doxia.siterenderer.Renderer;
-import org.apache.maven.model.Dependency;
 import org.apache.maven.model.DistributionManagement;
-import org.apache.maven.model.Plugin;
 import org.apache.maven.model.Site;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.dependency.utils.resolvers.ArtifactsResolver;
+import org.apache.maven.plugin.dependency.utils.resolvers.DefaultArtifactsResolver;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.project.DefaultProjectBuildingRequest;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.ProjectBuilder;
+import org.apache.maven.project.ProjectBuildingException;
+import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
+import org.apache.maven.shared.dependency.graph.DependencyGraphBuilder;
+import org.apache.maven.shared.dependency.graph.DependencyGraphBuilderException;
+import org.apache.maven.shared.dependency.graph.DependencyNode;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
-import org.sonatype.aether.RepositorySystem;
-import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.collection.CollectRequest;
-import org.sonatype.aether.collection.DependencyCollectionException;
-import org.sonatype.aether.graph.DependencyFilter;
-import org.sonatype.aether.graph.DependencyNode;
-import org.sonatype.aether.graph.Exclusion;
-import org.sonatype.aether.repository.RemoteRepository;
-import org.sonatype.aether.resolution.ArtifactRequest;
-import org.sonatype.aether.resolution.ArtifactResolutionException;
-import org.sonatype.aether.resolution.ArtifactResult;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 /**
  * <p>
@@ -58,263 +66,224 @@ import org.sonatype.aether.util.artifact.DefaultArtifact;
  * {@link #executeReport()} method.
  * </p>
  *
- * @goal sanity4j
- * @requiresDependencyResolution test
- * @requiresDependencyCollection test
- *
  * @author Darian Bridge
  * @since Sanity4J 1.0
  */
+@Mojo(name = "sanity4j", requiresProject = false, requiresDependencyResolution = ResolutionScope.TEST, requiresDependencyCollection = ResolutionScope.TEST)
 public class RunQAMojo extends AbstractMavenReport
 {
     /** Mojo and goal to download historical coverage stats. */
-    private static final String DOWNLOAD_SINGLE_MOJO = "org.codehaus.mojo:wagon-maven-plugin:1.0-beta-3:download-single";
+    private static final String DOWNLOAD_SINGLE_MOJO = "org.codehaus.mojo:wagon-maven-plugin:1.0-beta-5:download-single";
 
     /**
-     * <i>Maven Internal</i>: Project to interact with.
-     *
-     * @parameter expression="${project}"
-     * @readonly
+     * The Maven Project to interact with.
      */
+    @Parameter(defaultValue = "${project}", readonly = true, required = true)
     private MavenProject project;
 
     /**
      * The projects in the reactor for aggregation report.
-     *
-     * @parameter expression="${reactorProjects}"
-     * @readonly
      */
+    @Parameter(defaultValue = "${reactorProjects}", readonly = true, required = true)    
     private List<MavenProject> reactorProjects;
 
     /**
-     * Flag to indicate that this mojo should run it in a multi module way.
-     *
-     * @parameter
+     * Helper for locating Dependencies.
      */
+    @Component(hint = "default")
+    private DependencyGraphBuilder dependencyGraphBuilder;
+    
+    /**
+     * Helper for resolving Artifacts against the Repository.
+     */
+    @Component
+    private ArtifactResolver resolver;
+    
+    /**
+     * Helper for creating a Maven Project.
+     */
+    @Component(role = ProjectBuilder.class)
+    private ProjectBuilder projectBuilder;
+    
+    /**
+     * Can be one of the below.
+     * <pre> 
+     * org.sonatype.aether.RepositorySystemSession
+     * org.eclipse.aether.RepositorySystemSession
+     * </pre>
+     */
+    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true, required = true)
+    private Object session;
+
+    /**
+     * The Local Repository.
+     */
+    @Parameter(defaultValue = "${localRepository}", readonly = true, required = true)
+    private ArtifactRepository localRepo;
+
+    /**
+     * The Remote Repositories.
+     */
+    @Parameter(defaultValue = "${project.remoteArtifactRepositories}", readonly = true, required = true)
+    private List<ArtifactRepository> remoteRepos;    
+
+    /**
+     * Flag to indicate that this mojo should run it in a multi module way.
+     */
+    @Parameter(defaultValue = "false")
     private boolean aggregate;
 
     /**
      * <i>Maven Internal</i>: The Doxia Site Renderer.
-     *
-     * @component
      */
+    @Component
     private Renderer siteRenderer;
 
     /**
      * The source file paths for analysis.
-     *
-     * @parameter
      */
+    @Parameter    
     private String[] sources;
 
     /**
-     * The class file paths for analysis.
-     *
-     * @parameter
+     * The test source file paths for analysis.
      */
+    @Parameter    
+    private String[] testSources;
+
+    /**
+     * The class file paths for analysis.
+     */
+    @Parameter    
     private String[] classes;
 
     /**
-     * The library file paths for analysis.
-     *
-     * @parameter
+     * The test class file paths for analysis.
      */
+    @Parameter    
+    private String[] testClasses;
+
+    /**
+     * The library file paths for analysis.
+     */
+    @Parameter    
     private String[] libraries;
 
     /**
      * The location of the directory containing the various tools.
-     *
-     * @parameter
      */
+    @Parameter
     private String productsDir;
 
     /**
-    * The entry point to Aether, i.e. the component doing all the work.
-    *
-    * @component
-    */
-    private RepositorySystem repoSystem;
-     
-    /**
-    * The current repository/network configuration of Maven.
-    *
-    * @parameter default-value="${repositorySystemSession}"
-    * @readonly
-    */
-    private RepositorySystemSession repoSession;
-     
-    /**
-    * The project's remote repositories to use for the resolution of plugins and their dependencies.
-    *
-    * @parameter default-value="${project.remotePluginRepositories}"
-    * @readonly
-    */
-    private List<RemoteRepository> remoteRepos;
-    
-    /**
-     * @parameter expression="${localRepository}"
-     * @readonly
-     * @required
-     */
-    private ArtifactRepository localRepository;
-    
-    /**
      * The directory in which to place report output.
-     *
-     * @parameter default-value="${project.reporting.outputDirectory}/sanity4j"
      */
+    @Parameter(defaultValue = "${project.reporting.outputDirectory}/sanity4j")  
     private String reportDir;
 
     /**
      * The file containing the jUnit coverage data.
-     *
-     * @parameter
-     *            default-value="${project.build.directory}/cobertura/cobertura.ser"
      */
+    @Parameter(defaultValue = "target/cobertura/cobertura.ser")    
     private String coverageDataFile;
 
     /**
      * The file containing the merged jUnit coverage data.
-     *
-     * @parameter
-     *            default-value="${project.build.directory}/cobertura/cobertura-merged.ser"
      */
+    @Parameter(defaultValue = "${project.build.directory}/cobertura/cobertura-merged.ser")    
     private String coverageMergeDataFile;
 
     /**
      * The summary data file, if used.
-     *
-     * @parameter default-value=
-     *            "${project.reporting.outputDirectory}/${project.name}_analyse_summary.csv"
      */
+    @Parameter(defaultValue = "${project.reporting.outputDirectory}/${project.name}_analyse_summary.csv")    
     private String summaryDataFile;
 
     /**
      * The path location to the external properties file (sanity4j.properties).
-     *
-     * @parameter default-value= ""
      */
+    @Parameter(defaultValue = "")    
     private String externalPropertiesPath;
 
     /**
      * The configuration passed to the checkStyle ${sanity4j.tool.checkstyle.command} as ${sanity4j.tool.checkstyle.config}.
-     * @parameter
      */
+    @Parameter    
     private String checkStyleConfig;
 
     /**
      * The class path used by the configuration passed to the checkStyle ${sanity4j.tool.checkstyle.command} as ${sanity4j.tool.checkstyle.config}.
-     * @parameter
      */
+    @Parameter    
     private String checkStyleConfigClasspath;
 
     /**
      * The configuration passed to the FindBugs ${sanity4j.tool.findbugs.command} as ${sanity4j.tool.findbugs.config}.
-     *
-     * @parameter
      */
+    @Parameter    
     private String findBugsConfig;
 
     /**
      * The class path used by the configuration passed to the FindBugs ${sanity4j.tool.findbugs.command} as ${sanity4j.tool.findbugs.config}.
-     *
-     * @parameter
      */
+    @Parameter    
     private String findBugsConfigClasspath;
 
     /**
      * The configuration passed to the PMD ${sanity4j.tool.pmd.command} as ${sanity4j.tool.pmd.config}.
-     *
-     * @parameter
      */
+    @Parameter    
     private String pmdConfig;
 
     /**
      * Any additional properties to be passed to the tools.
-     *
-     * @parameter
      */
+    @Parameter    
     private String additionalProperties;
     
     /**
      * The class path used by the configuration passed to the PMD ${sanity4j.tool.pmd.command} as ${sanity4j.tool.pmd.config}.
-     *
-     * @parameter
      */
+    @Parameter    
     private String pmdConfigClasspath;
 
     /**
      * The temporary directory.
-     *
-     * @parameter default-value="${project.build.directory}/sanity4jAnalysis"
      */
+    @Parameter(defaultValue = "${project.build.directory}/sanity4jAnalysis")    
     private File tempDir;
 
     /**
      * The java runtime to use when running external tasks.
-     *
-     * @parameter
      */
-    // Please don't allow your IDE to automatically mark this field 
-    // as static or final. 
-    // The Maven Mojo API spec allows for an @parameter annotation 
-    // which can be configured from the POM. The annotation uses 
-    // reflection to set the field rather than using a java setter 
-    // method.
-    // Unfortunately, this also means that the below two rules get 
-    // triggered on this field during static code analysis.
-    //
-    // Moderate Private field could be made final; it is only 
-    //     initialized in the declaration or constructor. 
-    // Moderate This final field could be made static 
-    private String javaRuntime = QAProcessor.DEFAULT_JAVA_RUNTIME;
+    @Parameter(defaultValue = QAProcessor.DEFAULT_JAVA_RUNTIME)    
+    private String javaRuntime;
+    
+    /**
+     * The java args to use when running external tasks.
+     */
+    @Parameter(defaultValue = "${env.MAVEN_OPTS}")    
+    private String javaArgs;
 
     /**
      * If true, the raw tool output is included in the report directory.
-     *
-     * @parameter
      */
-    // Please don't allow your IDE to automatically mark this field 
-    // as static or final. 
-    // The Maven Mojo API spec allows for an @parameter annotation 
-    // which can be configured from the POM. The annotation uses 
-    // reflection to set the field rather than using a java setter 
-    // method.
-    // Unfortunately, this also means that the below two rules get 
-    // triggered on this field during static code analysis.
-    //
-    // Moderate Private field could be made final; it is only 
-    //     initialized in the declaration or constructor. 
-    // Moderate This final field could be made static 
-    private boolean includeToolOutput = false;
+    @Parameter(defaultValue = "false")
+    private boolean includeToolOutput;
 
     /**
      * The number of threads to use to run the tools and produce the report
      * output.
-     *
-     * @parameter
      */
-    // Please don't allow your IDE to automatically mark this field 
-    // as static or final. 
-    // The Maven Mojo API spec allows for an @parameter annotation 
-    // which can be configured from the POM. The annotation uses 
-    // reflection to set the field rather than using a java setter 
-    // method.
-    // Unfortunately, this also means that the below two rules get 
-    // triggered on this field during static code analysis.
-    //
-    // Moderate Private field could be made final; it is only 
-    //     initialized in the declaration or constructor. 
-    // Moderate This final field could be made static 
-    private int numThreads = 1; 
+    @Parameter(defaultValue = "1")
+    private int numThreads; 
     // TODO: Add support for concurrent tasks
     // (Note: some tasks can not be run in parallel).
 
     /**
      * Whether to use historical statistics when generating sanity4j reports.
-     *
-     * @parameter default-value="true"
      */
+    @Parameter(defaultValue = "true")    
     private boolean useHistory;
 
     /**
@@ -328,50 +297,98 @@ public class RunQAMojo extends AbstractMavenReport
 
     /**
      * Executes this mojo, invoking the {@link QAProcessor} which has already
-     * been configured by Maven using either the annotations or the pom (through
+     * been configured by Maven using either the annotations or the POM (through
      * reflection).
      *
-     * @param locale
-     *            The locale
+     * @param locale The locale
+     * @throws MavenReportException Thrown if a problem occurs generating the report.
      */
     @Override
     public void executeReport(final Locale locale) throws MavenReportException
     {
-        if (aggregate && !getProject().isExecutionRoot())
+        if (isAggregate() && !getProject().isExecutionRoot())
         {
             getLog().info(getProject().getName() + " aggregation is on, but this is not the execution root. Skipping 'sanity4j' check.");
 
             // Write out an small index.html file so that Maven
             // doesn't complain about empty files when deploying the site.
-            File index = new File(reportDir, "index.html");
+            File index = new File(getReportDir(), "index.html");
             writeTextFile(index, " ");
 
             return;
         }
 
-        boolean aggregating = aggregate && getProject().isExecutionRoot();
+        FileUtil.createDir(getReportDir());
+        
+        boolean aggregating = isAggregate() && getProject().isExecutionRoot();
 
         QAProcessor sanity4j = new QAProcessor();
         QAConfig qaConfig = sanity4j.getConfig();
+        qaConfig.setRunQAMojo(this);
         
         if (aggregating)
         {
-            for (MavenProject reactorProject : reactorProjects)
+            for (MavenProject reactorProject : getReactorProjects())
             {
-                qaConfig.addSourcePath(
-                    reactorProject.getBasedir() + "/src");
+                if (getSources() == null)
+                {
+                    qaConfig.addSourcePath(
+                        new File(reactorProject.getBasedir(), "src/main").getPath());
+                }
+                else
+                {
+                    for (String source : getSources())
+                    {
+                        qaConfig.addSourcePath(
+                            new File(reactorProject.getBasedir(), source).getPath());
+                    }
+                }
             }
         }
-        else if (sources == null)
+        else if (getSources() == null)
         {
             qaConfig.addSourcePath(
-                getProject().getBasedir() + "/src");
+                new File(getProject().getBasedir(), "src/main").getPath());
         }
         else
         {
-            for (String source : sources)
+            for (String source : getSources())
             {
-                qaConfig.addSourcePath(source);
+                qaConfig.addSourcePath(
+                     new File(getProject().getBasedir(), source).getPath());
+            }
+        }
+
+        if (aggregating)
+        {
+            for (MavenProject reactorProject : getReactorProjects())
+            {
+                if (getTestSources() == null)
+                {
+                    qaConfig.addSourcePath(
+                        new File(reactorProject.getBasedir(), "src/test").getPath());
+                }
+                else
+                {
+                    for (String testSource : getTestSources())
+                    {
+                        qaConfig.addSourcePath(
+                            new File(reactorProject.getBasedir(), testSource).getPath());
+                    }
+                }
+            }
+        }
+        else if (getTestSources() == null)
+        {
+            qaConfig.addSourcePath(
+                new File(getProject().getBasedir(), "src/test").getPath());
+        }
+        else
+        {
+            for (String testSource : getTestSources())
+            {
+                qaConfig.addSourcePath(
+                    new File(getProject().getBasedir(), testSource).getPath());
             }
         }
 
@@ -393,32 +410,75 @@ public class RunQAMojo extends AbstractMavenReport
 
         if (aggregating)
         {
-            for (MavenProject reactorProject : reactorProjects)
+            for (MavenProject reactorProject : getReactorProjects())
             {
+                if (getClasses() == null)
+                {
                 qaConfig.addClassPath(
-                    reactorProject.getBasedir() + "/target/classes");
-                qaConfig.addClassPath(
-                    reactorProject.getBasedir() + "/target/test-classes");
+                        new File(reactorProject.getBasedir(), "target/classes").getPath());
+                }
+                else
+                {
+                    for (String clazz : getClasses())
+                    {
+                        qaConfig.addClassPath(
+                            new File(reactorProject.getBasedir(), clazz).getPath());
+                    }
+                }
             }
         }
-        else if (classes == null)
+        else if (getClasses() == null)
         {
             qaConfig.addClassPath(
-                getProject().getBasedir() + "/target/classes");
-            qaConfig.addClassPath(
-                getProject().getBasedir() + "/target/test-classes");
+                new File(getProject().getBasedir(), "target/classes").getPath());
         }
         else
         {
-            for (String clazz : classes)
+            for (String clazz : getClasses())
             {
-                qaConfig.addClassPath(clazz);
+                qaConfig.addClassPath(
+                    new File(getProject().getBasedir(), clazz).getPath());
+            }
+        }
+        
+        if (aggregating)
+        {
+            for (MavenProject reactorProject : getReactorProjects())
+            {
+                if (getTestClasses() == null)
+                {
+                    qaConfig.addClassPath(
+                        new File(reactorProject.getBasedir(), "target/test-classes").getPath());
+                }
+                else
+                {
+                    for (String testClazz : getTestClasses())
+                    {
+                        qaConfig.addClassPath(
+                            new File(reactorProject.getBasedir(), testClazz).getPath());
+                    }
+                }
+            }
+        }
+        else if (getTestClasses() == null)
+        {
+            qaConfig.addClassPath(
+                new File(getProject().getBasedir(), "target/test-classes").getPath());
+        }
+        else
+        {
+            for (String testClazz : getTestClasses())
+            {
+                qaConfig.addClassPath(
+                    new File(getProject().getBasedir(), testClazz).getPath());
             }
         }
 
         if (aggregating)
         {
-            for (MavenProject reactorProject : reactorProjects)
+            if (getLibraries() == null)
+            {
+                for (MavenProject reactorProject : getReactorProjects())
             {
                 try
                 {
@@ -434,7 +494,15 @@ public class RunQAMojo extends AbstractMavenReport
                 }
             }
         }
-        else if (libraries == null)
+            else
+            {
+                for (String library : getLibraries())
+                {
+                    qaConfig.addLibraryPath(library);
+                }
+            }
+        }
+        else if (getLibraries() == null)
         {
             try
             {
@@ -446,12 +514,12 @@ public class RunQAMojo extends AbstractMavenReport
             catch (Exception e)
             {
                 // QA task will not be as accurate, log a warning
-                getLog().warn( "Unable to resolve library dependencies, analysis may not be as accurate.", e);
+                getLog().warn("Unable to resolve library dependencies, analysis may not be as accurate.", e);
             }
         }
         else
         {
-            for (String library : libraries)
+            for (String library : getLibraries())
             {
                 qaConfig.addLibraryPath(library);
             }
@@ -459,87 +527,53 @@ public class RunQAMojo extends AbstractMavenReport
 
         if (aggregating)
         {
-            for (MavenProject reactorProject : reactorProjects)
+            for (MavenProject reactorProject : getReactorProjects())
             {
                 qaConfig.addCoverageDataFile(
-                    reactorProject.getBasedir() + "/target/cobertura/cobertura.ser");
+                    new File(reactorProject.getBasedir(), getCoverageDataFile()).getPath());
             }
         }
         else
         {
-            qaConfig.setCoverageDataFile(coverageDataFile);
+            qaConfig.setCoverageDataFile(
+                new File(getProject().getBasedir(), getCoverageDataFile()).getPath());
         }
 
-        QADependency qaDependency = getDependencies("net.sf.sanity4j", "sanity4j", false);
-        
-        if (qaDependency != null)
-        {
-            for (QADependency child : qaDependency.getDependencies())
-            {
-                QADependency qaChildDep = getDependencies(child.getGroupId(), child.getArtifactId(), true);
-                
-                if (qaChildDep != null)
-                {
-                    for (QADependency grandChild : qaChildDep.getDependencies())
-                    {
-                        child.addDependency(grandChild);
-                    }
-                }
-            }
-        }
-        
-        if (getLog().isDebugEnabled() && qaDependency != null)
-        {
-            getLog().debug("Effective dependency tree - ");
-            getLog().debug("  " + qaDependency.getGroupId() + ":" + qaDependency.getArtifactId() + ":" + qaDependency.getVersion());
-            
-            for (QADependency child : qaDependency.getDependencies())
-            {
-                getLog().debug("    " + child.getGroupId() + ":" + child.getArtifactId() + ":" + child.getVersion());
-                
-                for (QADependency grandChild : child.getDependencies())
-                {
-                    getLog().debug("      " + grandChild.getGroupId() + ":" + grandChild.getArtifactId() + ":" + grandChild.getVersion());
-                }
-            }
-        }
-        
-        qaConfig.setCoverageMergeDataFile(coverageMergeDataFile);
-        qaConfig.setIncludeToolOutput(includeToolOutput);
-        qaConfig.setJavaRuntime(javaRuntime);
-        qaConfig.setNumThreads(numThreads);
-        qaConfig.setProductsDir(productsDir);
-        qaConfig.setMavenLocalRepository(localRepository.getBasedir());
-        qaConfig.setQADependency(qaDependency);
-        qaConfig.setReportDir(reportDir);
-        qaConfig.setSummaryDataFile(summaryDataFile.replaceAll(" ", ""));
-        qaConfig.setTempDir(tempDir);
-        qaConfig.setExternalPropertiesPath(externalPropertiesPath, additionalProperties);
+        qaConfig.setCoverageMergeDataFile(getCoverageMergeDataFile());
+        qaConfig.setIncludeToolOutput(isIncludeToolOutput());
+        qaConfig.setJavaRuntime(getJavaRuntime());
+        qaConfig.setJavaArgs(getJavaArgs());
+        qaConfig.setNumThreads(getNumThreads());
+        qaConfig.setProductsDir(getProductsDir());
+        qaConfig.setReportDir(getReportDir());
+        qaConfig.setSummaryDataFile(getSummaryDataFile().replaceAll(" ", ""));
+        qaConfig.setTempDir(getTempDir());
+        qaConfig.setExternalPropertiesPath(getExternalPropertiesPath(), getAdditionalProperties());
 
-        if (useHistory)
+        if (isUseHistory())
         {
             retrieveSanity4jStats();
         }
 
-        if (checkStyleConfig != null)
+        if (getCheckStyleConfig() != null)
         {
             String version = qaConfig.getToolVersion(Tool.CHECKSTYLE.getId());
-            qaConfig.setToolConfig(Tool.CHECKSTYLE.getId(), null, checkStyleConfig, checkStyleConfigClasspath);
-            qaConfig.setToolConfig(Tool.CHECKSTYLE.getId(), version, checkStyleConfig, checkStyleConfigClasspath);
+            qaConfig.setToolConfig(Tool.CHECKSTYLE.getId(), null, getCheckStyleConfig(), getCheckStyleConfigClasspath());
+            qaConfig.setToolConfig(Tool.CHECKSTYLE.getId(), version, getCheckStyleConfig(), getCheckStyleConfigClasspath());
         }
 
-        if (findBugsConfig != null)
+        if (getFindBugsConfig() != null)
         {
             String version = qaConfig.getToolVersion(Tool.FINDBUGS.getId());
-            qaConfig.setToolConfig(Tool.FINDBUGS.getId(), null, findBugsConfig, findBugsConfigClasspath);
-            qaConfig.setToolConfig(Tool.FINDBUGS.getId(), version, findBugsConfig, findBugsConfigClasspath);
+            qaConfig.setToolConfig(Tool.FINDBUGS.getId(), null, getFindBugsConfig(), getFindBugsConfigClasspath());
+            qaConfig.setToolConfig(Tool.FINDBUGS.getId(), version, getFindBugsConfig(), getFindBugsConfigClasspath());
         }
 
-        if (pmdConfig != null)
+        if (getPmdConfig() != null)
         {
             String version = qaConfig.getToolVersion(Tool.PMD.getId());
-            qaConfig.setToolConfig(Tool.PMD.getId(), null, pmdConfig, pmdConfigClasspath);
-            qaConfig.setToolConfig(Tool.PMD.getId(), version, pmdConfig, pmdConfigClasspath);
+            qaConfig.setToolConfig(Tool.PMD.getId(), null, getPmdConfig(), getPmdConfigClasspath());
+            qaConfig.setToolConfig(Tool.PMD.getId(), version, getPmdConfig(), getPmdConfigClasspath());
         }
        
         // TODO: HACK! Get around Stax using the context classloader rather than this class's.
@@ -551,187 +585,231 @@ public class RunQAMojo extends AbstractMavenReport
     }
     
     /**
-     * Retrieves the dependencies, including transitive dependencies, for the given project.
-     * @param project the project to retrieve the dependencies of.
-     * @return the dependencies for the given project.
-     * @throws org.sonatype.aether.resolution.ArtifactResolutionException if an artifact can not be resolved. 
-     * @throws DependencyCollectionException if an artifact can not be resolved.
+     * Resolves the list of Transitive Dependencies for the specified artifact.
+     * 
+     * @param artifact The artifact for which to resolve the transitive dependencies.
+     * @param jars The list for which to populate the resolved file paths for all the transitive dependencies.
      */
-    private Set<Artifact> getTransitiveDependencies(final MavenProject project) throws DependencyCollectionException, org.sonatype.aether.resolution.ArtifactResolutionException
+    public void getTransitiveDependencies(final String artifact, final List<String> jars) 
     {
-        String gav = project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();
-        return getTransitiveDependencies(gav);
+        try 
+        {
+            for (Artifact artifactItem : getTransitiveDependencies(artifact))
+            {
+                jars.add(artifactItem.getFile().getPath());
+            }
+        } 
+        catch (Exception ex) 
+        {
+            throw new QAException(ex.getClass().getName() + ": ", ex);
+        }
     }
     
     /**
-     * Retrieves the dependencies, including transitive dependencies, for the artifact.
-     * @param project the project to retrieve the dependencies of.
-     * @return the dependencies for the given project.
-     * @throws org.sonatype.aether.resolution.ArtifactResolutionException if an artifact can not be resolved. 
-     * @throws DependencyCollectionException if an artifact can not be resolved.
+     * Resolves the list of Transitive Dependencies for the specified artifact.
+     * 
+     * @param artifact The artifact for which to resolve the transitive dependencies.
+     * @return The set of resolved transitive dependencies.
+     * 
+     * @throws DependencyGraphBuilderException Thrown if a problem occurs.
+     * @throws MojoExecutionException Thrown if a problem occurs.
+     * @throws CloneNotSupportedException Thrown if a problem occurs.
+     * @throws InvalidVersionSpecificationException Thrown if a problem occurs.
+     * @throws ProjectBuildingException Thrown if a problem occurs.
+     * @throws IllegalAccessException Thrown if a problem occurs.
+     * @throws InvocationTargetException Thrown if a problem occurs.
+     * @throws NoSuchMethodException Thrown if a problem occurs.
      */
-    private Set<Artifact> getTransitiveDependencies(final String gav) throws DependencyCollectionException, org.sonatype.aether.resolution.ArtifactResolutionException
+    private Set<Artifact> getTransitiveDependencies(final String artifact) 
+        throws DependencyGraphBuilderException, MojoExecutionException, CloneNotSupportedException, InvalidVersionSpecificationException, ProjectBuildingException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
-        CollectRequest request = new CollectRequest();        
-        org.sonatype.aether.graph.Dependency dependency = new org.sonatype.aether.graph.Dependency(new DefaultArtifact(gav), "runtime" );        
-        request.setDependencies(Arrays.asList(dependency));
-        request.setRepositories(remoteRepos);
-        List<ArtifactResult> results = repoSystem.resolveDependencies(repoSession, request, new DependencyFilter()
-        {
-            public boolean accept(DependencyNode node, List<DependencyNode> parents)
-            {
-                org.sonatype.aether.graph.Dependency dep = node.getDependency();
-                
-                
-                if (dep == null || !("compile".equals(dep.getScope()) || "runtime".equals(dep.getScope())))
-                {
-                    return false;
-                }
-                
-                Artifact artifact = dep.getArtifact();
-                
-                if (artifact == null || !"jar".equals(artifact.getExtension()))
-                {
-                    return false;
-                }
+        Coordinate coordinate = new Coordinate(artifact);
+        Artifact mavenArtifact = getArtifact(coordinate.getGroupId(), coordinate.getArtifactId(), coordinate.getVersion(), coordinate.getScope(), coordinate.getPackaging(), coordinate.getClassifier());
+        return getTransitiveDependencies(mavenArtifact);
+    }
 
-                // check exclusions
-                for (DependencyNode ancestor : parents)
-                {
-                    if (ancestor.getDependency() != null)
-                    {
-                        for (Exclusion exclusion : ancestor.getDependency().getExclusions())
-                        {
-                            if (exclusion.getGroupId().equals(artifact.getGroupId()) 
-                                && exclusion.getArtifactId().equals(artifact.getGroupId()))
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }                
-                
-                return true;
+    /**
+     * Assembles a Maven Artifact object.
+     * 
+     * @param groupId The groupId.
+     * @param artifactId The artifactId.
+     * @param version The version.
+     * @param scope The scope.
+     * @param type The type.
+     * @param classifier The classifier.
+     * @return The assembled Maven Artifact object.
+     * @throws InvalidVersionSpecificationException Thrown if the version could not be idientified.
+     */
+    private Artifact getArtifact(final String groupId, final String artifactId, final String version, final String scope, final String type, final String classifier) 
+        throws InvalidVersionSpecificationException
+    {
+        return new DefaultArtifact(
+            groupId, artifactId, VersionRange.createFromVersionSpec(version), scope, type, classifier, new DefaultArtifactHandler(type));
+    }
+    
+    /**
+     * Resolves the list of Transitive Dependencies for the specified artifact.
+     * 
+     * @param artifact The artifact for which to resolve the transitive dependencies.
+     * @return The set of resolved transitive dependencies.
+     * 
+     * @throws DependencyGraphBuilderException Thrown if a problem occurs.
+     * @throws MojoExecutionException Thrown if a problem occurs.
+     * @throws CloneNotSupportedException Thrown if a problem occurs.
+     * @throws InvalidVersionSpecificationException Thrown if a problem occurs.
+     * @throws ProjectBuildingException Thrown if a problem occurs.
+     * @throws IllegalAccessException Thrown if a problem occurs.
+     * @throws InvocationTargetException Thrown if a problem occurs.
+     * @throws NoSuchMethodException Thrown if a problem occurs.
+     */
+    private Set<Artifact> getTransitiveDependencies(final Artifact artifact) 
+        throws DependencyGraphBuilderException, MojoExecutionException, CloneNotSupportedException, InvalidVersionSpecificationException, ProjectBuildingException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
+        ProjectBuildingRequest request = new DefaultProjectBuildingRequest();
+        //request.setUserProperties(getProject().getProperties());
+        request.setSystemProperties(System.getProperties());
+        request.setLocalRepository(getLocalRepo());
+        request.setRemoteRepositories(getRemoteRepos());
+        
+        // Support for Maven 3.0 / 3.1+ (Move from Sonatype-Aether to Eclipse-Aether).
+        //request.setRepositorySession(session);
+        invoke(request, "setRepositorySession", getSession());
+
+        MavenProject project = getProjectBuilder().build(artifact, request).getProject();
+        
+        return getTransitiveDependencies(project);
+    }
+    
+    /**
+     * Uses reflection to invoke a method on an object, passing in the arguments as parameters.
+     * Attempts to determine the method signature by using the first Interface of each argument's Class. 
+     * 
+     * Note, we should probably try to make a better attempt at identifying the method signature rather 
+     * than simply using the first Interface of the argument's Class. However for the moment it is enough 
+     * for it to support the use by it's only caller. 
+     * 
+     * @param object The Object on which to invoke the method.
+     * @param method The name of the method to invoke on the Object.
+     * @param args The parameters to pass to the method.
+     * @return The returned object of the method invoked.
+     * 
+     * @throws IllegalAccessException Thrown if the method cannot be invoked.
+     * @throws InvocationTargetException Thrown if the invoked method throws an Exception. 
+     * @throws NoSuchMethodException Thrown if the method cannot be identified.
+     */
+    private Object invoke(final Object object, final String method, final Object... args)
+        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
+        Class<?>[] types = new Class<?>[args.length];
+        
+        for (int i = 0; i < args.length; i++)
+        {
+            types[i] = args[i].getClass().getInterfaces()[0];
+        }
+        
+        return object.getClass().getMethod(method, types).invoke(object, args);
+    }
+    
+    /**
+     * Resolves the list of Transitive Dependencies for the specified Maven Project.
+     * 
+     * @param project The Maven Project for which to resolve the transitive dependencies.
+     * @return The set of resolved transitive dependencies.
+     * 
+     * @throws DependencyGraphBuilderException Thrown if a problem occurs.
+     * @throws MojoExecutionException Thrown if a problem occurs.
+     */
+    private Set<Artifact> getTransitiveDependencies(final MavenProject project) 
+        throws DependencyGraphBuilderException, MojoExecutionException
+    {
+        DependencyNode rootNode = getDependencyGraphBuilder().buildDependencyGraph(project, new ArtifactFilter()
+        {
+            public boolean include(final Artifact artifact) 
+            {
+                return !Artifact.SCOPE_SYSTEM.equals(artifact.getScope());
             }
         });
             
-        Set<Artifact> artifacts = new HashSet<Artifact>();
+        Set<Artifact> sortedArtifacts = new LinkedHashSet<Artifact>();
         
-        for (ArtifactResult result : results)
+        sortedArtifacts.add(rootNode.getArtifact());
+        flattenChildren(sortedArtifacts, rootNode);
+        
+        ArtifactsResolver artifactsResolver = new DefaultArtifactsResolver(getResolver(), getLocalRepo(), getRemoteRepos(), true);
+        
+        Set<Artifact> resolvedArtifacts = artifactsResolver.resolve(sortedArtifacts, getLog());
+        
+        Set<Artifact> orderedArtifacts = new LinkedHashSet<Artifact>();
+        
+        for (Artifact sortedArtifact : sortedArtifacts)
         {
-            artifacts.add(result.getArtifact());
+            for (Artifact resolvedArtifact : resolvedArtifacts)
+            {
+                if (sortedArtifact.compareTo(resolvedArtifact) == 0)
+                {
+                    orderedArtifacts.add(resolvedArtifact);
+                }
+            }
+        }
+        
+        return orderedArtifacts;
+    }
+    
+    /**
+     * Resolves a single Artifact.
+     * 
+     * @param artifact The Artifact for which to resolve.
+     * @return The File referencing the resolved Artifact.
+     */
+    public File resolveArtifact(final String artifact) 
+    {
+        try
+        {
+            Coordinate coordinate = new Coordinate(artifact);
+            
+        Set<Artifact> artifacts = new HashSet<Artifact>();
+            artifacts.add(getArtifact(coordinate.getGroupId(), coordinate.getArtifactId(), coordinate.getVersion(), coordinate.getScope(), coordinate.getPackaging(), coordinate.getClassifier()));
+            
+            ArtifactsResolver artifactsResolver = new DefaultArtifactsResolver(getResolver(), getLocalRepo(), getRemoteRepos(), true);
+            
+            artifacts = artifactsResolver.resolve(artifacts, getLog());
+            
+            return artifacts.toArray(new Artifact[1])[0].getFile();
+            
+        } 
+        catch (Exception ex) 
+        {
+            throw new QAException(ex.getClass().getName() + ": ", ex);
+        }
+    }
+    
+    /**
+     * Recursively traverses the hierarchy of the dependency tree flattening it's contents into a Set of Artifacts.
+     * 
+     * @param artifacts The Set for which to populate the Artifacts. 
+     * @param rootNode The start or currently positioned node within the dependency tree.
+     * @return The same Set of Artifacts as passed in, with the Artifacts populated.
+     */
+    private Set<Artifact> flattenChildren(final Set<Artifact> artifacts, final DependencyNode rootNode)
+    {
+        if (rootNode.getChildren() != null)
+        {
+            // Add all the child artifacts first.
+            for (DependencyNode node : rootNode.getChildren())
+            {
+                artifacts.add(node.getArtifact());
+            }
+
+            // Then add all the grand children second.
+            for (DependencyNode node : rootNode.getChildren())
+            {
+                flattenChildren(artifacts, node);
+            }
         }
         
         return artifacts;
     }
 
-    /**
-     * Retrieve the dependencies from the Maven Build Plugins declaration. 
-     * 
-     * @param groupId The group id to search for.
-     * @param artifactId the artifact id to search for.
-     * @param resolveTransitive true to resolve transitive dependencies, false otherwise.
-     * @return The dependencies for the matching group id and artifact id, or null if not declared.
-     */
-    private QADependency getDependencies(final String groupId, final String artifactId, boolean resolveTransitive)
-    {
-        getLog().debug("Looking for dependency - " + groupId + ":" + artifactId);
-        
-        for (Object objPlugin : project.getBuildPlugins())
-        {
-            if (objPlugin instanceof Plugin)
-            {
-                Plugin plugin = (Plugin) objPlugin;
-                
-                if (groupId.equals(plugin.getGroupId()) && artifactId.equals(plugin.getArtifactId()))
-                {
-                    String gav = plugin.getGroupId() + ":" + plugin.getArtifactId() + ":" + plugin.getVersion();
-                    getLog().debug("  " + gav);
-                    
-                    QADependency dependency = new QADependency();
-                    dependency.setGroupId(plugin.getGroupId());
-                    dependency.setArtifactId(plugin.getArtifactId());
-                    dependency.setVersion(plugin.getVersion());
-                    
-                    // Add explicit dependencies declared as plugin dependencies ahead of transient dependencies.
-                    List/*<Dependency>*/ dependencies = plugin.getDependencies();
-    
-                    for (Object objDependency : dependencies)
-                    {
-                        if (objDependency instanceof Dependency)
-                        {
-                            Dependency dep = (Dependency) objDependency;
-                            String childGav = dep.getGroupId() + ":" + dep.getArtifactId() + ":" + dep.getVersion();
-                            
-                            getLog().debug("    " + childGav);
-                            
-                            QADependency childDependency = new QADependency();
-                            childDependency.setGroupId(dep.getGroupId());
-                            childDependency.setArtifactId(dep.getArtifactId());
-                            childDependency.setVersion(dep.getVersion());
-                            
-                            try
-                            {
-                                childDependency.setPath(getDepPath(childGav));
-                            }
-                            catch (ArtifactResolutionException e)
-                            {
-                                throw new QAException("Unable to find dependency path for " + childGav, e);
-                            }
-                            
-                            dependency.addDependency(childDependency);
-                        }
-                    }
-
-                    // Add all transitive dependencies for the tool
-                    if (resolveTransitive)
-                    {
-                        try
-                        {                            
-                            for (Artifact dep : getTransitiveDependencies(gav)) 
-                            {
-                                String childGav = dep.getGroupId() + ":" + dep.getArtifactId() + ":" + dep.getVersion();
-                                
-                                getLog().debug("    " + childGav);
-                                
-                                QADependency childDependency = new QADependency();
-                                childDependency.setGroupId(dep.getGroupId());
-                                childDependency.setArtifactId(dep.getArtifactId());
-                                childDependency.setVersion(dep.getVersion());
-                                childDependency.setPath(dep.getFile());
-                                
-                                dependency.addDependency(childDependency);
-                            }                            
-                        }
-                        catch (Exception e)
-                        {
-                            throw new QAException("Unable to determine dependencies for " + gav, e);
-                        }
-                    }
-                    
-                    return dependency;
-                }
-            }
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Attempts to retrieve the path to a dependency. 
-     * @param gav the dependency coordinates.
-     * @return the path to the dependency, or null if not found.
-     * @throws ArtifactResolutionException if artifact resolutation fails.
-     */
-    private File getDepPath(final String gav) throws ArtifactResolutionException
-    {
-        ArtifactRequest request = new ArtifactRequest();        
-        request.setArtifact(new DefaultArtifact(gav));        
-        request.setRepositories(remoteRepos);
-        ArtifactResult artifact = repoSystem.resolveArtifact(repoSession, request);
-        return artifact == null ? null : artifact.getArtifact().getFile();
-    }
-    
     /**
      * If available, retrieves sanity4j historical results from 'site' repository.
      */
@@ -739,7 +817,7 @@ public class RunQAMojo extends AbstractMavenReport
     {
         try
         {
-            DistributionManagement distributionManagement = project.getDistributionManagement();
+            DistributionManagement distributionManagement = getProject().getDistributionManagement();
             if (distributionManagement == null)
             {
                 getLog().info("'Site' distribution management not defined. No build history will be graphed. Continuing 'sanity4j' checks.");
@@ -760,9 +838,9 @@ public class RunQAMojo extends AbstractMavenReport
 
                     String siteUrl = site.getUrl();
                     props.put("wagon.url", siteUrl);
-                    String dataFileName= summaryDataFile.replaceAll(" ", "");
+                    String dataFileName = getSummaryDataFile().replaceAll(" ", "");
                     props.put("wagon.fromFile", new File(dataFileName).getName());
-                    props.put("wagon.toDir", project.getReporting().getOutputDirectory());
+                    props.put("wagon.toDir", getProject().getReporting().getOutputDirectory());
                     request.setProperties(props);
 
                     getLog().info("Retrieveing 'sanity4j' statistics from URL: " + props);
@@ -846,15 +924,6 @@ public class RunQAMojo extends AbstractMavenReport
     }
 
     /**
-     * Sets the Maven project.
-     * @param project the maven project.
-     */
-    public void setProject(final MavenProject project)
-    {
-        this.project = project;
-    }
-
-    /**
      * @see org.apache.maven.reporting.AbstractMavenReport#getOutputDirectory()
      *
      * @return the output directory.
@@ -874,14 +943,6 @@ public class RunQAMojo extends AbstractMavenReport
     protected Renderer getSiteRenderer()
     {
         return siteRenderer;
-    }
-
-    /**
-     * @param siteRenderer the site renderer.
-     */
-    public void setSiteRenderer(final Renderer siteRenderer)
-    {
-        this.siteRenderer = siteRenderer;
     }
 
     /**
@@ -940,5 +1001,267 @@ public class RunQAMojo extends AbstractMavenReport
     {
         return ResourceBundle.getBundle("sanity4j-maven-report", locale,
             getClass().getClassLoader());
+    }
+
+    /**
+     * @return The Reactor Projects.
+     */
+    public List<MavenProject> getReactorProjects() 
+    {
+        return reactorProjects;
+    }
+
+    /**
+     * @return The Dependency Graph Builder. 
+     */
+    public DependencyGraphBuilder getDependencyGraphBuilder() 
+    {
+        return dependencyGraphBuilder;
+    }
+
+    /**
+     * @return The Artifact Resolver.
+     */
+    public ArtifactResolver getResolver() 
+    {
+        return resolver;
+    }
+
+    /**
+     * @return The Project Builder.
+     */
+    public ProjectBuilder getProjectBuilder() 
+    {
+        return projectBuilder;
+    }
+
+    /**
+     * Can be one of the below.
+     * <pre> 
+     * org.sonatype.aether.RepositorySystemSession
+     * org.eclipse.aether.RepositorySystemSession
+     * </pre>
+     * 
+     * @return The Repository System Session.
+     */
+    public Object getSession() 
+    {
+        return session;
+    }
+
+    /**
+     * @return The Local Artifact Repsoitory.
+     */
+    public ArtifactRepository getLocalRepo() 
+    {
+        return localRepo;
+    }
+
+    /**
+     * @return The List of Remote Artifact Repositories.  
+     */
+    public List<ArtifactRepository> getRemoteRepos() 
+    {
+        return remoteRepos;
+    }
+
+    /**
+     * @return Is Aggregate.
+     */
+    public boolean isAggregate() 
+    {
+        return aggregate;
+    }
+
+    /**
+     * @return The Sources.
+     */
+    public String[] getSources() 
+    {
+        return sources;
+    }
+
+    /**
+     * @return The Test Sources.
+     */
+    public String[] getTestSources() 
+    {
+        return testSources;
+    }
+
+    /**
+     * @return The Classes.
+     */
+    public String[] getClasses() 
+    {
+        return classes;
+    }
+
+    /**
+     * @return The Test Classes.
+     */
+    public String[] getTestClasses() 
+    {
+        return testClasses;
+    }
+
+    /**
+     * @return The Libraries.
+     */
+    public String[] getLibraries() 
+    {
+        return libraries;
+    }
+
+    /**
+     * @return The Products Dir.
+     */
+    public String getProductsDir() 
+    {
+        return productsDir;
+    }
+
+    /**
+     * @return The Report Dir.
+     */
+    public String getReportDir() 
+    {
+        return reportDir;
+    }
+
+    /**
+     * @return The Coverage Data File.
+     */
+    public String getCoverageDataFile() 
+    {
+        return coverageDataFile;
+    }
+
+    /**
+     * @return The Coverage Merge Data File.
+     */
+    public String getCoverageMergeDataFile() 
+    {
+        return coverageMergeDataFile;
+    }
+
+    /**
+     * @return The Summary Data File.
+     */
+    public String getSummaryDataFile() 
+    {
+        return summaryDataFile;
+    }
+
+    /**
+     * @return The External Properties Path.
+     */
+    public String getExternalPropertiesPath() 
+    {
+        return externalPropertiesPath;
+    }
+
+    /**
+     * @return The Check Style Config.
+     */
+    public String getCheckStyleConfig() 
+    {
+        return checkStyleConfig;
+    }
+
+    /**
+     * @return The Check Style Config Classpath.
+     */
+    public String getCheckStyleConfigClasspath() 
+    {
+        return checkStyleConfigClasspath;
+    }
+
+    /**
+     * @return The Fins Bugs Config.
+     */
+    public String getFindBugsConfig() 
+    {
+        return findBugsConfig;
+    }
+
+    /**
+     * @return The Find Bugs Config Classpath. 
+     */
+    public String getFindBugsConfigClasspath() 
+    {
+        return findBugsConfigClasspath;
+    }
+
+    /**
+     * @return The Pmd Config.
+     */
+    public String getPmdConfig() 
+    {
+        return pmdConfig;
+    }
+
+    /**
+     * @return The Additional Properties.
+     */
+    public String getAdditionalProperties() 
+    {
+        return additionalProperties;
+    }
+
+    /**
+     * @return The Pmd Config Classpath.
+     */
+    public String getPmdConfigClasspath() 
+    {
+        return pmdConfigClasspath;
+    }
+
+    /**
+     * @return The Temp Dir.
+     */
+    public File getTempDir() 
+    {
+        return tempDir;
+    }
+
+    /**
+     * @return The Java Runtime. 
+     */
+    public String getJavaRuntime() 
+    {
+        return javaRuntime;
+    }
+
+    /**
+     * @return The Java Args.
+     */
+    public String getJavaArgs() 
+    {
+        return javaArgs;
+    }
+
+    /**
+     * @return Is Include Tool Output.
+     */
+    public boolean isIncludeToolOutput() 
+    {
+        return includeToolOutput;
+    }
+
+    /**
+     * @return The Num Threads.
+     */
+    public int getNumThreads() 
+    {
+        return numThreads;
+    }
+
+    /**
+     * @return Is Use History.
+     */
+    public boolean isUseHistory() 
+    {
+        return useHistory;
     }
 }

@@ -18,11 +18,13 @@ public class PostfixExpression
      * 
      * @param terms - a String array containing operators &amp; operands as strings, in postfix evaluation order.
      * @return the result of the expression.
+     * 
+     * @throws SyntaxException Thrown if a problem occurs.
      */
-    public static double evaluatePostfix(final String terms[]) throws SyntaxException
+    public static double evaluatePostfix(final String[] terms) throws SyntaxException
     {
         // an instance of the Stack class is an overkill, we can just get away using an array
-        double stack[] = new double[terms.length]; // worst-case
+        double[] stack = new double[terms.length]; // worst-case
         int stackIndex = 0;
 
         double result = 0.0;
@@ -114,10 +116,12 @@ public class PostfixExpression
      *            contain variables (string keys prefixed by a hash sign "#")
      * @param values - values for the variables
      * @return the result of the expression
+     * 
+     * @throws SyntaxException Thrown if a problem occurs.
      */
-    public static double evaluatePostfixWithVariables(final String terms[], final Map<String, Object>values) throws SyntaxException
+    public static double evaluatePostfixWithVariables(final String[] terms, final Map<String, Object>values) throws SyntaxException
     {
-        String newOp[] = new String[terms.length];
+        String[] newOp = new String[terms.length];
 
         // Create a new expression by replacing variables with their values
 
@@ -152,14 +156,16 @@ public class PostfixExpression
      */
     public PostfixExpression(final String[] terms)
     {
-    	this.terms = new String[terms.length];
-    	System.arraycopy(terms, 0, this.terms, 0, terms.length);
+        this.terms = new String[terms.length];
+        System.arraycopy(terms, 0, this.terms, 0, terms.length);
     }
 
     /**
      * Evaluates this postfix expression.
      * 
      * @return the result of the expression
+     * 
+     * @throws SyntaxException Thrown if a problem occurs.
      */
     public double evaluate() throws SyntaxException
     {
@@ -171,6 +177,8 @@ public class PostfixExpression
      * 
      * @param values - values for the variables
      * @return the result of the expression
+     * 
+     * @throws SyntaxException Thrown if a problem occurs.
      */
     public double evaluate(final Map<String, Object> values) throws SyntaxException
     {

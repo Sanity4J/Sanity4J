@@ -31,9 +31,20 @@ public class SourceFileCollector extends AbstractFileCollector
      * Returns the item type being copied. 
      * @return "source" 
      */
+    @Override
     protected String getItemType()
     {
         return "source";
+    }
+    
+    /**
+     * Returns the brief description of the item type being copied. 
+     * @return "sources" 
+     */
+    @Override
+    protected String getItemDescription() 
+    {
+        return "sources";
     }
     
     /** {@inheritDoc} */

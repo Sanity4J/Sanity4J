@@ -5,11 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.sanity4j.maven.plugin.QADependency;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
 import net.sf.sanity4j.util.QaUtil;
@@ -52,13 +50,21 @@ public abstract class AbstractToolRunner implements WorkUnit
     {
         return config.getToolHome(tool.getId(), toolVersion);
     }
+    
+    /**
+     * @return the tool Maven artifact.
+     */
+    protected String getToolArtifact()
+    {
+        return config.getToolArtifact(tool.getId(), toolVersion);
+    }
 
     /**
      * @return the additional configuration classpath for the tool.
      */
     protected String getToolConfigClasspath()
     {
-    	return config.getToolConfigClasspath(tool.getId(), toolVersion);
+        return config.getToolConfigClasspath(tool.getId(), toolVersion);
     }
     
     /**
@@ -67,32 +73,14 @@ public abstract class AbstractToolRunner implements WorkUnit
     protected List<String> getToolJars()
     {
         List<String> toolJars = new ArrayList<String>();
-        FileUtil.findJars(new File(getToolHome()), toolJars);
         
-        if (config.getQADependency() != null)
+        if (config.getProductsDir() != null)
         {
-	        QADependency toolDependency = config.getQaDependency(tool.getId(), toolVersion);
-	        if (toolDependency != null)
-	        {
-		        Collection<QADependency> dependencies = toolDependency.getDependencies();
-		        
-		        if (dependencies != null)
-		        {
-			        for (QADependency dependency : dependencies)
-			        {
-				        File path = dependency.getPath();
-				        
-				        if (path.isDirectory())
-				        {
-				            FileUtil.findJars(path, toolJars);
-				        }
-				        else
-				        {
-				            toolJars.add(path.getPath());
-				        }
-			        }
-		        }
-	        }
+            FileUtil.findJars(new File(getToolHome()), toolJars);
+        }
+        else if (config.getRunQAMojo() != null)
+        {
+            config.getRunQAMojo().getTransitiveDependencies(getToolArtifact(), toolJars);
         }
         
         if (toolJars.isEmpty())
@@ -104,13 +92,13 @@ public abstract class AbstractToolRunner implements WorkUnit
         
         if (configClasspath != null)
         {
-        	String separator = System.getProperty("path.separator");
-        	String[] paths = configClasspath.split(separator);
-        	
-        	for (String path : paths)
-        	{
-        		toolJars.add(path);
-        	}
+            String separator = System.getProperty("path.separator");
+            String[] paths = configClasspath.split(separator);
+            
+            for (String path : paths)
+            {
+                toolJars.add(path);
+            }
         }
         
         return toolJars;

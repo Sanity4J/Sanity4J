@@ -64,7 +64,8 @@ public final class ExtractStaticContent
         
         if (inStream == null)
         {
-            throw new IllegalArgumentException("Resource [" + resourcePath + "] doesn't exist");
+        	QaLogger.getInstance().error("Resource [" + resourcePath + "] doesn't exist");
+        	return;
         }
 
         // Set up the destination file
@@ -72,7 +73,8 @@ public final class ExtractStaticContent
 
         if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs())
         {
-            throw new IOException("Failed to create parent directory for file " + destPath);
+            QaLogger.getInstance().error("Failed to create parent directory for file [" + destPath + "]");
+            return;
         }
 
         // Copy the data
