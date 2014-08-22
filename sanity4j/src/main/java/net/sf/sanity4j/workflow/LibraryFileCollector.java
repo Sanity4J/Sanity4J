@@ -44,9 +44,20 @@ public class LibraryFileCollector extends AbstractFileCollector
      * Returns the item type being copied. 
      * @return "library" 
      */
+    @Override
     protected String getItemType()
     {
         return "library";
+    }
+    
+    /**
+     * Returns the brief description of the item type being copied. 
+     * @return "libraries" 
+     */
+    @Override
+    protected String getItemDescription() 
+    {
+        return "libraries";
     }
 
     /**

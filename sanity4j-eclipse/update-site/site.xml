@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Local DIAC Eclipse Update Site" url="file://IMMI.LOCAL/Dfs/Groups/ACT/BEL/Developer%20Software/Eclipse/site.xml">
+   <description name="Local DIAC Eclipse Update Site" url="http://diacnexus/eclipseSites/sanity4j-1.1.1/site.xml">
       Eclipse Update Site containing plugins used by / developed within the DIAC (Department of Immigration and Citizenship) development areas.
    </description>
-   <feature url="features/net.sf.sanity4j.eclipse.feature_1.1.0.jar" id="net.sf.sanity4j.eclipse.feature" version="1.1.0">
+   <feature url="features/net.sf.sanity4j.eclipse.feature_1.1.1.jar" id="net.sf.sanity4j.eclipse.feature" version="1.1.1">
       <category name="qa"/>
    </feature>
    <category-def name="qa" label="Quality Assurance"/>

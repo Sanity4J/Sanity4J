@@ -17,8 +17,8 @@
     default ="analyse">
 
     <property name="products.home"  value="../../sanity4j/target/tools"/>
-    <property name="junit.home"     value="${products.home}/junit4.8.2"/>
-    <property name="cobertura.home" value="${products.home}/cobertura-2.0.1"/>
+    <property name="junit.home"     value="${products.home}/junit-4.8.2"/>
+    <property name="cobertura.home" value="${products.home}/cobertura-2.0.2"/>
     <property name="sanity4j.home"  value="../../sanity4j/target"/>
 
     <property name="build.dir" value="target"/>
@@ -182,9 +182,9 @@
             </library.path>
 
             <configurations>
-                <configuration tool="findbugs"   config="-exclude sanity4j_filter_exclude.xml"/>
-                <configuration tool="pmd"        config="sanity4j_pmd_rules.xml"/>
-                <configuration tool="checkstyle" config="sanity4j_checks.xml"/>
+                <configuration tool="findbugs"   config="-exclude ${sanity4j_filter_exclude.xml}"/>
+                <configuration tool="pmd"        config="${sanity4j_pmd_rules.xml}"/>
+                <configuration tool="checkstyle" config="${sanity4j_checks.xml}"/>
             </configurations>
             
         </sanity4j.run>

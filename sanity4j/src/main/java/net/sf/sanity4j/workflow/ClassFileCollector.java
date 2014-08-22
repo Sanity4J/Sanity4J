@@ -44,9 +44,20 @@ public class ClassFileCollector extends AbstractFileCollector
      * Returns the item type being copied. 
      * @return "class" 
      */
+    @Override
     protected String getItemType()
     {
         return "class";
+    }
+    
+    /**
+     * Returns the brief description of the item type being copied. 
+     * @return "classes" 
+     */
+    @Override
+    protected String getItemDescription() 
+    {
+        return "classes";
     }
 
     /**

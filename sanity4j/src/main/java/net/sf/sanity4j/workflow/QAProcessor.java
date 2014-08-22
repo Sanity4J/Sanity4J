@@ -21,7 +21,7 @@ import net.sf.sanity4j.workflow.tool.ToolRunnerGroup;
 public class QAProcessor implements Runnable
 {
     /** The current Sanity4J version number. This is the version number which is logged, embedded in reports, etc. */
-    public static final String QA_VERSION = "1.1.0";
+    public static final String QA_VERSION = "1.1.1";
 
     /** The default Java runtime to use when running external tasks. */
     public static final String DEFAULT_JAVA_RUNTIME = "java";
@@ -99,18 +99,8 @@ public class QAProcessor implements Runnable
             throw new QAException("No class files specified");
         }
 
-        File systemTempDir = new File(System.getProperty("java.io.tmpdir"));
-
-        File tempDir = new File(systemTempDir, "sanity4j-temp" + System.currentTimeMillis());
-
-        if (!tempDir.mkdirs())
-        {
-            throw new QAException("Unable to create temp directory " + tempDir.getPath());
-        }
-
-        tempDir.deleteOnExit();
-
-        config.setTempDir(tempDir);
+        FileUtil.createDir(config.getTempDir().getPath());
+        config.getTempDir().deleteOnExit();
 
         try
         {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/net.sf.sanity4j.eclipse.feature_1.1.0.jar" id="net.sf.sanity4j.eclipse.feature" version="1.1.0">
+   <feature url="features/net.sf.sanity4j.eclipse.feature_1.1.1.jar" id="net.sf.sanity4j.eclipse.feature" version="1.1.1">
       <category name="net.sf.sanity4j"/>
    </feature>
    <category-def name="net.sf.sanity4j" label="Sanity4J"/>

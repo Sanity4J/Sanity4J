@@ -42,6 +42,8 @@ public final class JaxbMarshaller
      * @param pkg the package containing the JAXB generated classes
      * @param namespace the namespace to change the document to, or null to leave it as is 
      * @return the unmarshalled object
+     * 
+     * @throws QAException thrown if a problem occurs.
      */
     public static Object unmarshal(final File file, final String pkg, final String namespace) throws QAException
     {
@@ -76,11 +78,11 @@ public final class JaxbMarshaller
         }
         catch (SAXParseException e)
         {
-            String details = e.toString() +
-            "\n Line number: " + e.getLineNumber() +
-            "\n Column number: " + e.getColumnNumber()+
-            "\n Public ID: " + e.getPublicId() +
-            "\n System ID: " + e.getSystemId() ;
+            String details = e.toString()
+                + "\n Line number: " + e.getLineNumber()
+                + "\n Column number: " + e.getColumnNumber()
+                + "\n Public ID: " + e.getPublicId()
+                + "\n System ID: " + e.getSystemId();
 
             throw new QAException("Error reading xml: " + file.getName() + details, e);
         }
@@ -105,7 +107,9 @@ public final class JaxbMarshaller
      * @param file the file to read from
      * @param pkg the package containing the JAXB generated classes
      * @param namespace the namespace to change the document to, or null to leave it as is 
-     * @param StartElementListener the listener that will be notified of each start element.
+     * @param listener the listener that will be notified of each start element.
+     * 
+     * @throws QAException thrown if a problem occurs.
      */
     public static void traverse(final File file, final String pkg, final String namespace, final StartElementListener listener) throws QAException
     {

@@ -34,7 +34,7 @@ public final class QaUtil
     /** No instance methods here. */
     private QaUtil()
     {
-    	// No instance methods here.
+        // No instance methods here.
     }
 
     /** The path location to the external properties file. */
@@ -62,6 +62,99 @@ public final class QaUtil
 
         outputStream.flush();
     }
+    
+    /**
+     * Reads the internal classpath properties file located at <code>resourcePath</code>. 
+     * 
+     * @param resourcePath the internal resource path.
+     * @return A Properties map containing the properties from the resource.
+     */
+    public static Properties readResourceProperties(final String resourcePath)
+    {
+        Properties properties = new Properties();
+        
+        if (FileUtil.hasValue(resourcePath))
+        {
+            String resourceFile;
+            
+            if (resourcePath.endsWith(".properties"))
+            {
+                resourceFile = resourcePath;
+            }
+            else
+            {
+                resourceFile = new File(resourcePath, "sanity4j.propeties").getPath();
+            }
+            
+            InputStream inputStream = null;
+            try
+            {
+                URL url = QaUtil.class.getResource(resourceFile);
+                
+                if (url != null)
+                {
+                    QaLogger.getInstance().debug("Resource Url: " + url);
+                    
+                    inputStream = url.openStream();
+                    
+                    properties.load(inputStream);
+                }
+            }
+            catch (IOException e)
+            {
+                QaLogger.getInstance().error("Error reading resource properties file [" + resourceFile + "]", e);
+            }
+            finally
+            {
+                safeClose(inputStream);
+            }
+        }
+        
+        return properties;
+    }
+    
+    /**
+     * Reads a properties string as if it were the contents of a properties file. 
+     * 
+     * @param propertiesString the string containing the properties.
+     * @return A Properties map containing the properties from the string.
+     */
+    public static Properties readStringProperties(final String propertiesString)
+    {
+        Properties stringProperties = new Properties();
+        
+        // Parse the properties string as if it were a properties file.
+        if (FileUtil.hasValue(propertiesString))
+        {
+            InputStream stringStream = null;
+            try 
+            {
+                byte[] bytes = propertiesString.getBytes("UTF-8");
+                stringStream =  new ByteArrayInputStream(bytes);
+                stringProperties.load(stringStream);
+                
+                QaLogger.getInstance().debug("Additional Properties:");
+                for (Map.Entry<Object, Object> entry : stringProperties.entrySet())
+                {
+                    QaLogger.getInstance().debug(entry.getKey() + " = " + entry.getValue());
+                }
+            } 
+            catch (UnsupportedEncodingException e) 
+            {
+                QaLogger.getInstance().error("Error reading Properties String", e);
+            } 
+            catch (IOException e) 
+            {
+                QaLogger.getInstance().error("Error reading Properties String", e);
+            }
+            finally
+            {
+                safeClose(stringStream);
+            }
+        }
+        
+        return stringProperties;
+    }
 
     /**
      * Reads the properties file located at <code>resourcePath</code> and applies any overrides from external properties
@@ -81,58 +174,23 @@ public final class QaUtil
      */
     public static Properties getProperties(final String resourcePath, final String propertiesString)
     {
-        Properties properties = new Properties();
-        InputStream inputStream = null;
-
-        try
-        {
-            inputStream = QaUtil.class.getResourceAsStream(resourcePath);
-            properties.load(inputStream);
-        }
-        catch (IOException e)
-        {
-            QaLogger.getInstance().error("Error reading internal properties file [" + resourcePath + "]", e);
-        }
-        finally
-        {
-            safeClose(inputStream);
-        }
+        Properties properties = readResourceProperties(resourcePath);
         
-        // parse the string as if it were a properties file.
-        if (FileUtil.hasValue(propertiesString))
-        {
-        	InputStream stringStream = null;
-			try 
-			{
-		        Properties stringProperties = new Properties();
-				
-	        	byte[] bytes = propertiesString.getBytes("UTF-8");
-	        	stringStream =  new ByteArrayInputStream(bytes);
-	        	stringProperties.load(stringStream);
-	        	
-	            QaLogger.getInstance().debug("Additional Properties:");
-	        	for (Map.Entry<Object, Object> entry : stringProperties.entrySet())
-	        	{
-		            QaLogger.getInstance().debug(entry.getKey() + " = " + entry.getValue());
-	        	}
-	        	
-		        properties.putAll(stringProperties);
-			} 
-			catch (UnsupportedEncodingException e) 
-			{
-	            QaLogger.getInstance().error("Error reading Properties String", e);
-			} 
-			catch (IOException e) 
-			{
-	            QaLogger.getInstance().error("Error reading Properties String", e);
-			}
-			finally
-			{
-	            safeClose(stringStream);
-			}
-        }
+        Properties stringProperties = readStringProperties(propertiesString);
+        properties.putAll(stringProperties);
         
         // Apply overrides
+        
+        // Look for the external properties on the classpath first.
+        if (FileUtil.hasValue(externalPropertiesPath))
+        {
+            String resource = externalPropertiesPath.startsWith("/") ? externalPropertiesPath : "/" + externalPropertiesPath;
+            
+            Properties resourceProperties = readResourceProperties(resource);
+            properties.putAll(resourceProperties);
+        }
+        
+        // Then look for the external properties on the file system next.
         Properties externalProperties = readExternalProperties();
         properties.putAll(externalProperties);
 
@@ -219,17 +277,17 @@ public final class QaUtil
 
             if (externalProperties.isDirectory())
             {
-            	userHomeFile = new File(userHome, "sanity4j.properties");
+                userHomeFile = new File(userHome, "sanity4j.properties");
             }
             else
             {
-            	String filename = externalProperties.getName();
-            	userHomeFile = new File(userHome, filename);
+                String filename = externalProperties.getName();
+                userHomeFile = new File(userHome, filename);
             }
         }
         else
         {
-        	userHomeFile = new File(userHome, "sanity4j.properties");
+            userHomeFile = new File(userHome, "sanity4j.properties");
         }
 
         Properties userHomeProperties = readProperties(userHomeFile);
@@ -413,7 +471,27 @@ public final class QaUtil
             }
             catch (IOException e)
             {
-                QaLogger.getInstance().error("Error closing " + closeable);
+                QaLogger.getInstance().error("Error closing: " + closeable);
+            }
+        }
+    }
+    
+    /**
+     * Closes the given Closeable, logging a message on any IO error.
+     * 
+     * @param closeable the Closeable to close.
+     */
+    public static void safeClose(final JarFile closeable)
+    {
+        if (closeable != null)
+        {
+            try
+            {
+                closeable.close();
+            }
+            catch (IOException e)
+            {
+                QaLogger.getInstance().error("Error closing: " + closeable);
             }
         }
     }
@@ -597,14 +675,15 @@ public final class QaUtil
                         else
                         {
                             // Try it as a jar
+                            JarFile jar = null;
                             try
                             {
-                                JarFile jar = new JarFile(pathElem);
+                                jar = new JarFile(pathElem);
                                 ZipEntry entry = jar.getEntry(resourceName);
                                 
                                 if (entry != null)
                                 {
-                                    resourceUrl = new URL("jar:" + pathElem.toURL().toString() + "!/" + resourceName);
+                                    resourceUrl = new URL("jar:" + pathElem.toURI().toURL().toString() + "!/" + resourceName);
                                     QaLogger.getInstance().debug("Resource: " + resourceUrl);
                                     break;
                                 }
@@ -613,6 +692,10 @@ public final class QaUtil
                             {
                                 // Not a jar file, or could not read.
                             }
+                            finally
+                            {
+                                safeClose(jar);
+                            }
                         }
                     }
                 }
@@ -620,40 +703,49 @@ public final class QaUtil
             
             if (resourceUrl != null)
             {
-                QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);                
-                InputStream inStream = resourceUrl.openConnection().getInputStream();
+                QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);
                 
-                if (inStream == null)
+                InputStream inStream = null;
+                FileOutputStream fos = null;
+                try
                 {
-                    // If not found, try loading from the current classloader. 
-                    inStream = QaUtil.class.getClassLoader().getResourceAsStream(resourceName);
+                    inStream = resourceUrl.openConnection().getInputStream();
+                    
+                    if (inStream == null)
+                    {
+                        // If not found, try loading from the current classloader. 
+                        inStream = QaUtil.class.getClassLoader().getResourceAsStream(resourceName);
+                    }
+                    
+                    if (inStream == null)
+                    {
+                        throw new IllegalArgumentException("Resource [" + resourceName + "] doesn't exist");
+                    }
+    
+                    // Set up the destination file
+                    File destFile = new File(config.getTempDir(), resourceName.replaceAll(".*/", ""));
+    
+                    if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs())
+                    {
+                        throw new IOException("Failed to create parent directory for file " + destFile.getPath());
+                    }
+    
+                    // Copy the data
+                    fos = new FileOutputStream(destFile);
+                    byte[] buf = new byte[BUFFER_SIZE];
+    
+                    for (int count = inStream.read(buf); count != -1; count = inStream.read(buf))
+                    {
+                        fos.write(buf, 0, count);
+                    }
+    
+                    return destFile;
                 }
-                
-                if (inStream == null)
+                finally
                 {
-                    throw new IllegalArgumentException("Resource [" + resourceName + "] doesn't exist");
+                    safeClose(fos);
+                    safeClose(inStream);
                 }
-
-                // Set up the destination file
-                File destFile = new File(config.getTempDir(), resourceName.replaceAll(".*/", ""));
-
-                if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs())
-                {
-                    throw new IOException("Failed to create parent directory for file " + destFile.getPath());
-                }
-
-                // Copy the data
-                FileOutputStream fos = new FileOutputStream(destFile);
-                byte[] buf = new byte[BUFFER_SIZE];
-
-                for (int count = inStream.read(buf); count != -1; count = inStream.read(buf))
-                {
-                    fos.write(buf, 0, count);
-                }
-
-                fos.close();
-                inStream.close();
-                return destFile;
             }
         }
         
