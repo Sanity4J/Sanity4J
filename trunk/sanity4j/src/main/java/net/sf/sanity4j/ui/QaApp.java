@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import net.sf.sanity4j.util.QaLogger;
@@ -47,6 +48,9 @@ public final class QaApp extends JFrame
     
     /** File input field for selecting the java runtime executable. */
     private final FileInput javaRuntime = new FileInput(false);
+    
+    /** File input field for selecting the java runtime args. */
+    private final JTextField javaArgs = new JTextField(40);
     
     /** File input field for selecting the project's class directory. */
     private final FileInput classDir = new FileInput(true);
@@ -159,6 +163,9 @@ public final class QaApp extends JFrame
 
         add(new FieldLabel("Path to java executable", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
         add(javaRuntime, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+        
+        add(new FieldLabel("Args to java executable", true), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
+        add(javaArgs, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
         
         add(new JLabel(" "), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
         add(new JLabel("Project settings"), 0, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
@@ -315,7 +322,7 @@ public final class QaApp extends JFrame
     }
 
     /**
-     * Save the data input into the QaApp to the processeor configuration.
+     * Save the data input into the QaApp to the processor configuration.
      */
     private void saveConfig()
     {
@@ -330,6 +337,7 @@ public final class QaApp extends JFrame
         
         processor.getConfig().setReportDir(reportDir.getFile().getPath());
         processor.getConfig().setJavaRuntime(javaRuntime.getFile().getPath());
+        processor.getConfig().setJavaArgs(javaArgs.getText());
         
         if (summaryOutputFile.getFile() != null)
         {
@@ -400,6 +408,7 @@ public final class QaApp extends JFrame
             
             productsDir.setText(props.getProperty("productsDir"));
             javaRuntime.setText(props.getProperty("javaRuntime"));
+            javaArgs.setText(props.getProperty("javaArgs"));
             classDir.setText(props.getProperty("classDir"));
             srcDir.setText(props.getProperty("srcDir"));
             libDir.setText(props.getProperty("libDir"));
@@ -407,6 +416,10 @@ public final class QaApp extends JFrame
             reportDir.setText(props.getProperty("reportDir"));
             summaryOutputFile.setText(props.getProperty("summaryOutputFile"));
             openReportOnCompletion.setSelected("true".equalsIgnoreCase(props.getProperty("openReportOnCompletion")));
+        }
+        else
+        {
+            javaArgs.setText(processor.getConfig().getJavaArgs());
         }
     }
     
@@ -420,6 +433,7 @@ public final class QaApp extends JFrame
         props.put("productsDir", productsDir.getText());
         props.put("productsDir", productsDir.getText());
         props.put("javaRuntime", javaRuntime.getText());
+        props.put("javaArgs", javaArgs.getText());
         props.put("classDir", classDir.getText());
         props.put("srcDir", srcDir.getText());
         props.put("libDir", libDir.getText());

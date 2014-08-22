@@ -2,7 +2,6 @@ package net.sf.sanity4j.workflow;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import net.sf.sanity4j.maven.plugin.QADependency;
+import net.sf.sanity4j.maven.plugin.RunQAMojo;
 import net.sf.sanity4j.util.FileUtil;
 import net.sf.sanity4j.util.QAException;
 import net.sf.sanity4j.util.QaLogger;
@@ -54,17 +53,12 @@ public final class QAConfig
      * The location of the directory containing the various tools.
      */
     private String productsDir;
+    
+    /**
+     * The RunQAMojo;
+     */
+    private RunQAMojo runQAMojo;
 
-    /**
-     * The location of the local Maven repository.
-     */
-    private String mavenLocalRepository;
-    
-    /**
-     * The extracted Maven dependencies from the Maven project.
-     */
-    private QADependency qaDependency;
-    
     /**
      * A flag indicating whether diagnostics should be displayed first.
      */
@@ -93,12 +87,17 @@ public final class QAConfig
     /**
      * The temporary directory.
      */
-    private File tempDir = new File(System.getProperty("java.io.tmpdir"));
-
+    private File tempDir = new File(System.getProperty("java.io.tmpdir"), "sanity4j-temp-" + System.currentTimeMillis());
+    
     /**
      * The java runtime to use when running external tasks.
      */
     private String javaRuntime = QAProcessor.DEFAULT_JAVA_RUNTIME;
+    
+    /**
+     * The java arguments to use when running external tasks.
+     */
+    private String javaArgs = QAProcessor.JAVA_RUNTIME_MAX_MEMORY;
 
     /**
      * A Map from a tool / version to a configuration file.
@@ -130,7 +129,10 @@ public final class QAConfig
     {
         if (!sources.contains(sourcePath))
         {
-            sources.add(sourcePath);
+            if (new File(sourcePath).exists())
+            {
+                sources.add(sourcePath);
+            }
         }
     }
 
@@ -143,7 +145,10 @@ public final class QAConfig
     {
         if (!classes.contains(classPath))
         {
-            classes.add(classPath);
+            if (new File(classPath).exists())
+            {
+                classes.add(classPath);
+            }
         }
     }
 
@@ -156,7 +161,10 @@ public final class QAConfig
     {
         if (!libraries.contains(libraryPath))
         {
-            libraries.add(libraryPath);
+            if (new File(libraryPath).exists())
+            {
+                libraries.add(libraryPath);
+            }
         }
     }
 
@@ -191,7 +199,7 @@ public final class QAConfig
     {
         return javaRuntime;
     }
-
+    
     /**
      * @param javaRuntime The javaRuntime to set.
      */
@@ -204,6 +212,29 @@ public final class QAConfig
         else
         {
             this.javaRuntime = javaRuntime;
+        }
+    }
+    
+    /**
+     * @return Returns the java arguments.
+     */
+    public String getJavaArgs()
+    {
+        return javaArgs;
+    }
+    
+    /**
+     * @param javaRuntime The javaRuntime to set.
+     */
+    public void setJavaArgs(final String javaArgs)
+    {
+        if (javaArgs == null || javaArgs.length() == 0)
+        {
+            this.javaArgs = QAProcessor.JAVA_RUNTIME_MAX_MEMORY;
+        }
+        else
+        {
+            this.javaArgs = javaArgs;
         }
     }
 
@@ -224,37 +255,20 @@ public final class QAConfig
     }
 
     /**
-     * @return Returns the mavenLocalRepository.
+     * @return Returns the RunQAMojo.
      */
-    public String getMavenLocalRepository()
+    public RunQAMojo getRunQAMojo()
     {
-        return mavenLocalRepository;
+        return runQAMojo;
     }
 
     /**
-     * @param mavenLocalRepository The mavenLocalRepository to set.
+     * @param runQAMojo The RunQAMojo to set.
      */
-    public void setMavenLocalRepository(final String mavenLocalRepository)
+    public void setRunQAMojo(final RunQAMojo runQAMojo)
     {
-        this.mavenLocalRepository = mavenLocalRepository;
-    }
-    
-    /**
-     * @return The tool dependency tree.
-     */
-    public QADependency getQADependency() 
-    {
-        return this.qaDependency;
-    }
-    
-    /**
-     * @param qaDependency The tool dependency tree to set.
-     */
-    public void setQADependency(final QADependency qaDependency) 
-    {
-        this.qaDependency = qaDependency;
-    }
-    
+        this.runQAMojo = runQAMojo;
+    }    
     /**
      * @return Returns the reportDir.
      */
@@ -435,15 +449,12 @@ public final class QAConfig
      */
     public void setTempDir(final File tempDir)
     {
+        if (tempDir == null)
+        {
+            this.tempDir = new File(System.getProperty("java.io.tmpdir"), "sanity4j-temp-" + System.currentTimeMillis());            
+        }
+        
         this.tempDir = tempDir;
-    }
-
-    /**
-     * @return the max heap size to use when running java tools
-     */
-    public String getMaxMemSize()
-    {
-        return QAProcessor.JAVA_RUNTIME_MAX_MEMORY;
     }
 
     /**
@@ -486,9 +497,8 @@ public final class QAConfig
         }
 
         params.put("java", getJavaRuntime());
-        params.put("javaArgs", getMaxMemSize());
+        params.put("javaArgs", getJavaArgs());
         params.put("products", getProductsDir());
-        params.put("mavenLocalRepository", getMavenLocalRepository());
         params.put("source", getCombinedSourceDir().getPath());
         params.put("classes", getCombinedClassDir().getPath());
         params.put("libs", getCombinedLibraryDir().getPath());
@@ -528,7 +538,7 @@ public final class QAConfig
      */
     public void setExternalPropertiesPath(final String externalPropertiesPath)
     {
-    	setExternalPropertiesPath(externalPropertiesPath, null);
+        setExternalPropertiesPath(externalPropertiesPath, null);
     }
     
     /**
@@ -704,7 +714,7 @@ public final class QAConfig
                     if (!version.equals(firstVersion))
                     {
                         String msg = "WARNING: Running an out-dated version [" + version + "] of tool [" + tool
-                                     + "]. The current version is [" + firstVersion + "]";
+                             + "]. The current version is [" + firstVersion + "]";
     
                         QaLogger.getInstance().warn(msg);
                     }
@@ -717,53 +727,28 @@ public final class QAConfig
                     QaLogger.getInstance().warn(msg);
                 }
             }
-            else if (mavenLocalRepository != null)
+            else if (runQAMojo != null)
             {
                 String mavenKey = QA_TOOL_PREFIX + tool + '.' + version + ".maven";
                 
                 if (!properties.containsKey(mavenKey))
                 {
-                    String message = "Missing Maven GAV for " + tool + ' ' + version + ". Please set parameter: " + mavenKey
-                                     + " in external sanity4j.properties";
+                    String message = "Missing Maven Coordinate for " + tool + ' ' + version 
+                        + ". Please set parameter: " + mavenKey
+                        + " in external sanity4j.properties";
     
                     throw new QAException(message);
                 }
-                
-                QADependency qaDependency = getQaDependency(tool, version);
-                String mavenGav = properties.getProperty(mavenKey);
-                
-                if (qaDependency == null)
+    
+                if (!version.equals(firstVersion))
                 {
-                    String message = "Maven POM does not contain build plugin for " + tool + ' ' + version 
-                        + ". Please define a Maven dependency for build plugin: " + mavenGav
-                        + " in the Maven POM.";
-                    
-                    QaLogger.getInstance().warn(message);
+                    String msg = "WARNING: Running an out-dated version [" + version + "] of tool [" + tool
+                         + "]. The current version is [" + firstVersion + "]";
+
+                    QaLogger.getInstance().warn(msg);
                 }
-                else
-                {
-                    File path = qaDependency.getPath();
-                    
-                    String toolHome = path.isDirectory() ? path.getPath() : path.getParent();
-                    
-                    if (new File(toolHome).exists())
-                    {
-                        if (!version.equals(firstVersion))
-                        {
-                            String msg = "WARNING: Running an out-dated version [" + version + "] of tool [" + tool
-                                + "]. The current version is [" + firstVersion + "]";
-                            
-                            QaLogger.getInstance().warn(msg);
-                        }
-                        
-                        return version;
-                    }
-                    else
-                    {
-                        String msg = "WARNING: Could not find [" + toolHome + "] directory";
-                        QaLogger.getInstance().warn(msg);
-                    }
-                }
+    
+                return version;
             }
             else
             {
@@ -794,13 +779,14 @@ public final class QAConfig
             QaLogger.getInstance().debug("Tool Home: " + toolHome);
             return toolHome;
         }
-        else if (mavenLocalRepository != null)
+        else if (runQAMojo != null)
         {
-            QADependency qaDependency = getQaDependency(tool, version);            
-            File path = qaDependency.getPath();
+            String mavenKey = QA_TOOL_PREFIX + tool + '.' + version + ".maven";
+            String artifact = properties.getProperty(mavenKey);
+            File toolFile = runQAMojo.resolveArtifact(artifact);
             
-            String toolHome = path.isDirectory() ? path.getPath() : path.getParent();
-
+            String toolHome = toolFile.isDirectory() ? toolFile.getPath() : toolFile.getParent();
+            
             QaLogger.getInstance().debug("Tool Home: " + toolHome);
             return toolHome;
         }
@@ -811,84 +797,27 @@ public final class QAConfig
     }
     
     /**
-     * Lookup the tool and version in the sanity4j properties, then confirm it's
-     * existence in the Maven Project Build declaration, then return the actual
-     * dependency. 
-     * 
-     * @param tool the tool to look up.
-     * @param version the version of the tool.
-     * @return the dependency if found, or null otherwise.
+     * This method retrieve the home directory for a given tool Maven artifact.
+     *
+     * @param tool The tool for which the artifact is to be retrieved.
+     * @param version The version number of the given <em>tool</em> for which the artifact is to be retrieved.
+     * @return The artifact for the given <em>tool</em> / <em> version</em>.
      */
-    public QADependency getQaDependency(final String tool, final String version)
+    public String getToolArtifact(final String tool, final String version)
     {
-        if (this.qaDependency == null)
+        if (runQAMojo != null)
+        {
+            String homeKey = QA_TOOL_PREFIX + tool + '.' + version + ".maven";
+            String toolArtifact = properties.getProperty(homeKey);
+            toolArtifact = QaUtil.replaceTokens(toolArtifact, asParameterMap(), this, null);
+            
+            QaLogger.getInstance().debug("Tool Artifact: " + toolArtifact);
+            return toolArtifact;
+        }
+        else
         {
             return null;
         }
-        
-        QaLogger.getInstance().debug("Tool: " + tool + ":" + version);
-        
-        String mavenKey = QA_TOOL_PREFIX + tool + '.' + version + ".maven";
-        String mavenGav = properties.getProperty(mavenKey);
-        
-        QaLogger.getInstance().debug("Maven Gav: " + mavenGav);
-        
-        String[] mavenFields = mavenGav.split(":");
-        
-        String mavenGroupId = mavenFields[0];
-        String mavenArtifactId = mavenFields[1];
-        String mavenVersion = mavenFields[2];
-        
-        for (QADependency dependency : this.qaDependency.getDependencies())
-        {
-            if (mavenGroupId.equals(dependency.getGroupId())
-                && mavenArtifactId.equals(dependency.getArtifactId())
-                && mavenVersion.equals(dependency.getVersion()))
-            {
-                return dependency;
-            }
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Return a list of jars for the dependency tool.
-     * 
-     * @param toolId the tool id.
-     * @param version the tool version.
-     * @return a list of jars for the dependency tool.
-     */
-    public List<String> getQaDependencyJarList(final String toolId, final String version) 
-    {
-        QADependency toolDependency = getQaDependency(toolId, version);
-        if (toolDependency != null)
-        {
-	        Collection<QADependency> dependencies = toolDependency.getDependencies();
-	        
-	        if (dependencies != null)
-	        {
-	        	List<String> toolJars = new ArrayList<String>();
-	        	
-		        for (QADependency dependency : dependencies)
-		        {
-			        File path = dependency.getPath();
-			        
-			        if (path.isDirectory())
-			        {
-			            FileUtil.findJars(path, toolJars);
-			        }
-			        else
-			        {
-			            toolJars.add(path.getPath());
-			        }
-		        }
-		        
-		        return toolJars;
-	        }
-        }
-
-        return null;
     }
     
     /**
@@ -913,17 +842,17 @@ public final class QAConfig
      */
     private String getToolParam(final String tool, final String version, final String key)
     {
-    	StringBuffer configBuf = new StringBuffer();
-    	
-    	configBuf.append(QA_TOOL_PREFIX).append(tool).append('.');
-    	
+        StringBuffer configBuf = new StringBuffer();
+        
+        configBuf.append(QA_TOOL_PREFIX).append(tool).append('.');
+        
         if (version != null)
         {
-        	configBuf.append(version).append('.');
+            configBuf.append(version).append('.');
         }
-    	
-    	configBuf.append(key);
-    	
+        
+        configBuf.append(key);
+        
         String configKey = configBuf.toString();
         
         return configKey;
@@ -1034,7 +963,7 @@ public final class QAConfig
     public String getToolReader(final String tool, final String version)
     {
         String property = getToolParam(tool, version, "reader");
-    	
+        
         String readerClassName = properties.getProperty(property);
 
         if (StringUtil.empty(readerClassName))

@@ -143,6 +143,12 @@ public class SummaryCsvMarshaller
      */
     public void write(final PackageSummary[] entries, final File file)
     {
+        if (!file.getParentFile().exists())
+        {
+            QaLogger.getInstance().warn("Unable to write summary data, directory doesn't exist: " + file.getParent());
+            return;
+        }
+        
         boolean newFile = !file.exists() || file.length() == 0;
 
         FileOutputStream fos = null;

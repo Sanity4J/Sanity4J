@@ -233,6 +233,14 @@ public class RunQA extends Task
     {
         qaProcessor.getConfig().setJavaRuntime(javaRuntime);
     }
+    
+    /**
+     * @param javaArgs The javaArgs to set.
+     */
+    public void setJavaArgs(final String javaArgs)
+    {
+        qaProcessor.getConfig().setJavaArgs(javaArgs);
+    }
 
     /**
      * @param productsDir The productsDir to set.
@@ -323,6 +331,7 @@ public class RunQA extends Task
         QaLogger.getInstance().debug("Coverage Merge Data File: [" + qaProcessor.getConfig().getCoverageMergeDataFile() + "]");
         QaLogger.getInstance().debug("External Properties Path: [" + qaProcessor.getConfig().getExternalPropertiesPath() + "]");
         QaLogger.getInstance().debug("Java Runtime:             [" + qaProcessor.getConfig().getJavaRuntime() + "]");
+        QaLogger.getInstance().debug("Java Args:                [" + qaProcessor.getConfig().getJavaArgs() + "]");
         QaLogger.getInstance().debug("Number of Threads:        [" + qaProcessor.getConfig().getNumThreads() + "]");
         QaLogger.getInstance().debug("Products Directory:       [" + qaProcessor.getConfig().getProductsDir() + "]");
         QaLogger.getInstance().debug("Report Directory:         [" + qaProcessor.getConfig().getReportDir() + "]");
