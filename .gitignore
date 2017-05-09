@@ -1,0 +1,7 @@
+# Eclipse cruft
+.classpath
+.project
+.settings
+
+# Maven build dir
+target/
