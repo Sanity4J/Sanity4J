@@ -1,5 +1,7 @@
 package net.sf.sanity4j.model.coverage; 
 
+import com.github.sanity4j.model.coverage.ClassCoverage;
+
 import junit.framework.TestCase;
 
 /** 

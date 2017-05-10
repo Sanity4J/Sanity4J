@@ -5,8 +5,10 @@ import java.awt.image.PixelGrabber;
 import java.util.Arrays;
 import java.util.Date;
 
+import com.github.sanity4j.model.summary.PackageSummary;
+import com.github.sanity4j.report.ChartFactory;
+
 import junit.framework.TestCase;
-import net.sf.sanity4j.model.summary.PackageSummary;
 
 /**
  * <p>ChartFactory_Test - unit tests for ChartFactory.</p>

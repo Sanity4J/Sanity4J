@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.github.sanity4j.model.diagnostic.Diagnostic;
+import com.github.sanity4j.report.ReportUtil;
+
 import junit.framework.TestCase;
-import net.sf.sanity4j.model.diagnostic.Diagnostic;
 
 /**
  * TestReportUtil - unit tests for ReportUtil. 

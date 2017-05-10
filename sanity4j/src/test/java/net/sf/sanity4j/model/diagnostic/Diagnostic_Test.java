@@ -3,6 +3,8 @@ package net.sf.sanity4j.model.diagnostic;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.github.sanity4j.model.diagnostic.Diagnostic;
+
 import junit.framework.TestCase;
 
 /**

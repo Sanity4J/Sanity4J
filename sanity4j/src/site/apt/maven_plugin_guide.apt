@@ -171,7 +171,7 @@ Sanity4J Maven plugin user guide
     <plugins>
       ...
       <plugin>
-        <groupId>net.sf.sanity4j</groupId>
+        <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
         <version>1.1.1</version>
       </plugin>
@@ -189,7 +189,7 @@ Sanity4J Maven plugin user guide
     <plugins>
     
       <plugin>
-        <groupId>net.sf.sanity4j</groupId>
+        <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
         <version>1.1.1</version>
         <configuration>
@@ -224,7 +224,7 @@ Sanity4J Maven plugin user guide
   <build>
     <plugins>
       <plugin>
-        <groupId>net.sf.sanity4j</groupId>
+        <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
         <version>1.1.1</version>
         <dependencies>
@@ -248,7 +248,7 @@ Sanity4J Maven plugin user guide
     <plugins>
     
       <plugin>
-        <groupId>net.sf.sanity4j</groupId>
+        <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
         <version>1.1.1</version>
         <configuration>
@@ -578,7 +578,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
 +-------------------------------+
 
     <plugin>
-        <groupId>net.sf.sanity4j</groupId>
+        <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
         <version>1.1.1</version>
         <configuration>

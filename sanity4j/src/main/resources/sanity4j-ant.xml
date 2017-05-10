@@ -37,7 +37,7 @@
     ** TYPE DEFINITIONS
     **************************************************************** -->
 
-    <typedef name="configuration" classname="net.sf.sanity4j.ant.taskdef.RunQA$Configuration"/>
+    <typedef name="configuration" classname="com.github.sanity4j.ant.taskdef.RunQA$Configuration"/>
 
     <!-- ***************************************************************
     ** TASK DEFINITIONS
@@ -56,7 +56,7 @@
     **
     **************************************************************** -->
 
-    <typedef name="sanity4j.runtask" classname="net.sf.sanity4j.ant.taskdef.RunQA"/>
+    <typedef name="sanity4j.runtask" classname="com.github.sanity4j.ant.taskdef.RunQA"/>
 
     <!-- ***************************************************************
     ** MACRO DEFINITIONS

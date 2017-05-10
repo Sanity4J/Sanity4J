@@ -6,19 +6,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.github.sanity4j.model.coverage.ClassCoverage;
+import com.github.sanity4j.model.coverage.Coverage;
+import com.github.sanity4j.model.coverage.PackageCoverage;
+import com.github.sanity4j.model.diagnostic.Diagnostic;
+import com.github.sanity4j.model.diagnostic.DiagnosticSet;
+import com.github.sanity4j.model.summary.PackageSummary;
+import com.github.sanity4j.util.ExtractStats;
+import com.github.sanity4j.util.FileUtil;
+import com.github.sanity4j.util.QaUtil;
+import com.github.sanity4j.util.Tool;
+import com.github.sanity4j.workflow.QAConfig;
+import com.github.sanity4j.workflow.tool.CheckStyleResultReader;
+import com.github.sanity4j.workflow.tool.CoberturaResultReader;
+import com.github.sanity4j.workflow.tool.FindBugsResultReader;
+import com.github.sanity4j.workflow.tool.PmdCpdResultReader;
+import com.github.sanity4j.workflow.tool.PmdResultReader;
+
 import junit.framework.TestCase;
-import net.sf.sanity4j.model.coverage.ClassCoverage;
-import net.sf.sanity4j.model.coverage.Coverage;
-import net.sf.sanity4j.model.coverage.PackageCoverage;
-import net.sf.sanity4j.model.diagnostic.Diagnostic;
-import net.sf.sanity4j.model.diagnostic.DiagnosticSet;
-import net.sf.sanity4j.model.summary.PackageSummary;
-import net.sf.sanity4j.workflow.QAConfig;
-import net.sf.sanity4j.workflow.tool.CheckStyleResultReader;
-import net.sf.sanity4j.workflow.tool.CoberturaResultReader;
-import net.sf.sanity4j.workflow.tool.FindBugsResultReader;
-import net.sf.sanity4j.workflow.tool.PmdCpdResultReader;
-import net.sf.sanity4j.workflow.tool.PmdResultReader;
 
 /**
  * ExtractStats_Test - unit test for {@link ExtractStats}.

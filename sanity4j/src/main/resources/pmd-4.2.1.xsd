@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- The schema for the PMD result file versions 4.2.1, 4.2.2, 4.2.5 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://net.sf.sanity4j/namespace/pmd-4.2.1" xmlns:pmd421="http://net.sf.sanity4j/namespace/pmd-4.2.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://com.github.sanity4j/namespace/pmd-4.2.1" xmlns:pmd421="http://com.github.sanity4j/namespace/pmd-4.2.1">
 	<xs:element name="error">
 		<xs:complexType>
 			<xs:attribute name="filename" type="xs:string" use="required"/>

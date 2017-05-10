@@ -5,9 +5,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.sanity4j.util.FileUtil;
+import com.github.sanity4j.util.JaxbMarshaller;
+import com.github.sanity4j.util.QAException;
+
 import junit.framework.TestCase;
-import net.sf.sanity4j.gen.checkstyle_4_4.Checkstyle;
-import net.sf.sanity4j.gen.checkstyle_4_4.File;
+import com.github.sanity4j.gen.checkstyle_4_4.Checkstyle;
+import com.github.sanity4j.gen.checkstyle_4_4.File;
 
 /**
  * JaxbMarshaller_Test - unit test for JaxbMarshaller.
@@ -21,7 +25,7 @@ public class JaxbMarshaller_Test extends TestCase
     private java.io.File tempFile;
 
     /** The target java package for unmarshalling the test data. */
-    private static final String TARGET_PACKAGE = "net.sf.sanity4j.gen.checkstyle_4_4";
+    private static final String TARGET_PACKAGE = "com.github.sanity4j.gen.checkstyle_4_4";
 
     /** The XML data used for testing. */
     private static final String XML =
@@ -34,6 +38,7 @@ public class JaxbMarshaller_Test extends TestCase
       + "    </file>\n"
       + "</checkstyle>\n";
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -41,6 +46,7 @@ public class JaxbMarshaller_Test extends TestCase
         tempFile = java.io.File.createTempFile("JaxbMarshaller_Test", ".xml");
     }
 
+    @Override
     public void tearDown() throws Exception
     {
         super.tearDown();
@@ -56,7 +62,7 @@ public class JaxbMarshaller_Test extends TestCase
         try
         {
             java.io.File file = new java.io.File("JaxbMarshaller_Test.nonExistantFile");
-            JaxbMarshaller.unmarshal(file, TARGET_PACKAGE, "http://net.sf.sanity4j/namespace/dummy");
+            JaxbMarshaller.unmarshal(file, TARGET_PACKAGE, "http://com.github.sanity4j/namespace/dummy");
             fail("Should have thrown a QAException");
         }
         catch (QAException expected)
@@ -71,7 +77,7 @@ public class JaxbMarshaller_Test extends TestCase
         try
         {
             FileUtil.writeToFile(XML.substring(0, XML.length() / 2), tempFile);
-            JaxbMarshaller.unmarshal(tempFile, TARGET_PACKAGE, "http://net.sf.sanity4j/namespace/dummy");
+            JaxbMarshaller.unmarshal(tempFile, TARGET_PACKAGE, "http://com.github.sanity4j/namespace/dummy");
             fail("Should have thrown a QAException");
         }
         catch (QAException expected)
@@ -85,7 +91,7 @@ public class JaxbMarshaller_Test extends TestCase
     {
         FileUtil.writeToFile(XML, tempFile);
 
-        Object result = JaxbMarshaller.unmarshal(tempFile, TARGET_PACKAGE, "http://net.sf.sanity4j/namespace/checkstyle-4.4");
+        Object result = JaxbMarshaller.unmarshal(tempFile, TARGET_PACKAGE, "http://com.github.sanity4j/namespace/checkstyle-4.4");
 
         assertNotNull("unmarshall returned null", result);
 
@@ -108,7 +114,7 @@ public class JaxbMarshaller_Test extends TestCase
 
         for (Object obj : file.getContent())
         {
-            if (obj instanceof net.sf.sanity4j.gen.checkstyle_4_4.Error)
+            if (obj instanceof com.github.sanity4j.gen.checkstyle_4_4.Error)
             {
                 errors.add(obj);
             }

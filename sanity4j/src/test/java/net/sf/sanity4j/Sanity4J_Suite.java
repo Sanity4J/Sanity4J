@@ -21,7 +21,7 @@ import net.sf.sanity4j.util.StringUtil_Test;
 
 /**
  * This class is the <a href="http://www.junit.org">JUnit</a> TestSuite for the classes within
- * {@link net.sf.sanity4j} package within the <b>Sanity4J</b> project.
+ * {@link com.github.sanity4j} package within the <b>Sanity4J</b> project.
  * 
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
@@ -29,7 +29,7 @@ import net.sf.sanity4j.util.StringUtil_Test;
 public class Sanity4J_Suite extends TestSuite
 {
     /**
-     * Returns a JUnit TestSuite comprising of the tests for the {@link net.sf.sanity4j} package within the <b>Sanity4J</b>
+     * Returns a JUnit TestSuite comprising of the tests for the {@link com.github.sanity4j} package within the <b>Sanity4J</b>
      * library.
      * 
      * @return A JUnit TestSuite.

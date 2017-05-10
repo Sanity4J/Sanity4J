@@ -102,12 +102,17 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.1</version>
+            <version>2.2.11</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.2.11</version>
+        </dependency>        
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>2.1.7</version>
+            <version>2.2.10</version>
         </dependency>
         <dependency>
             <groupId>jfree</groupId>
@@ -253,7 +258,7 @@
                 <version>2.12.3</version>
             </plugin>
             <plugin>
-                <groupId>net.sf.sanity4j</groupId>
+                <groupId>com.github.sanity4j</groupId>
                 <artifactId>sanity4j</artifactId>
                 <version>${project.version}</version>
                 <configuration>
@@ -283,8 +288,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -337,7 +342,7 @@
                     
                     [ERROR] Failed to execute goal org.apache.maven.plugins:maven-assembly-plugin:2.4.1:single (make-assembly) on project sanity4j: 
                     Failed to create assembly: Error creating assembly archive jar-with-dependencies: 
-                    IOException when zipping META-INF/maven/net.sf.sanity4j/sanity4j/plugin-help.xml: 
+                    IOException when zipping META-INF/maven/com.github.sanity4j/sanity4j/plugin-help.xml: 
                     Unexpected end of ZLIB input stream -> [Help 1]
                     
                     <execution>
@@ -361,7 +366,7 @@
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.7.3</version>
+                <version>0.13.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -375,7 +380,7 @@
                     </args>
                     <plugins>
                         <plugin>
-                            <groupId>net.sf.sanity4j</groupId>
+                            <groupId>com.github.sanity4j</groupId>
                             <artifactId>jaxb-booleangetter-plugin</artifactId>
                             <version>1.0</version>
                             <scope>runtime</scope>
@@ -401,7 +406,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>net.sf.sanity4j.ui.QaApp</mainClass>
+                                    <mainClass>com.github.sanity4j.ui.QaApp</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>

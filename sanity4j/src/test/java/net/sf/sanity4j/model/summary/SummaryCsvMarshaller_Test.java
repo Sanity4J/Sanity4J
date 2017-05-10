@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.github.sanity4j.model.summary.PackageSummary;
+import com.github.sanity4j.model.summary.SummaryCsvMarshaller;
+
 import junit.framework.TestCase;
 
 /** 

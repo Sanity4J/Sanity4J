@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.sanity4j.util.FileUtil;
+
 import junit.framework.TestCase;
 
 /**

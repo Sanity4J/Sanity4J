@@ -3,6 +3,9 @@ package net.sf.sanity4j.util;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import com.github.sanity4j.util.ExternalProcessRunner;
+import com.github.sanity4j.util.QAException;
+
 import junit.framework.TestCase;
 
 /** 

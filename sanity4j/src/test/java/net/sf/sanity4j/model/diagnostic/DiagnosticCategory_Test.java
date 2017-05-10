@@ -2,6 +2,9 @@ package net.sf.sanity4j.model.diagnostic;
 
 import java.util.Iterator;
 
+import com.github.sanity4j.model.diagnostic.Diagnostic;
+import com.github.sanity4j.model.diagnostic.DiagnosticCategory;
+
 import junit.framework.TestCase;
 
 /**

@@ -2,6 +2,8 @@ package net.sf.sanity4j.model.summary;
 
 import java.util.Date;
 
+import com.github.sanity4j.model.summary.PackageSummary;
+
 import junit.framework.TestCase;
 
 /** 

@@ -6,7 +6,7 @@
 	<jxb:bindings schemaLocation="checkstyle-4.4.xsd" node="/xs:schema">	
 	
 		<jxb:schemaBindings>
-            <jxb:package name="net.sf.sanity4j.gen.checkstyle_4_4"/>
+            <jxb:package name="com.github.sanity4j.gen.checkstyle_4_4"/>
         </jxb:schemaBindings>
 		
 	</jxb:bindings>
