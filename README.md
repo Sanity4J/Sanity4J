@@ -6,3 +6,7 @@ Releases can be downloaded below.
 
 <https://github.com/Sanity4J/Sanity4J/releases>
 
+Visit our site for more information.
+
+<https://sanity4j.github.io/>
+
