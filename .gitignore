@@ -5,3 +5,7 @@
 
 # Maven build dir
 target/
+
+# Mac cruft
+.DS_Store
+
