@@ -302,7 +302,7 @@ preference to PMD.
     <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"><priority>#</priority></rule>
     -->
     <rule ref="rulesets/java/design.xml/NonThreadSafeSingleton"><priority>3</priority></rule>
-    <rule ref="rulesets/java/design.xml/UncommentedEmptyMethod"><priority>3</priority></rule>
+    <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody"><priority>3</priority></rule>
     <rule ref="rulesets/java/design.xml/UncommentedEmptyConstructor"><priority>3</priority></rule>
     <!-- Unused
     <rule ref="rulesets/java/design.xml/AvoidConstantsInterface"><priority>#</priority></rule>
@@ -573,13 +573,13 @@ preference to PMD.
     <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod"><priority>3</priority></rule>
     -->
     <rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter"><priority>4</priority></rule>
-    <rule ref="rulesets/java/unusedcode.xml/UnusedModifier"><priority>4</priority></rule>
 
     <!-- Unnecessary Code Rules -->
     <rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals"><priority>3</priority></rule>
     <rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable"><priority>2</priority></rule>
     <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod"><priority>3</priority></rule>
     <rule ref="rulesets/java/unnecessary.xml/UnnecessaryFinalModifier"><priority>4</priority></rule>
+    <rule ref="rulesets/java/unnecessary.xml/UnnecessaryModifier"><priority>4</priority></rule>
 	
 	<!-- Empty Code Rules -->
     <rule ref="rulesets/java/empty.xml/EmptyCatchBlock"><priority>3</priority></rule>
