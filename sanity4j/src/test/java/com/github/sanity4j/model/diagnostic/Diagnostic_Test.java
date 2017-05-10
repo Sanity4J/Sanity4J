@@ -1,4 +1,4 @@
-package net.sf.sanity4j.model.diagnostic; 
+package com.github.sanity4j.model.diagnostic; 
 
 import java.util.HashSet;
 import java.util.Set;

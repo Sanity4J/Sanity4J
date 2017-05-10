@@ -1,4 +1,4 @@
-package net.sf.sanity4j.model.summary; 
+package com.github.sanity4j.model.summary; 
 
 import java.io.File;
 import java.io.FileOutputStream;

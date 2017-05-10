@@ -25,7 +25,7 @@ import com.github.sanity4j.util.Tool;
 public final class QAConfig
 {
     /** The location of the "tools" configuration properties file. */
-    private static final String TOOL_PROPERTIES = "/net/sf/sanity4j/workflow/tool/tools.properties";
+    private static final String TOOL_PROPERTIES = "/com/github/sanity4j/workflow/tool/tools.properties";
 
     /** The property key for the tools to be run. */
     private static final String TOOLS_TO_RUN_PROPERTY = "sanity4j.toolsToRun";

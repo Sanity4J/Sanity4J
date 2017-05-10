@@ -1,4 +1,4 @@
-package net.sf.sanity4j.util; 
+package com.github.sanity4j.util; 
 
 import java.util.ArrayList;
 import java.util.Collections;

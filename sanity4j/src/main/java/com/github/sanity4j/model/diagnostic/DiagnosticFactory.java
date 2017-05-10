@@ -18,7 +18,7 @@ public final class DiagnosticFactory
      * exclusions and categorisation of the {@link Diagnostic} messages created by the default {@link DiagnosticFactory}
      * .
      */
-    private static final Properties properties = QaUtil.getProperties("/net/sf/sanity4j/model/diagnostic/Diagnostic.properties");
+    private static final Properties properties = QaUtil.getProperties("/com/github/sanity4j/model/diagnostic/Diagnostic.properties");
 
     /**
      * The default {@link DiagnosticFactory} instance.

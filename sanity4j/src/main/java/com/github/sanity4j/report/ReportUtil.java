@@ -25,7 +25,7 @@ import com.github.sanity4j.util.math.SyntaxException;
 public final class ReportUtil
 {
     /** The reporting properties, such as metrics. */
-    private static Properties properties = QaUtil.getProperties("/net/sf/sanity4j/report/report.properties");
+    private static Properties properties = QaUtil.getProperties("/com/github/sanity4j/report/report.properties");
     
     /** ReportUtil should not be instantiated. */
     private ReportUtil()

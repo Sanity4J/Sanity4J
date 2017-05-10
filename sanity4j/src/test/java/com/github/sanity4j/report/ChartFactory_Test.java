@@ -1,4 +1,4 @@
-package net.sf.sanity4j.report; 
+package com.github.sanity4j.report; 
 
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
