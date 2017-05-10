@@ -21,7 +21,7 @@ import com.github.sanity4j.workflow.tool.ToolRunnerGroup;
 public class QAProcessor implements Runnable
 {
     /** The current Sanity4J version number. This is the version number which is logged, embedded in reports, etc. */
-    public static final String QA_VERSION = "1.1.1";
+    public static final String QA_VERSION = "1.8.0";
 
     /** The default Java runtime to use when running external tasks. */
     public static final String DEFAULT_JAVA_RUNTIME = "java";
