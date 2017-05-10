@@ -1,7 +1,9 @@
 package com.github.sanity4j.model.coverage; 
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** 
  * PackageCoverage - Coverage information for a package.
@@ -26,8 +28,8 @@ public class PackageCoverage extends AbstractCoverage
         this.packageName = packageName;
     }
 
-    /**.
-     * @return the package name
+    /**
+     * @return the package name.
      */
     public String getPackageName()
     {
@@ -65,6 +67,7 @@ public class PackageCoverage extends AbstractCoverage
     /**
      * @return the number of executable lines in this package.
      */
+    @Override
     public int getLineCount()
     {
         int count = 0;
@@ -80,6 +83,7 @@ public class PackageCoverage extends AbstractCoverage
     /**
      * @return the number of covered lines in this package.
      */
+    @Override
     public int getCoveredLineCount()
     {
         int count = 0;
@@ -95,6 +99,7 @@ public class PackageCoverage extends AbstractCoverage
     /**
      * @return the number of branches in this package.
      */
+    @Override
     public int getBranchCount()
     {
         int count = 0;
@@ -110,6 +115,7 @@ public class PackageCoverage extends AbstractCoverage
     /**
      * @return the number of covered branches in this package.
      */
+    @Override
     public int getCoveredBranchCount()
     {
         int count = 0;
@@ -120,5 +126,13 @@ public class PackageCoverage extends AbstractCoverage
         }
         
         return count;
-    }        
+    }
+    
+    /**
+     * @return the covered classes within this package.
+     */
+    public Set<String> getClassNames()
+    {
+       return Collections.unmodifiableSet(classesByName.keySet());
+    }    
 }

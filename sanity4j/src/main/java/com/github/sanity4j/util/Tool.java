@@ -21,6 +21,10 @@ public final class Tool
     public static final Tool COBERTURA = new Tool("cobertura", "Cobertura");
     /** <a href="http://findbugs.sourceforge.net/">FindBugs</a> static byte-code analyser. */
     public static final Tool FINDBUGS = new Tool("findbugs", "FindBugs");
+    /** <a href="http://www.jacoco.org/jacoco/index.html">JaCoco</a> datafile merge tool. */
+    public static final Tool JACOCO_MERGE = new Tool("jacoco-merge", "JaCoCo merge");
+    /** <a href="http://www.jacoco.org/jacoco/index.html">JaCoco</a> unit test coverage analysis. */
+    public static final Tool JACOCO = new Tool("jacoco", "JaCoCo");
     /** <a href="http://pmd.sourceforge.net/">PMD</a> static source code analyser. */
     public static final Tool PMD = new Tool("pmd", "PMD");
     /** <a href="http://pmd.sourceforge.net/">PMD CPD</a> copy &amp; pasted source code detector. */
@@ -35,6 +39,8 @@ public final class Tool
        COBERTURA_MERGE,
        COBERTURA,
        FINDBUGS,
+       JACOCO,
+       JACOCO_MERGE,
        //JUNIT,
        PMD,
        PMD_CPD

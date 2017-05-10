@@ -184,13 +184,13 @@ public class RunQAMojo extends AbstractMavenReport
     /**
      * The file containing the jUnit coverage data.
      */
-    @Parameter(defaultValue = "target/cobertura/cobertura.ser")    
+    @Parameter(defaultValue = "target/jacoco.exec")    
     private String coverageDataFile;
 
     /**
      * The file containing the merged jUnit coverage data.
      */
-    @Parameter(defaultValue = "${project.build.directory}/cobertura/cobertura-merged.ser")    
+    @Parameter    
     private String coverageMergeDataFile;
 
     /**
@@ -724,6 +724,7 @@ public class RunQAMojo extends AbstractMavenReport
     {
         DependencyNode rootNode = getDependencyGraphBuilder().buildDependencyGraph(project, new ArtifactFilter()
         {
+            @Override
             public boolean include(final Artifact artifact) 
             {
                 return !Artifact.SCOPE_SYSTEM.equals(artifact.getScope());
@@ -951,7 +952,8 @@ public class RunQAMojo extends AbstractMavenReport
      * @param locale the locale
      * @return the description.
      */
-    public String getDescription(final Locale locale)
+    @Override
+   public String getDescription(final Locale locale)
     {
         return getBundle(locale).getString("report.sanity4j.description");
     }
@@ -962,7 +964,8 @@ public class RunQAMojo extends AbstractMavenReport
      * @param locale the locale
      * @return the name.
      */
-    public String getName(final Locale locale)
+    @Override
+   public String getName(final Locale locale)
     {
         return getBundle(locale).getString("report.sanity4j.name");
     }
@@ -972,7 +975,8 @@ public class RunQAMojo extends AbstractMavenReport
      *
      * @return the output name.
      */
-    public String getOutputName()
+    @Override
+   public String getOutputName()
     {
         return "sanity4j/index";
     }
