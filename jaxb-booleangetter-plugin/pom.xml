@@ -6,7 +6,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>net.sf.sanity4j</groupId>
+    <groupId>com.github.sanity4j</groupId>
     <artifactId>jaxb-booleangetter-plugin</artifactId>
     <version>1.0</version>
     
@@ -30,7 +30,7 @@
         manner.
     </description>
     
-    <url>http://sanity4j.sf.net</url>
+    <url>https://github.com/Sanity4J/Sanity4J</url>
     
     <licenses>
         <license>
@@ -42,9 +42,8 @@
     </licenses>
     <developers>
         <developer>
-            <id>aliasx</id>
+            <id>yianp</id>
             <name>Yiannis Paschalidis</name>
-            <email>aliasx[at]users.sourceforge.net</email>
             <roles>
                 <role>Project Admin</role>
                 <role>Developer</role>
@@ -52,86 +51,43 @@
             <timezone>+10</timezone>
         </developer>
         <developer>
-            <id>darianb</id>
+            <id>dariansanity</id>
             <name>Darian Bridge</name>
-            <email>darianb[at]users.sourceforge.net</email>
             <roles>
                 <role>Project Admin</role>
                 <role>Developer</role>
             </roles>
             <timezone>+10</timezone>
         </developer>
+        <!--
         <developer>
-            <id>bkavanagh</id>
-            <name>Brian Kavanagh</name>
-            <email>bkavanagh[at]users.sourceforge.net</email>
-            <roles>
-                <role>Project Admin</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>+10</timezone>
-        </developer>
-        <developer>
-            <id>jaustin71</id>
-            <name>Jonathan Austin</name>
-            <email>jaustin71[at]users.sourceforge.net</email>
-            <roles>
-                <role>Project Admin</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>+10</timezone>
-        </developer>
-        <developer>
-            <id>steveharney</id>
+            <id>...</id>
             <name>Steve Harney</name>
-            <email>steveharney[at]users.sourceforge.net</email>
             <roles>
                 <role>Project Admin</role>
                 <role>Developer</role>
             </roles>
             <timezone>+10</timezone>
         </developer>
-        <developer>
-            <id>rmccowan</id>
-            <name>Rodney McCowan</name>
-            <email>rmccowan[at]users.sourceforge.net</email>
-            <roles>
-                <role>Project Admin</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>+10</timezone>
-        </developer>
+        -->
     </developers>
-    <contributors>
-        <contributor>
-            <name>Ziad Haidar</name>
-            <email>ziadh[at]users.sourceforge.net</email>
-            <url></url>
-            <organization></organization>
-            <organizationUrl></organizationUrl>
-            <roles>
-                <role>Project Manager</role>
-            </roles>
-            <timezone>+10</timezone>
-        </contributor>
-    </contributors>
 
     <organization>
         <name>The Sanity4J project</name>
-        <url>http://sanity4j.sourceforge.net</url>
+        <url>https://github.com/Sanity4J</url>
     </organization>
 
-    <issueManagement>
-        <system>SourceForge Tracker</system>
-        <url>https://sourceforge.net/tracker/?group_id=359349</url>
+     <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/Sanity4J/Sanity4J/issues</url>
     </issueManagement>
 
     <inceptionYear>2010</inceptionYear>
 
     <scm>
-        <connection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</connection>
-        <developerConnection>scm:svn:https://sanity4j.svn.sourceforge.net/svnroot/sanity4j</developerConnection>
-        <url>http://sanity4j.svn.sourceforge.net/viewvc/sanity4j/</url>
+        <connection>scm:git:git://github.com/Sanity4J/Sanity4J.git</connection>
+        <developerConnection>scm:git:git://github.com/Sanity4J/Sanity4J.git</developerConnection>
+        <url>https://github.com/Sanity4J/Sanity4J</url>
     </scm>
     
     <build>
