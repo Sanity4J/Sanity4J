@@ -16,7 +16,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.2</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -26,47 +26,55 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.6</version>
             </plugin>
         </plugins>
     </build>
-    
+
     <reporting>
         <plugins>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>2.9</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
+                <version>2.10.4</version>
             </plugin>
 
+            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.7</version>
+            </plugin>
+            -->
+            
+            <plugin>
+              <groupId>org.jacoco</groupId>
+              <artifactId>jacoco-maven-plugin</artifactId>
+              <version>0.7.9</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.9</version>
+                <version>2.20</version>
             </plugin>
 
             <plugin>
-                <groupId>net.sf.sanity4j</groupId>
+                <groupId>com.github.sanity4j</groupId>
                 <artifactId>sanity4j</artifactId>
-                <version>1.1.1</version>
+                <version>1.8.0</version>
                 <configuration>
                     <findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
                     <pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
                     <checkStyleConfig>$${sanity4j_checks.xml}</checkStyleConfig>
-                    
+
                     <additionalProperties>
                         PMD.DoNotUseThreads.excludes       =.*
                         PMD.UseProperClassLoader.excludes  =.*
@@ -76,5 +84,5 @@
 
         </plugins>
     </reporting>
-    
+
 </project>
