@@ -1,4 +1,4 @@
-package net.sf.sanity4j.plugin.views;
+package com.github.sanity4j.plugin.views;
 
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;

@@ -1,12 +1,12 @@
-package net.sf.sanity4j.plugin.preferences;
+package com.github.sanity4j.plugin.preferences;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.sanity4j.plugin.Activator;
-import net.sf.sanity4j.util.FileUtil;
-import net.sf.sanity4j.workflow.QAConfig;
+import com.github.sanity4j.plugin.Activator;
+import com.github.sanity4j.util.FileUtil;
+import com.github.sanity4j.workflow.QAConfig;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;

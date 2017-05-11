@@ -4,32 +4,32 @@
     <extension point="org.eclipse.ui.views">
         <category
             name ="Sanity4J Category"
-            id   ="net.sf.sanity4j.eclipse.plugin">
+            id   ="com.github.sanity4j.eclipse.plugin">
 
         </category>
 
         <view
             name     ="Sanity4J results"
             icon     ="icons/runqa.gif"
-            category ="net.sf.sanity4j.eclipse.plugin"
-            class    ="net.sf.sanity4j.plugin.views.SimpleBrowserView"
-            id       ="net.sf.sanity4j.eclipse.plugin.views.SimpleBrowserView">
+            category ="com.github.sanity4j.eclipse.plugin"
+            class    ="com.github.sanity4j.plugin.views.SimpleBrowserView"
+            id       ="com.github.sanity4j.eclipse.plugin.views.SimpleBrowserView">
 
         </view>
 
     </extension>
 
     <extension point="org.eclipse.ui.editorActions">
-        
+
         <editorContribution
-            id       ="net.sf.sanity4j.plugin.RunQaEditorContribution"
+            id       ="com.github.sanity4j.plugin.RunQaEditorContribution"
             targetID ="org.eclipse.jdt.ui.CompilationUnitEditor">
-            
+
             <action
-                id           ="net.sf.sanity4j.plugin.action1"
-                class        ="net.sf.sanity4j.plugin.actions.RunQaAction"
+                id           ="com.github.sanity4j.plugin.action1"
+                class        ="com.github.sanity4j.plugin.actions.RunQaAction"
                 icon         ="icons/runqa.gif"
-                definitionId ="net.sf.sanity4j.runQA"
+                definitionId ="com.github.sanity4j.runQA"
                 label        ="Run QA"
                 style        ="push"
                 toolbarPath  ="Normal"
@@ -42,13 +42,13 @@
     </extension>
 
     <extension point="org.eclipse.core.runtime.preferences">
-        <initializer class="net.sf.sanity4j.plugin.preferences.PreferenceInitializer"/>
+        <initializer class="com.github.sanity4j.plugin.preferences.PreferenceInitializer"/>
     </extension>
 
     <extension point="org.eclipse.ui.preferencePages">
         <page
-            class ="net.sf.sanity4j.plugin.preferences.Sanity4JPreferencePage"
-            id    ="net.sf.sanity4j.plugin.preferences.Sanity4JPreferencePage"
+            class ="com.github.sanity4j.plugin.preferences.Sanity4JPreferencePage"
+            id    ="com.github.sanity4j.plugin.preferences.Sanity4JPreferencePage"
             name  ="Sanity4J Preferences"/>
 
     </extension>
@@ -57,14 +57,14 @@
        <command
              categoryId="org.eclipse.debug.ui.category.run"
              description="Run the Sanity4J Quality Analysis tools"
-             id="net.sf.sanity4j.runQA"
+             id="com.github.sanity4j.runQA"
              name="Sanity4J Run QA">
        </command>
     </extension>
     <extension
           point="org.eclipse.ui.bindings">
        <key
-             commandId="net.sf.sanity4j.runQA"
+             commandId="com.github.sanity4j.runQA"
              contextId="org.eclipse.jdt.ui.javaEditorScope"
              schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
              sequence="M1+M2+Q">

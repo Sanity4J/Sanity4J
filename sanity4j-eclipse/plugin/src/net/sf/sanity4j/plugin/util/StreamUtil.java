@@ -1,4 +1,4 @@
-package net.sf.sanity4j.plugin.util;
+package com.github.sanity4j.plugin.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,6 +1,6 @@
-package net.sf.sanity4j.plugin;
+package com.github.sanity4j.plugin;
 
-import net.sf.sanity4j.plugin.preferences.PreferenceConstants;
+import com.github.sanity4j.plugin.preferences.PreferenceConstants;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -16,7 +16,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin
 {
     /** The plug-in ID. Must match the id in the plugin.xml.*/
-    public static final String PLUGIN_ID = "net.sf.sanity4j.eclipse.plugin";
+    public static final String PLUGIN_ID = "com.github.sanity4j.eclipse.plugin";
 
     /** The shared instance. */
     private static Activator plugin;

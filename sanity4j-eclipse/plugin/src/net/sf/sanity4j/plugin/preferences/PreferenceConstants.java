@@ -1,4 +1,4 @@
-package net.sf.sanity4j.plugin.preferences;
+package com.github.sanity4j.plugin.preferences;
 
 /**
  * Constant definitions for plug-in preferences.
@@ -9,7 +9,7 @@ package net.sf.sanity4j.plugin.preferences;
 public final class PreferenceConstants
 {
     /** The PREFIX used by all sanity4j constants. */
-    public static final String PREFIX = "net.sf.sanity4j.plugin.preference.";
+    public static final String PREFIX = "com.github.sanity4j.plugin.preference.";
 
     /** The preference constant for the location of the java runtime executable. */
     public static final String JAVA_RUNTIME = PREFIX + "java.runtime";

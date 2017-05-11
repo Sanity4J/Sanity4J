@@ -1,4 +1,4 @@
-package net.sf.sanity4j.plugin.actions;
+package com.github.sanity4j.plugin.actions;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,13 +6,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.List;
 
-import net.sf.sanity4j.plugin.Activator;
-import net.sf.sanity4j.plugin.util.FileUtil;
-import net.sf.sanity4j.plugin.views.SimpleBrowserView;
-import net.sf.sanity4j.util.QAException;
-import net.sf.sanity4j.workflow.QAConfig;
-import net.sf.sanity4j.workflow.QAProcessor;
-import net.sf.sanity4j.workflow.WorkUnit;
+import com.github.sanity4j.plugin.Activator;
+import com.github.sanity4j.plugin.util.FileUtil;
+import com.github.sanity4j.plugin.views.SimpleBrowserView;
+import com.github.sanity4j.util.QAException;
+import com.github.sanity4j.workflow.QAConfig;
+import com.github.sanity4j.workflow.QAProcessor;
+import com.github.sanity4j.workflow.WorkUnit;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -42,7 +42,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * RunQaAction - an eclipse action to run the Sanity4J task.
- * 
+ *
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
@@ -53,7 +53,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Sets the active editor.
-     * 
+     *
      * @param action the action proxy that handles presentation portion of the action
      * @param targetEditor the new editor
      */
@@ -64,7 +64,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Run the action.
-     * 
+     *
      * @param proxyAction the action proxy that handles the presentation portion of the action
      */
     public void run(final IAction proxyAction)
@@ -97,7 +97,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Creates a temporary directory on the file system, to be used by the QA task.
-     * 
+     *
      * @return the temporary directory File, or null if there was an error.
      */
     private File createTempDir()
@@ -125,7 +125,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Creates a Runnable version of the Plugin QA Ant task.
-     * 
+     *
      * @param runQA the QA task
      * @return a runnable that can be monitored by the eclispse UI
      */
@@ -155,7 +155,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Runs QA on the given class.
-     * 
+     *
      * @param className the fully qualified name of the class to analyse
      * @param sourceDir the source directory for the given class
      * @param classDir the class directory for the given class
@@ -208,7 +208,7 @@ public class RunQaAction implements IEditorActionDelegate
 
             String toolConfig = Activator.getToolConfig(tool, version);
             String toolConfigClasspath = Activator.getToolConfigClasspath(tool, version);
-            
+
             if (FileUtil.hasValue(toolConfig))
             {
                 config.setToolConfig(tool, null, toolConfig, toolConfigClasspath);
@@ -230,19 +230,19 @@ public class RunQaAction implements IEditorActionDelegate
             if (e.getCause() instanceof QAException)
             {
                 Activator.getDefault().getLog()
-                    .log(new Status(Status.ERROR, "net.sf.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
+                    .log(new Status(Status.ERROR, "com.github.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
                 alert("Sanity4J failed", e);
             }
             else if (e instanceof InvocationTargetException)
             {
                 Activator.getDefault().getLog()
-                    .log(new Status(Status.ERROR, "net.sf.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
+                    .log(new Status(Status.ERROR, "com.github.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
                 alert("Unknown error running Sanity4J",  e.getCause());
             }
             else
             {
                 Activator.getDefault().getLog()
-                    .log(new Status(Status.ERROR, "net.sf.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
+                    .log(new Status(Status.ERROR, "com.github.sanity4j.plugin", Status.OK, "Sanity4J failed", e));
                 alert("Unknown error running Sanity4J", e);
             }
         }
@@ -284,11 +284,11 @@ public class RunQaAction implements IEditorActionDelegate
     }
 
     /** The plug-in view. Must match the id in the plugin.xml. */
-    public static final String PLUGIN_VIEW = "net.sf.sanity4j.eclipse.plugin.views.SimpleBrowserView";
+    public static final String PLUGIN_VIEW = "com.github.sanity4j.eclipse.plugin.views.SimpleBrowserView";
 
     /**
      * Opens a browser window.
-     * 
+     *
      * @param url the url to open
      */
     private void openBrowser(final URL url)
@@ -319,7 +319,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Presents an alert dialog to the user.
-     * 
+     *
      * @param message the message to display
      */
     private void alert(final String message)
@@ -330,7 +330,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Presents an alert dialog to the user.
-     * 
+     *
      * @param message the message to display
      * @param detail the exception which caused the error.
      */
@@ -342,7 +342,7 @@ public class RunQaAction implements IEditorActionDelegate
 
     /**
      * Determines the target class name, based on the active editor's content.
-     * 
+     *
      * @return the fully qualified name of the target class
      */
     private String getTargetClassName()
@@ -407,7 +407,7 @@ public class RunQaAction implements IEditorActionDelegate
         }
 
         alert("Unable to determine project source location");
-        
+
         return null;
     }
 
@@ -434,7 +434,7 @@ public class RunQaAction implements IEditorActionDelegate
     /**
      * Called when the selection in the workbench has changed. This implementation does nothing, as the plugin is not
      * dependant on selection.
-     * 
+     *
      * @param proxyAction the action proxy that handles the presentation portion of the action
      * @param selection the new selection
      */
@@ -453,7 +453,7 @@ public class RunQaAction implements IEditorActionDelegate
 
         /**
          * Sets the progress monitor.
-         * 
+         *
          * @param monitor the monitor to set
          */
         public void setProgressMonitor(final IProgressMonitor monitor)
@@ -463,7 +463,7 @@ public class RunQaAction implements IEditorActionDelegate
 
         /**
          * Override runWork so that we can update the progress monitor.
-         * 
+         *
          * @param workUnits the units of work to run.
          */
         protected void runWork(final List<WorkUnit> workUnits)

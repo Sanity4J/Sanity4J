@@ -1,6 +1,6 @@
-package net.sf.sanity4j.plugin.preferences;
+package com.github.sanity4j.plugin.preferences;
 
-import net.sf.sanity4j.plugin.Activator;
+import com.github.sanity4j.plugin.Activator;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
