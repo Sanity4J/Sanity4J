@@ -4,48 +4,19 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Page Title</title>
-    <!--  <author email="user@company.com">John Doe</author> -->
+    <title>About</title>
   </properties>
-
-  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
-  <!--
-  <head>
-    <meta ... />
-  </head>
-  -->
 
   <body>
 
-    <!-- The body of the document contains a number of sections -->
-    <section name="About us">
+    <section name="About us" class="section slide">
 
-	<div class="slide">
 		<p>
-			Sanity4J is an Open Source  product developed by The Java Competency 
+			Sanity4J was originally developed by The Java Competency 
 			Centre of the Australian Department of Immigration and Citizenship (DIAC).
+			It is now run as a stand-alone Open Source project hosted on GitHub.
 		</p>
-		<p>
-			The Java Competency Centre is the centre of Excellence for Java 
-			development in DIAC. DIAC has developed a large number of complex Java 
-			applications over the last  11 years. These applications are comprised 
-			of internal and external Web based applications,  Desktop applications, 
-			and SOA services.
-		</p>
-		<p>
-			Recent Awards include the eGoverment 2009 e-Award for Excellence for the 
-			Visa and Citizenship Wizard application, and a Highly Commended eGoverment 
-			2009 e-Award for the eVisitor application.
-		</p>
-		<p>
-			DIAC developed Sanity4J based on its experience in Java development over 
-			the years, and using some of its most senior resources. It is a key 
-			tool used by DIAC to measure and improve the quality of it's Java  
-			applications, as well as lowering development costs and ongoing 
-			maintenance costs.
-		</p>
-	</div>
-
+		
     </section>
 
   </body>

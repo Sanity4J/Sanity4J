@@ -4,93 +4,84 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Page Title</title>
-    <!--  <author email="user@company.com">John Doe</author> -->
+    <title>Technical Overview</title>
   </properties>
-
-  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
-  <!--
-  <head>
-    <meta ... />
-  </head>
-  -->
 
   <body>
 
-    <!-- The body of the document contains a number of sections -->
-    <section name="Technical Overview">
+    <section name="Technical Overview" class="section slide">
+	
+		<subsection name="Measuring and Reporting Quality" class="columnOne">
 
-		<div class="slide">
-			<div class="columnOne">
-				<h2>Measuring and Reporting Quality</h2>
-				<blockquote>
-					<p><span class="highlight">at the core of Sanity4J is a rule base consisting of Java don'ts!</span></p>
-				</blockquote>
-				<p>
-					These rules are fundamentally sourced from widely used Open Source projects such as 
-					<a href="http://findbugs.sourceforge.net">FindBugs</a>, 
-					<a href="http://pmd.sourceforge.net">PMD</a> and 
-					<a href="http://checkstyle.sourceforge.net/">Checkstyle</a>.
-				</p>
-				<p>
-					Senior DIAC developers categorised and standardised these rule 
-					bases so that they could be aggregated and analysed as a group. 
-					Each rule was also assigned a severity rating.
-				</p>
-				<p>
-					Sanity4J allows organisations to modify severity ratings for 
-					individual rules. For example, some organisations may place 
-					increased significance on rules leading to increased memory 
-					or CPU utilisation.
-				</p>
-				<p>
-					Organisations are also able to write custom rules specific 
-					to their environment and experience. For example, an organisation 
-					may be aware of anti-patterns relating to how services are 
-					used. Sanity4J can warn developers if these rules are broken.
-				</p>
-				<p>
-					The number and severity of rule breaches are aggregated using 
-					a metric, which is compared against the size of the code base 
-					(measured in lines of code). This metric is expressed as a 
-					quality percentage (%).
-				</p>
-				<p>
-					Sanity4J tracks quality (%) over time in a graphical format so 
-					improvements and regressions are visible to management and developers.
-				</p>
-				<p>
-					Developers can drill down into specific quality issues, access 
-					information describing the basis of the issue and potential 
-					remediation options. This has proved valuable in increasing the 
-					skills of developers.
-				</p>
-			</div>
-			<div class="columnTwo">
-				<h2>Measuring Automated Unit Test Coverage</h2>
-				
-				<p>Another factor in reducing project technical debt is the delivery of 
-				a suite of automated Java Unit tests (jUnit). Maintenance developers 
-				rely on these tests to ensure that they don't break existing code 
-				when they make changes.</p>
-				
-				<p>Sanity4J integrates results from the open source Code Coverage
-				tool <a href="http://cobertura.sourceforge.net/">Cobetura</a>. Code 
-				Coverage is the proportion of code executed during a jUnit test run. 
-				Cobertura watches while jUnit tests run, and records which lines of 
-				code get executed. It then calculates the percentage of lines 
-				covered.</p>
-				
-				<p>A high Code Coverage % is another important indicator of quality.
-				Sanity4J combines Code Coverage % and Quality % into a single graph 
-				which can be used to measure the performance of development teams 
-				on how they deliver quality code over time.</p>
-				
-			</div>
-		</div>
-
-    </section>
-
+			<blockquote>
+				<p><span class="highlight">At the core of Sanity4J is a rule base consisting of Java don'ts!</span></p>
+			</blockquote>
+			
+			<p>
+				These rules are fundamentally sourced from widely used Open Source projects such as 
+				<a href="http://findbugs.sourceforge.net">FindBugs</a>, 
+				<a href="http://pmd.sourceforge.net">PMD</a> and 
+				<a href="http://checkstyle.sourceforge.net/">Checkstyle</a>.
+			</p>
+			<p>
+				Senior developers categorised and standardised these rule 
+				bases so that they could be aggregated and analysed as a group. 
+				Each rule was also assigned a severity rating.
+			</p>
+			<p>
+				Sanity4J allows organisations to modify severity ratings for 
+				individual rules. For example, some organisations may place 
+				increased significance on rules leading to increased memory 
+				or CPU utilisation.
+			</p>
+			<p>
+				Organisations are also able to write custom rules specific 
+				to their environment and experience. For example, an organisation 
+				may be aware of anti-patterns relating to how services are 
+				used. Sanity4J can warn developers if these rules are broken.
+			</p>
+			<p>
+				The number and severity of rule breaches are aggregated using 
+				a metric, which is compared against the size of the code base 
+				(measured in lines of code). This metric is expressed as a 
+				quality percentage (%).
+			</p>
+			<p>
+				Sanity4J tracks quality (%) over time in a graphical format so 
+				improvements and regressions are visible to management and developers.
+			</p>
+			<p>
+				Developers can drill down into specific quality issues, access 
+				information describing the basis of the issue and potential 
+				remediation options. This has proved valuable in increasing the 
+				skills of developers.
+			</p>
+		</subsection>
+		
+		<subsection name="Measuring Automated Unit Test Coverage" class="columnTwo">
+			
+			<p>Another factor in reducing project technical debt is the delivery of 
+			a suite of automated Java Unit tests (jUnit). Maintenance developers 
+			rely on these tests to ensure that they don't break existing code 
+			when they make changes.</p>
+			
+			<p>Sanity4J integrates results from the open source Code Coverage
+			tools <a href="http://cobertura.sourceforge.net/">Cobetura</a> and
+			<a href="http://http://www.jacoco.org/jacoco/">JaCoCo</a>. Code 
+			Coverage is the proportion of code executed during a jUnit test run. 
+			The coverage tools watch while jUnit tests run, and record which lines of 
+			code get executed. They then calculates the percentage of lines 
+			covered.</p>
+			
+			<p>A high Code Coverage % is another important indicator of quality.
+			Sanity4J combines Code Coverage % and Quality % into a single graph 
+			which can be used to measure the performance of development teams 
+			on how they deliver quality code over time.</p>
+			
+		</subsection>
+		
+	</section>
+	
   </body>
 
 </document>
