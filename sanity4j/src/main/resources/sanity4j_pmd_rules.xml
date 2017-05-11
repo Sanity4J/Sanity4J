@@ -95,7 +95,7 @@ preference to PMD.
     <rule ref="rulesets/java/basic.xml/DoubleCheckedLocking"><priority>3</priority></rule>
     <rule ref="rulesets/java/basic.xml/ReturnFromFinallyBlock"><priority>3</priority></rule>
     <!-- Using Findbugs rule
-    <rule ref="rulesets/java/basic.xml/EmptySynchronizedBlock"><priority>2</priority></rule>
+    <rule ref="rulesets/java/empty.xml/EmptySynchronizedBlock"><priority>2</priority></rule>
     -->
     <rule ref="rulesets/java/basic.xml/UnconditionalIfStatement"><priority>2</priority></rule>
     <!-- Using Findbugs rule
@@ -207,7 +207,7 @@ preference to PMD.
 
     <!-- Design Rules -->
     <!-- unused
-    <rule ref="rulesets/java/design.xml/UseSingleton"><priority>#</priority></rule>
+    <rule ref="rulesets/java/design.xml/UseUtilityClass"><priority>#</priority></rule>
     -->
     <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"><priority>3</priority></rule>
     <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"><priority>3</priority></rule>
@@ -305,7 +305,7 @@ preference to PMD.
     <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody"><priority>3</priority></rule>
     <rule ref="rulesets/java/design.xml/UncommentedEmptyConstructor"><priority>3</priority></rule>
     <!-- Unused
-    <rule ref="rulesets/java/design.xml/AvoidConstantsInterface"><priority>#</priority></rule>
+    <rule ref="rulesets/java/design.xml/ConstantsInInterface"><priority>#</priority></rule>
     -->
     <!-- Using Findbugs rule
     <rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter"><priority>2</priority></rule>
