@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>UseUtilityClass</TITLE>
+</HEAD>
+<BODY>
+<H2>UseUtilityClass</H2>
+For classes that only have static methods, consider making them utility classes. 
+Note that this doesn't apply to abstract classes, since their subclasses may well 
+include non-static methods. Also, if you want this class to be a utility class, 
+remember to add a private constructor to prevent instantiation.		
+    </p>
+		
+		
+		    
+		    
+    		    
+    		    
+    		    
+
+    		    <p>This rule is defined by the following Java class:
+    		    <a href="../xref/net/sourceforge/pmd/rules/design/UseUtilityClassRule.html">net.sourceforge.pmd.rules.design.UseSingleton</a>
+    		    </p>
+		    
+	    
+	    
+        
+        
+        <p>Example:</p>
+            
+    <div class="source"><pre>
+                
+
+public class MaybeASingleton {
+ public static void foo() {}
+ public static void bar() {}
+}
+
+    
+            </pre></div>
+</BODY>
+</HTML>
