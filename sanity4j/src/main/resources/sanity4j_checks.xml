@@ -79,7 +79,6 @@
         <!-- Handled by PMD
         <module name="MissingSwitchDefault"/>
         -->
-        <module name="RedundantThrows"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <!-- Unused
