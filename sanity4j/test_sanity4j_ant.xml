@@ -10,7 +10,7 @@
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.1.1-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.8.0-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j.run
