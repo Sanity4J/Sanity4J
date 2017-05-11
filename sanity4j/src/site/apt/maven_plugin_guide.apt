@@ -2,13 +2,13 @@ Sanity4J Maven plugin user guide
 
 * Intoduction
 
-  Sanity4J has been created in order to simplify running ad-hoc static code 
+  Sanity4J has been created in order to simplify running ad-hoc static code
   analysis over Java projects using a standardised set of rules types and priorities.
 
   Various tools are used to conduct the analysis, each with their own set of
   requirements. Both bytecode and source code are analysed, to ensure the best
-  chance of finding potential problems. Sanity4J presents a single interface 
-  to run all the tools and produce a combined report presenting all the findings 
+  chance of finding potential problems. Sanity4J presents a single interface
+  to run all the tools and produce a combined report presenting all the findings
   in a easily accessible manner.
 
 * Integrating Sanity4J into your Maven project.
@@ -16,17 +16,17 @@ Sanity4J Maven plugin user guide
   To run the Maven Plugin, you will need the following:
 
     * The Sanity4J jar & POM.
-    
+
     * Maven 3+
-    
+
     * JDK/JRE 1.5.x+
-    
+
     * A directory containing the tools needed by Sanity4J (see parameters below). *
-    
+
     * A Maven project, optionally with a Cobertura plugin already included.
-    
-    * Depending on the size of your project, you may need to increase the memory available to 
-      Maven. This can be set using the MAVEN_OPTS environment variable, e.g. "<<<set MAVEN_OPTS=-Xmx512M>>>" 
+
+    * Depending on the size of your project, you may need to increase the memory available to
+      Maven. This can be set using the MAVEN_OPTS environment variable, e.g. "<<<set MAVEN_OPTS=-Xmx512M>>>"
       to use 512MB max heap.
 
 ** Parameters
@@ -156,12 +156,12 @@ Sanity4J Maven plugin user guide
 |                        | The default is true.                                   |           |
 *------------------------+--------------------------------------------------------+-----------+
 
-  The source / class / library paths will accept multiple path entries. If there are multiple 
-  source / class directories, it is possible to specify a common parent directory and have the tool 
+  The source / class / library paths will accept multiple path entries. If there are multiple
+  source / class directories, it is possible to specify a common parent directory and have the tool
   find all the nested source/class directories.
 
-  The productsDir can point to a directory containing all the tools in use. For example, with 
-  a default configuration, these could be findbugs-2.0.1, pmd-5.0.4, checkstyle-5.6 and 
+  The productsDir can point to a directory containing all the tools in use. For example, with
+  a default configuration, these could be findbugs-2.0.1, pmd-5.0.4, checkstyle-5.6 and
   cobertura-2.0.2.
 
   Below is a simple example XML to integrate Sanity4J into your project's POM.
@@ -173,7 +173,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.1.1</version>
+        <version>1.8.0</version>
       </plugin>
       ...
     </plugins>
@@ -182,21 +182,21 @@ Sanity4J Maven plugin user guide
 
   Below is another example for Maven 3 where the config is passed
   in to the tools along with additional properties.
-  
+
 +-------------------------------+
-  
+
   <reporting>
     <plugins>
-    
+
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.1.1</version>
+        <version>1.8.0</version>
         <configuration>
           <findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
           <pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
           <checkStyleConfig>$${sanity4j_checks.xml}</checkStyleConfig>
-            
+
           <additionalProperties>
             PMD.DoNotUseThreads.excludes       =.*
             PMD.UseProperClassLoader.excludes  =.*
@@ -206,19 +206,19 @@ Sanity4J Maven plugin user guide
 
     </plugins>
   </reporting>
-  
+
 +-------------------------------+
 
-  Sanity4J supports Maven dependencies for configuring 3rd party product tools 
-  such as findbugs, pmd, checkstyle etc. As each tool may have different 
+  Sanity4J supports Maven dependencies for configuring 3rd party product tools
+  such as findbugs, pmd, checkstyle etc. As each tool may have different
   versions of the same dependency, the transitive dependencies of
   each tool are used individually. The default tools are specified in the
   in sanity4j.properties file. However, these can be overridden if you
   require the use of custom plugin rules.
-  
+
   Below is a more advanced example Maven 3 configuration for Sanity4J where
   the use of custom tool plugins are defined.
-  
+
 +-------------------------------+
 
   <build>
@@ -226,10 +226,10 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.1.1</version>
+        <version>1.8.0</version>
         <dependencies>
           <dependency>
-            <!-- 
+            <!--
               This adds your custom rules to the classpath of sanity4j.
               Inside this artifact you can place a sanity4j.properties
               file which then defines dependencies on the custom tool
@@ -239,24 +239,24 @@ Sanity4J Maven plugin user guide
             <artifactId>custom_qa_rules</artifactId>
             <version>1.0.0</version>
           </dependency>
-        </dependencies>                
+        </dependencies>
       </plugin>
     </plugins>
   </build>
 
   <reporting>
     <plugins>
-    
+
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.1.1</version>
+        <version>1.8.0</version>
         <configuration>
           <aggregate>true</aggregate>
 
-          <!-- 
-            This is a resource on the classpath. 
-            It's contained within the custom_qa_rules JAR file and specified as a dependency to the plugin. 
+          <!--
+            This is a resource on the classpath.
+            It's contained within the custom_qa_rules JAR file and specified as a dependency to the plugin.
            -->
           <externalPropertiesPath>sanity4j.properties</externalPropertiesPath>
         </configuration>
@@ -269,7 +269,7 @@ Sanity4J Maven plugin user guide
 
   Then, within the sanity4j.properties file of your custom_qa_rules JAR, you can define the
   overrides of the transitive dependencies of the tools to use with the plugins.
-  Each of your custom rule artifacts must define a dependency on the tool with which they 
+  Each of your custom rule artifacts must define a dependency on the tool with which they
   will be used. This provides the hook into sanity4j as it will use the transitive dependencies
   to derive the classpath for the tool.
 
@@ -309,12 +309,12 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
   Another option for retrieving the tools from Maven is to use the maven-dependency-plugin.
   The maven-dependency-plugin can be used to copy the tool JARs to a known location, then
   the productsDir parameter can be used to specify that location.
-  
+
 +-------------------------------+
 
     <build>
         <plugins>
-        
+
             <!-- Copy the tools from a maven repository instead of using them from the local file system. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -362,7 +362,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
                                     <version>1.0.4</version>
                                 </artifactItem>
                             </artifactItems>
-                            
+
                         </configuration>
                     </execution>
                     <execution>
@@ -421,7 +421,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
                                     <version>1.2.9</version>
                                 </artifactItem>
                             </artifactItems>
-                            
+
                         </configuration>
                     </execution>
                     <execution>
@@ -488,9 +488,9 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
                                     <groupId>commons-lang</groupId>
                                     <artifactId>commons-lang</artifactId>
                                     <version>2.4</version>
-                                </artifactItem>                           
+                                </artifactItem>
                             </artifactItems>
-                            
+
                         </configuration>
                     </execution>
                     <execution>
@@ -561,7 +561,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
                                     <version>2.2</version>
                                 </artifactItem>
                             </artifactItems>
-                            
+
                         </configuration>
                     </execution>
                 </executions>
@@ -580,7 +580,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
     <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.1.1</version>
+        <version>1.8.0</version>
         <configuration>
             <productsDir>${project.build.directory}/tools</productsDir>
         </configuration>

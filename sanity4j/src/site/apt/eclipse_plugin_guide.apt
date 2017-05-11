@@ -2,53 +2,53 @@ Sanity4J Eclipse plugin user guide
 
 * Intoduction
 
-  Sanity4J has been created in order to simplify running ad-hoc static code 
+  Sanity4J has been created in order to simplify running ad-hoc static code
   analysis over Java projects using a standardised set of rules types and priorities.
 
   Various tools are used to conduct the analysis, each with their own set of
   requirements. Both bytecode and source code are analysed, to ensure the best
-  chance of finding potential problems. Sanity4J presents a single interface 
-  to run all the tools and produce a combined report presenting all the findings 
+  chance of finding potential problems. Sanity4J presents a single interface
+  to run all the tools and produce a combined report presenting all the findings
   in a easily accessible manner.
 
   Sanity4J provides an Eclipse plugin for developers to run ad-hoc QA on individual classes during development.
-  
+
 * Installing and Configuring the Eclipse plugin
 
   To run the Eclipse plugin, you will need the following:
 
-    * The Sanity4J Eclipse plugin ZIP file; sanity4j-1.1.1-eclipse.zip
+    * The Sanity4J Eclipse plugin ZIP file; sanity4j-1.8.0-eclipse.zip
 
     * JDK/JRE 1.5.x+
 
-    * A directory containing the tools needed by Sanity4J. 
-      These can be extracted from the Tools download ZIP file; sanity4j-1.1.1-bin-with-tools.zip
+    * A directory containing the tools needed by Sanity4J.
+      These can be extracted from the Tools download ZIP file; sanity4j-1.8.0-bin-with-tools.zip
 
 ** Installing the Eclipse plugin
 
   The following steps are for Eclipse 3.4 - Ganymede.
   Other versions of Eclipse will vary, but essentially it is the same process.
-  
+
   Start from the "Help" menu and choose "Software Updates..."
-  
+
 [./images/eclipse34_plugin_install/step01.PNG] Eclipse screenshot showing Software Update menu.
 
   From the "Available Software" tab, click the "Add Site..." button.
-  
+
 [./images/eclipse34_plugin_install/step02.PNG] Eclipse screenshot showing Available Software tab.
 
   Eclipse allows you to install the plugin directly from the ZIP file without having to extract it, or
   from a local directory where the ZIP file can be extracted to. In this case we will simply install the
   plugin directly from the ZIP Archive.
-  
+
   Click the "Archive..." button to choose a Location.
-  
+
 [./images/eclipse34_plugin_install/step03.PNG] Eclipse screenshot showing Location of the Site to add.
 
-  Choose the location of the Archive; sanity4j-1.1.1-eclipse.zip
-  
+  Choose the location of the Archive; sanity4j-1.8.0-eclipse.zip
+
 [./images/eclipse34_plugin_install/step04.PNG] Eclipse screenshot showing Location of the Archive.
-  
+
   Click OK to confirm the Location.
 
 [./images/eclipse34_plugin_install/step05.PNG] Eclipse screenshot showing Location of the Site to add.
@@ -80,48 +80,48 @@ Sanity4J Eclipse plugin user guide
 
   Choose the Sanit4J Preferences from the Preferences list.
   You will need to configure the locations of the Tools product directory and the Java executable.
-  
+
   Click the "Browse" button next to the "Product directory" field.
 
 [./images/eclipse34_plugin_install/step11.PNG] Eclipse screenshot showing the Eclipse Preferences list.
 
   Choose the location of the product tools, then click OK.
-  This can be the extracted location of the sanity4j-1.1.1-bin-with-tools.zip
-  
+  This can be the extracted location of the sanity4j-1.8.0-bin-with-tools.zip
+
 [./images/eclipse34_plugin_install/step12.PNG] Eclipse screenshot showing the Product Tools Location.
 
   Click the "Browse" button next to the "Java 1.5 executable" field.
 
 [./images/eclipse34_plugin_install/step13.PNG] Eclipse screenshot showing the Java bin location.
 
-  Choose the location for the Java executable (e.g. java.exe on the windows platform). 
+  Choose the location for the Java executable (e.g. java.exe on the windows platform).
   This should is usually in the java\bin directory.
 
 ** Importing the Sanity4J properties for the Eclipse plugin.
 
-  The Sanity4J Configuration and Classpath for plugins can be configured for Eclipse by manually 
+  The Sanity4J Configuration and Classpath for plugins can be configured for Eclipse by manually
   specifiy the values or by importing them from an existing sanity4j.properties file.
 
   For this example we will import them.
 
 [./images/eclipse34_plugin_install/step14.PNG] Eclipse screenshot showing the Eclipse Preferences.
-  
+
   Click the "Browse" button next to the "Sanity4j properties file" field.
   Choose the location of your sanit4j.properties file, then click Open.
 
 [./images/eclipse34_plugin_install/step15.PNG] Eclipse screenshot showing the sanit4j properties location.
 
   Click the "Load from properties" button.
-  You will see that the Configuration and Classpath fields will be populated from the values 
+  You will see that the Configuration and Classpath fields will be populated from the values
   in the sanity4j.properties file.
-  
+
 [./images/eclipse34_plugin_install/step16.PNG] Eclipse screenshot showing the Sanit4J properties loaded.
-  
+
 ** Running the Sanity4J Eclipse plugin.
 
   To run the Sanity4J Eclipse plugin you will need to have a Java Class open in the Workspace.
   The "QA" icon on the Menu Bar will become available.
-  
+
 [./images/eclipse34_plugin_install/step17.PNG] Eclipse screenshot showing the Sanit4J button.
 
   After clicking the button, the analysis will begin.
