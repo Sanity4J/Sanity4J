@@ -21,6 +21,13 @@ public final class PmdCpd5ResultReader extends PmdCpd4ResultReader
             // PMD-CPD 5.x doesn't output the empty <pmd-cpd> element if there are no results
             return;
         }
+
+        if (pmdCpdResultFile.exists() && pmdCpdResultFile.length() < 60)
+        {
+            // PMD-CPD 5.6.x outputs the empty <pmd-cpd> element as self-closing, which blows up jaxb with:
+            // SAXParseException pmd-cpd must be followed by either attribute specifications, ">" or "/>". 
+            return;
+        }
         
         super.run();
     }
