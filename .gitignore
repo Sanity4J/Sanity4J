@@ -3,8 +3,10 @@
 .project
 .settings
 
-# Maven build dir
+# Maven and Eclipse build dirs
 target/
+bin/
+lib/
 
 # Mac cruft
 .DS_Store
