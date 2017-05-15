@@ -13,7 +13,7 @@ import com.github.sanity4j.util.Tool;
 public class JaCoCoRunner extends AbstractToolRunner
 {
    /**
-    * Creates a JaCoCoRunner
+    * Creates a JaCoCoRunner.
     */
    public JaCoCoRunner()
    {
@@ -33,7 +33,7 @@ public class JaCoCoRunner extends AbstractToolRunner
    }
    
    /**
-    * @return the description of this WorkUnit
+    * @return the description of this WorkUnit.
     */
    @Override
    public String getDescription()

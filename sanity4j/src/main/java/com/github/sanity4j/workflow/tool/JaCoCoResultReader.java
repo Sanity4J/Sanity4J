@@ -2,6 +2,7 @@ package com.github.sanity4j.workflow.tool;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -112,9 +113,16 @@ public class JaCoCoResultReader implements ResultReader
        }
     }
     
+    /**
+     * Process an individual class.
+     * 
+     * @param clazz The class to process.
+     * @param executionData The execution data.
+     * @param coverage The coverage.
+     */
     private void processClass(final String clazz, final ExecutionDataStore executionData, final Coverage coverage)
     {
-       FileInputStream in = null;
+       FileInputStream inputStream = null;
        
        try
        {
@@ -122,10 +130,10 @@ public class JaCoCoResultReader implements ResultReader
           
           if (classFile.exists())
           {
-             in = new FileInputStream(classFile);
+             inputStream = new FileInputStream(classFile);
              final CoverageBuilder coverageBuilder = new CoverageBuilder();
              final Analyzer analyzer = new Analyzer(executionData, coverageBuilder);
-             analyzer.analyzeClass(in, clazz);
+             analyzer.analyzeClass(inputStream, clazz);
 
              // Read class info
              for (final IClassCoverage cc : coverageBuilder.getClasses()) 
@@ -172,10 +180,13 @@ public class JaCoCoResultReader implements ResultReader
                             break;
                             
                          case ICounter.PARTLY_COVERED:
+                        	 // fall through.
                          case ICounter.FULLY_COVERED:
                             classCoverage.addLineCoverage(lineNum, 1, isBranch);
                             coveredLineCount++;
                             break;
+                        default:
+                        	break;
                       }
                       
                       if (isBranch)
@@ -193,13 +204,13 @@ public class JaCoCoResultReader implements ResultReader
              }
           }
        }
-       catch (Exception e)
+       catch (IOException e)
        {
           throw new QAException("Failed to analyse class: " + clazz, e);
        }
        finally
        {
-          QaUtil.safeClose(in);
+          QaUtil.safeClose(inputStream);
        }
     }
 
@@ -211,20 +222,15 @@ public class JaCoCoResultReader implements ResultReader
      */
     private static void readExecutionFiles(final ExecutionDataStore executionData, final Set<String> classes)
     {
-       // TODO: This won't work for paths containing a space
-       //        Add a new method to QAConfig to retrieve the list of files directly.
-       String mergeFiles = config.getCoverageMergeDataFiles();
-       String[] coverageDataFiles = mergeFiles == null ? null : mergeFiles.split(" ");
-       
-       for (String file : coverageDataFiles)
+       for (String file : config.getCoverageMergeDataFileList())
        {
-          FileInputStream in = null;
+          FileInputStream inputStream = null;
           
           try
           {
-             in = new FileInputStream(file);
+             inputStream = new FileInputStream(file);
              
-             final ExecutionDataReader reader = new ExecutionDataReader(in);
+             final ExecutionDataReader reader = new ExecutionDataReader(inputStream);
              
              reader.setSessionInfoVisitor(new ISessionInfoVisitor()
              {
@@ -246,7 +252,7 @@ public class JaCoCoResultReader implements ResultReader
              });
             
              reader.read();
-             in.close();
+             inputStream.close();
           }
           catch (Exception e)
           {
@@ -254,7 +260,7 @@ public class JaCoCoResultReader implements ResultReader
           }
           finally
           {
-             QaUtil.safeClose(in);
+             QaUtil.safeClose(inputStream);
           }
        }
    }

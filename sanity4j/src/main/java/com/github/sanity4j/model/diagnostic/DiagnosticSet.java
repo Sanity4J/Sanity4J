@@ -391,9 +391,11 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         return new ReadOnlyIterator<Diagnostic>(diagnostics);
     }
 
-	/** 
-	 * Read only iterator for iterating over the diagnostics in this DiagnosticSet .
-	 */
+    /**
+     * Read only iterator for iterating over the diagnostics in this DiagnosticSet.
+     *
+     * @param <T> generic type parameter.
+     */
 	private static final class ReadOnlyIterator<T> implements Iterator<T>
 	{
         /** The current position in the list. */

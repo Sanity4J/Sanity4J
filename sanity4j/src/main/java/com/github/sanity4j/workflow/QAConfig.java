@@ -54,7 +54,7 @@ public final class QAConfig
     private String productsDir;
     
     /**
-     * The RunQAMojo;
+     * The RunQAMojo.
      */
     private RunQAMojo runQAMojo;
 
@@ -126,12 +126,9 @@ public final class QAConfig
      */
     public void addSourcePath(final String sourcePath)
     {
-        if (!sources.contains(sourcePath))
+        if (!sources.contains(sourcePath) && new File(sourcePath).exists())
         {
-            if (new File(sourcePath).exists())
-            {
-                sources.add(sourcePath);
-            }
+            sources.add(sourcePath);
         }
     }
 
@@ -142,12 +139,9 @@ public final class QAConfig
      */
     public void addClassPath(final String classPath)
     {
-        if (!classes.contains(classPath))
+        if (!classes.contains(classPath) && new File(classPath).exists())
         {
-            if (new File(classPath).exists())
-            {
-                classes.add(classPath);
-            }
+            classes.add(classPath);
         }
     }
 
@@ -158,12 +152,9 @@ public final class QAConfig
      */
     public void addLibraryPath(final String libraryPath)
     {
-        if (!libraries.contains(libraryPath))
+        if (!libraries.contains(libraryPath) && new File(libraryPath).exists())
         {
-            if (new File(libraryPath).exists())
-            {
-                libraries.add(libraryPath);
-            }
+            libraries.add(libraryPath);
         }
     }
 
@@ -329,7 +320,7 @@ public final class QAConfig
      */
     public String getCoverageDataFile()
     {
-        if (coverageDataFiles.size() < 1)
+        if (coverageDataFiles.isEmpty())
         {
             return null;
         }
@@ -348,7 +339,7 @@ public final class QAConfig
      */
     public String getCoverageMergeDataFiles()
     {
-        if (coverageDataFiles.size() < 1)
+        if (coverageDataFiles.isEmpty())
         {
             return null;
         }
@@ -363,7 +354,7 @@ public final class QAConfig
 
                 if (++index < coverageDataFiles.size())
                 {
-                    builder.append(" ");
+                    builder.append(' ');
                 }
             }
 
@@ -373,6 +364,14 @@ public final class QAConfig
         {
             return coverageDataFiles.get(0);
         }
+    }
+    
+    /**
+     * @return Returns the coverage data files as a list.
+     */
+    public List<String> getCoverageMergeDataFileList()
+    {
+    	return coverageDataFiles;
     }
 
     /**

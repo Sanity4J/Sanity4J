@@ -201,21 +201,14 @@ public final class ExtractStaticContent
         QaLogger.getInstance().debug("Extract using file: " + propertiesFile);
         Enumeration<URL> resourceEnum = classLoader.getResources(propertiesFile);
 
-        if (resourceEnum == null)
+        while (resourceEnum.hasMoreElements())
         {
-            QaLogger.getInstance().debug("Nothing to extract.");            
-        }
-        else
-        {
-            while (resourceEnum.hasMoreElements())
-            {
-                URL resourceUrl = resourceEnum.nextElement();
-                
-                QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);
-                
-                inStream = resourceUrl.openStream();
-                extractStreamContent(classLoader, destDir, inStream);
-            }
+            URL resourceUrl = resourceEnum.nextElement();
+            
+            QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);
+            
+            inStream = resourceUrl.openStream();
+            extractStreamContent(classLoader, destDir, inStream);
         }
         
         // Load all other "ExtractStaticContent.properties files from tool classpaths.
@@ -230,21 +223,14 @@ public final class ExtractStaticContent
                 ClassLoader toolClassLoader = new URLClassLoader(urls);
                 resourceEnum = toolClassLoader.getResources(propertiesFile);
 
-                if (resourceEnum == null)
+                while (resourceEnum.hasMoreElements())
                 {
-                    QaLogger.getInstance().debug("Nothing to extract.");            
-                }
-                else
-                {
-                    while (resourceEnum.hasMoreElements())
-                    {
-                        URL resourceUrl = resourceEnum.nextElement();
+                    URL resourceUrl = resourceEnum.nextElement();
 
-                        QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);
-                        
-                        inStream = resourceUrl.openStream();
-                        extractStreamContent(toolClassLoader, destDir, inStream);
-                    }
+                    QaLogger.getInstance().debug("Extract using URL: " + resourceUrl);
+                    
+                    inStream = resourceUrl.openStream();
+                    extractStreamContent(toolClassLoader, destDir, inStream);
                 }
             }
         }
