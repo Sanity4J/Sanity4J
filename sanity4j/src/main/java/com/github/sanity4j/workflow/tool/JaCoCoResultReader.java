@@ -87,13 +87,18 @@ public class JaCoCoResultReader implements ResultReader
           processClass(clazz, executionData, coverage);
        }
        
-       // Produce summarise package info
+       // Produce summarised package info
+       int globalCoveredLines = 0;
+       int globalTotalLines = 0;
+       int globalCoveredBranches = 0;
+       int globalTotalBranches = 0;
+       
        for (String packageName : coverage.getPackageNames())
        {
-          int coveredLines = 0;
-          int totalLines = 0;
-          int coveredBranches = 0;
-          int totalBranches = 0;
+          int packageCoveredLines = 0;
+          int packageTotalLines = 0;
+          int packageCoveredBranches = 0;
+          int packageTotalBranches = 0;
           
           PackageCoverage packageCoverage = coverage.getPackageCoverage(packageName);
           
@@ -101,16 +106,24 @@ public class JaCoCoResultReader implements ResultReader
           {
              ClassCoverage classCoverage = packageCoverage.getClassCoverage(className);
              
-             coveredLines += classCoverage.getCoveredLineCount();
-             totalLines += classCoverage.getLineCount();
+             packageCoveredLines += classCoverage.getCoveredLineCount();
+             packageTotalLines += classCoverage.getLineCount();
              
-             coveredBranches += classCoverage.getCoveredBranchCount();
-             totalBranches += classCoverage.getBranchCount();
+             packageCoveredBranches += classCoverage.getCoveredBranchCount();
+             packageTotalBranches += classCoverage.getBranchCount();
           }
           
-          packageCoverage.setLineCoverage(coveredLines / (double) totalLines);
-          packageCoverage.setBranchCoverage(coveredBranches / (double) totalBranches);
+          packageCoverage.setLineCoverage(packageCoveredLines / (double) packageTotalLines);
+          packageCoverage.setBranchCoverage(packageCoveredBranches / (double) packageTotalBranches);
+          
+          globalCoveredLines += packageCoveredLines;
+          globalTotalLines += packageTotalLines;
+          globalCoveredBranches += packageCoveredBranches;
+          globalTotalBranches += packageTotalBranches;
        }
+       
+       coverage.setLineCoverage(globalCoveredLines / (double) globalTotalLines);
+       coverage.setBranchCoverage(globalCoveredBranches / (double) globalTotalBranches);
     }
     
     /**
