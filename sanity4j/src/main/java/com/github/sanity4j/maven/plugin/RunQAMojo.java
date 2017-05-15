@@ -190,7 +190,7 @@ public class RunQAMojo extends AbstractMavenReport
     /**
      * The file containing the merged jUnit coverage data.
      */
-    @Parameter    
+    @Parameter(defaultValue = "${project.build.directory}/jacoco-merged.exec")
     private String coverageMergeDataFile;
 
     /**
