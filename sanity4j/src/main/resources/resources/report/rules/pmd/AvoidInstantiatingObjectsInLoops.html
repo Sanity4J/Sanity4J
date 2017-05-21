@@ -1,41 +1,24 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidInstantiatingObjectsInLoops</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidInstantiatingObjectsInLoops</H2>
-Detects when a new object is created inside a loop
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidInstantiatingObjectsInLoops</title></head>
+<body>
+<h2><a name="AvoidInstantiatingObjectsInLoops"></a>AvoidInstantiatingObjectsInLoops</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/optimization/AvoidInstantiatingObjectsInLoops.html">net.sourceforge.pmd.rules.optimization.AvoidInstantiatingObjectsInLoops</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>New objects created within loops should be checked to see if they can created outside them and reused.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/optimizations/AvoidInstantiatingObjectsInLoopsRule.html">net.sourceforge.pmd.lang.java.rule.optimizations.AvoidInstantiatingObjectsInLoopsRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Something {
-  public static void main( String as[] ) {  
-    for (int i = 0; i &lt; 10; i++) {
-      Foo f = new Foo(); //Avoid this whenever you can it's really expensive
-    }
-  }
+	public static void main( String as[] ) {  
+		for (int i = 0; i &lt; 10; i++) {
+		    Foo f = new Foo(); // Avoid this whenever you can it's really expensive
+		}
+	}
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

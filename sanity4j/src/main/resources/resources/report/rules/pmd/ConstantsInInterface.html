@@ -1,46 +1,43 @@
-<HTML>
-<HEAD>
-<TITLE>ConstantsInInterface</TITLE>
-</HEAD>
-<BODY>
-<H2>ConstantsInInterface</H2>
-An interface should be used only to model a behaviour of a
-    class: using an interface as a container of constants is a poor usage pattern.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ConstantsInInterface</title></head>
+<body>
+<h2><a name="ConstantsInInterface"></a>ConstantsInInterface</h2>
+
+<p>Avoid constants in interfaces. Interfaces should define types, constants are implementation details better placed in classes or enums. See Effective Java, item 19.</p>
+
+<div>
+<pre>
+
+//ClassOrInterfaceDeclaration[@Interface='true'][$ignoreIfHasMethods='false' or not(.//MethodDeclaration)]//FieldDeclaration
+ 
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+public interface ConstantInterface {
+    public static final int CONST1 = 1; // violation, no fields allowed in interface!
+    static final int CONST2 = 1; // violation, no fields allowed in interface!
+    final int CONST3 = 1; // violation, no fields allowed in interface!
+    int CONST4 = 1; // violation, no fields allowed in interface!
+}
+
+// with ignoreIfHasMethods = false
+public interface AnotherConstantInterface {
+    public static final int CONST1 = 1; // violation, no fields allowed in interface!
     
-//ClassOrInterfaceDeclaration[@Interface="true"]
-    [
-     count(.//MethodDeclaration)=0
-     and
-     count(.//FieldDeclaration)&amp;gt;0
-    ]
+    int anyMethod();
+}
+
+// with ignoreIfHasMethods = true
+public interface YetAnotherConstantInterface {
+    public static final int CONST1 = 1; // no violation
     
-        </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-    
-    public interface ConstantsInterface {
-     public static final int CONSTANT1=0;
-     public static final String CONSTANT2="1";
-    }
-    
-      
-            </pre></div>
-</BODY>
-</HTML>
+    int anyMethod();
+}
+ 
+</pre></div>
+</body>
+</html>

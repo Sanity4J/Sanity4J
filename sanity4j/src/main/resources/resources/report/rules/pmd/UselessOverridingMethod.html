@@ -1,46 +1,27 @@
-<HTML>
-<HEAD>
-<TITLE>UselessOverridingMethod</TITLE>
-</HEAD>
-<BODY>
-<H2>UselessOverridingMethod</H2>
-The overriding method merely calls the same method defined in a superclass
-        </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UselessOverridingMethod</title></head>
+<body>
+<h2><a name="UselessOverridingMethod"></a>UselessOverridingMethod</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/UselessOverridingMethod.html">net.sourceforge.pmd.rules.UselessOverridingMethod</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>The overriding method merely calls the same method defined in a superclass.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/unnecessary/UselessOverridingMethodRule.html">net.sourceforge.pmd.lang.java.rule.unnecessary.UselessOverridingMethodRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 public void foo(String bar) {
-    super.foo(bar);      //Why bother overriding?
+  super.foo(bar);      // why bother overriding?
 }
-        
-            </pre></div>
-  
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+
 public String foo() {
-    return super.foo();  //Why bother overriding?
+	return super.foo();  // why bother overriding?
 }
-        
-            </pre></div>
-</BODY>
-</HTML>
+
+@Id
+public Long getId() {
+  return super.getId();  // OK if 'ignoreAnnotations' is false, which is the default behavior
+}
+</pre></div>
+</body>
+</html>

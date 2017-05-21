@@ -1,48 +1,39 @@
-<HTML>
-<HEAD>
-<TITLE>StringBufferInstantiationWithChar</TITLE>
-</HEAD>
-<BODY>
-<H2>StringBufferInstantiationWithChar</H2>
-StringBuffer sb = new StringBuffer('c'); The
-char will be converted into int to intialize
-StringBuffer size.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>StringBufferInstantiationWithChar</title></head>
+<body>
+<h2><a name="StringBufferInstantiationWithChar"></a>StringBufferInstantiationWithChar</h2>
+
+<p>Individual character values provided as initialization arguments will be converted into integers. This can lead to internal buffer sizes that are larger than expected. Some examples:</p>
+<p>new StringBuffer() // 16 new StringBuffer(6) // 6 new StringBuffer(&#x201c;hello world&#x201d;) // 11 + 16 = 27 new StringBuffer(&#x2018;A&#x2019;) // chr(A) = 65 new StringBuffer(&#x201c;A&#x201d;) // 1 + 16 = 17 </p>
+<p>new StringBuilder() // 16 new StringBuilder(6) // 6 new StringBuilder(&#x201c;hello world&#x201d;) // 11 + 16 = 27 new StringBuilder(&#x2018;C&#x2019;) // chr(C) = 67 new StringBuilder(&#x201c;A&#x201d;) // 1 + 16 = 17</p>
+
+<div>
+<pre>
 
 //AllocationExpression/ClassOrInterfaceType
-[@Image='StringBuffer']
+[@Image='StringBuffer' or @Image='StringBuilder']
 /../Arguments/ArgumentList/Expression/PrimaryExpression
 /PrimaryPrefix/
 Literal
-  [starts-with(@Image, "'")]
-  [ends-with(@Image, "'")]
+  [starts-with(@Image, &quot;'&quot;)]
+  [ends-with(@Image, &quot;'&quot;)]
 
-            </pre></div>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+	// misleading instantiation, these buffers
+	// are actually sized to 99 characters long
+StringBuffer  sb1 = new StringBuffer('c');   
+StringBuilder sb2 = new StringBuilder('c');
   
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+// in these forms, just single characters are allocated
+StringBuffer  sb3 = new StringBuffer(&quot;c&quot;);
+StringBuilder sb4 = new StringBuilder(&quot;c&quot;);
 
-class Foo {
-  StringBuffer sb1 = new StringBuffer('c'); //Bad
-  StringBuffer sb2 = new StringBuffer("c"); //Better
-}
-
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

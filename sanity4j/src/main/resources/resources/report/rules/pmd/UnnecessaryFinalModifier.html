@@ -1,34 +1,24 @@
-<HTML>
-<HEAD>
-<TITLE>UnnecessaryFinalModifier</TITLE>
-</HEAD>
-<BODY>
-<H2>UnnecessaryFinalModifier</H2>
-When a class has the final modifier, all the methods are automatically final.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UnnecessaryFinalModifier</title></head>
+<body>
+<h2><a name="UnnecessaryFinalModifier"></a>UnnecessaryFinalModifier</h2>
+
+<p>When a class has the final modifier, all the methods are automatically final and do not need to be tagged as such.</p>
+
+<div>
+<pre>
     
 //ClassOrInterfaceDeclaration[@Final='true' and @Interface='false']
-/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/MethodDeclaration[@Final='true']
+    /ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration
+        [count(./Annotation/MarkerAnnotation/Name[@Image='SafeVarargs' or @Image='java.lang.SafeVarargs']) = 0]
+    /MethodDeclaration[@Final='true']
     
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public final class Foo {
     // This final modifier is not necessary, since the class is final
@@ -38,7 +28,7 @@ public final class Foo {
 }
 
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+
+</body>
+</html>

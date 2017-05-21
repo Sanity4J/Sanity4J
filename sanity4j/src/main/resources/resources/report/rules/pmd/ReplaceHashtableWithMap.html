@@ -1,41 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>ReplaceHashtableWithMap</TITLE>
-</HEAD>
-<BODY>
-<H2>ReplaceHashtableWithMap</H2>
-Consider replacing this Hashtable with the newer java.util.Map
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ReplaceHashtableWithMap</title></head>
+<body>
+<h2><a name="ReplaceHashtableWithMap"></a>ReplaceHashtableWithMap</h2>
+
+<p>Consider replacing Hashtable usage with the newer java.util.Map if thread safety is not required.</p>
+
+<div>
+<pre>
     
 //Type/ReferenceType/ClassOrInterfaceType[@Image='Hashtable']
      
-        </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
-    public class Foo {
-     void bar() {
-        Hashtable h = new Hashtable();
-     }
-    }
+public class Foo {
+	void bar() {
+		Hashtable h = new Hashtable();
+	}
+}
     
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,59 +1,29 @@
-<HTML>
-<HEAD>
-<TITLE>TooManyFields</TITLE>
-</HEAD>
-<BODY>
-<H2>TooManyFields</H2>
-Classes that have too many fields could be redesigned to have fewer fields, possibly
- through some nested object grouping of some of the information.  For example, a class with
- city/state/zip fields could instead have one Address field.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>TooManyFields</title></head>
+<body>
+<h2><a name="TooManyFields"></a>TooManyFields</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/TooManyFields.html">net.sourceforge.pmd.rules.design.TooManyFields</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Classes that have too many fields can become unwieldy and could be redesigned to have fewer fields, possibly through grouping related fields in new objects. For example, a class with individual city/state/zip fields could park them within a single Address field.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/TooManyFieldsRule.html">net.sourceforge.pmd.lang.java.rule.codesize.TooManyFieldsRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
    
-public class Person {
-   String one;
-   int two;
-   int three;
-   [... many more public fields ...]
+public class Person {	// too many separate fields
+   int birthYear;
+   int birthMonth;
+   int birthDate;
+   float height;
+   float weight;
+}
+
+public class Person {	// this is more manageable
+   Date birthDate;
+   BodyMeasurements measurements;
 }
    
-      
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>maxfields</td>
-                    <td>15</td>
-                    <td>The field count reporting threshold </td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

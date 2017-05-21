@@ -1,47 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>ConfusingTernary</TITLE>
-</HEAD>
-<BODY>
-<H2>ConfusingTernary</H2>
-In an "if" expression with an "else" clause, avoid negation in
-the test.  For example, rephrase:
-if (x != y) diff(); else same();
-as:
-if (x == y) same(); else diff();
-Most "if (x != y)" cases without an "else" are often return
-cases, so consistent use of this rule makes the code easier
-to read.  Also, this resolves trivial ordering problems, such
-as "does the error case go first?" or "does the common case
-go first?".
-        </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ConfusingTernary</title></head>
+<body>
+<h2><a name="ConfusingTernary"></a>ConfusingTernary</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/ConfusingTernary.html">net.sourceforge.pmd.rules.design.ConfusingTernary</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid negation within an &#x201c;if&#x201d; expression with an &#x201c;else&#x201d; clause. For example, rephrase:</p>
+<p>if (x != y) diff(); else same(); as:  if (x == y) same(); else diff();</p>
+<p>Most &#x201c;if (x != y)&#x201d; cases without an &#x201c;else&#x201d; are often return cases, so consistent use of this rule makes the code easier to read. Also, this resolves trivial ordering problems, such as &#x201c;does the error case go first?&#x201d; or &#x201c;does the common case go first?&#x201d;.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/ConfusingTernaryRule.html">net.sourceforge.pmd.lang.java.rule.design.ConfusingTernaryRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
           
-public class Foo {
- boolean bar(int x, int y) {
+boolean bar(int x, int y) {
   return (x != y) ? diff : same;
  }
-}          
-        
-            </pre></div>
-</BODY>
-</HTML>
+          
+</pre></div>
+</body>
+</html>

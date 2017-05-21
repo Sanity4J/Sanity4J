@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><title>GuardDebugLogging</title></head>
+<body>
+<h2><a name="GuardDebugLogging"></a>GuardDebugLogging</h2>
+
+
+<div class="source">
+<div class="source"><pre class="prettyprint linenums">        When log messages are composed by concatenating strings, the whole section should be guarded
+        by a isDebugEnabled() check to avoid performance and memory issues.
+</pre></div></div>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/logging/GuardDebugLoggingRule.html">net.sourceforge.pmd.lang.java.rule.logging.GuardDebugLoggingRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+            
+public class Test {
+    private static final Log __log = LogFactory.getLog(Test.class);
+    public void test() {
+        // okay:
+        __log.debug(&quot;log something&quot;);
+
+        // okay:
+        __log.debug(&quot;log something with exception&quot;, e);
+
+        // bad:
+        __log.debug(&quot;log something&quot; + &quot; and &quot; + &quot;concat strings&quot;);
+
+        // bad:
+        __log.debug(&quot;log something&quot; + &quot; and &quot; + &quot;concat strings&quot;, e);
+
+        // good:
+        if (__log.isDebugEnabled()) {
+        __log.debug(&quot;bla&quot; + &quot;&quot;,e );
+        }
+    }
+}
+            
+</pre></div>
+</body>
+</html>

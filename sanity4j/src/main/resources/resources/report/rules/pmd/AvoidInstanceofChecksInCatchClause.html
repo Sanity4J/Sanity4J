@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidInstanceofChecksInCatchClause</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidInstanceofChecksInCatchClause</H2>
-Each caught exception type should be handled in its own catch clause.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidInstanceofChecksInCatchClause</title></head>
+<body>
+<h2><a name="AvoidInstanceofChecksInCatchClause"></a>AvoidInstanceofChecksInCatchClause</h2>
+
+<p>Each caught exception type should be handled in its own catch clause.</p>
+
+<div>
+<pre>
     
 //CatchStatement/FormalParameter
  /following-sibling::Block//InstanceOfExpression/PrimaryExpression/PrimaryPrefix
@@ -21,18 +16,11 @@ Each caught exception type should be handled in its own catch clause.
     /VariableDeclaratorId/@Image
   ]
     
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 try { // Avoid this
  // do something
@@ -47,7 +35,6 @@ try {  // Prefer this:
  cleanup();
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head><title>UseVarargs</title></head>
+<body>
+<h2><a name="UseVarargs"></a>UseVarargs</h2>
+
+<p>Minimum Language Version: java 1.5</p>
+<p>Java 5 introduced the varargs parameter declaration for methods and constructors. This syntactic sugar provides flexibility for users of these methods and constructors, allowing them to avoid having to deal with the creation of an array.</p>
+
+<div>
+<pre>
+//FormalParameters/FormalParameter
+    [position()=last()]
+    [@Array='true']
+    [@Varargs='false']
+    [not (./Type/ReferenceType[@Array='true'][PrimitiveType[@Image='byte']])]
+    [not (./Type/ReferenceType[ClassOrInterfaceType[@Image='Byte']])]
+    [not (./Type/PrimitiveType[@Image='byte'])]
+    [not (ancestor::MethodDeclaration/preceding-sibling::Annotation/*/Name[@Image='Override'])]
+    [not(
+        ancestor::MethodDeclaration
+            [@Public='true' and @Static='true']
+            [child::ResultType[@Void='true']] and
+        ancestor::MethodDeclarator[@Image='main'] and
+        ..[@ParameterCount='1'] and
+        ./Type/ReferenceType[ClassOrInterfaceType[@Image='String']]
+    )]
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+public class Foo {
+   public void foo(String s, Object[] args) {
+      // Do something here...
+   }
+
+   public void bar(String s, Object... args) {
+      // Ahh, varargs tastes much better...
+   }
+}
+</pre></div>
+</body>
+</html>

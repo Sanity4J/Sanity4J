@@ -1,19 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>UseAssertNullInsteadOfAssertTrue</TITLE>
-</HEAD>
-<BODY>
-<H2>UseAssertNullInsteadOfAssertTrue</H2>
-This rule detects JUnit assertions in object references equality. These assertions
- should be made by more specific methods, like assertNull, assertNotNull.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UseAssertNullInsteadOfAssertTrue</title></head>
+<body>
+<h2><a name="UseAssertNullInsteadOfAssertTrue"></a>UseAssertNullInsteadOfAssertTrue</h2>
+
+<p>This rule detects JUnit assertions in object references equality. These assertions should be made by more specific methods, like assertNull, assertNotNull.</p>
+
+<div>
+<pre>
                  
 //PrimaryExpression[
  PrimaryPrefix/Name[@Image = 'assertTrue' or @Image = 'assertFalse']
@@ -22,20 +16,13 @@ This rule detects JUnit assertions in object references equality. These assertio
   Expression/EqualityExpression/PrimaryExpression/PrimaryPrefix/Literal/NullLiteral
  ]
 ]
-[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[pmd-java:typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[pmd-java:typeof(@Image, 'org.junit.Test', 'Test')]]]
   
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
  
  public class FooTest extends TestCase {
   void testCode() {
@@ -47,7 +34,7 @@ This rule detects JUnit assertions in object references equality. These assertio
   }
  }
  
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+
+</body>
+</html>

@@ -1,38 +1,19 @@
-<HTML>
-<HEAD>
-<TITLE>BooleanInstantiation</TITLE>
-</HEAD>
-<BODY>
-<H2>BooleanInstantiation</H2>
-Avoid instantiating Boolean objects; you can reference Boolean.TRUE, Boolean.FALSE, or call Boolean.valueOf() instead.
-   </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>BooleanInstantiation</title></head>
+<body>
+<h2><a name="BooleanInstantiation"></a>BooleanInstantiation</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/basic/BooleanInstantiation.html">net.sourceforge.pmd.rules.basic.BooleanInstantiation</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid instantiating Boolean objects; you can reference Boolean.TRUE, Boolean.FALSE, or call Boolean.valueOf() instead.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/basic/BooleanInstantiationRule.html">net.sourceforge.pmd.lang.java.rule.basic.BooleanInstantiationRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
    
-public class Foo {
- Boolean bar = new Boolean("true"); // just do a Boolean bar = Boolean.TRUE;
- Boolean buz = Boolean.valueOf(false); // just do a Boolean buz = Boolean.FALSE;
-}
+Boolean bar = new Boolean(&quot;true&quot;);		// unnecessary creation, just reference Boolean.TRUE;
+Boolean buz = Boolean.valueOf(false);	// ...., just reference Boolean.FALSE;
    
-   
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

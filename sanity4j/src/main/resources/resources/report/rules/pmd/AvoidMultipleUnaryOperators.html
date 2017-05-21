@@ -1,67 +1,34 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidMultipleUnaryOperators</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidMultipleUnaryOperators</H2>
-Using multiple unary operators may be a bug, and/or is confusing.
-					Check the usage is not a bug, or consider simplifying the expression.
-            
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
-		        	
-//UnaryExpression[
-		./UnaryExpression
-		or ./UnaryExpressionNotPlusMinus
-		or ./PrimaryExpression/PrimaryPrefix/Expression/UnaryExpression
-		or ./PrimaryExpression/PrimaryPrefix/Expression/UnaryExpressionNotPlusMinus
-	]
-|
-//UnaryExpressionNotPlusMinus[
-		./UnaryExpression
-		or ./UnaryExpressionNotPlusMinus
-		or ./PrimaryExpression/PrimaryPrefix/Expression/UnaryExpression
-		or ./PrimaryExpression/PrimaryPrefix/Expression/UnaryExpressionNotPlusMinus
-	]
-		        	
-            	</pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            [
-            // These are typo bugs, or at best needlessly complex and confusing:
-            int i = - -1;
-            int j = + - +1;
-            int z = ~~2;
-            boolean b = !!true;
-            boolean c = !!!true;
+<!doctype html>
+<html lang="en">
+<head><title>AvoidMultipleUnaryOperators</title></head>
+<body>
+<h2><a name="AvoidMultipleUnaryOperators"></a>AvoidMultipleUnaryOperators</h2>
 
-            // These are better:
-            int i = 1;
-            int j = -1;
-            int z = 2;
-            boolean b = true;
-            boolean c = false;
+<p>The use of multiple unary operators may be problematic, and/or confusing. Ensure that the intended usage is not a bug, or consider simplifying the expression.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/basic/AvoidMultipleUnaryOperatorsRule.html">net.sourceforge.pmd.lang.java.rule.basic.AvoidMultipleUnaryOperatorsRule</a></p>
+<p>Example(s):</p>
 
-            // And these just make your brain hurt:
-            int i = ~-2;
-            int j = -~7;
+<div>
+<pre>
             
-        
-            </pre></div>
-</BODY>
-</HTML>
+// These are typo bugs, or at best needlessly complex and confusing:
+int i = - -1;
+int j = + - +1;
+int z = ~~2;
+boolean b = !!true;
+boolean c = !!!true;
+
+// These are better:
+int i = 1;
+int j = -1;
+int z = 2;
+boolean b = true;
+boolean c = false;
+
+// And these just make your brain hurt:
+int i = ~-2;
+int j = -~7;
+            
+</pre></div>
+</body>
+</html>

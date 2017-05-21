@@ -1,44 +1,30 @@
-<HTML>
-<HEAD>
-<TITLE>EmptySwitchStatements</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptySwitchStatements</H2>
-Avoid empty switch statements.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptySwitchStatements</title></head>
+<body>
+<h2><a name="EmptySwitchStatements"></a>EmptySwitchStatements</h2>
+
+<p>Empty switch statements serve no purpose and should be removed.</p>
+
+<div>
+<pre>
 
 //SwitchStatement[count(*) = 1]
  
-              </pre></div>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-  
-public class Foo {
- public void bar() {
-  int x = 2;
-  switch (x) {
-   // once there was code here
-   // but it's been commented out or something
-  }
- }
+public void bar() {
+	int x = 2;
+	switch (x) {
+	// once there was code here
+	// but it's been commented out or something
+	}
 }
-      
-            </pre></div>
-</BODY>
-</HTML>
+
+</pre></div>
+</body>
+</html>

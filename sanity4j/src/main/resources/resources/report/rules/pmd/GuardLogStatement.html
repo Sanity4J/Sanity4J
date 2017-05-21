@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><title>GuardLogStatement</title></head>
+<body>
+<h2><a name="GuardLogStatement"></a>GuardLogStatement</h2>
+
+<p>Whenever using a log level, one should check if the loglevel is actually enabled, or otherwise skip the associate String creation and manipulation.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/logging/GuardLogStatementRule.html">net.sourceforge.pmd.lang.java.rule.logging.GuardLogStatementRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+ 
+    // Add this for performance
+    if (log.isDebugEnabled() { ...
+        log.debug(&quot;log something&quot; + &quot; and &quot; + &quot;concat strings&quot;);
+
+</pre></div>
+</body>
+</html>

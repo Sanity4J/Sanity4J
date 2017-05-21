@@ -1,20 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>StaticEJBFieldShouldBeFinal</TITLE>
-</HEAD>
-<BODY>
-<H2>StaticEJBFieldShouldBeFinal</H2>
-According to the J2EE specification (p.494), an EJB should not have any static fields
-with write access. However, static read only fields are allowed. This ensures proper
-behavior especially when instances are distributed by the container on several JREs.
-    	</p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>StaticEJBFieldShouldBeFinal</title></head>
+<body>
+<h2><a name="StaticEJBFieldShouldBeFinal"></a>StaticEJBFieldShouldBeFinal</h2>
+
+<p>According to the J2EE specification, an EJB should not have any static fields with write access. However, static read-only fields are allowed. This ensures proper behavior especially when instances are distributed by the container on several JREs.</p>
+
+<div>
+<pre>
 //ClassOrInterfaceDeclaration[
     (
     (./ImplementsList/ClassOrInterfaceType[ends-with(@Image,'SessionBean')])
@@ -34,24 +27,17 @@ behavior especially when instances are distributed by the container on several J
          (./FieldDeclaration[@Final = 'false'])
     ])
 ]
-    		 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-public class SomeEJB extends EJBObject implements EJBLocalHome {
-	private static int BAD_STATIC_FIELD;
+    		</pre></div>
+<p>Example(s):</p>
 
-	private static final int GOOD_STATIC_FIELD;
+<div>
+<pre>
+public class SomeEJB extends EJBObject implements EJBLocalHome {
+
+	private static int CountA;			// poor, field can be edited
+
+	private static final int CountB;	// preferred, read-only access
 }
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

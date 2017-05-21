@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><title>EmptyStatementBlock</title></head>
+<body>
+<h2><a name="EmptyStatementBlock"></a>EmptyStatementBlock</h2>
+
+<p>Empty block statements serve no purpose and should be removed.</p>
+
+<div>
+<pre>
+          
+//BlockStatement/Statement/Block[count(*) = 0]
+          
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+    
+public class Foo {
+
+   private int _bar;
+
+   public void setBar(int bar) {
+      { _bar = bar; } // Why not?
+      {} // But remove this.
+   }
+
+}
+    
+</pre></div>
+</body>
+</html>

@@ -1,55 +1,48 @@
-<HTML>
-<HEAD>
-<TITLE>UseLocaleWithCaseConversions</TITLE>
-</HEAD>
-<BODY>
-<H2>UseLocaleWithCaseConversions</H2>
-When doing a String.toLowerCase()/toUpperCase() call, use a Locale.  This avoids
-problems with certain locales, i.e. Turkish.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UseLocaleWithCaseConversions</title></head>
+<body>
+<h2><a name="UseLocaleWithCaseConversions"></a>UseLocaleWithCaseConversions</h2>
+
+<p>When doing String.toLowerCase()/toUpperCase() conversions, use Locales to avoids problems with languages that have unusual conventions, i.e. Turkish.</p>
+
+<div>
+<pre>
                 
 //PrimaryExpression
-[PrimaryPrefix/Name
- [ends-with(@Image, 'toLowerCase') or ends-with(@Image,
-'toUpperCase')]
- ]
-[PrimarySuffix[position() = 1]/Arguments[@ArgumentCount=0]]
-     
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+[
+PrimaryPrefix
+[Name[ends-with(@Image, 'toLowerCase') or ends-with(@Image, 'toUpperCase')]]
+[following-sibling::PrimarySuffix[position() = 1]/Arguments[@ArgumentCount=0]]
+
+or
+
+PrimarySuffix
+[ends-with(@Image, 'toLowerCase') or ends-with(@Image, 'toUpperCase')]
+[following-sibling::PrimarySuffix[position() = 1]/Arguments[@ArgumentCount=0]]
+]
+[not(PrimaryPrefix/Name[ends-with(@Image, 'toHexString')])]
+
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 class Foo {
  // BAD
- if (x.toLowerCase().equals("list"))...
+ if (x.toLowerCase().equals(&quot;list&quot;)) { }
  /*
- This will not match "LIST" when in Turkish locale
+ This will not match &quot;LIST&quot; when in Turkish locale
  The above could be
- if (x.toLowerCase(Locale.US).equals("list")) ...
+ if (x.toLowerCase(Locale.US).equals(&quot;list&quot;)) { }
  or simply
- if (x.equalsIgnoreCase("list")) ...
+ if (x.equalsIgnoreCase(&quot;list&quot;)) { }
  */
  // GOOD
  String z = a.toLowerCase(Locale.EN);
 }
     
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

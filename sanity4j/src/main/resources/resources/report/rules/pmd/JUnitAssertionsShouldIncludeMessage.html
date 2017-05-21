@@ -1,43 +1,25 @@
-<HTML>
-<HEAD>
-<TITLE>JUnitAssertionsShouldIncludeMessage</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnitAssertionsShouldIncludeMessage</H2>
-JUnit assertions should include a message - i.e., use the three argument version of
-assertEquals(), not the two argument version.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>JUnitAssertionsShouldIncludeMessage</title></head>
+<body>
+<h2><a name="JUnitAssertionsShouldIncludeMessage"></a>JUnitAssertionsShouldIncludeMessage</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/junit/JUnitAssertionsShouldIncludeMessage.html">net.sourceforge.pmd.rules.junit.JUnitAssertionsShouldIncludeMessage</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>JUnit assertions should include an informative message - i.e., use the three-argument version of assertEquals(), not the two-argument version.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/junit/JUnitAssertionsShouldIncludeMessageRule.html">net.sourceforge.pmd.lang.java.rule.junit.JUnitAssertionsShouldIncludeMessageRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Foo extends TestCase {
  public void testSomething() {
-  assertEquals("foo", "bar");
+  assertEquals(&quot;foo&quot;, &quot;bar&quot;);
   // Use the form:
-  // assertEquals("Foo does not equals bar", "foo", "bar");
+  // assertEquals(&quot;Foo does not equals bar&quot;, &quot;foo&quot;, &quot;bar&quot;);
   // instead
  }
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

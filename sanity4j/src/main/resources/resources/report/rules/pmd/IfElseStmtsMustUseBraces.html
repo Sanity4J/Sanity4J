@@ -1,48 +1,34 @@
-<HTML>
-<HEAD>
-<TITLE>IfElseStmtsMustUseBraces</TITLE>
-</HEAD>
-<BODY>
-<H2>IfElseStmtsMustUseBraces</H2>
-Avoid using if..else statements without using curly braces.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>IfElseStmtsMustUseBraces</title></head>
+<body>
+<h2><a name="IfElseStmtsMustUseBraces"></a>IfElseStmtsMustUseBraces</h2>
+
+<p>Avoid using if..else statements without using surrounding braces. If the code formatting or indentation is lost then it becomes difficult to separate the code being controlled from the rest.</p>
+
+<div>
+<pre>
 
 //Statement
  [parent::IfStatement[@Else='true']]
  [not(child::Block)]
  [not(child::IfStatement)]
  
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
- public void doSomething() {
+<div>
+<pre>
+
    // this is OK
-   if (foo) x++;
+if (foo) x++;
+   
    // but this is not
-   if (foo)
-       x=x+1;
+if (foo)
+       x = x+1;
    else
-       x=x-1;
- }
+       x = x-1;
 
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

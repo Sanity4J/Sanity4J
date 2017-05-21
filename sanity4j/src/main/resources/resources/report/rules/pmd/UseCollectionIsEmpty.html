@@ -1,50 +1,32 @@
-<HTML>
-<HEAD>
-<TITLE>UseCollectionIsEmpty</TITLE>
-</HEAD>
-<BODY>
-<H2>UseCollectionIsEmpty</H2>
-The isEmpty() method on java.util.Collection is provided to see if a collection has any elements.
-Comparing the value of size() to 0 merely duplicates existing behavior.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UseCollectionIsEmpty</title></head>
+<body>
+<h2><a name="UseCollectionIsEmpty"></a>UseCollectionIsEmpty</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/UseCollectionIsEmpty.html">net.sourceforge.pmd.rules.design.UseCollectionIsEmpty</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>The isEmpty() method on java.util.Collection is provided to determine if a collection has any elements. Comparing the value of size() to 0 does not convey intent as well as the isEmpty() method.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/UseCollectionIsEmptyRule.html">net.sourceforge.pmd.lang.java.rule.design.UseCollectionIsEmptyRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
-	public class Foo {
-		void good() {
-        	List foo = getList();
-			if (foo.isEmpty()) {
+public class Foo {
+	void good() {
+       	List foo = getList();
+		if (foo.isEmpty()) {
+			// blah
+		}
+   	}
+
+    void bad() {
+   	    List foo = getList();
+			if (foo.size() == 0) {
 				// blah
 			}
     	}
-
-	    void bad() {
-    	    List foo = getList();
-				if (foo.size() == 0) {
-					// blah
-				}
-	    	}
-	}
+}
     
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,40 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>UselessStringValueOf</TITLE>
-</HEAD>
-<BODY>
-<H2>UselessStringValueOf</H2>
-No need to call String.valueOf to append to a string; just use the valueOf() argument directly.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UselessStringValueOf</title></head>
+<body>
+<h2><a name="UselessStringValueOf"></a>UselessStringValueOf</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/strings/UselessStringValueOf.html">net.sourceforge.pmd.rules.strings.UselessStringValueOf</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>No need to call String.valueOf to append to a string; just use the valueOf() argument directly.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/strings/UselessStringValueOfRule.html">net.sourceforge.pmd.lang.java.rule.strings.UselessStringValueOfRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public String convert(int i) {
-  String s;
-  s = "a" + String.valueOf(i); // Bad
-  s = "a" + i; // Better
-  return s;
+	String s;
+	s = &quot;a&quot; + String.valueOf(i);	// not required
+	s = &quot;a&quot; + i; 					// preferred approach
+	return s;
 }
 
-          
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

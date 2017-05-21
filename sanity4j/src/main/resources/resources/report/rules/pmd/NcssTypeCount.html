@@ -1,33 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>NcssTypeCount</TITLE>
-</HEAD>
-<BODY>
-<H2>NcssTypeCount</H2>
-This rule uses the NCSS (Non Commenting Source Statements) algorithm to determine the number of lines
-of code for a given type. NCSS ignores comments, and counts actual statements. Using this algorithm,
-lines of code that are split are counted as one.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>NcssTypeCount</title></head>
+<body>
+<h2><a name="NcssTypeCount"></a>NcssTypeCount</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/codesize/NcssTypeCount.html">net.sourceforge.pmd.rules.codesize.NcssTypeCount</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>This rule uses the NCSS (Non-Commenting Source Statements) algorithm to determine the number of lines of code for a given type. NCSS ignores comments, and counts actual statements. Using this algorithm, lines of code that are split are counted as one.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/NcssTypeCountRule.html">net.sourceforge.pmd.lang.java.rule.codesize.NcssTypeCountRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo extends Bar {
  public Foo() {
@@ -42,24 +24,6 @@ public class Foo extends Bar {
  }
 }
 
-   
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>minimum</td>
-                    <td>1500</td>
-                    <td>The type NCSS count reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

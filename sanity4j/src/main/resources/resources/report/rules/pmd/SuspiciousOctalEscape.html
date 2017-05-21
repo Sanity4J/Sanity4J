@@ -1,49 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>SuspiciousOctalEscape</TITLE>
-</HEAD>
-<BODY>
-<H2>SuspiciousOctalEscape</H2>
-A suspicious octal escape sequence was found inside a String literal.
-The Java language specification (section 3.10.6) says an octal
-escape sequence inside a literal String shall consist of a backslash
-followed by:
+<!doctype html>
+<html lang="en">
+<head><title>SuspiciousOctalEscape</title></head>
+<body>
+<h2><a name="SuspiciousOctalEscape"></a>SuspiciousOctalEscape</h2>
 
-   OctalDigit | OctalDigit OctalDigit | ZeroToThree OctalDigit OctalDigit
+<p>A suspicious octal escape sequence was found inside a String literal. The Java language specification (section 3.10.6) says an octal escape sequence inside a literal String shall consist of a backslash followed by:</p>
+<p>OctalDigit | OctalDigit OctalDigit | ZeroToThree OctalDigit OctalDigit</p>
+<p>Any octal escape sequence followed by non-octal digits can be confusing, e.g. &#x201c;\038&#x201d; is interpreted as the octal escape sequence &#x201c;\03&#x201d; followed by the literal character &#x201c;8&#x201d;.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/controversial/SuspiciousOctalEscapeRule.html">net.sourceforge.pmd.lang.java.rule.controversial.SuspiciousOctalEscapeRule</a></p>
+<p>Example(s):</p>
 
-Any octal escape sequence followed by non-octal digits can be confusing,
-e.g. "\038" is interpreted as the octal escape sequence "\03" followed by
-the literal character "8".
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<div>
+<pre>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/SuspiciousOctalEscape.html">net.sourceforge.pmd.rules.SuspiciousOctalEscape</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-
-public class Foo {
- public void foo() {
+public void foo() {
   // interpreted as octal 12, followed by character '8'
-  System.out.println("suspicious: \128");
- }
+  System.out.println(&quot;suspicious: \128&quot;);
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

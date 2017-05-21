@@ -1,42 +1,25 @@
-<HTML>
-<HEAD>
-<TITLE>OnlyOneReturn</TITLE>
-</HEAD>
-<BODY>
-<H2>OnlyOneReturn</H2>
-A method should have only one exit point, and that should be the last statement in the method.
-     </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>OnlyOneReturn</title></head>
+<body>
+<h2><a name="OnlyOneReturn"></a>OnlyOneReturn</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/OnlyOneReturnRule.html">net.sourceforge.pmd.rules.design.OnlyOneReturnRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>A method should have only one exit point, and that should be the last statement in the method.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/controversial/OnlyOneReturnRule.html">net.sourceforge.pmd.lang.java.rule.controversial.OnlyOneReturnRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
  
- public class OneReturnOnly1 {
+public class OneReturnOnly1 {
   public void foo(int x) {
-   if (x &gt; 0) {
-    return "hey";   // oops, multiple exit points!
-   }
-   return "hi";
+    if (x &gt; 0) {
+      return &quot;hey&quot;;   // first exit
+    }
+    return &quot;hi&quot;;	// second exit
   }
- }
+}
  
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

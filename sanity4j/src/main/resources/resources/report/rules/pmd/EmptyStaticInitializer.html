@@ -1,41 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyStaticInitializer</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyStaticInitializer</H2>
-An empty static initializer was found.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyStaticInitializer</title></head>
+<body>
+<h2><a name="EmptyStaticInitializer"></a>EmptyStaticInitializer</h2>
+
+<p>An empty static initializer serve no purpose and should be removed.</p>
+
+<div>
+<pre>
 
 //Initializer[@Static='true']/Block[count(*)=0]
 
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
    
 public class Foo {
- static {
-  // empty
- }
- }
+	static {
+	// empty
+	}
+}
 
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

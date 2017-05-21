@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><title>DoNotHardCodeSDCard</title></head>
+<body>
+<h2><a name="DoNotHardCodeSDCard"></a>DoNotHardCodeSDCard</h2>
+
+<p>Use Environment.getExternalStorageDirectory() instead of &#x201c;/sdcard&#x201d;</p>
+
+<div>
+<pre>//Literal[starts-with(@Image,'&quot;/sdcard')]</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+      
+public class MyActivity extends Activity {
+	protected void foo() {
+		String storageLocation = &quot;/sdcard/mypackage&quot;;	// hard-coded, poor approach
+
+		storageLocation = Environment.getExternalStorageDirectory() + &quot;/mypackage&quot;; // preferred approach
+	}
+}
+
+</pre></div>
+</body>
+</html>

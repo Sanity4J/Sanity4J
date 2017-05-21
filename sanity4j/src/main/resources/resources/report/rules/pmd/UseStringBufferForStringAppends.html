@@ -1,44 +1,27 @@
-<HTML>
-<HEAD>
-<TITLE>UseStringBufferForStringAppends</TITLE>
-</HEAD>
-<BODY>
-<H2>UseStringBufferForStringAppends</H2>
-Finds usages of += for appending strings.
-           </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UseStringBufferForStringAppends</title></head>
+<body>
+<h2><a name="UseStringBufferForStringAppends"></a>UseStringBufferForStringAppends</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/optimization/UseStringBufferForStringAppends.html">net.sourceforge.pmd.rules.optimization.UseStringBufferForStringAppends</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>The use of the &#x2018;+=&#x2019; operator for appending strings causes the JVM to create and use an internal StringBuffer. If a non-trivial number of these concatenations are being used then the explicit use of a StringBuilder or threadsafe StringBuffer is recommended to avoid this.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/optimizations/UseStringBufferForStringAppendsRule.html">net.sourceforge.pmd.lang.java.rule.optimizations.UseStringBufferForStringAppendsRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
       
 public class Foo {
- void bar() {
-  String a;
-  a = "foo";
-  a += " bar";
-  // better would be:
-  // StringBuffer a = new StringBuffer("foo");
-  // a.append(" bar);
- }
+  void bar() {
+    String a;
+    a = &quot;foo&quot;;
+    a += &quot; bar&quot;;
+   // better would be:
+   // StringBuilder a = new StringBuilder(&quot;foo&quot;);
+   // a.append(&quot; bar);
+  }
 }
       
-           
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>LocalHomeNamingConvention</TITLE>
-</HEAD>
-<BODY>
-<H2>LocalHomeNamingConvention</H2>
-The Local Home interface of a Session EJB should be suffixed by 'LocalHome'.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>LocalHomeNamingConvention</title></head>
+<body>
+<h2><a name="LocalHomeNamingConvention"></a>LocalHomeNamingConvention</h2>
+
+<p>The Local Home interface of a Session EJB should be suffixed by &#x2018;LocalHome&#x2019;.</p>
+
+<div>
+<pre>
                     
 //ClassOrInterfaceDeclaration
 [
@@ -26,35 +21,16 @@ The Local Home interface of a Session EJB should be suffixed by 'LocalHome'.
     )
 ]
                     
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
             
-    <div class="source"><pre>
-                
+ public interface MyBeautifulLocalHome extends javax.ejb.EJBLocalHome {}// proper name
+
+ public interface MissingProperSuffix extends javax.ejb.EJBLocalHome {}	// non-standard name
             
-            /* Proper name */
-            public interface MyBeautifulLocalHome extends javax.ejb.EJBLocalHome {}
-            
-        
-            </pre></div>
-  
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-            /* Bad name */
-            public interface MissingProperSuffix extends javax.ejb.EJBLocalHome {}
-            
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head><title>LawOfDemeter</title></head>
+<body>
+<h2><a name="LawOfDemeter"></a>LawOfDemeter</h2>
+
+<p>The Law of Demeter is a simple rule, that says &#x201c;only talk to friends&#x201d;. It helps to reduce coupling between classes or objects. See also the references: Andrew Hunt, David Thomas, and Ward Cunningham. The Pragmatic Programmer. From Journeyman to Master. Addison-Wesley Longman, Amsterdam, October 1999.; K.J. Lieberherr and I.M. Holland. Assuring good style for object-oriented programs. Software, IEEE, 6(5):38&#x2013;48, 1989.; <a class="externalLink" href="http://www.ccs.neu.edu/home/lieber/LoD.html">http://www.ccs.neu.edu/home/lieber/LoD.html</a>; <a class="externalLink" href="http://en.wikipedia.org/wiki/Law_of_Demeter">http://en.wikipedia.org/wiki/Law_of_Demeter</a></p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/coupling/LawOfDemeterRule.html">net.sourceforge.pmd.lang.java.rule.coupling.LawOfDemeterRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+public class Foo {
+    /**
+     * This example will result in two violations.
+     */
+    public void example(Bar b) {
+        // this method call is ok, as b is a parameter of &quot;example&quot;
+        C c = b.getC();
+        
+        // this method call is a violation, as we are using c, which we got from B.
+        // We should ask b directly instead, e.g. &quot;b.doItOnC();&quot;
+        c.doIt();
+        
+        // this is also a violation, just expressed differently as a method chain without temporary variables.
+        b.getC().doIt();
+        
+        // a constructor call, not a method call.
+        D d = new D();
+        // this method call is ok, because we have create the new instance of D locally.
+        d.doSomethingElse(); 
+    }
+}
+
+</pre></div>
+</body>
+</html>

@@ -1,53 +1,37 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidUsingNativeCode</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidUsingNativeCode</H2>
-As JVM and Java language offer already many help in creating application, it should be
-                very rare to have to rely on non-java code. Even though, it is rare to actually have to
-                use Java Native Interface (JNI). As the use of JNI make application less portable, and
-                harder to maintain, it is not recommended.
-            
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidUsingNativeCode</title></head>
+<body>
+<h2><a name="AvoidUsingNativeCode"></a>AvoidUsingNativeCode</h2>
+
+<p>Unnecessary reliance on Java Native Interface (JNI) calls directly reduces application portability and increases the maintenance burden.</p>
+
+<div>
+<pre>
                     
                         //Name[starts-with(@Image,'System.loadLibrary')]
                     
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-                public class SomeJNIClass {
-                        public SomeJNIClass() {
-                                System.loadLibrary("nativelib");
-                        }
+</pre></div>
+<p>Example(s):</p>
 
-                        static {
-                             System.loadLibrary("nativelib");
-                        }
-
-                        public void invalidCallsInMethod() throws SecurityException, NoSuchMethodException {
-                                System.loadLibrary("nativelib");
-                        }
-                }
+<div>
+<pre>
             
-        
-            </pre></div>
-</BODY>
-</HTML>
+public class SomeJNIClass {
+
+     public SomeJNIClass() {
+         System.loadLibrary(&quot;nativelib&quot;);
+     }
+
+     static {
+         System.loadLibrary(&quot;nativelib&quot;);
+         }
+
+     public void invalidCallsInMethod() throws SecurityException, NoSuchMethodException {
+         System.loadLibrary(&quot;nativelib&quot;);
+     }
+}
+            
+</pre></div>
+</body>
+</html>

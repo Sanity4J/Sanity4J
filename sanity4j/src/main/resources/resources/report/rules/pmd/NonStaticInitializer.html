@@ -1,44 +1,29 @@
-<HTML>
-<HEAD>
-<TITLE>NonStaticInitializer</TITLE>
-</HEAD>
-<BODY>
-<H2>NonStaticInitializer</H2>
-A nonstatic initializer block will be called any time a constructor
-is invoked (just prior to invoking the constructor).  While this
-is a valid language construct, it is rarely used and is confusing.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>NonStaticInitializer</title></head>
+<body>
+<h2><a name="NonStaticInitializer"></a>NonStaticInitializer</h2>
+
+<p>A non-static initializer block will be called any time a constructor is invoked (just prior to invoking the constructor). While this is a valid language construct, it is rarely used and is confusing.</p>
+
+<div>
+<pre>
 
 //Initializer[@Static='false']
 
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
    
 public class MyClass {
  // this block gets run before any call to a constructor
- {
-  System.out.println("I am about to construct myself");
- }
+  {
+   System.out.println(&quot;I am about to construct myself&quot;);
+  }
 }
    
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

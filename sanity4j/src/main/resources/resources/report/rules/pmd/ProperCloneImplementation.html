@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>ProperCloneImplementation</TITLE>
-</HEAD>
-<BODY>
-<H2>ProperCloneImplementation</H2>
-Object clone() should be implemented with super.clone().
-     </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ProperCloneImplementation</title></head>
+<body>
+<h2><a name="ProperCloneImplementation"></a>ProperCloneImplementation</h2>
+
+<p>Object clone() should be implemented with super.clone().</p>
+
+<div>
+<pre>
                  
 //MethodDeclarator
 [@Image = 'clone']
@@ -21,21 +16,14 @@ Object clone() should be implemented with super.clone().
     (self::AllocationExpression) and
     (./ClassOrInterfaceType/@Image = ancestor::
 ClassOrInterfaceDeclaration[1]/@Image)
-  ])&amp;gt; 0
+  ])&gt; 0
 ]
                 
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
  
 class Foo{
     public Object clone(){
@@ -43,7 +31,6 @@ class Foo{
     }
 }
 
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

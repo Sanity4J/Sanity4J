@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>CloneThrowsCloneNotSupportedException</TITLE>
-</HEAD>
-<BODY>
-<H2>CloneThrowsCloneNotSupportedException</H2>
-The method clone() should throw a CloneNotSupportedException.
-         </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>CloneThrowsCloneNotSupportedException</title></head>
+<body>
+<h2><a name="CloneThrowsCloneNotSupportedException"></a>CloneThrowsCloneNotSupportedException</h2>
+
+<p>The method clone() should throw a CloneNotSupportedException.</p>
+
+<div>
+<pre>
                      
 //MethodDeclaration
 [
@@ -25,18 +20,11 @@ and count(NameList/Name[contains
 ../../../../ClassOrInterfaceDeclaration[@Final = 'false']
 ]
                      
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
              
  public class MyClass implements Cloneable{
      public Object clone() { // will cause an error
@@ -45,7 +33,6 @@ and count(NameList/Name[contains
      }
  }
     
-         
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

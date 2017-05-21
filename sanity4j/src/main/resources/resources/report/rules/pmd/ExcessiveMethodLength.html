@@ -1,59 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>ExcessiveMethodLength</TITLE>
-</HEAD>
-<BODY>
-<H2>ExcessiveMethodLength</H2>
-Violations of this rule usually indicate that the method is doing
-too much.  Try to reduce the method size by creating helper methods and removing any copy/pasted code.
-   </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ExcessiveMethodLength</title></head>
+<body>
+<h2><a name="ExcessiveMethodLength"></a>ExcessiveMethodLength</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/LongMethodRule.html">net.sourceforge.pmd.rules.design.LongMethodRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>When methods are excessively long this usually indicates that the method is doing more than its name/signature might suggest. They also become challenging for others to digest since excessive scrolling causes readers to lose focus. Try to reduce the method length by creating helper methods and removing any copy/pasted code.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/ExcessiveMethodLengthRule.html">net.sourceforge.pmd.lang.java.rule.codesize.ExcessiveMethodLengthRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
- public void doSomething() {
-  System.out.println("Hello world!");
-  System.out.println("Hello world!");
-  // 98 copies omitted for brevity.
- }
+<div>
+<pre>
+
+public void doSomething() {
+	System.out.println(&quot;Hello world!&quot;);
+	System.out.println(&quot;Hello world!&quot;);
+		// 98 copies omitted for brevity.
 }
 
-   
-            </pre></div>
-  
-        
 
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="b">
-                    <td>minimum</td>
-                    <td>100</td>
-                    <td>The method size reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

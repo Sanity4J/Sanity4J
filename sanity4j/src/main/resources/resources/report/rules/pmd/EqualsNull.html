@@ -1,53 +1,44 @@
-<HTML>
-<HEAD>
-<TITLE>EqualsNull</TITLE>
-</HEAD>
-<BODY>
-<H2>EqualsNull</H2>
-Inexperienced programmers sometimes confuse comparison concepts
-and use equals() to compare to null.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EqualsNull</title></head>
+<body>
+<h2><a name="EqualsNull"></a>EqualsNull</h2>
+
+<p>Tests for null should not use the equals() method. The &#x2018;==&#x2019; operator should be used instead.</p>
+
+<div>
+<pre>
     
 //PrimaryExpression
- [
-PrimaryPrefix/Name[ends-with(@Image, 'equals')]
-or
-PrimarySuffix[ends-with(@Image, 'equals')]
-]
-[PrimarySuffix/Arguments/ArgumentList[count(Expression)=1]
-  /Expression/PrimaryExpression/PrimaryPrefix
-   /Literal/NullLiteral]
+  [
+    PrimaryPrefix[Name[ends-with(@Image, 'equals')]]
+      [following-sibling::node()/Arguments/ArgumentList[count(Expression)=1]
+          /Expression/PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
+
+    or
+
+    PrimarySuffix[ends-with(@Image, 'equals')]
+      [following-sibling::node()/Arguments/ArgumentList[count(Expression)=1]
+          /Expression/PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
+
+  ]
     
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
        
-class Bar {
-   void foo() {
-       String x = "foo";
-       if (x.equals(null)) { // bad!
-        doSomething();
-       }
-   }
-}
+String x = &quot;foo&quot;;
+
+if (x.equals(null)) { // bad form
+   	doSomething();
+	}
+	
+if (x == null) { 	// preferred
+   	doSomething();
+	}
     
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

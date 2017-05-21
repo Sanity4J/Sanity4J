@@ -1,43 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>UseIndexOfChar</TITLE>
-</HEAD>
-<BODY>
-<H2>UseIndexOfChar</H2>
-Use String.indexOf(char) when checking for the index of a single character; it executes faster.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UseIndexOfChar</title></head>
+<body>
+<h2><a name="UseIndexOfChar"></a>UseIndexOfChar</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/strings/UseIndexOfChar.html">net.sourceforge.pmd.rules.strings.UseIndexOfChar</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Use String.indexOf(char) when checking for the index of a single character; it executes faster.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/strings/UseIndexOfCharRule.html">net.sourceforge.pmd.lang.java.rule.strings.UseIndexOfCharRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
- void bar() {
-  String s = "hello world";
+<div>
+<pre>
+
+String s = &quot;hello world&quot;;
   // avoid this
-  if (s.indexOf("d") {}
+if (s.indexOf(&quot;d&quot;) {}
   // instead do this
-  if (s.indexOf('d') {}
- }
-}
+if (s.indexOf('d') {}
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

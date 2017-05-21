@@ -1,83 +1,65 @@
-<HTML>
-<HEAD>
-<TITLE>UnusedNullCheckInEquals</TITLE>
-</HEAD>
-<BODY>
-<H2>UnusedNullCheckInEquals</H2>
-After checking an object reference for null, you should invoke equals() on that object rather than passing it to another object's equals() method.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UnusedNullCheckInEquals</title></head>
+<body>
+<h2><a name="UnusedNullCheckInEquals"></a>UnusedNullCheckInEquals</h2>
+
+<p>After checking an object reference for null, you should invoke equals() on that object rather than passing it to another object&#x2019;s equals() method.</p>
+
+<div>
+<pre>
         
-//PrimarySuffix[@Image='equals' and not(../PrimaryPrefix/Literal)]
- /../PrimarySuffix/Arguments/ArgumentList/Expression
- /PrimaryExpression/PrimaryPrefix
+(//PrimaryPrefix[ends-with(Name/@Image, '.equals') and Name/@Image != 'Arrays.equals'] | //PrimarySuffix[@Image='equals' and not(../PrimaryPrefix/Literal)])
+ /following-sibling::PrimarySuffix/Arguments/ArgumentList/Expression
+ /PrimaryExpression[count(PrimarySuffix)=0]/PrimaryPrefix
  /Name[@Image = ./../../../../../../../../../../Expression/ConditionalAndExpression
- /EqualityExpression[@Image="!=" and count(./preceding-sibling::*)=0 and
+ /EqualityExpression[@Image=&quot;!=&quot; and count(./preceding-sibling::*)=0 and
  ./PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
   /PrimaryExpression/PrimaryPrefix/Name/@Image]
         
-        </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
+<div>
+<pre>
+		
 public class Test {
 
-public String method1() { return "ok";}
-public String method2() { return null;}
+  public String method1() { return &quot;ok&quot;;}
+  public String method2() { return null;}
 
-public void method(String a) {
-String b;
-/*
-I don't know it method1() can be "null"
-but I know "a" is not null..
-I'd better write a.equals(method1())
-*/
-if (a!=null &amp;&amp; method1().equals(a)) { // will
-trigger the rule
-//whatever
+  public void method(String a) {
+    String b;
+	// I don't know it method1() can be &quot;null&quot;
+	// but I know &quot;a&quot; is not null..
+	// I'd better write a.equals(method1())
+	
+	if (a!=null &amp;&amp; method1().equals(a)) { // will trigger the rule
+	//whatever
+	}
+	
+	if (method1().equals(a) &amp;&amp; a != null) { // won't trigger the rule
+	//whatever
+	}
+	
+	if (a!=null &amp;&amp; method1().equals(b)) { // won't trigger the rule
+	//whatever
+	}
+	
+	if (a!=null &amp;&amp; &quot;LITERAL&quot;.equals(a)) { // won't trigger the rule
+	//whatever
+	}
+	
+	if (a!=null &amp;&amp; !a.equals(&quot;go&quot;)) { // won't trigger the rule
+	a=method2();
+	if (method1().equals(a)) {
+	//whatever
+	}
+  }
 }
+}
+				
+			</pre></div>
 
-if (method1().equals(a) &amp;&amp; a != null) { //
-won't trigger the rule
-//whatever
-}
-
-if (a!=null &amp;&amp; method1().equals(b)) { // won't
-trigger the rule
-//whatever
-}
-
-if (a!=null &amp;&amp; "LITERAL".equals(a)) { // won't
-trigger the rule
-//whatever
-}
-
-if (a!=null &amp;&amp; !a.equals("go")) { // won't
-trigger the rule
-a=method2();
-if (method1().equals(a)) {
-//whatever
-}
-}
-}
-}
-
-
-            </pre></div>
-</BODY>
-</HTML>
+</body>
+</html>

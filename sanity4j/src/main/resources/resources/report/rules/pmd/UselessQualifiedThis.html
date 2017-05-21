@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head><title>UselessQualifiedThis</title></head>
+<body>
+<h2><a name="UselessQualifiedThis"></a>UselessQualifiedThis</h2>
+
+<p>Look for qualified this usages in the same class.</p>
+
+<div>
+<pre>
+          
+//PrimaryExpression
+[PrimaryPrefix/Name[@Image]]
+[PrimarySuffix[@Arguments='false']]
+[not(PrimarySuffix/MemberSelector)]
+[ancestor::ClassOrInterfaceBodyDeclaration[1][@AnonymousInnerClass='false']]
+/PrimaryPrefix/Name[@Image = ancestor::ClassOrInterfaceDeclaration[1]/@Image]
+          
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+    
+public class Foo {
+    final Foo otherFoo = Foo.this;  // use &quot;this&quot; directly
+
+    public void doSomething() {
+         final Foo anotherFoo = Foo.this;  // use &quot;this&quot; directly
+    }
+
+    private ActionListener returnListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                doSomethingWithQualifiedThis(Foo.this);  // This is fine
+            }
+        };
+    }
+
+    private class Foo3 {
+        final Foo myFoo = Foo.this;  // This is fine
+    }
+
+    private class Foo2 {
+        final Foo2 myFoo2 = Foo2.this;  // Use &quot;this&quot; direclty
+    }
+}
+    
+</pre></div>
+</body>
+</html>

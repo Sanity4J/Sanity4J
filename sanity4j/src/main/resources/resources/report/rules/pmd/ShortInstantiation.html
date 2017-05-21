@@ -1,20 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>ShortInstantiation</TITLE>
-</HEAD>
-<BODY>
-<H2>ShortInstantiation</H2>
-rtInstantiation"></a><h3>ShortInstantiation</h3>
-		<p>Since: PMD 4.0</p>
-		<p>In JDK 1.5, calling new Short() causes memory allocation. Short.valueOf() is more memory friendly.
-          </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ShortInstantiation</title></head>
+<body>
+<h2><a name="ShortInstantiation"></a>ShortInstantiation</h2>
+
+<p>Calling new Short() causes memory allocation that can be avoided by the static Short.valueOf(). It makes use of an internal cache that recycles earlier instances making it more memory efficient.</p>
+
+<div>
+<pre>
 
 //PrimaryPrefix
 /AllocationExpression
@@ -22,25 +15,16 @@ rtInstantiation"></a><h3>ShortInstantiation</h3>
 and (ClassOrInterfaceType/@Image='Short'
 or ClassOrInterfaceType/@Image='java.lang.Short')]
 
-          </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
-private Short i = new Short(0); // change to Short i =
-Short.valueOf(0);
+	private Short i = new Short(0); // change to Short i = Short.valueOf(0);
 }
 
-          
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

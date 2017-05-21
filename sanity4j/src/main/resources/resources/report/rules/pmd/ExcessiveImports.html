@@ -1,33 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>ExcessiveImports</TITLE>
-</HEAD>
-<BODY>
-<H2>ExcessiveImports</H2>
-A high number of imports can indicate a high degree of coupling within
-an object. Rule counts the number of unique imports and reports a violation
-if the count is above the user defined threshold.
-  </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ExcessiveImports</title></head>
+<body>
+<h2><a name="ExcessiveImports"></a>ExcessiveImports</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/ExcessiveImports.html">net.sourceforge.pmd.rules.ExcessiveImports</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>A high number of imports can indicate a high degree of coupling within an object. This rule counts the number of unique imports and reports a violation if the count is above the user-specified threshold.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/coupling/ExcessiveImportsRule.html">net.sourceforge.pmd.lang.java.rule.coupling.ExcessiveImportsRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
       
 import blah.blah.Baz;
 import blah.blah.Bif;
@@ -36,24 +18,6 @@ public class Foo {
  public void doWork() {}
 }
       
-  
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>minimum</td>
-                    <td>30</td>
-                    <td>The import count reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

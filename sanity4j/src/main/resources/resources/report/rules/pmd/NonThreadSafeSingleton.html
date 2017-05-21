@@ -1,69 +1,26 @@
-<HTML>
-<HEAD>
-<TITLE>NonThreadSafeSingleton</TITLE>
-</HEAD>
-<BODY>
-<H2>NonThreadSafeSingleton</H2>
-Non-thread safe singletons can result in bad state changes. Eliminate
-static singletons if possible by instantiating the object directly. Static
-singletons are usually not needed as only a single instance exists anyway.
-Other possible fixes are to synchronize the entire method or to use an
-initialize-on-demand holder class (do not use the double-check idiom).
+<!doctype html>
+<html lang="en">
+<head><title>NonThreadSafeSingleton</title></head>
+<body>
+<h2><a name="NonThreadSafeSingleton"></a>NonThreadSafeSingleton</h2>
 
-See Effective Java, item 48.
-        </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<p>Non-thread safe singletons can result in bad state changes. Eliminate static singletons if possible by instantiating the object directly. Static singletons are usually not needed as only a single instance exists anyway. Other possible fixes are to synchronize the entire method or to use an <a class="externalLink" href="https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom">initialize-on-demand holder class</a>.</p>
+<p>Refrain from using the double-checked locking pattern. The Java Memory Model doesn&#x2019;t guarantee it to work unless the variable is declared as <tt>volatile</tt>, adding an uneeded performance penalty. <a class="externalLink" href="http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html">Reference</a></p>
+<p>See Effective Java, item 48.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/NonThreadSafeSingletonRule.html">net.sourceforge.pmd.lang.java.rule.design.NonThreadSafeSingletonRule</a></p>
+<p>Example(s):</p>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/NonThreadSafeSingleton.html">net.sourceforge.pmd.rules.design.NonThreadSafeSingleton</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<div>
+<pre>
 private static Foo foo = null;
 
 //multiple simultaneous callers may see partially initialized objects
 public static Foo getFoo() {
-    if (foo==null)
+    if (foo==null) {
         foo = new Foo();
+    }
     return foo;
 }
-        
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>checkNonStaticMethods</td>
-                    <td></td>
-                    <td>Do not set this to false and checkNonStaticFields to true</td>
-                    </tr>
-                
-                    <tr class="b">
-                    <td>checkNonStaticFields</td>
-                    <td></td>
-                    <td>Do not set this to true and checkNonStaticMethods to false</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

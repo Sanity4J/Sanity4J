@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>PositionLiteralsFirstInComparisons</TITLE>
-</HEAD>
-<BODY>
-<H2>PositionLiteralsFirstInComparisons</H2>
-Position literals first in String comparisons - that way if the String is null you won't get a NullPointerException, it'll just return false.
-  </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>PositionLiteralsFirstInComparisons</title></head>
+<body>
+<h2><a name="PositionLiteralsFirstInComparisons"></a>PositionLiteralsFirstInComparisons</h2>
+
+<p>Position literals first in comparisons, if the second argument is null then NullPointerExceptions can be avoided, they will just return false.</p>
+
+<div>
+<pre>
               
 //PrimaryExpression[
         PrimaryPrefix[Name
@@ -21,7 +16,7 @@ Position literals first in String comparisons - that way if the String is null y
                 ]
         ]
         [
-                   (../PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Literal)
+                   (../PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Literal[@StringLiteral='true'])
 	and
 	( count(../PrimarySuffix/Arguments/ArgumentList/Expression) = 1 )
         ]
@@ -30,27 +25,19 @@ Position literals first in String comparisons - that way if the String is null y
 [not(ancestor::Expression/ConditionalOrExpression//EqualityExpression[@Image='==']//NullLiteral)]
 
           
-          </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 class Foo {
- boolean bar(String x) {
-  return x.equals("2"); // should be "2".equals(x)
- }
+  boolean bar(String x) {
+    return x.equals(&quot;2&quot;); // should be &quot;2&quot;.equals(x)
+  }
 }
 
 
-  
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

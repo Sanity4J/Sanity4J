@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head><title>JUnitTestContainsTooManyAsserts</title></head>
+<body>
+<h2><a name="JUnitTestContainsTooManyAsserts"></a>JUnitTestContainsTooManyAsserts</h2>
+
+<p>JUnit tests should not contain too many asserts. Many asserts are indicative of a complex test, for which it is harder to verify correctness. Consider breaking the test scenario into multiple, shorter test scenarios.<br />Customize the maximum number of assertions used by this Rule to suit your needs.</p>
+
+<div>
+<pre>
+
+//MethodDeclarator[(@Image[fn:matches(.,'^test')] or ../../Annotation/MarkerAnnotation/Name[@Image='Test']) and count(..//PrimaryPrefix/Name[@Image[fn:matches(.,'^assert')]]) &gt; $maximumAsserts]
+
+				</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+public class MyTestCase extends TestCase {
+	// Ok
+	public void testMyCaseWithOneAssert() {
+		boolean myVar = false;		
+		assertFalse(&quot;should be false&quot;, myVar);
+	}
+
+	// Bad, too many asserts (assuming max=1)
+	public void testMyCaseWithMoreAsserts() {
+		boolean myVar = false;		
+		assertFalse(&quot;myVar should be false&quot;, myVar);
+		assertEquals(&quot;should equals false&quot;, false, myVar);
+	}
+}
+
+		</pre></div>
+</body>
+</html>

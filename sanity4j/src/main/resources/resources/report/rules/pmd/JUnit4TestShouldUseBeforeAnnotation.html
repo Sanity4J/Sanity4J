@@ -1,35 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>JUnit4TestShouldUseBeforeAnnotation</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnit4TestShouldUseBeforeAnnotation</H2>
-In JUnit 3, the setUp method was used to set up all data entities required in running tests. JUnit 4 skips the setUp method 
-and executes all methods annotated with @Before before all tests
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>JUnit4TestShouldUseBeforeAnnotation</title></head>
+<body>
+<h2><a name="JUnit4TestShouldUseBeforeAnnotation"></a>JUnit4TestShouldUseBeforeAnnotation</h2>
 
+<p>In JUnit 3, the setUp method was used to set up all data entities required in running tests. JUnit 4 skips the setUp method and executes all methods annotated with @Before before all tests</p>
+
+<div>
+<pre>
+
+//CompilationUnit[not(ImportDeclaration/Name[starts-with(@Image, &quot;org.testng&quot;)])]
 //ClassOrInterfaceBodyDeclaration[MethodDeclaration/MethodDeclarator[@Image='setUp']]
-[count(Annotation/MarkerAnnotation/Name[@Image='Before'])=0]
+[count(Annotation//Name[@Image='Before'])=0]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class MyTest {
     public void setUp() {
@@ -42,7 +30,6 @@ public class MyTest2 {
     }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

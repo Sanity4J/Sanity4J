@@ -1,22 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>DoNotCallGarbageCollectionExplicitly</TITLE>
-</HEAD>
-<BODY>
-<H2>DoNotCallGarbageCollectionExplicitly</H2>
-Calls to System.gc(), Runtime.getRuntime().gc(), and System.runFinalization() are not advised. Code should have the
-		        same behavior whether the garbage collection is disabled using the option -Xdisableexplicitgc or not.
-		        Moreover, "modern" jvms do a very good job handling garbage collections. If memory usage issues unrelated to memory
-			leaks develop within an application, it should be dealt with JVM options rather than within the code itself.
-			
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>DoNotCallGarbageCollectionExplicitly</title></head>
+<body>
+<h2><a name="DoNotCallGarbageCollectionExplicitly"></a>DoNotCallGarbageCollectionExplicitly</h2>
+
+<p>Calls to System.gc(), Runtime.getRuntime().gc(), and System.runFinalization() are not advised. Code should have the same behavior whether the garbage collection is disabled using the option -Xdisableexplicitgc or not. Moreover, &#x201c;modern&#x201d; jvms do a very good job handling garbage collections. If memory usage issues unrelated to memory leaks develop within an application, it should be dealt with JVM options rather than within the code itself.</p>
+
+<div>
+<pre>
                     
 //Name[
 (starts-with(@Image, 'System.') and
@@ -28,39 +19,34 @@ starts-with(@Image,'Runtime.getRuntime') and
 )
 ]
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
             
-    <div class="source"><pre>
-                
-            [
-            public class GCCall
-            {
-     	public GCCall()
-                	{
-                        // Explicit gc call !
-                        System.gc();
-                	}
-	public void doSomething()
-	 {
-		// Explicit gc call !
-		Runtime.getRuntime().gc();
-	}
+public class GCCall {
+    public GCCall() {
+        // Explicit gc call !
+        System.gc();
+    }
 
-public explicitGCcall() { // Explicit gc call ! System.gc(); }
+    public void doSomething() {
+        // Explicit gc call !
+        Runtime.getRuntime().gc();
+    }
 
-public void doSomething() { // Explicit gc call ! Runtime.getRuntime().gc(); } }
+    public explicitGCcall() {
+        // Explicit gc call !
+        System.gc();
+    }
 
-
-			
-		
-            </pre></div>
-</BODY>
-</HTML>
+    public void doSomething() {
+        // Explicit gc call !
+        Runtime.getRuntime().gc();
+    }
+}
+      
+</pre></div>
+</body>
+</html>

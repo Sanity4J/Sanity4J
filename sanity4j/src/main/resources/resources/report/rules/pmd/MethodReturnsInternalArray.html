@@ -1,32 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>MethodReturnsInternalArray</TITLE>
-</HEAD>
-<BODY>
-<H2>MethodReturnsInternalArray</H2>
-Exposing internal arrays directly allows the user to modify some code that could be critical.
-It is safer to return a copy of the array.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>MethodReturnsInternalArray</title></head>
+<body>
+<h2><a name="MethodReturnsInternalArray"></a>MethodReturnsInternalArray</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/sunsecure/MethodReturnsInternalArray.html">net.sourceforge.pmd.rules.sunsecure.MethodReturnsInternalArray</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Exposing internal arrays to the caller violates object encapsulation since elements can be removed or replaced outside of the object that owns it. It is safer to return a copy of the array.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/sunsecure/MethodReturnsInternalArrayRule.html">net.sourceforge.pmd.lang.java.rule.sunsecure.MethodReturnsInternalArrayRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class SecureSystem {
   UserData [] ud;
@@ -36,7 +19,6 @@ public class SecureSystem {
   }
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,47 +1,38 @@
-<HTML>
-<HEAD>
-<TITLE>ShortVariable</TITLE>
-</HEAD>
-<BODY>
-<H2>ShortVariable</H2>
-Detects when a field, local, or parameter has a very short name.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ShortVariable</title></head>
+<body>
+<h2><a name="ShortVariable"></a>ShortVariable</h2>
+
+<p>Fields, local variables, or parameter names that are very short are not helpful to the reader.</p>
+
+<div>
+<pre>
                   
-//VariableDeclaratorId[string-length(@Image) &amp;lt; 3]
+//VariableDeclaratorId[string-length(@Image) &lt; $minimum]
  [not(ancestor::ForInit)]
+ [not(../../VariableDeclarator and ../../../LocalVariableDeclaration and ../../../../ForStatement)]
  [not((ancestor::FormalParameter) and (ancestor::TryStatement))]
                   
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Something {
-  private int q = 15; // VIOLATION - Field
-  public static void main( String as[] ) {  // VIOLATION - Formal
-    int r = 20 + q; // VIOLATION - Local
-    for (int i = 0; i &lt; 10; i++) { // Not a Violation (inside FOR)
-      r += q;
+    private int q = 15;                         // field - too short
+    public static void main( String as[] ) {    // formal arg - too short
+        int r = 20 + q;                         // local var - too short
+        for (int i = 0; i &lt; 10; i++) {          // not a violation (inside 'for' loop)
+            r += q;
+        }
+        for (Integer i : numbers) {             // not a violation (inside 'for-each' loop)
+            r += q;
+        }
     }
-  }
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,19 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>UseAssertEqualsInsteadOfAssertTrue</TITLE>
-</HEAD>
-<BODY>
-<H2>UseAssertEqualsInsteadOfAssertTrue</H2>
-This rule detects JUnit assertions in object equality. These assertions
-should be made by more specific methods, like assertEquals.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UseAssertEqualsInsteadOfAssertTrue</title></head>
+<body>
+<h2><a name="UseAssertEqualsInsteadOfAssertTrue"></a>UseAssertEqualsInsteadOfAssertTrue</h2>
+
+<p>This rule detects JUnit assertions in object equality. These assertions should be made by more specific methods, like assertEquals.</p>
+
+<div>
+<pre>
                 
 //PrimaryExpression[
     PrimaryPrefix/Name[@Image = 'assertTrue']
@@ -21,30 +15,23 @@ should be made by more specific methods, like assertEquals.
     PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Name
     [ends-with(@Image, '.equals')]
 ]
-[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[pmd-java:typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[pmd-java:typeof(@Image, 'org.junit.Test', 'Test')]]]
  
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class FooTest extends TestCase {
- void testCode() {
-  Object a, b;
-  assertTrue(a.equals(b)); // bad usage
-  assertEquals(?a should equals b?, a, b); // good usage
- }
+	void testCode() {
+		Object a, b;
+		assertTrue(a.equals(b)); 					// bad usage
+		assertEquals(?a should equals b?, a, b);	// good usage
+	}
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+
+</body>
+</html>

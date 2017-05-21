@@ -1,39 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidReassigningParameters</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidReassigningParameters</H2>
-Reassigning values to parameters is a questionable practice.  Use a temporary local variable instead.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidReassigningParameters</title></head>
+<body>
+<h2><a name="AvoidReassigningParameters"></a>AvoidReassigningParameters</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/AvoidReassigningParameters.html">net.sourceforge.pmd.rules.AvoidReassigningParameters</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Reassigning values to incoming parameters is not recommended. Use temporary local variables instead.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/AvoidReassigningParametersRule.html">net.sourceforge.pmd.lang.java.rule.design.AvoidReassigningParametersRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
- private void foo(String bar) {
-  bar = "something else";
- }
+  private void foo(String bar) {
+    bar = &quot;something else&quot;;
+  }
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

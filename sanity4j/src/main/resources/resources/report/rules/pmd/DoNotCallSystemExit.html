@@ -1,42 +1,30 @@
-<HTML>
-<HEAD>
-<TITLE>DoNotCallSystemExit</TITLE>
-</HEAD>
-<BODY>
-<H2>DoNotCallSystemExit</H2>
-otCallSystemExit"></a><h3>DoNotCallSystemExit</h3>
-		<p>Since: PMD 4.1</p>
-		<p>Web applications should not call System.exit(), since only the web container or the
-application server should stop the JVM.
-	</p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
-//Name[starts-with(@Image,'System.exit')]
+<!doctype html>
+<html lang="en">
+<head><title>DoNotCallSystemExit</title></head>
+<body>
+<h2><a name="DoNotCallSystemExit"></a>DoNotCallSystemExit</h2>
+
+<p>Web applications should not call System.exit(), since only the web container or the application server should stop the JVM. This rule also checks for the equivalent call Runtime.getRuntime().exit().</p>
+
+<div>
+<pre>
+//Name[
+    starts-with(@Image,'System.exit')
+    or
+    (starts-with(@Image,'Runtime.getRuntime') and ../../PrimarySuffix[ends-with(@Image,'exit')])
+]
     		</pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Example(s):</p>
+
+<div>
+<pre>
     		
-public class Foo {
-    public void bar() {
-        // NEVER DO THIS IN A APP SERVER !!!
-        System.exit(0);
-    }
+public void bar() {
+    System.exit(0);                 // never call this when running in an application server!
 }
-     
-            </pre></div>
-</BODY>
-</HTML>
+public void foo() {
+    Runtime.getRuntime().exit(0);   // never stop the JVM manually, the container will do this.
+}
+</pre></div>
+</body>
+</html>

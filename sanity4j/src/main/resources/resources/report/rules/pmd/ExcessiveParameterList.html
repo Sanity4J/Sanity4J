@@ -1,59 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>ExcessiveParameterList</TITLE>
-</HEAD>
-<BODY>
-<H2>ExcessiveParameterList</H2>
-Long parameter lists can indicate that a new object should be created to
- wrap the numerous parameters.  Basically, try to group the parameters together.
-   </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ExcessiveParameterList</title></head>
+<body>
+<h2><a name="ExcessiveParameterList"></a>ExcessiveParameterList</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/LongParameterListRule.html">net.sourceforge.pmd.rules.design.LongParameterListRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Methods with numerous parameters are a challenge to maintain, especially if most of them share the same datatype. These situations usually denote the need for new objects to wrap the numerous parameters.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/ExcessiveParameterListRule.html">net.sourceforge.pmd.lang.java.rule.codesize.ExcessiveParameterListRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
- public void addData(
-  int p0, int p1, int p2, int p3, int p4, int p5,
-  int p5, int p6, int p7, int p8, int p9, int p10) {
-  }
- }
+<div>
+<pre>
+
+public void addPerson(		// too many arguments liable to be mixed up
+	int birthYear, int birthMonth, int birthDate, int height, int weight, int ssn) {
+
+	. . . .
+}
+ 
+public void addPerson(		// preferred approach
+	Date birthdate, BodyMeasurements measurements, int ssn) {
+
+	. . . .
 }
 
-   
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>minimum</td>
-                    <td>10</td>
-                    <td>The parameter count reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

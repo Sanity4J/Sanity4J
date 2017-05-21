@@ -1,45 +1,26 @@
-<HTML>
-<HEAD>
-<TITLE>UnsynchronizedStaticDateFormatter</TITLE>
-</HEAD>
-<BODY>
-<H2>UnsynchronizedStaticDateFormatter</H2>
-SimpleDateFormat is not synchronized. Sun recomends separate format instances
-for each thread. If multiple threads must access a static formatter, the
-formatter must be synchronized either on method or block level.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UnsynchronizedStaticDateFormatter</title></head>
+<body>
+<h2><a name="UnsynchronizedStaticDateFormatter"></a>UnsynchronizedStaticDateFormatter</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/UnsynchronizedStaticDateFormatter.html">net.sourceforge.pmd.rules.design.UnsynchronizedStaticDateFormatter</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>SimpleDateFormat instances are not synchronized. Sun recommends using separate format instances for each thread. If multiple threads must access a static formatter, the formatter must be synchronized either on method or block level.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/UnsynchronizedStaticDateFormatterRule.html">net.sourceforge.pmd.lang.java.rule.design.UnsynchronizedStaticDateFormatterRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo {
     private static final SimpleDateFormat sdf = new SimpleDateFormat();
     void bar() {
-        sdf.format(); // bad
+        sdf.format(); // poor, no thread-safety
     }
     synchronized void foo() {
-        sdf.format(); // good
+        sdf.format(); // preferred
     }
 }
     
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

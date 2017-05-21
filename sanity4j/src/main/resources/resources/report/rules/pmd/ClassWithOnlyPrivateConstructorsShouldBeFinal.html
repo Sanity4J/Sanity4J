@@ -1,40 +1,26 @@
-<HTML>
-<HEAD>
-<TITLE>ClassWithOnlyPrivateConstructorsShouldBeFinal</TITLE>
-</HEAD>
-<BODY>
-<H2>ClassWithOnlyPrivateConstructorsShouldBeFinal</H2>
-A class with only private constructors should be final, unless the private
-constructor is called by a inner class.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ClassWithOnlyPrivateConstructorsShouldBeFinal</title></head>
+<body>
+<h2><a name="ClassWithOnlyPrivateConstructorsShouldBeFinal"></a>ClassWithOnlyPrivateConstructorsShouldBeFinal</h2>
+
+<p>A class with only private constructors should be final, unless the private constructor is invoked by a inner class.</p>
+
+<div>
+<pre>
 TypeDeclaration[count(../TypeDeclaration) = 1]/ClassOrInterfaceDeclaration
 [@Final = 'false']
-[count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Private = 'true']) &amp;gt;= 1 ]
-[count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Public = 'true'])  = 0 ]
+[count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Private = 'true']) &gt;= 1 ]
+[count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[(@Public = 'true') or (@Protected = 'true') or (@PackagePrivate = 'true')]) = 0 ]
 [not(.//ClassOrInterfaceDeclaration)]
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 public class Foo {  //Should be final
     private Foo() { }
 }
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

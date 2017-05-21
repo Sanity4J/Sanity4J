@@ -1,33 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidFieldNameMatchingMethodName</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidFieldNameMatchingMethodName</H2>
-It is somewhat confusing to have a field name with the same name as a method.
-While this is totally legal, having information (field) and actions (method) is
-not clear naming.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidFieldNameMatchingMethodName</title></head>
+<body>
+<h2><a name="AvoidFieldNameMatchingMethodName"></a>AvoidFieldNameMatchingMethodName</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/AvoidFieldNameMatchingMethodName.html">net.sourceforge.pmd.rules.AvoidFieldNameMatchingMethodName</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>It can be confusing to have a field name with the same name as a method. While this is permitted, having information (field) and actions (method) is not clear naming. Developers versed in Smalltalk often prefer this approach as the methods denote accessor methods.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/naming/AvoidFieldNameMatchingMethodNameRule.html">net.sourceforge.pmd.lang.java.rule.naming.AvoidFieldNameMatchingMethodNameRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
 	Object bar;
@@ -36,7 +18,6 @@ public class Foo {
 	}
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

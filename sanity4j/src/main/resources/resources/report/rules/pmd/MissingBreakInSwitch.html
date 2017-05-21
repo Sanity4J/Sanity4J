@@ -1,54 +1,48 @@
-<HTML>
-<HEAD>
-<TITLE>MissingBreakInSwitch</TITLE>
-</HEAD>
-<BODY>
-<H2>MissingBreakInSwitch</H2>
-A switch statement without an enclosed break statement may be a bug.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>MissingBreakInSwitch</title></head>
+<body>
+<h2><a name="MissingBreakInSwitch"></a>MissingBreakInSwitch</h2>
+
+<p>Switch statements without break or return statements for each case option may indicate problematic behaviour. Empty cases are ignored as these indicate an intentional fall-through.</p>
+
+<div>
+<pre>
     
 //SwitchStatement
-[count(.//BreakStatement)=0]
-[count(SwitchLabel) &amp;gt; 0]
-[count(BlockStatement/Statement/ReturnStatement)
- + count(BlockStatement/Statement/ThrowStatement)
-     &amp;lt; count (SwitchLabel)]
+[(count(.//BreakStatement)
+ + count(BlockStatement//Statement/ReturnStatement)
+ + count(BlockStatement//Statement/ContinueStatement)
+ + count(BlockStatement//Statement/ThrowStatement)
+ + count(BlockStatement//Statement/IfStatement[@Else='true' and Statement[2][ReturnStatement|ContinueStatement|ThrowStatement]]/Statement[1][ReturnStatement|ContinueStatement|ThrowStatement])
+ + count(SwitchLabel[name(following-sibling::node()) = 'SwitchLabel'])
+ + count(SwitchLabel[count(following-sibling::node()) = 0])
+  &lt; count (SwitchLabel))]
     
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public class Foo {
- public void bar(int status) {
-  switch(status) {
-   case CANCELLED:
-    doCancelled();
-    // break; hm, should this be commented out?
-   case NEW:
-    doNew();
-   case REMOVED:
-    doRemoved();
-   }
- }
+<div>
+<pre>
+
+public void bar(int status) {
+    switch(status) {
+      case CANCELLED:
+        doCancelled();
+        // break; hm, should this be commented out?
+      case NEW:
+        doNew();
+        // is this really a fall-through?
+      case REMOVED:
+        doRemoved();
+        // what happens if you add another case after this one?
+      case OTHER: // empty case - this is interpreted as an intentional fall-through
+      case ERROR:
+        doErrorHandling();
+        break;
+    }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

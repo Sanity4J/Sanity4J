@@ -1,48 +1,35 @@
-<HTML>
-<HEAD>
-<TITLE>UnnecessarydModifier</TITLE>
-</HEAD>
-<BODY>
-<H2>UnnecessaryModifier</H2>
-Fields in interfaces are automatically public static final, and
- methods are public abstract.
- Classes or interfaces nested in an interface are automatically public
- and static (all nested interfaces are automatically static).
- For historical reasons, modifiers which are implied by the context
- are accepted by the compiler, but are superfluous.
-     </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UnnecessaryModifier</title></head>
+<body>
+<h2><a name="UnnecessaryModifier"></a>UnnecessaryModifier</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/UnusedModifier.html">net.sourceforge.pmd.rules.UnusedModifier</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Fields in interfaces and annotations are automatically <tt>public static final</tt>, and methods are <tt>public abstract</tt>. Classes, interfaces or annotations nested in an interface or annotation are automatically <tt>public static</tt> (all nested interfaces and annotations are automatically static). Nested enums are automatically <tt>static</tt>. For historical reasons, modifiers which are implied by the context are accepted by the compiler, but are superfluous.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/unnecessary/UnnecessaryModifierRule.html">net.sourceforge.pmd.lang.java.rule.unnecessary.UnnecessaryModifierRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
  
+ public @interface Annotation {
+  public abstract void bar(); 		// both abstract and public are ignored by the compiler
+  public static final int X = 0; 	// public, static, and final all ignored
+  public static class Bar {} 		// public, static ignored
+  public static interface Baz {} 	// ditto
+}
 public interface Foo {
- public abstract void bar(); // both abstract and public are ignored by the compiler
- public static final int X = 0; // public, static, and final all ignored
- public static class Bar {} // public, static ignored
- public static interface Baz {} // ditto
+  public abstract void bar(); 		// both abstract and public are ignored by the compiler
+  public static final int X = 0; 	// public, static, and final all ignored
+  public static class Bar {} 		// public, static ignored
+  public static interface Baz {} 	// ditto
 }
 public class Bar {
- public static interface Baz {} // static ignored
+  public static interface Baz {} // static ignored
+  public static enum FoorBar { // static ignored
+    FOO;
+  }
 }
  
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

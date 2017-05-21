@@ -1,45 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>UseStringBufferLength</TITLE>
-</HEAD>
-<BODY>
-<H2>UseStringBufferLength</H2>
-Use StringBuffer.length() to determine StringBuffer length rather than using StringBuffer.toString().equals("")
-          or StringBuffer.toString().length() ==.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UseStringBufferLength</title></head>
+<body>
+<h2><a name="UseStringBufferLength"></a>UseStringBufferLength</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/strings/UseStringBufferLength.html">net.sourceforge.pmd.rules.strings.UseStringBufferLength</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-  
-public class Foo {
- void bar() {
-  StringBuffer sb = new StringBuffer();
-  // this is bad
-  if(sb.toString().equals("")) {}
-  // this is good
-  if(sb.length() == 0) {}
- }
-}
+<p>Use StringBuffer.length() to determine StringBuffer length rather than using StringBuffer.toString().equals(&quot;&quot;) or StringBuffer.toString().length() == &#x2026;</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/strings/UseStringBufferLengthRule.html">net.sourceforge.pmd.lang.java.rule.strings.UseStringBufferLengthRule</a></p>
+<p>Example(s):</p>
 
+<div>
+<pre>
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+StringBuffer sb = new StringBuffer();
+    
+if (sb.toString().equals(&quot;&quot;)) {}	    // inefficient 
+    
+if (sb.length() == 0) {}	    		// preferred
+  
+</pre></div>
+</body>
+</html>

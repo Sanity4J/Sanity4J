@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head><title>AvoidThrowingNewInstanceOfSameException</title></head>
+<body>
+<h2><a name="AvoidThrowingNewInstanceOfSameException"></a>AvoidThrowingNewInstanceOfSameException</h2>
+
+<p>Catch blocks that merely rethrow a caught exception wrapped inside a new instance of the same type only add to code size and runtime complexity.</p>
+
+<div>
+<pre>
+        
+//CatchStatement[
+  count(Block/BlockStatement/Statement) = 1
+  and
+  FormalParameter/Type/ReferenceType/ClassOrInterfaceType/@Image = Block/BlockStatement/Statement/ThrowStatement/Expression/PrimaryExpression/PrimaryPrefix/AllocationExpression/ClassOrInterfaceType/@Image
+  and
+  count(Block/BlockStatement/Statement/ThrowStatement/Expression/PrimaryExpression/PrimaryPrefix/AllocationExpression/Arguments/ArgumentList/Expression) = 1
+  and
+  FormalParameter/VariableDeclaratorId = Block/BlockStatement/Statement/ThrowStatement/Expression/PrimaryExpression/PrimaryPrefix/AllocationExpression/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Name
+  ]
+ 
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>  
+public void bar() {
+      try {
+       // do something
+      }  catch (SomeException se) {
+         // harmless comment      
+           throw new SomeException(se);
+      }
+}
+  
+</pre></div>
+</body>
+</html>

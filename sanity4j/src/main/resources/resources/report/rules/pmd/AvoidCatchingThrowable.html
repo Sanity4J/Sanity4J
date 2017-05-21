@@ -1,43 +1,24 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidCatchingThrowable</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidCatchingThrowable</H2>
-This is dangerous because it casts too wide a net; it can catch things like OutOfMemoryError.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidCatchingThrowable</title></head>
+<body>
+<h2><a name="AvoidCatchingThrowable"></a>AvoidCatchingThrowable</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/strictexception/AvoidCatchingThrowable.html">net.sourceforge.pmd.rules.strictexception.AvoidCatchingThrowable</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-                
-public class Foo {
- public void bar() {
-  try {
-   // do something
-  } catch (Throwable th) {  //Should not catch throwable
-   th.printStackTrace();
+<p>Catching Throwable errors is not recommended since its scope is very broad. It includes runtime issues such as OutOfMemoryError that should be exposed and managed separately.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/strictexception/AvoidCatchingThrowableRule.html">net.sourceforge.pmd.lang.java.rule.strictexception.AvoidCatchingThrowableRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+	
+public void bar() {
+	try {
+     // do something
+    } catch (Throwable th) {  // should not catch Throwable
+		th.printStackTrace();
+    }
   }
- }
-}
-                
-      
-            </pre></div>
-</BODY>
-</HTML>
+	
+</pre></div>
+</body>
+</html>

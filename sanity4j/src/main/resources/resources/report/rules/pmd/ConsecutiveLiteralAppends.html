@@ -1,58 +1,20 @@
-<HTML>
-<HEAD>
-<TITLE>ConsecutiveLiteralAppends</TITLE>
-</HEAD>
-<BODY>
-<H2>ConsecutiveLiteralAppends</H2>
-Consecutively calling StringBuffer.append with String literals
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ConsecutiveLiteralAppends</title></head>
+<body>
+<h2><a name="ConsecutiveLiteralAppends"></a>ConsecutiveLiteralAppends</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/strings/ConsecutiveLiteralAppends.html">net.sourceforge.pmd.rules.strings.ConsecutiveLiteralAppends</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Consecutively calling StringBuffer/StringBuilder.append with String literals</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/strings/ConsecutiveLiteralAppendsRule.html">net.sourceforge.pmd.lang.java.rule.strings.ConsecutiveLiteralAppendsRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
- private void bar() {
-   StringBuffer buf = new StringBuffer();
-   buf.append("Hello").append(" ").append("World"); //bad
-   buf.append("Hello World");//good
- }
-}
+<div>
+<pre>
 
-    
-            </pre></div>
-  
-        
+StringBuffer buf = new StringBuffer();
+buf.append(&quot;Hello&quot;).append(&quot; &quot;).append(&quot;World&quot;); // poor
+buf.append(&quot;Hello World&quot;);        				 // good
 
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="b">
-                    <td>threshold</td>
-                    <td>1</td>
-                    <td>The report threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

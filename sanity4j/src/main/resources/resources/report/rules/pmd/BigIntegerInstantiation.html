@@ -1,47 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>BigIntegerInstantiation</TITLE>
-</HEAD>
-<BODY>
-<H2>BigIntegerInstantiation</H2>
-Don't create instances of already existing BigInteger
-(BigInteger.ZERO, BigInteger.ONE) and for 1.5 on,
-BigInteger.TEN and BigDecimal (BigDecimal.ZERO,
-BigDecimal.ONE, BigDecimal.TEN)
-  </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>BigIntegerInstantiation</title></head>
+<body>
+<h2><a name="BigIntegerInstantiation"></a>BigIntegerInstantiation</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/basic/BigIntegerInstantiation.html">net.sourceforge.pmd.rules.basic.BigIntegerInstantiation</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Don&#x2019;t create instances of already existing BigInteger (BigInteger.ZERO, BigInteger.ONE) and for Java 1.5 onwards, BigInteger.TEN and BigDecimal (BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN)</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/basic/BigIntegerInstantiationRule.html">net.sourceforge.pmd.lang.java.rule.basic.BigIntegerInstantiationRule</a></p>
+<p>Example(s):</p>
 
-public class Test {
+<div>
+<pre>
 
- public static void main(String[] args) {
-   BigInteger bi=new BigInteger(1);
-   BigInteger bi2=new BigInteger("0");
-   BigInteger bi3=new BigInteger(0.0);
-   BigInteger bi4;
-   bi4=new BigInteger(0);
- }
-}
+BigInteger bi = new BigInteger(1);		// reference BigInteger.ONE instead
+BigInteger bi2 = new BigInteger(&quot;0&quot;);	// reference BigInteger.ZERO instead
+BigInteger bi3 = new BigInteger(0.0);	// reference BigInteger.ZERO instead
+BigInteger bi4;
+bi4 = new BigInteger(0);				// reference BigInteger.ZERO instead
 
-  
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

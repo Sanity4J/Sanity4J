@@ -1,40 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>MethodWithSameNameAsEnclosingClass</TITLE>
-</HEAD>
-<BODY>
-<H2>MethodWithSameNameAsEnclosingClass</H2>
-Non-constructor methods should not have the same name as the enclosing class.
-       </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>MethodWithSameNameAsEnclosingClass</title></head>
+<body>
+<h2><a name="MethodWithSameNameAsEnclosingClass"></a>MethodWithSameNameAsEnclosingClass</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/MethodWithSameNameAsEnclosingClass.html">net.sourceforge.pmd.rules.MethodWithSameNameAsEnclosingClass</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Non-constructor methods should not have the same name as the enclosing class.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/naming/MethodWithSameNameAsEnclosingClassRule.html">net.sourceforge.pmd.lang.java.rule.naming.MethodWithSameNameAsEnclosingClassRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class MyClass {
- // this is bad because it is a method
- public void MyClass() {}
- // this is OK because it is a constructor
- public MyClass() {}
+
+	public MyClass() {}			// this is OK because it is a constructor
+	
+	public void MyClass() {}	// this is bad because it is a method
 }
     
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

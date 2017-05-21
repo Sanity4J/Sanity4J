@@ -1,40 +1,27 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyFinalizer</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyFinalizer</H2>
-If the finalize() method is empty, then it does not need to exist.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyFinalizer</title></head>
+<body>
+<h2><a name="EmptyFinalizer"></a>EmptyFinalizer</h2>
+
+<p>Empty finalize methods serve no purpose and should be removed.</p>
+
+<div>
+<pre>
 
 //MethodDeclaration[MethodDeclarator[@Image='finalize'][not(FormalParameters/*)]]
   /Block[count(*)=0]
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
    protected void finalize() {}
 }
 
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

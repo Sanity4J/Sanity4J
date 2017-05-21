@@ -1,43 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>LooseCoupling</TITLE>
-</HEAD>
-<BODY>
-<H2>LooseCoupling</H2>
-Avoid using implementation types (i.e., HashSet); use the interface (i.e, Set) instead
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>LooseCoupling</title></head>
+<body>
+<h2><a name="LooseCoupling"></a>LooseCoupling</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/LooseCoupling.html">net.sourceforge.pmd.rules.design.LooseCoupling</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid using implementation types (i.e., HashSet); use the interface (i.e, Set) instead</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/typeresolution/rules/LooseCoupling.html">net.sourceforge.pmd.lang.java.typeresolution.rules.LooseCoupling</a></p>
+<p>Example(s):</p>
 
-import java.util.*;
+<div>
+<pre>
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class Bar {
- // Use List instead
- private ArrayList list = new ArrayList();
- // Use Set instead
- public HashSet getFoo() {
-  return new HashSet();
- }
+		// Use List instead
+	private ArrayList list = new ArrayList();
+		// Use Set instead
+	public HashSet getFoo() {
+    return new HashSet();
+  }
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head><title>ProperLogger</title></head>
+<body>
+<h2><a name="ProperLogger"></a>ProperLogger</h2>
+
+<p>A logger should normally be defined private static final and be associated with the correct class. Private final Log log; is also allowed for rare cases where loggers need to be passed around, with the restriction that the logger needs to be passed into the constructor.</p>
+
+<div>
+<pre>
+     
+//ClassOrInterfaceBodyDeclaration[FieldDeclaration//ClassOrInterfaceType[@Image='Log']
+ and
+ not(FieldDeclaration[@Final='true'][@Static='true'][@Private='true'][.//VariableDeclaratorId[@Image=$staticLoggerName]]
+ //ArgumentList//ClassOrInterfaceType/@Image = ancestor::ClassOrInterfaceDeclaration/@Image)
+ and
+ not(FieldDeclaration[@Final='true'][@Private='true'][.//VariableDeclaratorId[@Image='log']]
+ [count(.//VariableInitializer)=0]
+ [ancestor::ClassOrInterfaceBody//StatementExpression[.//PrimaryExpression/descendant::*[@Image='log']][count(.//AllocationExpression)=0]]
+ )]
+     
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+ 
+public class Foo {
+
+   private static final Log LOG = LogFactory.getLog(Foo.class);	   // proper way
+
+   protected Log LOG = LogFactory.getLog(Testclass.class);			// wrong approach
+}
+ 
+</pre></div>
+</body>
+</html>

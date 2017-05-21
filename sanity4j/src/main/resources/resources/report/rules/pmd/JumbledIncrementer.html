@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>JumbledIncrementer</TITLE>
-</HEAD>
-<BODY>
-<H2>JumbledIncrementer</H2>
-Avoid jumbled loop incrementers - it's usually a mistake, and it's confusing even if it's what's intended.
-     </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>JumbledIncrementer</title></head>
+<body>
+<h2><a name="JumbledIncrementer"></a>JumbledIncrementer</h2>
+
+<p>Avoid jumbled loop incrementers - its usually a mistake, and is confusing even if intentional.</p>
+
+<div>
+<pre>
  
 //ForStatement
  [
@@ -21,30 +16,22 @@ Avoid jumbled loop incrementers - it's usually a mistake, and it's confusing eve
   ancestor::ForStatement/ForInit//VariableDeclaratorId/@Image
  ]
  
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
  
 public class JumbledIncrementerRule1 {
-  public void foo() {
-   for (int i = 0; i &lt; 10; i++) {
-    for (int k = 0; k &lt; 20; i++) {
-     System.out.println("Hello");
-    }
-   }
-  }
- }
+	public void foo() {
+		for (int i = 0; i &lt; 10; i++) {			// only references 'i'
+			for (int k = 0; k &lt; 20; i++) {		// references both 'i' and 'k'
+				System.out.println(&quot;Hello&quot;);
+			}
+		}
+	}
+}
  
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

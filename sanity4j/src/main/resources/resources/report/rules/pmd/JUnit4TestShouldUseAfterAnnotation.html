@@ -1,35 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>JUnit4TestShouldUseAfterAnnotation</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnit4TestShouldUseAfterAnnotation</H2>
-In JUnit 3, the tearDown method was used to clean up all data entities required in running tests. JUnit 4 skips the tearDown method 
-and executes all methods annotated with @After after running each test
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>JUnit4TestShouldUseAfterAnnotation</title></head>
+<body>
+<h2><a name="JUnit4TestShouldUseAfterAnnotation"></a>JUnit4TestShouldUseAfterAnnotation</h2>
 
+<p>In JUnit 3, the tearDown method was used to clean up all data entities required in running tests. JUnit 4 skips the tearDown method and executes all methods annotated with @After after running each test</p>
+
+<div>
+<pre>
+
+//CompilationUnit[not(ImportDeclaration/Name[starts-with(@Image, &quot;org.testng&quot;)])]
 //ClassOrInterfaceBodyDeclaration[MethodDeclaration/MethodDeclarator[@Image='tearDown']]
-[count(Annotation/MarkerAnnotation/Name[@Image='After'])=0]
+[count(Annotation//Name[@Image='After'])=0]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class MyTest {
     public void tearDown() {
@@ -42,7 +30,6 @@ public class MyTest2 {
     }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

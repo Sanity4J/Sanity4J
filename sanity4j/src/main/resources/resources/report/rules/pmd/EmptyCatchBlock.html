@@ -1,20 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyCatchBlock</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyCatchBlock</H2>
-Empty Catch Block finds instances where an exception is caught,
-but nothing is done.  In most circumstances, this swallows an exception
-which should either be acted on or reported.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyCatchBlock</title></head>
+<body>
+<h2><a name="EmptyCatchBlock"></a>EmptyCatchBlock</h2>
+
+<p>Empty Catch Block finds instances where an exception is caught, but nothing is done.<br />In most circumstances, this swallows an exception which should either be acted on or reported.</p>
+
+<div>
+<pre>
     
 //CatchStatement
  [count(Block/BlockStatement) = 0 and ($allowCommentedBlocks != 'true' or Block/@containsComment = 'false')]
@@ -22,45 +15,20 @@ which should either be acted on or reported.
    /ClassOrInterfaceType[@Image != 'InterruptedException' and @Image != 'CloneNotSupportedException']
  ]
  
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public void doSomething() {
   try {
-    FileInputStream fis = new FileInputStream("/tmp/bugger");
+    FileInputStream fis = new FileInputStream(&quot;/tmp/bugger&quot;);
   } catch (IOException ioe) {
       // not good
   }
 }
  
-      
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>allowCommentedBlocks</td>
-                    <td></td>
-                    <td>Empty blocks containing comments will be skipped</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

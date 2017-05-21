@@ -1,44 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>FinalizeShouldBeProtected</TITLE>
-</HEAD>
-<BODY>
-<H2>FinalizeShouldBeProtected</H2>
-If you override finalize(), make it protected.  If you make
- it public, other classes may call it.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>FinalizeShouldBeProtected</title></head>
+<body>
+<h2><a name="FinalizeShouldBeProtected"></a>FinalizeShouldBeProtected</h2>
+
+<p>When overriding the finalize(), the new method should be set as protected. If made public, other classes may invoke it at inappropriate times.</p>
+
+<div>
+<pre>
                     
-//MethodDeclaration[@Protected="false"]
-  /MethodDeclarator[@Image="finalize"]
+//MethodDeclaration[@Protected=&quot;false&quot;]
+  /MethodDeclarator[@Image=&quot;finalize&quot;]
   [not(FormalParameters/*)]
                     
-                </pre></div>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-  
-public class Foo {
- public void finalize() {
-  // do something
- }
+public void finalize() {
+	// do something
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

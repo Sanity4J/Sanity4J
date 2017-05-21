@@ -1,28 +1,20 @@
-<HTML>
-<HEAD>
-<TITLE>UseArraysAsList</TITLE>
-</HEAD>
-<BODY>
-<H2>UseArraysAsList</H2>
-The class java.util.Arrays has a "asList" method that
-   should be use when you want to create a new List from
-   an array of objects. It is faster than executing a loop to
-   cpy all the elements of the array one by one
-     </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UseArraysAsList</title></head>
+<body>
+<h2><a name="UseArraysAsList"></a>UseArraysAsList</h2>
+
+<p>The java.util.Arrays class has a &#x201c;asList&#x201d; method that should be used when you want to create a new List from an array of objects. It is faster than executing a loop to copy all the elements of the array one by one.</p>
+
+<div>
+<pre>
    
 //Statement[
-    (ForStatement) and (count(.//IfStatement)=0)
+    (ForStatement) and (ForStatement//VariableInitializer//Literal[@IntLiteral='true' and @Image='0']) and (count(.//IfStatement)=0)
    ]
    //StatementExpression[
     PrimaryExpression/PrimaryPrefix/Name[
-	 substring-before(@Image,'.add') = ancestor::MethodDeclaration//LocalVariableDeclaration[
+     substring-before(@Image,'.add') = ancestor::MethodDeclaration//LocalVariableDeclaration[
       ./Type//ClassOrInterfaceType[
        @Image = 'Collection' or 
        @Image = 'List' or @Image='ArrayList'
@@ -30,47 +22,43 @@ The class java.util.Arrays has a "asList" method that
      ]
      /VariableDeclarator/VariableDeclaratorId[
       count(..//AllocationExpression/ClassOrInterfaceType[
-       @Image="ArrayList"
+       @Image=&quot;ArrayList&quot;
       ]
       )=1
      ]/@Image
     ]
    and
    PrimaryExpression/PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Name
-   [@Image = ancestor::MethodDeclaration//LocalVariableDeclaration
-   [@Array="true"]/VariableDeclarator/VariableDeclaratorId/@Image]
+   [
+     @Image = ancestor::MethodDeclaration//LocalVariableDeclaration[@Array=&quot;true&quot;]/VariableDeclarator/VariableDeclaratorId/@Image
+     or
+     @Image = ancestor::MethodDeclaration//FormalParameter/VariableDeclaratorId/@Image
+   ]
    /../..[count(.//PrimarySuffix)
    =1]/PrimarySuffix/Expression/PrimaryExpression/PrimaryPrefix
    /Name
    ]
    
-       </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
    
-   public class Test {
-    public void foo(Integer[] ints) {
+public class Test {
+  public void foo(Integer[] ints) {
     // could just use Arrays.asList(ints)
      List l= new ArrayList(10);
      for (int i=0; i&lt; 100; i++) {
-      l.add(ints[i]);
+       l.add(ints[i]);
      }
      for (int i=0; i&lt; 100; i++) {
-      l.add(a[i].toString()); // won't trigger the rule
+       l.add(a[i].toString()); // won't trigger the rule
      }
-    }
-   }
+  }
+}
    
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+
+</body>
+</html>

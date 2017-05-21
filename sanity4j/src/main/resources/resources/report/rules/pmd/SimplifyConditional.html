@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>SimplifyConditional</TITLE>
-</HEAD>
-<BODY>
-<H2>SimplifyConditional</H2>
-No need to check for null before an instanceof; the instanceof keyword returns false when given a null argument.
-          </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>SimplifyConditional</title></head>
+<body>
+<h2><a name="SimplifyConditional"></a>SimplifyConditional</h2>
+
+<p>No need to check for null before an instanceof; the instanceof keyword returns false when given a null argument.</p>
+
+<div>
+<pre>
                       
 //Expression
  [ConditionalOrExpression
@@ -22,37 +17,36 @@ No need to check for null before an instanceof; the instanceof keyword returns f
   UnaryExpressionNotPlusMinus
    [@Image='!']//InstanceOfExpression[PrimaryExpression
      //Name/@Image = ancestor::ConditionalOrExpression/EqualityExpression
-      /PrimaryExpression/PrimaryPrefix/Name/@Image]]
+      /PrimaryExpression/PrimaryPrefix/Name/@Image]
+  and
+  (count(UnaryExpressionNotPlusMinus) + 1 = count(*))
+ ]
 or
 ConditionalAndExpression
  [EqualityExpression[@Image='!=']//NullLiteral
  and
 InstanceOfExpression
  [PrimaryExpression[count(PrimarySuffix[@ArrayDereference='true'])=0]
-  //Name/@Image = ancestor::ConditionalAndExpression
-   /EqualityExpression/PrimaryExpression/PrimaryPrefix/Name/@Image]]]
+  //Name[not(contains(@Image,'.'))]/@Image = ancestor::ConditionalAndExpression
+   /EqualityExpression/PrimaryExpression/PrimaryPrefix/Name/@Image]
+ and
+(count(InstanceOfExpression) + 1 = count(*))
+ ]
+]
  
-                  </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
       
 class Foo {
- void bar(Object x) {
-  if (x != null &amp;&amp; x instanceof Bar) {
-   // just drop the "x != null" check
+  void bar(Object x) {
+    if (x != null &amp;&amp; x instanceof Bar) {
+      // just drop the &quot;x != null&quot; check
+    }
   }
- }
 }      
-           
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

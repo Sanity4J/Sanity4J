@@ -1,63 +1,54 @@
-<HTML>
-<HEAD>
-<TITLE>MisplacedNullCheck</TITLE>
-</HEAD>
-<BODY>
-<H2>MisplacedNullCheck</H2>
-The null check here is misplaced. if the variable is null you'll get a NullPointerException.
-    Either the check is useless (the variable will never be "null") or it's incorrect.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>MisplacedNullCheck</title></head>
+<body>
+<h2><a name="MisplacedNullCheck"></a>MisplacedNullCheck</h2>
+
+<p>The null check here is misplaced. If the variable is null a NullPointerException will be thrown. Either the check is useless (the variable will never be &#x201c;null&#x201d;) or it is incorrect.</p>
+
+<div>
+<pre>
     
 //Expression
     /*[self::ConditionalOrExpression or self::ConditionalAndExpression]
-     /descendant::PrimaryExpression/PrimaryPrefix
-      /Name[starts-with(@Image,
-      concat(ancestor::PrimaryExpression/following-sibling::EqualityExpression
-       [./PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
-     /PrimaryExpression/PrimaryPrefix
-      /Name[count(../../PrimarySuffix)=0]/@Image,"."))
-    ]
+    /descendant::PrimaryExpression/PrimaryPrefix
+    /Name[starts-with(@Image,
+        concat(ancestor::PrimaryExpression/following-sibling::EqualityExpression
+            [./PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
+            /PrimaryExpression/PrimaryPrefix
+            /Name[count(../../PrimarySuffix)=0]/@Image,&quot;.&quot;)
+        )
+     ]
+     [count(ancestor::ConditionalAndExpression/EqualityExpression
+            [@Image='!=']
+            [./PrimaryExpression/PrimaryPrefix/Literal/NullLiteral]
+            [starts-with(following-sibling::*/PrimaryExpression/PrimaryPrefix/Name/@Image,
+                concat(./PrimaryExpression/PrimaryPrefix/Name/@Image, '.'))]
+      ) = 0
+     ]
     
-        </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo {
- void bar() {
-  if (a.equals(baz) &amp;&amp; a != null) {}
- }
+	void bar() {
+		if (a.equals(baz) &amp;&amp; a != null) {}
+		}
 }
     
-      
-            </pre></div>
-  
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 public class Foo {
- void bar() {
-  if (a.equals(baz) || a == null) {}
- }
+	void bar() {
+		if (a.equals(baz) || a == null) {}
+	}
 }
-   
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,19 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>ReturnEmptyArrayRatherThanNull</TITLE>
-</HEAD>
-<BODY>
-<H2>ReturnEmptyArrayRatherThanNull</H2>
-For any method that returns an array, it's a better behavior to return an empty array rather than a null reference.
-            
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ReturnEmptyArrayRatherThanNull</title></head>
+<body>
+<h2><a name="ReturnEmptyArrayRatherThanNull"></a>ReturnEmptyArrayRatherThanNull</h2>
+
+<p>For any method that returns an array, it is a better to return an empty array rather than a null reference. This removes the need for null checking all results and avoids inadvertent NullPointerExceptions.</p>
+
+<div>
+<pre>
                     
                         //MethodDeclaration
                         [
@@ -22,37 +16,24 @@ For any method that returns an array, it's a better behavior to return an empty 
                         (./Block/BlockStatement/Statement/ReturnStatement/Expression/PrimaryExpression/PrimaryPrefix/Literal/NullLiteral)
                         ]
                     
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-            public class Example
-            {
-                // Not a good idea...
-                public int []badBehavior()
-                {
-                    // ...
-                    return null;
-                }
+</pre></div>
+<p>Example(s):</p>
 
-                // Good behavior
-                public String[] bonnePratique()
-                {
-                    //...
-                    return new String[0];
-                }
-            }
-            
-        
-            </pre></div>
-</BODY>
-</HTML>
+<div>
+<pre>
+public class Example {
+    // Not a good idea...
+    public int[] badBehavior() {
+                   // ...
+        return null;
+    }
+
+    // Good behavior
+    public String[] bonnePratique() {
+      //...
+     return new String[0];
+    }
+}
+</pre></div>
+</body>
+</html>

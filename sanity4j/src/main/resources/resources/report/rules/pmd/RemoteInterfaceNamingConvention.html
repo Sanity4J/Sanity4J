@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>RemoteInterfaceNamingConvention</TITLE>
-</HEAD>
-<BODY>
-<H2>RemoteInterfaceNamingConvention</H2>
-Remote Interface of a Session EJB should NOT be suffixed.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>RemoteInterfaceNamingConvention</title></head>
+<body>
+<h2><a name="RemoteInterfaceNamingConvention"></a>RemoteInterfaceNamingConvention</h2>
+
+<p>Remote Interface of a Session EJB should not have a suffix.</p>
+
+<div>
+<pre>
                     
 //ClassOrInterfaceDeclaration
 [
@@ -29,47 +24,21 @@ Remote Interface of a Session EJB should NOT be suffixed.
     )
 ]
                     
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
             
-    <div class="source"><pre>
-                
+ /* Poor Session suffix */
+ public interface BadSuffixSession extends javax.ejb.EJBObject {}
+
+ /* Poor EJB suffix */
+ public interface BadSuffixEJB extends javax.ejb.EJBObject {}
+
+ /* Poor Bean suffix */
+ public interface BadSuffixBean extends javax.ejb.EJBObject {}
             
-            /* Bad Session suffix */
-            public interface BadSuffixSession extends javax.ejb.EJBObject {}
-            
-        
-            </pre></div>
-  
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-            /* Bad EJB suffix */
-            public interface BadSuffixEJB extends javax.ejb.EJBObject {}
-            
-        
-            </pre></div>
-  
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-            /* Bad Bean suffix */
-            public interface BadSuffixBean extends javax.ejb.EJBObject {}
-            
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

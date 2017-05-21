@@ -1,40 +1,21 @@
-<HTML>
-<HEAD>
-<TITLE>StringToString</TITLE>
-</HEAD>
-<BODY>
-<H2>StringToString</H2>
-Avoid calling toString() on String objects; this is unnecessary.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>StringToString</title></head>
+<body>
+<h2><a name="StringToString"></a>StringToString</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/strings/StringToStringRule.html">net.sourceforge.pmd.rules.strings.StringToStringRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid calling toString() on objects already known to be string instances; this is unnecessary.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/strings/StringToStringRule.html">net.sourceforge.pmd.lang.java.rule.strings.StringToStringRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
- private String baz() {
-  String bar = "howdy";
-  return bar.toString();
- }
+<div>
+<pre>
+
+private String baz() {
+    String bar = &quot;howdy&quot;;
+    return bar.toString();
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

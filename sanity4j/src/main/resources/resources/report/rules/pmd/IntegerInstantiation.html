@@ -1,19 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>IntegerInstantiation</TITLE>
-</HEAD>
-<BODY>
-<H2>IntegerInstantiation</H2>
-egerInstantiation"></a><h3>IntegerInstantiation</h3>
-		<p>Since: PMD 3.5</p>
-		<p>In JDK 1.5, calling new Integer() causes memory allocation.  Integer.valueOf() is more memory friendly.</p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>IntegerInstantiation</title></head>
+<body>
+<h2><a name="IntegerInstantiation"></a>IntegerInstantiation</h2>
+
+<p>Calling new Integer() causes memory allocation that can be avoided by the static Integer.valueOf(). It makes use of an internal cache that recycles earlier instances making it more memory efficient.</p>
+
+<div>
+<pre>
                   
 //PrimaryPrefix
  /AllocationExpression
@@ -21,24 +15,16 @@ egerInstantiation"></a><h3>IntegerInstantiation</h3>
    and (ClassOrInterfaceType/@Image='Integer'
     or ClassOrInterfaceType/@Image='java.lang.Integer')]
                   
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Foo {
- private Integer i = new Integer(0); // change to Integer i = Integer.valueOf(0);
+	private Integer i = new Integer(0); // change to Integer i = Integer.valueOf(0);
 }
    
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

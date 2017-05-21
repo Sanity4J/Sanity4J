@@ -1,52 +1,38 @@
-<HTML>
-<HEAD>
-<TITLE>PreserveStackTrace</TITLE>
-</HEAD>
-<BODY>
-<H2>PreserveStackTrace</H2>
-Throwing a new exception from a catch block without passing the original exception into the
-new Exception will cause the true stack trace to be lost, and can make it difficult to
-debug effectively.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>PreserveStackTrace</title></head>
+<body>
+<h2><a name="PreserveStackTrace"></a>PreserveStackTrace</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/PreserveStackTrace.html">net.sourceforge.pmd.rules.design.PreserveStackTrace</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Throwing a new exception from a catch block without passing the original exception into the new exception will cause the original stack trace to be lost making it difficult to debug effectively.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/PreserveStackTraceRule.html">net.sourceforge.pmd.lang.java.rule.design.PreserveStackTraceRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo {
     void good() {
         try{
-            Integer.parseInt("a");
-        } catch(Exception e){
-            throw new Exception(e);
+            Integer.parseInt(&quot;a&quot;);
+        } catch (Exception e) {
+            throw new Exception(e); // first possibility to create exception chain
+        }
+        try {
+            Integer.parseInt(&quot;a&quot;);
+        } catch (Exception e) {
+            throw (IllegalStateException)new IllegalStateException().initCause(e); // second possibility to create exception chain.
         }
     }
     void bad() {
         try{
-            Integer.parseInt("a");
-        } catch(Exception e){
+            Integer.parseInt(&quot;a&quot;);
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 }
     
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

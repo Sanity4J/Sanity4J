@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>InstantiationToGetClass</TITLE>
-</HEAD>
-<BODY>
-<H2>InstantiationToGetClass</H2>
-Avoid instantiating an object just to call getClass() on it; use the .class public member instead.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>InstantiationToGetClass</title></head>
+<body>
+<h2><a name="InstantiationToGetClass"></a>InstantiationToGetClass</h2>
+
+<p>Avoid instantiating an object just to call getClass() on it; use the .class public member instead.</p>
+
+<div>
+<pre>
                 
 //PrimarySuffix
  [@Image='getClass']
@@ -21,27 +16,19 @@ Avoid instantiating an object just to call getClass() on it; use the .class publ
   [count(PrimarySuffix) = 2]
  ]
      
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
-public class Foo {
- // Replace this
- Class c = new String().getClass();
- // with this:
- Class c = String.class;
-}
+  // replace this
+Class c = new String().getClass();
+
+  // with this:
+Class c = String.class;
+
     
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

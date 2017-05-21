@@ -1,50 +1,42 @@
-<HTML>
-<HEAD>
-<TITLE>SimplifyStartsWith</TITLE>
-</HEAD>
-<BODY>
-<H2>SimplifyStartsWith</H2>
-Since it passes in a literal of length 1, this call to String.startsWith can be rewritten using String.charAt(0) to save some time.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>SimplifyStartsWith</title></head>
+<body>
+<h2><a name="SimplifyStartsWith"></a>SimplifyStartsWith</h2>
+
+<p>Since it passes in a literal of length 1, calls to (string).startsWith can be rewritten using (string).charAt(0) at the expense of some readability.</p>
+
+<div>
+<pre>
 
 //PrimaryExpression
  [PrimaryPrefix/Name
-  [ends-with(@Image, '.startsWith')]]
+  [ends-with(@Image, '.startsWith')] or PrimarySuffix[@Image='startsWith']]
  [PrimarySuffix/Arguments/ArgumentList
   /Expression/PrimaryExpression/PrimaryPrefix
   /Literal
    [string-length(@Image)=3]
-   [starts-with(@Image, '"')]
-   [ends-with(@Image, '"')]
+   [starts-with(@Image, '&quot;')]
+   [ends-with(@Image, '&quot;')]
  ]
  
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Foo {
-  boolean checkIt(String x) {
-      return x.startsWith("a");
-  }
+
+	boolean checkIt(String x) {
+		return x.startsWith(&quot;a&quot;);	// suboptimal
+	}
+  
+	boolean fasterCheckIt(String x) {
+		return x.charAt(0) == 'a';	//	faster approach
+	}
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

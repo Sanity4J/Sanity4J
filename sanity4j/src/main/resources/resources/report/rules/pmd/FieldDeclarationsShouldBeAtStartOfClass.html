@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><title>FieldDeclarationsShouldBeAtStartOfClass</title></head>
+<body>
+<h2><a name="FieldDeclarationsShouldBeAtStartOfClass"></a>FieldDeclarationsShouldBeAtStartOfClass</h2>
+
+<p>Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/FieldDeclarationsShouldBeAtStartOfClassRule.html">net.sourceforge.pmd.lang.java.rule.design.FieldDeclarationsShouldBeAtStartOfClassRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+      
+public class HelloWorldBean {
+
+  // Field declared before methods / inner classes - OK
+  private String _thing;
+
+  public String getMessage() {
+    return &quot;Hello World!&quot;;
+  }
+
+  // Field declared after methods / inner classes - avoid this
+  private String _fieldInWrongLocation;
+}
+      
+</pre></div>
+</body>
+</html>

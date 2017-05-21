@@ -1,47 +1,30 @@
-<HTML>
-<HEAD>
-<TITLE>SimplifyBooleanReturns</TITLE>
-</HEAD>
-<BODY>
-<H2>SimplifyBooleanReturns</H2>
-Avoid unnecessary if..then..else statements when returning a boolean.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>SimplifyBooleanReturns</title></head>
+<body>
+<h2><a name="SimplifyBooleanReturns"></a>SimplifyBooleanReturns</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/SimplifyBooleanReturns.html">net.sourceforge.pmd.rules.SimplifyBooleanReturns</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid unnecessary if-then-else statements when returning a boolean. The result of the conditional test can be returned instead.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/SimplifyBooleanReturnsRule.html">net.sourceforge.pmd.lang.java.rule.design.SimplifyBooleanReturnsRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
-  private int bar =2;
-  public boolean isBarEqualsTo(int x) {
-    // this bit of code
-    if (bar == x) {
-     return true;
-    } else {
-     return false;
+<div>
+<pre>
+
+public boolean isBarEqualTo(int x) {
+   
+	if (bar == x) {		 // this bit of code...
+		return true;
+	} else {
+		return false;
     }
-    // can be replaced with a simple
-    // return bar == x;
-  }
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+public boolean isBarEqualTo(int x) {
+
+   	return bar == x;	// can be replaced with this
+}
+
+</pre></div>
+</body>
+</html>

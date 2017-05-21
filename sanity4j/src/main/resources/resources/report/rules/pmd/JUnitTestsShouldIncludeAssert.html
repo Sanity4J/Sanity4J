@@ -1,43 +1,25 @@
-<HTML>
-<HEAD>
-<TITLE>JUnitTestsShouldIncludeAssert</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnitTestsShouldIncludeAssert</H2>
-JUnit tests should include at least one assertion.  This makes the tests more robust, and
- using assert with messages provide the developer a clearer idea of what the test does.
-        </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>JUnitTestsShouldIncludeAssert</title></head>
+<body>
+<h2><a name="JUnitTestsShouldIncludeAssert"></a>JUnitTestsShouldIncludeAssert</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/junit/JUnitTestsShouldContainAsserts.html">net.sourceforge.pmd.rules.junit.JUnitTestsShouldContainAsserts</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>JUnit tests should include at least one assertion. This makes the tests more robust, and using assert with messages provide the developer a clearer idea of what the test does.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/junit/JUnitTestsShouldIncludeAssertRule.html">net.sourceforge.pmd.lang.java.rule.junit.JUnitTestsShouldIncludeAssertRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo extends TestCase {
-  public void testSomething() {
+   public void testSomething() {
       Bar b = findBar();
-  // This is better than having a NullPointerException
-  // assertNotNull("bar not found", b);
-  b.work();
-  }
+   // This is better than having a NullPointerException
+   // assertNotNull(&quot;bar not found&quot;, b);
+   b.work();
+   }
 }
     
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head><title>AvoidPrefixingMethodParameters</title></head>
+<body>
+<h2><a name="AvoidPrefixingMethodParameters"></a>AvoidPrefixingMethodParameters</h2>
+
+<p>Prefixing parameters by &#x2018;in&#x2019; or &#x2018;out&#x2019; pollutes the name of the parameters and reduces code readability. To indicate whether or not a parameter will be modify in a method, its better to document method behavior with Javadoc.</p>
+
+<div>
+<pre>
+                    
+//MethodDeclaration/MethodDeclarator/FormalParameters/FormalParameter/VariableDeclaratorId[
+        pmd:matches(@Image,'^in[A-Z].*','^out[A-Z].*','^in$','^out$')
+]
+                    
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+// Not really clear
+public class Foo {
+  public void bar(
+      int inLeftOperand,
+      Result outRightOperand) {
+      outRightOperand.setValue(inLeftOperand * outRightOperand.getValue());
+  }
+}
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+// Far more useful
+public class Foo {
+  /**
+   *
+   * @param leftOperand, (purpose), not modified by method.
+   * @param rightOperand (purpose), will be modified by the method: contains the result.
+   */
+  public void bar(
+        int leftOperand,
+        Result rightOperand) {
+        rightOperand.setValue(leftOperand * rightOperand.getValue());
+  }
+}
+</pre></div>
+</body>
+</html>

@@ -1,35 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>JUnit4TestShouldUseTestAnnotation</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnit4TestShouldUseTestAnnotation</H2>
-In JUnit 3, the framework executed all methods which started with the word test as a unit test. In JUnit 4, only methods annotated
-with the @Test annotation are executed.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>JUnit4TestShouldUseTestAnnotation</title></head>
+<body>
+<h2><a name="JUnit4TestShouldUseTestAnnotation"></a>JUnit4TestShouldUseTestAnnotation</h2>
 
-//ClassOrInterfaceBodyDeclaration[MethodDeclaration/MethodDeclarator[starts-with(@Image,'test')]]
+<p>In JUnit 3, the framework executed all methods which started with the word test as a unit test. In JUnit 4, only methods annotated with the @Test annotation are executed.</p>
+
+<div>
+<pre>
+
+//ClassOrInterfaceBodyDeclaration[MethodDeclaration[@Public='true']/MethodDeclarator[starts-with(@Image,'test')]]
 [count(Annotation//Name[@Image='Test'])=0]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class MyTest {
     public void testBad() {
@@ -42,7 +29,6 @@ public class MyTest {
     }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><title>InvalidSlf4jMessageFormat</title></head>
+<body>
+<h2><a name="InvalidSlf4jMessageFormat"></a>InvalidSlf4jMessageFormat</h2>
+
+<p>Check for messages in slf4j loggers with non matching number of arguments and placeholders.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/logging/InvalidSlf4jMessageFormatRule.html">net.sourceforge.pmd.lang.java.rule.logging.InvalidSlf4jMessageFormatRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+                
+LOGGER.error(&quot;forget the arg {}&quot;);
+LOGGER.error(&quot;too many args {}&quot;, &quot;arg1&quot;, &quot;arg2&quot;);
+LOGGER.error(&quot;param {}&quot;, &quot;arg1&quot;, new IllegalStateException(&quot;arg&quot;)); //The exception is shown separately, so is correct.
+
+</pre></div>
+</body>
+</html>

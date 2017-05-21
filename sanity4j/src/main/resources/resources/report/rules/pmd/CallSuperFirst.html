@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head><title>CallSuperFirst</title></head>
+<body>
+<h2><a name="CallSuperFirst"></a>CallSuperFirst</h2>
+
+<p>Super should be called at the start of the method</p>
+
+<div>
+<pre>
+//MethodDeclaration[MethodDeclarator[
+  @Image='onCreate' or
+  @Image='onConfigurationChanged' or
+  @Image='onPostCreate' or
+  @Image='onPostResume' or
+  @Image='onRestart' or
+  @Image='onRestoreInstanceState' or
+  @Image='onResume' or
+  @Image='onStart'
+  ]]
+    /Block[not(
+      (BlockStatement[1]/Statement/StatementExpression/PrimaryExpression[./PrimaryPrefix[@SuperModifier='true']]/PrimarySuffix[@Image= ancestor::MethodDeclaration/MethodDeclarator/@Image]))]
+[ancestor::ClassOrInterfaceDeclaration[ExtendsList/ClassOrInterfaceType[
+  typeof(@Image, 'android.app.Activity', 'Activity') or
+  typeof(@Image, 'android.app.Application', 'Application') or
+  typeof(@Image, 'android.app.Service', 'Service')
+]]]
+
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+public class DummyActivity extends Activity {
+	public void onCreate(Bundle bundle) {
+     // missing call to super.onCreate(bundle)
+		foo();
+	}
+}
+
+</pre></div>
+</body>
+</html>

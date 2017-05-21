@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><title>AvoidBranchingStatementAsLastInLoop</title></head>
+<body>
+<h2><a name="AvoidBranchingStatementAsLastInLoop"></a>AvoidBranchingStatementAsLastInLoop</h2>
+
+<p>Using a branching statement as the last part of a loop may be a bug, and/or is confusing. Ensure that the usage is not a bug, or consider using another approach.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/basic/AvoidBranchingStatementAsLastInLoopRule.html">net.sourceforge.pmd.lang.java.rule.basic.AvoidBranchingStatementAsLastInLoopRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+            
+  // unusual use of branching statement in a loop
+for (int i = 0; i &lt; 10; i++) {
+	if (i*i &lt;= 25) {
+		continue;
+	}
+	break;
+}
+
+  // this makes more sense...
+for (int i = 0; i &lt; 10; i++) {
+	if (i*i &gt; 25) {
+		break;
+	}
+}
+            
+</pre></div>
+</body>
+</html>

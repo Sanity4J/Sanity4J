@@ -1,40 +1,25 @@
-<HTML>
-<HEAD>
-<TITLE>ForLoopsMustUseBraces</TITLE>
-</HEAD>
-<BODY>
-<H2>ForLoopsMustUseBraces</H2>
-Avoid using 'for' statements without using curly braces.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ForLoopsMustUseBraces</title></head>
+<body>
+<h2><a name="ForLoopsMustUseBraces"></a>ForLoopsMustUseBraces</h2>
+
+<p>Avoid using &#x2018;for&#x2019; statements without using curly braces. If the code formatting or indentation is lost then it becomes difficult to separate the code being controlled from the rest.</p>
+
+<div>
+<pre>
  
 //ForStatement[not(Statement/Block)]
  
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public void foo() {
- for (int i=0; i&lt;42;i++)
+<div>
+<pre>
+
+for (int i = 0; i &lt; 42; i++)
    foo();
-}
 
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

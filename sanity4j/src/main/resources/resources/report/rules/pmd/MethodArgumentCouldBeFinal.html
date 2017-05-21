@@ -1,38 +1,24 @@
-<HTML>
-<HEAD>
-<TITLE>MethodArgumentCouldBeFinal</TITLE>
-</HEAD>
-<BODY>
-<H2>MethodArgumentCouldBeFinal</H2>
-A method argument that is never assigned can be declared final.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>MethodArgumentCouldBeFinal</title></head>
+<body>
+<h2><a name="MethodArgumentCouldBeFinal"></a>MethodArgumentCouldBeFinal</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/optimization/MethodArgumentCouldBeFinal.html">net.sourceforge.pmd.rules.optimization.MethodArgumentCouldBeFinal</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>A method argument that is never re-assigned within the method can be declared final.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/optimizations/MethodArgumentCouldBeFinalRule.html">net.sourceforge.pmd.lang.java.rule.optimizations.MethodArgumentCouldBeFinalRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
-public void foo (String param) {
-  // do stuff with param never assigning it
-  // better: public void foo (final String param) {
+public void foo1 (String param) {	// do stuff with param never assigning it
+  
+}
+
+public void foo2 (final String param) {	// better, do stuff with param never assigning it
+  
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

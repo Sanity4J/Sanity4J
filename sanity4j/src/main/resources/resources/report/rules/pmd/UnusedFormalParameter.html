@@ -1,38 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>UnusedFormalParameter</TITLE>
-</HEAD>
-<BODY>
-<H2>UnusedFormalParameter</H2>
-Avoid passing parameters to methods or constructors and then not using those parameters.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UnusedFormalParameter</title></head>
+<body>
+<h2><a name="UnusedFormalParameter"></a>UnusedFormalParameter</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/UnusedFormalParameterRule.html">net.sourceforge.pmd.rules.UnusedFormalParameterRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid passing parameters to methods or constructors without actually referencing them in the method body.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/unusedcode/UnusedFormalParameterRule.html">net.sourceforge.pmd.lang.java.rule.unusedcode.UnusedFormalParameterRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
- private void bar(String howdy) {
-  // howdy is not used
- }
+	private void bar(String howdy) {
+	// howdy is not used
+	}
+}
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+
+</body>
+</html>

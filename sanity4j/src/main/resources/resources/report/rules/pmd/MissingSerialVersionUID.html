@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>MissingSerialVersionUID</TITLE>
-</HEAD>
-<BODY>
-<H2>MissingSerialVersionUID</H2>
-Classes that are serializable should provide a serialVersionUID field.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>MissingSerialVersionUID</title></head>
+<body>
+<h2><a name="MissingSerialVersionUID"></a>MissingSerialVersionUID</h2>
+
+<p>Serializable classes should provide a serialVersionUID field.</p>
+
+<div>
+<pre>
     
 //ClassOrInterfaceDeclaration
  [
@@ -26,18 +21,11 @@ and
    @Abstract = 'false'
 ]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo implements java.io.Serializable {
  String name;
@@ -46,7 +34,6 @@ public class Foo implements java.io.Serializable {
 }
 
 
-          
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

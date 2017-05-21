@@ -1,49 +1,41 @@
-<HTML>
-<HEAD>
-<TITLE>FinalizeDoesNotCallSuperFinalize</TITLE>
-</HEAD>
-<BODY>
-<H2>FinalizeDoesNotCallSuperFinalize</H2>
-If the finalize() is implemented, its last action should be to call super.finalize.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>FinalizeDoesNotCallSuperFinalize</title></head>
+<body>
+<h2><a name="FinalizeDoesNotCallSuperFinalize"></a>FinalizeDoesNotCallSuperFinalize</h2>
+
+<p>If the finalize() is implemented, its last action should be to call super.finalize.</p>
+
+<div>
+<pre>
 
 
 //MethodDeclaration[MethodDeclarator[@Image='finalize'][not(FormalParameters/*)]]
    /Block
       /BlockStatement[last()]
-      [not(Statement/StatementExpression/PrimaryExpression/PrimaryPrefix[@Image='finalize'])]
+      [not(Statement/StatementExpression/PrimaryExpression
+            [./PrimaryPrefix[@SuperModifier='true']]
+            [./PrimarySuffix[@Image='finalize']]
+          )
+      ]
       [not(Statement/TryStatement/FinallyStatement
-       /Block/BlockStatement/Statement/StatementExpression
-        /PrimaryExpression/PrimaryPrefix[@Image='finalize'])]
+       /Block/BlockStatement/Statement/StatementExpression/PrimaryExpression
+            [./PrimaryPrefix[@SuperModifier='true']]
+            [./PrimarySuffix[@Image='finalize']]
+          )
+      ]
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public class Foo {
-   protected void finalize() {
-       something();
-       // neglected to call super.finalize()
-   }
+<div>
+<pre>
+
+protected void finalize() {
+	something();
+	// neglected to call super.finalize()
 }
 
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

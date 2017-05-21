@@ -1,40 +1,29 @@
-<HTML>
-<HEAD>
-<TITLE>WhileLoopsMustUseBraces</TITLE>
-</HEAD>
-<BODY>
-<H2>WhileLoopsMustUseBraces</H2>
-Avoid using 'while' statements without using curly braces.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>WhileLoopsMustUseBraces</title></head>
+<body>
+<h2><a name="WhileLoopsMustUseBraces"></a>WhileLoopsMustUseBraces</h2>
+
+<p>Avoid using &#x2018;while&#x2019; statements without using braces to surround the code block. If the code formatting or indentation is lost then it becomes difficult to separate the code being controlled from the rest.</p>
+
+<div>
+<pre>
 
 //WhileStatement[not(Statement/Block)]
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public void doSomething() {
-  while (true)
+<div>
+<pre>
+
+while (true)	// not recommended
+      x++;
+      
+while (true) {	// preferred approach
       x++;
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

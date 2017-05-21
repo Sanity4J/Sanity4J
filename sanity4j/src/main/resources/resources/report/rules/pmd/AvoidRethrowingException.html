@@ -1,47 +1,32 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidRethrowingException</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidRethrowingException</H2>
-Catch blocks that merely rethrow a caught exception only add to code size and runtime complexity.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidRethrowingException</title></head>
+<body>
+<h2><a name="AvoidRethrowingException"></a>AvoidRethrowingException</h2>
+
+<p>Catch blocks that merely rethrow a caught exception only add to code size and runtime complexity.</p>
+
+<div>
+<pre>
                 
 //CatchStatement[FormalParameter
  /VariableDeclaratorId/@Image = Block/BlockStatement/Statement
  /ThrowStatement/Expression/PrimaryExpression[count(PrimarySuffix)=0]/PrimaryPrefix/Name/@Image
  and count(Block/BlockStatement/Statement) =1]
  
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                  
-  public class Foo {
-   void bar() {
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>  
+public void bar() {
     try {
     // do something
     }  catch (SomeException se) {
        throw se;
     }
-   }
-  }
+}
   
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

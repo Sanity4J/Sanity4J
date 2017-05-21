@@ -1,37 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>JUnitUseExpected</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnitUseExpected</H2>
-</p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>JUnitUseExpected</title></head>
+<body>
+<h2><a name="JUnitUseExpected"></a>JUnitUseExpected</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/migration/JUnitUseExpected.html">net.sourceforge.pmd.rules.migration.JUnitUseExpected</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>In JUnit4, use the @Test(expected) annotation to denote tests that should throw exceptions.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/migrating/JUnitUseExpectedRule.html">net.sourceforge.pmd.lang.java.rule.migrating.JUnitUseExpectedRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class MyTest {
 	@Test
     public void testBad() {
         try {
             doSomething();
-            fail("should have thrown an exception");
+            fail(&quot;should have thrown an exception&quot;);
         } catch (Exception e) {
         }
     }
@@ -42,7 +27,6 @@ public class MyTest {
     }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

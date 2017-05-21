@@ -1,33 +1,21 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyTryBlock</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyTryBlock</H2>
-Avoid empty try blocks - what's the point?
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyTryBlock</title></head>
+<body>
+<h2><a name="EmptyTryBlock"></a>EmptyTryBlock</h2>
+
+<p>Avoid empty try blocks - what&#x2019;s the point?</p>
+
+<div>
+<pre>
 
 //TryStatement/Block[1][count(*) = 0]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Foo {
  public void bar() {
@@ -38,7 +26,6 @@ public class Foo {
  }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

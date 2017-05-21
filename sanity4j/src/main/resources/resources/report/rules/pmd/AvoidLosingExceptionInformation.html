@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head><title>AvoidLosingExceptionInformation</title></head>
+<body>
+<h2><a name="AvoidLosingExceptionInformation"></a>AvoidLosingExceptionInformation</h2>
+
+<p>Statements in a catch block that invoke accessors on the exception without using the information only add to code size. Either remove the invocation, or use the return result.</p>
+
+<div>
+<pre>
+
+//CatchStatement/Block/BlockStatement/Statement/StatementExpression/PrimaryExpression/PrimaryPrefix/Name
+[
+   @Image = concat(../../../../../../../FormalParameter/VariableDeclaratorId/@Image, '.getMessage')
+   or
+   @Image = concat(../../../../../../../FormalParameter/VariableDeclaratorId/@Image, '.getLocalizedMessage')
+   or
+   @Image = concat(../../../../../../../FormalParameter/VariableDeclaratorId/@Image, '.getCause')
+   or
+   @Image = concat(../../../../../../../FormalParameter/VariableDeclaratorId/@Image, '.getStackTrace')
+   or
+   @Image = concat(../../../../../../../FormalParameter/VariableDeclaratorId/@Image, '.toString')
+]
+
+				</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+public void bar() {
+	try {
+		// do something
+	} catch (SomeException se) {
+		se.getMessage();
+	}
+}
+
+</pre></div>
+</body>
+</html>

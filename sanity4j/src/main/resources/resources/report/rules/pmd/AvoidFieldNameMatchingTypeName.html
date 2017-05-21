@@ -1,39 +1,20 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidFieldNameMatchingTypeName</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidFieldNameMatchingTypeName</H2>
-It is somewhat confusing to have a field name matching the declaring class name.
-This probably means that type and or field names could be more precise.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidFieldNameMatchingTypeName</title></head>
+<body>
+<h2><a name="AvoidFieldNameMatchingTypeName"></a>AvoidFieldNameMatchingTypeName</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/AvoidFieldNameMatchingTypeName.html">net.sourceforge.pmd.rules.AvoidFieldNameMatchingTypeName</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>It is somewhat confusing to have a field name matching the declaring class name. This probably means that type and/or field names should be chosen more carefully.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/naming/AvoidFieldNameMatchingTypeNameRule.html">net.sourceforge.pmd.lang.java.rule.naming.AvoidFieldNameMatchingTypeNameRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo extends Bar {
- // There's probably a better name for foo
- int foo;
+	int foo;	// There is probably a better name that can be used
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

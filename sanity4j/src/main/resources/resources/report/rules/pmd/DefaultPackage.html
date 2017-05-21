@@ -1,25 +1,21 @@
-<HTML>
-<HEAD>
-<TITLE>DefaultPackage</TITLE>
-</HEAD>
-<BODY>
-<H2>DefaultPackage</H2>
-Use explicit scoping instead of the default package private level.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>DefaultPackage</title></head>
+<body>
+<h2><a name="DefaultPackage"></a>DefaultPackage</h2>
+
+<p>Use explicit scoping instead of accidental usage of default package private level. The rule allows methods and fields annotated with Guava&#x2019;s @VisibleForTesting.</p>
+
+<div>
+<pre>
 //ClassOrInterfaceDeclaration[@Interface='false']
 /ClassOrInterfaceBody
 /ClassOrInterfaceBodyDeclaration
+[not(Annotation//Name[ends-with(@Image, 'VisibleForTesting')])]
 [
 FieldDeclaration[@PackagePrivate='true']
 or MethodDeclaration[@PackagePrivate='true']
 ]
-                </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

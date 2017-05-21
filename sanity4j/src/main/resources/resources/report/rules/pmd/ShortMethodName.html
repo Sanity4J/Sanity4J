@@ -1,40 +1,27 @@
-<HTML>
-<HEAD>
-<TITLE>ShortMethodName</TITLE>
-</HEAD>
-<BODY>
-<H2>ShortMethodName</H2>
-Detects when very short method names are used.
-     </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>ShortMethodName</title></head>
+<body>
+<h2><a name="ShortMethodName"></a>ShortMethodName</h2>
+
+<p>Method names that are very short are not helpful to the reader.</p>
+
+<div>
+<pre>
                   
-//MethodDeclarator[string-length(@Image) &amp;lt; 3]
+//MethodDeclarator[string-length(@Image) &lt; $minimum]
                   
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class ShortMethod {
-  public void a( int i ) { // Violation
-  }
+	public void a( int i ) { // Violation
+	}
 }
 
-     
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

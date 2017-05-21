@@ -1,21 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyStatementNotInLoop</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyStatementNotInLoop</H2>
-An empty statement (aka a semicolon by itself) that is not used
-as the sole body of a for loop or while loop is probably a bug.  It
-could also be a double semicolon, which is useless and should be
-removed.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyStatementNotInLoop</title></head>
+<body>
+<h2><a name="EmptyStatementNotInLoop"></a>EmptyStatementNotInLoop</h2>
+
+<p>An empty statement (or a semicolon by itself) that is not used as the sole body of a &#x2018;for&#x2019; or &#x2018;while&#x2019; loop is probably a bug. It could also be a double semicolon, which has no purpose and should be removed.</p>
+
+<div>
+<pre>
 
 //EmptyStatement
  [not(
@@ -28,29 +20,19 @@ removed.
         /Block[1]/BlockStatement[1]/Statement/EmptyStatement)
  ]
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public class MyClass {
-   public void doit() {
+<div>
+<pre>
+
+public void doit() {
       // this is probably not what you meant to do
       ;
       // the extra semicolon here this is not necessary
-      System.out.println("look at the extra semicolon");;
-   }
+      System.out.println(&quot;look at the extra semicolon&quot;);;
 }
 
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

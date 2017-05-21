@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head><title>DontCallThreadRun</title></head>
+<body>
+<h2><a name="DontCallThreadRun"></a>DontCallThreadRun</h2>
+
+<p>Explicitly calling Thread.run() method will execute in the caller&#x2019;s thread of control. Instead, call Thread.start() for the intended behavior.</p>
+
+<div>
+<pre>
+
+//StatementExpression/PrimaryExpression
+[
+    PrimaryPrefix
+    [
+        ./Name[ends-with(@Image, '.run') or @Image = 'run']
+        and substring-before(Name/@Image, '.') =//VariableDeclarator/VariableDeclaratorId/@Image
+        [../../../Type/ReferenceType[ClassOrInterfaceType/@Image = 'Thread']]
+        or (
+        ./AllocationExpression/ClassOrInterfaceType[@Image = 'Thread']
+        and ../PrimarySuffix[@Image = 'run'])
+    ]
+]
+
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+Thread t = new Thread();
+t.run();            // use t.start() instead
+new Thread().run(); // same violation
+
+</pre></div>
+</body>
+</html>

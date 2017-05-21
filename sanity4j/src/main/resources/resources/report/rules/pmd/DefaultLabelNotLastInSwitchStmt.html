@@ -1,49 +1,36 @@
-<HTML>
-<HEAD>
-<TITLE>DefaultLabelNotLastInSwitchStmt</TITLE>
-</HEAD>
-<BODY>
-<H2>DefaultLabelNotLastInSwitchStmt</H2>
-By convention, the default label should be the last label in a switch statement.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>DefaultLabelNotLastInSwitchStmt</title></head>
+<body>
+<h2><a name="DefaultLabelNotLastInSwitchStmt"></a>DefaultLabelNotLastInSwitchStmt</h2>
+
+<p>By convention, the default label should be the last label in a switch statement.</p>
+
+<div>
+<pre>
 
 //SwitchStatement
  [not(SwitchLabel[position() = last()][@Default='true'])]
  [SwitchLabel[@Default='true']]
 
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
    
 public class Foo {
- void bar(int a) {
-  switch (a) {
-   case 1:  // do something
-      break;
-   default:  // the default case should be last, by convention
-      break;
-   case 2:
-      break;
+  void bar(int a) {
+   switch (a) {
+    case 1:  // do something
+       break;
+    default:  // the default case should be last, by convention
+       break;
+    case 2:
+       break;
+   }
   }
- }
 }   
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

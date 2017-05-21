@@ -1,22 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidAccessibilityAlteration</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidAccessibilityAlteration</H2>
-Methods such as getDeclaredConstructors(), getDeclaredConstructor(Class[]) and setAccessible(),
-            as the interface PrivilegedAction, allow to alter, at runtime, the visilibilty of variable, classes, or
-            methods, even if they are private. Obviously, no one should do so, as such behavior is against everything
-            encapsulation principal stands for.
-            
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidAccessibilityAlteration</title></head>
+<body>
+<h2><a name="AvoidAccessibilityAlteration"></a>AvoidAccessibilityAlteration</h2>
+
+<p>Methods such as getDeclaredConstructors(), getDeclaredConstructor(Class[]) and setAccessible(), as the interface PrivilegedAction, allows for the runtime alteration of variable, class, or method visibility, even if they are private. This violates the principle of encapsulation.</p>
+
+<div>
+<pre>
                    
                         //PrimaryExpression[
                         (
@@ -41,50 +32,41 @@ Methods such as getDeclaredConstructors(), getDeclaredConstructor(Class[]) and s
                                 contains(@Image,'java.security.PrivilegedAction')])
                 ]
                 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
             
 
-			import java.lang.reflect.AccessibleObject;
-			import java.lang.reflect.Method;
-			import java.security.PrivilegedAction;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Method;
+import java.security.PrivilegedAction;
 
-			public class Violation {
-				public void invalidCallsInMethod() throws SecurityException, NoSuchMethodException {
-					// Possible call to forbidden getDeclaredConstructors
-					Class[] arrayOfClass = new Class[1];
-					this.getClass().getDeclaredConstructors();
-					this.getClass().getDeclaredConstructor(arrayOfClass);
-					Class clazz = this.getClass();
-					clazz.getDeclaredConstructor(arrayOfClass);
-					clazz.getDeclaredConstructors();
+public class Violation {
+  public void invalidCallsInMethod() throws SecurityException, NoSuchMethodException {
+    // Possible call to forbidden getDeclaredConstructors
+    Class[] arrayOfClass = new Class[1];
+    this.getClass().getDeclaredConstructors();
+    this.getClass().getDeclaredConstructor(arrayOfClass);
+    Class clazz = this.getClass();
+    clazz.getDeclaredConstructor(arrayOfClass);
+    clazz.getDeclaredConstructors();
+      // Possible call to forbidden setAccessible
+    clazz.getMethod(&quot;&quot;, arrayOfClass).setAccessible(false);
+    AccessibleObject.setAccessible(null, false);
+    Method.setAccessible(null, false);
+    Method[] methodsArray = clazz.getMethods();
+    int nbMethod;
+    for ( nbMethod = 0; nbMethod &lt; methodsArray.length; nbMethod++ ) {
+      methodsArray[nbMethod].setAccessible(false);
+    }
 
-					// Possible call to forbidden setAccessible
-					clazz.getMethod("", arrayOfClass).setAccessible(false);
-					AccessibleObject.setAccessible(null, false);
-					Method.setAccessible(null, false);
-					Method[] methodsArray = clazz.getMethods();
-					int nbMethod;
-					for ( nbMethod = 0; nbMethod &lt; methodsArray.length; nbMethod++ ) {
-						methodsArray[nbMethod].setAccessible(false);
-					}
-
-					// Possible call to forbidden PrivilegedAction
-					PrivilegedAction priv = (PrivilegedAction) new Object(); priv.run();
-				}
-			}
-					
-			
-            </pre></div>
-</BODY>
-</HTML>
+      // Possible call to forbidden PrivilegedAction
+    PrivilegedAction priv = (PrivilegedAction) new Object(); priv.run();
+  }
+}
+          
+</pre></div>
+</body>
+</html>

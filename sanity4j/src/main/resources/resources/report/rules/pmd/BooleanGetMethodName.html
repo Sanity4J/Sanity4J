@@ -1,61 +1,31 @@
-<HTML>
-<HEAD>
-<TITLE>BooleanGetMethodName</TITLE>
-</HEAD>
-<BODY>
-<H2>BooleanGetMethodName</H2>
-Looks for methods named 'getX()' with 'boolean' as the return type. The convention
-is to name these methods 'isX()'.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>BooleanGetMethodName</title></head>
+<body>
+<h2><a name="BooleanGetMethodName"></a>BooleanGetMethodName</h2>
+
+<p>Methods that return boolean results should be named as predicate statements to denote this. I.e, &#x2018;isReady()&#x2019;, &#x2018;hasValues()&#x2019;, &#x2018;canCommit()&#x2019;, &#x2018;willFail()&#x2019;, etc. Avoid the use of the &#x2018;get&#x2019; prefix for these methods.</p>
+
+<div>
+<pre>
                     
 //MethodDeclaration[
 MethodDeclarator[count(FormalParameters/FormalParameter) = 0 or $checkParameterizedMethods = 'true']
                 [starts-with(@Image, 'get')]
 and
 ResultType/Type/PrimitiveType[@Image = 'boolean']
+and not(../Annotation//Name[@Image = 'Override'])
 ]
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-public boolean getFoo(); // bad
-public boolean isFoo(); // ok
-public boolean getFoo(boolean bar); // ok, unless checkParameterizedMethods=true
-     
-            </pre></div>
-  
-        
+</pre></div>
+<p>Example(s):</p>
 
-        
-        
+<div>
+<pre>
             
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="b">
-                    <td>checkParameterizedMethods</td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+public boolean getFoo(); 	// bad
+public boolean isFoo(); 	// ok
+public boolean getFoo(boolean bar); // ok, unless checkParameterizedMethods=true
+</pre></div>
+</body>
+</html>

@@ -1,43 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidThrowingNullPointerException</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidThrowingNullPointerException</H2>
-Avoid throwing a NullPointerException - it's confusing because most people will assume that the
-virtual machine threw it. Consider using an IllegalArgumentException instead; this will be
-clearly seen as a programmer-initiated exception.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidThrowingNullPointerException</title></head>
+<body>
+<h2><a name="AvoidThrowingNullPointerException"></a>AvoidThrowingNullPointerException</h2>
+
+<p>Avoid throwing NullPointerExceptions. These are confusing because most people will assume that the virtual machine threw it. Consider using an IllegalArgumentException instead; this will be clearly seen as a programmer-initiated exception.</p>
+
+<div>
+<pre>
               
 //AllocationExpression/ClassOrInterfaceType[@Image='NullPointerException']
    
-          </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
         
 public class Foo {
- void bar() {
-  throw new NullPointerException();
- }
+  void bar() {
+    throw new NullPointerException();
+  }
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

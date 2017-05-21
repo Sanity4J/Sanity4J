@@ -1,48 +1,31 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidUsingShortType</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidUsingShortType</H2>
-Java uses the 'short' type to reduce memory usage, not to optimize calculation. In fact, the jvm does not have any
-            arithmetic capabilities for the short type: the jvm must convert the short into an int, do the proper caculation
-            and convert the int back to a short. So, the use of the 'short' type may have a greater impact than memory usage.
-            
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
-                    
-            //PrimitiveType[@Image = 'short']
-                    
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-    public class UsingShort
-    {
-        private short doNotUseShort = 0;
+<!doctype html>
+<html lang="en">
+<head><title>AvoidUsingShortType</title></head>
+<body>
+<h2><a name="AvoidUsingShortType"></a>AvoidUsingShortType</h2>
 
-		public UsingShort() {
-			short shouldNotBeUsed = 1;
-			doNotUseShort += shouldNotBeUsed;
-		}
- 	}
- 			
- 		
-            </pre></div>
-</BODY>
-</HTML>
+<p>Java uses the &#x2018;short&#x2019; type to reduce memory usage, not to optimize calculation. In fact, the JVM does not have any arithmetic capabilities for the short type: the JVM must convert the short into an int, do the proper calculation and convert the int back to a short. Thus any storage gains found through use of the &#x2018;short&#x2019; type may be offset by adverse impacts on performance.</p>
+
+<div>
+<pre>
+                    
+            //PrimitiveType[@Image = 'short'][name(../..) != 'CastExpression']
+                    
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+            
+public class UsingShort {
+   private short doNotUseShort = 0;
+
+   public UsingShort() {
+    short shouldNotBeUsed = 1;
+    doNotUseShort += shouldNotBeUsed;
+  }
+}
+       
+</pre></div>
+</body>
+</html>

@@ -1,37 +1,20 @@
-<HTML>
-<HEAD>
-<TITLE>UnusedImports</TITLE>
-</HEAD>
-<BODY>
-<H2>UnusedImports</H2>
-Avoid unused import statements.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UnusedImports</title></head>
+<body>
+<h2><a name="UnusedImports"></a>UnusedImports</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/imports/UnusedImportsRule.html">net.sourceforge.pmd.rules.imports.UnusedImportsRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid unused import statements. This rule will find unused on demand imports, i.e. import com.foo.*.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/typeresolution/rules/imports/UnusedImports.html">net.sourceforge.pmd.lang.java.typeresolution.rules.imports.UnusedImports</a></p>
+<p>Example(s):</p>
 
-// this is bad
-import java.io.File;
+<div>
+<pre>
+
+import java.io.*;	// not referenced or required
+
 public class Foo {}
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

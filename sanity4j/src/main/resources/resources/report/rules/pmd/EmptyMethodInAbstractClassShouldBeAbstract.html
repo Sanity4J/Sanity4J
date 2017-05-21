@@ -1,19 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyMethodInAbstractClassShouldBeAbstract</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyMethodInAbstractClassShouldBeAbstract</H2>
-An empty method in an abstract class should be abstract instead, as developer may rely on this empty implementation
-rather than code the appropriate one.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyMethodInAbstractClassShouldBeAbstract</title></head>
+<body>
+<h2><a name="EmptyMethodInAbstractClassShouldBeAbstract"></a>EmptyMethodInAbstractClassShouldBeAbstract</h2>
+
+<p>Empty or auto-generated methods in an abstract class should be tagged as abstract. This helps to remove their inapproprate usage by developers who should be implementing their own versions in the concrete subclasses.</p>
+
+<div>
+<pre>
                 
                     //ClassOrInterfaceDeclaration[@Abstract = 'true']
                         /ClassOrInterfaceBody
@@ -23,47 +17,30 @@ rather than code the appropriate one.
                             ( boolean(./Block[count(./BlockStatement) =  1]/BlockStatement/Statement/ReturnStatement/Expression/PrimaryExpression/PrimaryPrefix/Literal/NullLiteral) = 'true' )
                             or
                             ( boolean(./Block[count(./BlockStatement) =  1]/BlockStatement/Statement/ReturnStatement/Expression/PrimaryExpression/PrimaryPrefix/Literal[@Image = '0']) = 'true' )
-                    		or
-							( boolean(./Block[count(./BlockStatement) =  1]/BlockStatement/Statement/ReturnStatement/Expression/PrimaryExpression/PrimaryPrefix/Literal[string-length(@Image) = 2]) = 'true' )
-							or
-							(
-								(
-									(boolean(./Block/BlockStatement/Statement/ReturnStatement/Expression/PrimaryExpression/PrimaryPrefix/Literal[@Image = '']) = 'true' )
-								)
-								and
-								( count (./Block/*) = 1 )
-							)
+                            or
+                            ( boolean(./Block[count(./BlockStatement) =  1]/BlockStatement/Statement/ReturnStatement/Expression/PrimaryExpression/PrimaryPrefix/Literal[string-length(@Image) = 2]) = 'true' )
+                            or
+                            (./Block[count(./BlockStatement) =  1]/BlockStatement/Statement/EmptyStatement)
                             or
                             ( count (./Block/*) = 0 )
                         ]
                 
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-        	
-				public abstract class ShouldBeAbstract
-				{
-				    public Object couldBeAbstract()
-				    {
-					// Should be abstract method ?
-					return null;
-				   	}
+</pre></div>
+<p>Example(s):</p>
 
-				    public void couldBeAbstract()
-				    {
-				    }
-				}
+<div>
+<pre>
+        	
+public abstract class ShouldBeAbstract {
+    public Object couldBeAbstract() {
+        // Should be abstract method ?
+        return null;
+    }
+
+    public void couldBeAbstract() {
+    }
+}
 	     	
-    	
-            </pre></div>
-</BODY>
-</HTML>
+    	</pre></div>
+</body>
+</html>

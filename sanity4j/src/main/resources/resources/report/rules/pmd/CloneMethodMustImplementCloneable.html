@@ -1,53 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>CloneMethodMustImplementCloneable</TITLE>
-</HEAD>
-<BODY>
-<H2>CloneMethodMustImplementCloneable</H2>
-The method clone() should only be implemented if the class implements the Cloneable interface with the exception of a final method that only throws CloneNotSupportedException.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
-                    
-//ClassOrInterfaceDeclaration
-[not(./ImplementsList/ClassOrInterfaceType
-[@Image='Cloneable'])]
-/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration
-[MethodDeclaration
-[MethodDeclarator[@Image
-= 'clone' and count(FormalParameters/*) = 0]]
-[not((../MethodDeclaration[@Final = 'true'] or ancestor::ClassOrInterfaceDeclaration[1][@Final = 'true'])
-and Block[count(BlockStatement)=1]
-/BlockStatement/Statement/ThrowStatement/Expression
-/PrimaryExpression/PrimaryPrefix/AllocationExpression
-/ClassOrInterfaceType[@Image = 'CloneNotSupportedException'])]]
+<!doctype html>
+<html lang="en">
+<head><title>CloneMethodMustImplementCloneable</title></head>
+<body>
+<h2><a name="CloneMethodMustImplementCloneable"></a>CloneMethodMustImplementCloneable</h2>
 
-                    
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>The method clone() should only be implemented if the class implements the Cloneable interface with the exception of a final method that only throws CloneNotSupportedException. This version uses PMD&#x2019;s type resolution facilities, and can detect if the class implements or extends a Cloneable class.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/typeresolution/rules/CloneMethodMustImplementCloneable.html">net.sourceforge.pmd.lang.java.typeresolution.rules.CloneMethodMustImplementCloneable</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
             
 public class MyClass {
- public Object clone() throws CloneNotSupportedException {
-  return foo;
- }
+	public Object clone() throws CloneNotSupportedException {
+		return foo;
+	}
 }
    
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

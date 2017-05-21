@@ -1,38 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>DoNotExtendJavaLangError</TITLE>
-</HEAD>
-<BODY>
-<H2>DoNotExtendJavaLangError</H2>
-[
-        Errors are system exceptions. Do not extend them.
-      
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>DoNotExtendJavaLangError</title></head>
+<body>
+<h2><a name="DoNotExtendJavaLangError"></a>DoNotExtendJavaLangError</h2>
+
+<p>Errors are system exceptions. Do not extend them.</p>
+
+<div>
+<pre>
           
 //ClassOrInterfaceDeclaration/ExtendsList/ClassOrInterfaceType
-  [@Image="Error" or @Image="java.lang.Error"]
+  [@Image=&quot;Error&quot; or @Image=&quot;java.lang.Error&quot;]
           
-        </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-        public class Foo extends Error { }
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+public class Foo extends Error { }
+</pre></div>
+</body>
+</html>

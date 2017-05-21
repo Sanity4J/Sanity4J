@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head><title>LoosePackageCoupling</title></head>
+<body>
+<h2><a name="LoosePackageCoupling"></a>LoosePackageCoupling</h2>
+
+<p>Avoid using classes from the configured package hierarchy outside of the package hierarchy, except when using one of the configured allowed classes.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/coupling/LoosePackageCouplingRule.html">net.sourceforge.pmd.lang.java.rule.coupling.LoosePackageCouplingRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+package some.package;
+
+import some.other.package.subpackage.subsubpackage.DontUseThisClass;
+
+public class Bar {
+   DontUseThisClass boo = new DontUseThisClass();
+}
+  
+</pre></div>
+</body>
+</html>

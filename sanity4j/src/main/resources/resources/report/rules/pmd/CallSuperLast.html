@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head><title>CallSuperLast</title></head>
+<body>
+<h2><a name="CallSuperLast"></a>CallSuperLast</h2>
+
+<p>Super should be called at the end of the method</p>
+
+<div>
+<pre>
+          
+//MethodDeclaration[MethodDeclarator[
+  @Image='finish' or
+  @Image='onDestroy' or
+  @Image='onPause' or
+  @Image='onSaveInstanceState' or
+  @Image='onStop' or
+  @Image='onTerminate'
+  ]]
+   /Block/BlockStatement[last()]
+    [not(Statement/StatementExpression/PrimaryExpression[./PrimaryPrefix[@SuperModifier='true']]/PrimarySuffix[@Image= ancestor::MethodDeclaration/MethodDeclarator/@Image])]
+[ancestor::ClassOrInterfaceDeclaration[ExtendsList/ClassOrInterfaceType[
+  typeof(@Image, 'android.app.Activity', 'Activity') or
+  typeof(@Image, 'android.app.Application', 'Application') or
+  typeof(@Image, 'android.app.Service', 'Service')
+]]]
+
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+      
+public class DummyActivity extends Activity {
+	public void onPause() {
+		foo();
+		// missing call to super.onPause()
+	}
+}
+
+</pre></div>
+</body>
+</html>

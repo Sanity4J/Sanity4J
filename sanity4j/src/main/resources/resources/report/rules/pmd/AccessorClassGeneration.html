@@ -1,35 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>AccessorClassGeneration</TITLE>
-</HEAD>
-<BODY>
-<H2>AccessorClassGeneration</H2>
-Instantiation by way of private constructors from outside of the constructor's class often causes the generation of an accessor.
-A factory method, or non-privitization of the constructor can eliminate this situation.
-The generated class file is actually an interface.  It gives the accessing class the ability to invoke a new hidden package
-scope constructor that takes the interface as a supplementary parameter.  This turns a private constructor effectively into
-one with package scope, and is challenging to discern.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AccessorClassGeneration</title></head>
+<body>
+<h2><a name="AccessorClassGeneration"></a>AccessorClassGeneration</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/AccessorClassGeneration.html">net.sourceforge.pmd.rules.AccessorClassGeneration</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Instantiation by way of private constructors from outside of the constructor&#x2019;s class often causes the generation of an accessor. A factory method, or non-privatization of the constructor can eliminate this situation. The generated class file is actually an interface. It gives the accessing class the ability to invoke a new hidden package scope constructor that takes the interface as a supplementary parameter. This turns a private constructor effectively into one with package scope, and is challenging to discern.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/AccessorClassGenerationRule.html">net.sourceforge.pmd.lang.java.rule.design.AccessorClassGenerationRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Outer {
  void method(){
@@ -40,7 +20,6 @@ public class Outer {
  }
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

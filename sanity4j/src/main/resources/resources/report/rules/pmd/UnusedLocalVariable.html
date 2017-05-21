@@ -1,39 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>UnusedLocalVariable</TITLE>
-</HEAD>
-<BODY>
-<H2>UnusedLocalVariable</H2>
-Detects when a local variable is declared and/or assigned, but not used.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UnusedLocalVariable</title></head>
+<body>
+<h2><a name="UnusedLocalVariable"></a>UnusedLocalVariable</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/UnusedLocalVariableRule.html">net.sourceforge.pmd.rules.UnusedLocalVariableRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Detects when a local variable is declared and/or assigned, but not used.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/unusedcode/UnusedLocalVariableRule.html">net.sourceforge.pmd.lang.java.rule.unusedcode.UnusedLocalVariableRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
- public void doSomething() {
-  int i = 5; // Unused
- }
+	public void doSomething() {
+		int i = 5; // Unused
+	}
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

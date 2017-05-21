@@ -1,47 +1,34 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidPrintStackTrace</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidPrintStackTrace</H2>
-Avoid printStackTrace(); use a logger call instead.
-           </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidPrintStackTrace</title></head>
+<body>
+<h2><a name="AvoidPrintStackTrace"></a>AvoidPrintStackTrace</h2>
+
+<p>Avoid printStackTrace(); use a logger call instead.</p>
+
+<div>
+<pre>
 
 //PrimaryExpression
  [PrimaryPrefix/Name[contains(@Image,'printStackTrace')]]
  [PrimarySuffix[not(boolean(Arguments/ArgumentList/Expression))]]
 
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 class Foo {
- void bar() {
-  try {
-   // do something
-  } catch (Exception e) {
-   e.printStackTrace();
-  }
- }
+  void bar() {
+    try {
+     // do something
+    } catch (Exception e) {
+     e.printStackTrace();
+     }
+   }
 }
 
-           
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

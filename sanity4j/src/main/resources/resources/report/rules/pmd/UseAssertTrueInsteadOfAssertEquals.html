@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head><title>UseAssertTrueInsteadOfAssertEquals</title></head>
+<body>
+<h2><a name="UseAssertTrueInsteadOfAssertEquals"></a>UseAssertTrueInsteadOfAssertEquals</h2>
+
+<p>When asserting a value is the same as a literal or Boxed boolean, use assertTrue/assertFalse, instead of assertEquals.</p>
+
+<div>
+<pre>
+
+//PrimaryExpression[PrimaryPrefix/Name[@Image = 'assertEquals']]
+[
+  PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix/Literal/BooleanLiteral
+  or
+  PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix
+  /Name[(@Image = 'Boolean.TRUE' or @Image = 'Boolean.FALSE')]
+]
+
+			</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+
+public class MyTestCase extends TestCase {
+	public void testMyCase() {
+		boolean myVar = true;
+		// Ok
+		assertTrue(&quot;myVar is true&quot;, myVar);
+		// Bad
+		assertEquals(&quot;myVar is true&quot;, true, myVar);
+		// Bad
+		assertEquals(&quot;myVar is false&quot;, false, myVar);
+		// Bad
+		assertEquals(&quot;myVar is true&quot;, Boolean.TRUE, myVar);
+		// Bad
+		assertEquals(&quot;myVar is false&quot;, Boolean.FALSE, myVar);
+	}
+}
+
+		</pre></div>
+</body>
+</html>

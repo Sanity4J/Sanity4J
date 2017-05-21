@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>MDBAndSessionBeanNamingConvention</TITLE>
-</HEAD>
-<BODY>
-<H2>MDBAndSessionBeanNamingConvention</H2>
-The EJB Specification state that any MessageDrivenBean or SessionBean should be suffixed by Bean.
-        </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>MDBAndSessionBeanNamingConvention</title></head>
+<body>
+<h2><a name="MDBAndSessionBeanNamingConvention"></a>MDBAndSessionBeanNamingConvention</h2>
+
+<p>The EJB Specification states that any MessageDrivenBean or SessionBean should be suffixed by &#x2018;Bean&#x2019;.</p>
+
+<div>
+<pre>
 //TypeDeclaration/ClassOrInterfaceDeclaration
 [
     (
@@ -26,35 +21,16 @@ The EJB Specification state that any MessageDrivenBean or SessionBean should be 
         ends-with(@Image,'Bean')
     )
 ]
-             </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
             
-    <div class="source"><pre>
-                
+public class SomeBean implements SessionBean{}					// proper name
+
+public class MissingTheProperSuffix implements SessionBean {}  	// non-standard name
             
-            /* Proper name */
-            public class SomeBean implements SessionBean{}
-            
-        
-            </pre></div>
-  
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
-            
-            /* Bad name */
-            public class MissingTheProperSuffix implements SessionBean {}
-            
-        
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

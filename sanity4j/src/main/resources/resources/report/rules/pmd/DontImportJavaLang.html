@@ -1,44 +1,26 @@
-<HTML>
-<HEAD>
-<TITLE>DontImportJavaLang</TITLE>
-</HEAD>
-<BODY>
-<H2>DontImportJavaLang</H2>
-Avoid importing anything from the package 'java.lang'.  These classes are automatically imported (JLS 7.5.3).
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>DontImportJavaLang</title></head>
+<body>
+<h2><a name="DontImportJavaLang"></a>DontImportJavaLang</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/imports/DontImportJavaLang.html">net.sourceforge.pmd.rules.imports.DontImportJavaLang</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid importing anything from the package &#x2018;java.lang&#x2019;. These classes are automatically imported (JLS 7.5.3).</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/imports/DontImportJavaLangRule.html">net.sourceforge.pmd.lang.java.rule.imports.DontImportJavaLangRule</a></p>
+<p>Example(s):</p>
 
-// this is bad
-import java.lang.String;
+<div>
+<pre>
+
+import java.lang.String;	// this is unnecessary
+
 public class Foo {}
 
 // --- in another source code file...
 
-// this is bad
-import java.lang.*;
+import java.lang.*;	// this is bad
 
 public class Foo {}
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,21 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidThrowingRawExceptionTypes</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidThrowingRawExceptionTypes</H2>
-Avoid throwing certain exception types. Rather than throw a raw RuntimeException, Throwable,
-Exception, or Error, use a subclassed exception or error instead.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidThrowingRawExceptionTypes</title></head>
+<body>
+<h2><a name="AvoidThrowingRawExceptionTypes"></a>AvoidThrowingRawExceptionTypes</h2>
+
+<p>Avoid throwing certain exception types. Rather than throw a raw RuntimeException, Throwable, Exception, or Error, use a subclassed exception or error instead.</p>
+
+<div>
+<pre>
             
-//AllocationExpression
+//ThrowStatement//AllocationExpression
  /ClassOrInterfaceType[
  (@Image='Throwable' and count(//ImportDeclaration/Name[ends-with(@Image,'Throwable')]) = 0)
 or
@@ -26,26 +20,18 @@ or
 ( @Image='RuntimeException'  and count(//ImportDeclaration/Name[ends-with(@Image,'RuntimeException')]) = 0)
 ]
  
-        </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
       
 public class Foo {
-public void bar() throws Exception {
-  throw new Exception();
- }
+  public void bar() throws Exception {
+    throw new Exception();
+   }
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

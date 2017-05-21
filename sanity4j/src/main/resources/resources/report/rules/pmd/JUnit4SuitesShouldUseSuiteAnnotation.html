@@ -1,36 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>JUnit4SuitesShouldUseSuiteAnnotation</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnit4SuitesShouldUseSuiteAnnotation</H2>
-In JUnit 3, test suites are indicated by the suite() method. In JUnit 4, suites are indicated
-through the @RunWith(Suite.class) annotation.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>JUnit4SuitesShouldUseSuiteAnnotation</title></head>
+<body>
+<h2><a name="JUnit4SuitesShouldUseSuiteAnnotation"></a>JUnit4SuitesShouldUseSuiteAnnotation</h2>
+
+<p>In JUnit 3, test suites are indicated by the suite() method. In JUnit 4, suites are indicated through the @RunWith(Suite.class) annotation.</p>
+
+<div>
+<pre>
 
 //ClassOrInterfaceBodyDeclaration[MethodDeclaration/MethodDeclarator[@Image='suite']]
 [MethodDeclaration/ResultType/Type/ReferenceType/ClassOrInterfaceType[@Image='Test' or @Image = 'junit.framework.Test']]
 [not(MethodDeclaration/Block//ClassOrInterfaceType[@Image='JUnit4TestAdapter'])]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class BadExample extends TestCase{
 
@@ -43,7 +30,6 @@ public class BadExample extends TestCase{
 @SuiteClasses( { TestOne.class, TestTwo.class })
 public class GoodTest {
 }
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

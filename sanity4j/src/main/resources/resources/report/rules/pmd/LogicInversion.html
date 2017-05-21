@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><title>LogicInversion</title></head>
+<body>
+<h2><a name="LogicInversion"></a>LogicInversion</h2>
+
+<p>Use opposite operator instead of negating the whole expression with a logic complement operator.</p>
+
+<div>
+<pre>
+          
+//UnaryExpressionNotPlusMinus[@Image='!']/PrimaryExpression/PrimaryPrefix/Expression[EqualityExpression or RelationalExpression]
+          
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+    
+public boolean bar(int a, int b) {
+
+    if (!(a == b)) { // use !=
+         return false;
+     }
+
+    if (!(a &lt; b)) { // use &gt;=
+         return false;
+    }
+
+    return true;
+}
+    
+</pre></div>
+</body>
+</html>

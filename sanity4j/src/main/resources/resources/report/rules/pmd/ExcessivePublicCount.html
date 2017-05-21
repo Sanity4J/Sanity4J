@@ -1,62 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>ExcessivePublicCount</TITLE>
-</HEAD>
-<BODY>
-<H2>ExcessivePublicCount</H2>
-A large number of public methods and attributes declared in a class can indicate the
- class may need to be broken up as increased effort will be required to thoroughly test it.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ExcessivePublicCount</title></head>
+<body>
+<h2><a name="ExcessivePublicCount"></a>ExcessivePublicCount</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/ExcessivePublicCount.html">net.sourceforge.pmd.rules.ExcessivePublicCount</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Classes with large numbers of public methods and attributes require disproportionate testing efforts since combinational side effects grow rapidly and increase risk. Refactoring these classes into smaller ones not only increases testability and reliability but also allows new variations to be developed easily.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/ExcessivePublicCountRule.html">net.sourceforge.pmd.lang.java.rule.codesize.ExcessivePublicCountRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo {
- public String value;
- public Bar something;
- public Variable var;
+	public String value;
+	public Bar something;
+	public Variable var;
  // [... more more public attributes ...]
- public void doWork() {}
- public void doMoreWork() {}
- public void doWorkAgain() {}
+ 
+	public void doWork() {}
+	public void doMoreWork() {}
+	public void doWorkAgain() {}
  // [... more more public methods ...]
 }
     
-    
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="b">
-                    <td>minimum</td>
-                    <td>45</td>
-                    <td>The public item reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

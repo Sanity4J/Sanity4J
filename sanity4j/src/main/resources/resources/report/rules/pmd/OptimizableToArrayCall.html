@@ -1,18 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>OptimizableToArrayCall</TITLE>
-</HEAD>
-<BODY>
-<H2>OptimizableToArrayCall</H2>
-A call to Collection.toArray can use the Collection's size vs an empty Array of the desired type.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>OptimizableToArrayCall</title></head>
+<body>
+<h2><a name="OptimizableToArrayCall"></a>OptimizableToArrayCall</h2>
+
+<p>Calls to a collection&#x2019;s toArray() method should specify target arrays sized to match the size of the collection. Initial arrays that are too small are discarded in favour of new ones that have to be created that are the proper size.</p>
+
+<div>
+<pre>
                   
 //PrimaryExpression
 [PrimaryPrefix/Name[ends-with(@Image, 'toArray')]]
@@ -23,30 +18,21 @@ PrimarySuffix/Arguments/ArgumentList/Expression
 ]
 
                   
-              </pre></div>
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+List foos = getFoos();
   
-class Foo {
- void bar(Collection x) {
-   // A bit inefficient
-   x.toArray(new Foo[0]);
-   // Much better; this one sizes the destination array, avoiding
-   // a reflection call in some Collection implementations
-   x.toArray(new Foo[x.size()]);
- }
-}
+    // inefficient, the array will be discarded
+Foo[] fooArray = foos.toArray(new Foo[0]);
+    
+    // much better; this one sizes the destination array, 
+    // avoiding of a new one via reflection
+Foo[] fooArray = foos.toArray(new Foo[foos.size()]);
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

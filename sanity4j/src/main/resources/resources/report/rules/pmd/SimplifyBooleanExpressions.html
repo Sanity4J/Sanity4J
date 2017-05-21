@@ -1,44 +1,31 @@
-<HTML>
-<HEAD>
-<TITLE>SimplifyBooleanExpressions</TITLE>
-</HEAD>
-<BODY>
-<H2>SimplifyBooleanExpressions</H2>
-Avoid unnecessary comparisons in boolean expressions - this complicates simple code.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>SimplifyBooleanExpressions</title></head>
+<body>
+<h2><a name="SimplifyBooleanExpressions"></a>SimplifyBooleanExpressions</h2>
+
+<p>Avoid unnecessary comparisons in boolean expressions, they serve no purpose and impacts readability.</p>
+
+<div>
+<pre>
 
 //EqualityExpression/PrimaryExpression
  /PrimaryPrefix/Literal/BooleanLiteral
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Bar {
- // can be simplified to
- // bar = isFoo();
- private boolean bar = (isFoo() == true);
+  // can be simplified to
+  // bar = isFoo();
+  private boolean bar = (isFoo() == true);
 
- public isFoo() { return false;}
+  public isFoo() { return false;}
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

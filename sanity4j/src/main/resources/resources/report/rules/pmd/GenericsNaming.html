@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head><title>GenericsNaming</title></head>
+<body>
+<h2><a name="GenericsNaming"></a>GenericsNaming</h2>
+
+<p>Names for references to generic values should be limited to a single uppercase letter.</p>
+
+<div>
+<pre>
+                    
+//TypeDeclaration/ClassOrInterfaceDeclaration/TypeParameters/TypeParameter[
+  string-length(@Image) &gt; 1 
+  or
+  string:upper-case(@Image) != @Image
+]
+
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+            
+public interface GenericDao&lt;E extends BaseModel, K extends Serializable&gt; extends BaseDao {
+   // This is ok...
+}
+
+public interface GenericDao&lt;E extends BaseModel, K extends Serializable&gt; {
+   // Also this
+}
+
+public interface GenericDao&lt;e extends BaseModel, K extends Serializable&gt; {
+   // 'e' should be an 'E'
+}
+
+public interface GenericDao&lt;EF extends BaseModel, K extends Serializable&gt; {
+   // 'EF' is not ok.
+}
+</pre></div>
+</body>
+</html>

@@ -1,41 +1,21 @@
-<HTML>
-<HEAD>
-<TITLE>UseUtilityClass</TITLE>
-</HEAD>
-<BODY>
-<H2>UseUtilityClass</H2>
-For classes that only have static methods, consider making them utility classes. 
-Note that this doesn't apply to abstract classes, since their subclasses may well 
-include non-static methods. Also, if you want this class to be a utility class, 
-remember to add a private constructor to prevent instantiation.		
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UseUtilityClass</title></head>
+<body>
+<h2><a name="UseUtilityClass"></a>UseUtilityClass</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/UseUtilityClassRule.html">net.sourceforge.pmd.rules.design.UseSingleton</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>For classes that only have static methods, consider making them utility classes. Note that this doesn&#x2019;t apply to abstract classes, since their subclasses may well include non-static methods. Also, if you want this class to be a utility class, remember to add a private constructor to prevent instantiation. (Note, that this use was known before PMD 5.1.0 as UseSingleton).</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/UseUtilityClassRule.html">net.sourceforge.pmd.lang.java.rule.design.UseUtilityClassRule</a></p>
+<p>Example(s):</p>
 
-public class MaybeASingleton {
- public static void foo() {}
- public static void bar() {}
+<div>
+<pre>
+
+public class MaybeAUtility {
+  public static void foo() {}
+  public static void bar() {}
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

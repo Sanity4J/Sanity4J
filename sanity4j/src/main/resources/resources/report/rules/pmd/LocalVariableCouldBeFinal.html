@@ -1,40 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>LocalVariableCouldBeFinal</TITLE>
-</HEAD>
-<BODY>
-<H2>LocalVariableCouldBeFinal</H2>
-A local variable assigned only once can be declared final.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>LocalVariableCouldBeFinal</title></head>
+<body>
+<h2><a name="LocalVariableCouldBeFinal"></a>LocalVariableCouldBeFinal</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/optimization/LocalVariableCouldBeFinal.html">net.sourceforge.pmd.rules.optimization.LocalVariableCouldBeFinal</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>A local variable assigned only once can be declared final.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/optimizations/LocalVariableCouldBeFinalRule.html">net.sourceforge.pmd.lang.java.rule.optimizations.LocalVariableCouldBeFinalRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Bar {
- public void foo () {
-  String a = "a"; //if a will not be assigned again it is better to do this:
-  final String b = "b";
- }
+	public void foo () {
+		String txtA = &quot;a&quot;; 		// if txtA will not be assigned again it is better to do this:
+		final String txtB = &quot;b&quot;;
+	}
 }
   
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

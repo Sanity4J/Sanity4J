@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><title>AvoidCatchingGenericException</title></head>
+<body>
+<h2><a name="AvoidCatchingGenericException"></a>AvoidCatchingGenericException</h2>
+
+<p>Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block</p>
+
+<div>
+<pre>
+      
+        //CatchStatement/FormalParameter/Type/ReferenceType/ClassOrInterfaceType[
+          @Image='NullPointerException' or
+          @Image='Exception' or
+          @Image='RuntimeException']
+      
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+    
+package com.igate.primitive;
+    
+public class PrimitiveType {
+    
+  public void downCastPrimitiveType() {
+    try {
+      System.out.println(&quot; i [&quot; + i + &quot;]&quot;);
+    } catch(Exception e) {
+      e.printStackTrace();
+    } catch(RuntimeException e) {
+      e.printStackTrace();
+    } catch(NullPointerException e) {
+      e.printStackTrace();
+    }
+  } 
+}
+    
+</pre></div>
+</body>
+</html>

@@ -1,47 +1,32 @@
-<HTML>
-<HEAD>
-<TITLE>UseEqualsToCompareStrings</TITLE>
-</HEAD>
-<BODY>
-<H2>UseEqualsToCompareStrings</H2>
-Using '==' or '!=' to compare strings only works if intern version is used on both sides
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UseEqualsToCompareStrings</title></head>
+<body>
+<h2><a name="UseEqualsToCompareStrings"></a>UseEqualsToCompareStrings</h2>
+
+<p>Using &#x2018;==&#x2019; or &#x2018;!=&#x2019; to compare strings only works if intern version is used on both sides. Use the equals() method instead.</p>
+
+<div>
+<pre>
 
 //EqualityExpression/PrimaryExpression
 [(PrimaryPrefix/Literal
-   [starts-with(@Image, '"')]
-   [ends-with(@Image, '"')]
+   [starts-with(@Image, '&quot;')]
+   [ends-with(@Image, '&quot;')]
 and count(PrimarySuffix) = 0)]
 
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-class Foo {
-  boolean test(String s) {
-    if (s == "one") return true; //Bad
-    if ("two".equals(s)) return true; //Better
+<div>
+<pre>
+
+public boolean test(String s) {
+    if (s == &quot;one&quot;) return true; 		// unreliable
+    if (&quot;two&quot;.equals(s)) return true; 	// better
     return false;
-  }
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

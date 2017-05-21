@@ -1,62 +1,28 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidDeeplyNestedIfStmts</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidDeeplyNestedIfStmts</H2>
-Deeply nested if..then statements are hard to read.
-    </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidDeeplyNestedIfStmts</title></head>
+<body>
+<h2><a name="AvoidDeeplyNestedIfStmts"></a>AvoidDeeplyNestedIfStmts</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/AvoidDeeplyNestedIfStmtsRule.html">net.sourceforge.pmd.rules.AvoidDeeplyNestedIfStmtsRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid creating deeply nested if-then statements since they are harder to read and error-prone to maintain.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/AvoidDeeplyNestedIfStmtsRule.html">net.sourceforge.pmd.lang.java.rule.design.AvoidDeeplyNestedIfStmtsRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
- public void bar(int x, int y, int z) {
-  if (x&gt;y) {
-   if (y&gt;z) {
-    if (z==x) {
-     // whew, too deep
+  public void bar(int x, int y, int z) {
+    if (x&gt;y) {
+      if (y&gt;z) {
+        if (z==x) {
+         // !! too deep
+        }
+      }
     }
-   }
   }
- }
 }
 
-    
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="b">
-                    <td>problemDepth</td>
-                    <td>3</td>
-                    <td>The if statement depth reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

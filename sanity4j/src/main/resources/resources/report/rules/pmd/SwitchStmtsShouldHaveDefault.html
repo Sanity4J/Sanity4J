@@ -1,44 +1,31 @@
-<HTML>
-<HEAD>
-<TITLE>SwitchStmtsShouldHaveDefault</TITLE>
-</HEAD>
-<BODY>
-<H2>SwitchStmtsShouldHaveDefault</H2>
-Switch statements should have a default label.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>SwitchStmtsShouldHaveDefault</title></head>
+<body>
+<h2><a name="SwitchStmtsShouldHaveDefault"></a>SwitchStmtsShouldHaveDefault</h2>
+
+<p>All switch statements should include a default option to catch any unspecified values.</p>
+
+<div>
+<pre>
                   
 //SwitchStatement[not(SwitchLabel[@Default='true'])]
                   
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public class Foo {
- public void bar() {
-  int x = 2;
-  switch (x) {
-   case 2: int j = 8;
-  }
- }
+<div>
+<pre>
+
+public void bar() {
+    int x = 2;
+    switch (x) {
+      case 1: int j = 6;
+      case 2: int j = 8;
+      				// missing default: here
+    }
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

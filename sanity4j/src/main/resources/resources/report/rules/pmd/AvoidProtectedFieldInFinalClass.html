@@ -1,44 +1,30 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidProtectedFieldInFinalClass</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidProtectedFieldInFinalClass</H2>
-Do not use protected fields in final classes since they cannot be subclassed.
-Clarify your intent by using private or package access modifiers instead.
-         </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>AvoidProtectedFieldInFinalClass</title></head>
+<body>
+<h2><a name="AvoidProtectedFieldInFinalClass"></a>AvoidProtectedFieldInFinalClass</h2>
+
+<p>Do not use protected fields in final classes since they cannot be subclassed. Clarify your intent by using private or package access modifiers instead.</p>
+
+<div>
+<pre>
 
 //ClassOrInterfaceDeclaration[@Final='true']
 /ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration
 /FieldDeclaration[@Protected='true']
  
-                 </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public final class Bar {
- private int x;
- protected int y;  // &lt;-- Bar cannot be subclassed, so is y really private or package visible???
- Bar() {}
+  private int x;
+  protected int y;  // bar cannot be subclassed, so is y really private or package visible?
+  Bar() {}
 }
  
-         
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

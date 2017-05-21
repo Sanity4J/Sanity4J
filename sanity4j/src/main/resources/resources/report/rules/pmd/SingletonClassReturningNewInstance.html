@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head><title>SingletonClassReturningNewInstance</title></head>
+<body>
+<h2><a name="SingletonClassReturningNewInstance"></a>SingletonClassReturningNewInstance</h2>
+
+<p>Some classes contain overloaded getInstance. The problem with overloaded getInstance methods is that the instance created using the overloaded method is not cached and so,  for each call and new objects will be created for every invocation.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/SingletonClassReturningNewInstanceRule.html">net.sourceforge.pmd.lang.java.rule.design.SingletonClassReturningNewInstanceRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+class Singleton {
+	private static Singleton instance = null;
+	public static Singleton getInstance() {
+	synchronized(Singleton.class){
+		return new Singleton();					
+	}
+	}
+}
+
+</pre></div>
+</body>
+</html>

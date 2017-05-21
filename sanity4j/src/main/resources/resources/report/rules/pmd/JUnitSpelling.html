@@ -1,46 +1,34 @@
-<HTML>
-<HEAD>
-<TITLE>JUnitSpelling</TITLE>
-</HEAD>
-<BODY>
-<H2>JUnitSpelling</H2>
-Some JUnit framework methods are easy to misspell.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>JUnitSpelling</title></head>
+<body>
+<h2><a name="JUnitSpelling"></a>JUnitSpelling</h2>
+
+<p>Some JUnit framework methods are easy to misspell.</p>
+
+<div>
+<pre>
               
 //MethodDeclarator[(not(@Image = 'setUp')
  and translate(@Image, 'SETuP', 'setUp') = 'setUp')
  or (not(@Image = 'tearDown')
  and translate(@Image, 'TEARdOWN', 'tearDown') = 'tearDown')]
  [FormalParameters[count(*) = 0]]
-[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[typeof(@Image, 'org.junit.Test', 'Test')]]]
+[ancestor::ClassOrInterfaceDeclaration[//ClassOrInterfaceType[pmd-java:typeof(@Image, 'junit.framework.TestCase','TestCase')] or //MarkerAnnotation/Name[pmd-java:typeof(@Image, 'org.junit.Test', 'Test')]]]
               
-          </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 import junit.framework.*;
+
 public class Foo extends TestCase {
- public void setup() {} // oops, should be setUp
- public void TearDown() {} // oops, should be tearDown
+   public void setup() {}    // oops, should be setUp
+   public void TearDown() {} // oops, should be tearDown
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

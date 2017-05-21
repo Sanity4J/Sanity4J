@@ -1,40 +1,23 @@
-<HTML>
-<HEAD>
-<TITLE>CompareObjectsWithEquals</TITLE>
-</HEAD>
-<BODY>
-<H2>CompareObjectsWithEquals</H2>
-Use equals() to compare object references; avoid comparing them with ==.
-  </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>CompareObjectsWithEquals</title></head>
+<body>
+<h2><a name="CompareObjectsWithEquals"></a>CompareObjectsWithEquals</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/CompareObjectsWithEquals.html">net.sourceforge.pmd.rules.design.CompareObjectsWithEquals</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Use equals() to compare object references; avoid comparing them with ==.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/design/CompareObjectsWithEqualsRule.html">net.sourceforge.pmd.lang.java.rule.design.CompareObjectsWithEqualsRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 class Foo {
- boolean bar(String a, String b) {
-  return a == b;
- }
+  boolean bar(String a, String b) {
+    return a == b;
+  }
 }
 
 
-  
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,58 +1,33 @@
-<HTML>
-<HEAD>
-<TITLE>ExcessiveClassLength</TITLE>
-</HEAD>
-<BODY>
-<H2>ExcessiveClassLength</H2>
-Long Class files are indications that the class may be trying to
-do too much.  Try to break it down, and reduce the size to something
-manageable.
-   </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>ExcessiveClassLength</title></head>
+<body>
+<h2><a name="ExcessiveClassLength"></a>ExcessiveClassLength</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/design/LongClassRule.html">net.sourceforge.pmd.rules.design.LongClassRule</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Excessive class file lengths are usually indications that the class may be burdened with excessive responsibilities that could be provided by external classes or functions. In breaking these methods apart the code becomes more managable and ripe for reuse.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/ExcessiveClassLengthRule.html">net.sourceforge.pmd.lang.java.rule.codesize.ExcessiveClassLengthRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
-  public void bar() {
+	public void bar1() {
     // 1000 lines of code
-  }
+	}
+	public void bar2() {
+    // 1000 lines of code
+	}
+    public void bar3() {
+    // 1000 lines of code
+	}
+	
+	
+    public void barN() {
+    // 1000 lines of code
+	}
 }
 
-   
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="b">
-                    <td>minimum</td>
-                    <td>1000</td>
-                    <td>The class size reporting threshold</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

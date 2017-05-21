@@ -1,34 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>EmptyIfStmt</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptyIfStmt</H2>
-Empty If Statement finds instances where a condition is checked but nothing is done about it.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptyIfStmt</title></head>
+<body>
+<h2><a name="EmptyIfStmt"></a>EmptyIfStmt</h2>
+
+<p>Empty If Statement finds instances where a condition is checked but nothing is done about it.</p>
+
+<div>
+<pre>
 
 //IfStatement/Statement
  [EmptyStatement or Block[count(*) = 0]]
  
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo {
  void bar(int x) {
@@ -38,7 +26,6 @@ public class Foo {
  }
 }
  
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

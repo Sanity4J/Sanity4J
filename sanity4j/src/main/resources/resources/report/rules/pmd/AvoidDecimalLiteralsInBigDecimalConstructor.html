@@ -1,64 +1,47 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidDecimalLiteralsInBigDecimalConstructor</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidDecimalLiteralsInBigDecimalConstructor</H2>
-One might assume that "new BigDecimal(.1)" is exactly equal
-     to .1, but it is actually equal
-     to .1000000000000000055511151231257827021181583404541015625.
-     This is so because .1 cannot be represented exactly as a double
-     (or, for that matter, as a binary fraction of any finite length).
-     Thus, the long value that is being passed in to the constructor
-     is not exactly equal to .1, appearances notwithstanding.
+<!doctype html>
+<html lang="en">
+<head><title>AvoidDecimalLiteralsInBigDecimalConstructor</title></head>
+<body>
+<h2><a name="AvoidDecimalLiteralsInBigDecimalConstructor"></a>AvoidDecimalLiteralsInBigDecimalConstructor</h2>
 
-     The (String) constructor, on the other hand, is perfectly predictable:
-     'new BigDecimal(".1")' is exactly equal to .1, as one
-     would expect.  Therefore, it is generally recommended that the (String)
-     constructor be used in preference to this one.
-  </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<p>One might assume that the result of &#x201c;new BigDecimal(0.1)&#x201d; is exactly equal to 0.1, but it is actually equal to .1000000000000000055511151231257827021181583404541015625. This is because 0.1 cannot be represented exactly as a double (or as a binary fraction of any finite length). Thus, the long value that is being passed in to the constructor is not exactly equal to 0.1, appearances notwithstanding.</p>
+<p>The (String) constructor, on the other hand, is perfectly predictable: &#x2018;new BigDecimal(&#x201c;0.1&#x201d;)&#x2019; is exactly equal to 0.1, as one would expect. Therefore, it is generally recommended that the (String) constructor be used in preference to this one.</p>
 
-//AllocationExpression[ClassOrInterfaceType[@Image="BigDecimal"]
-and
-./Arguments/ArgumentList
-/Expression/PrimaryExpression/PrimaryPrefix/Literal[(not
-(ends-with
-(@Image,'"'))) and contains(@Image,".")]]
+<div>
+<pre>
+
+//AllocationExpression
+[ClassOrInterfaceType[@Image=&quot;BigDecimal&quot;]]
+[Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix
+    [
+        Literal[(not(ends-with(@Image,'&quot;'))) and contains(@Image,&quot;.&quot;)]
+        or
+        Name[ancestor::Block/BlockStatement/LocalVariableDeclaration
+                [Type[PrimitiveType[@Image='double' or @Image='float']
+                      or ReferenceType/ClassOrInterfaceType[@Image='Double' or @Image='Float']]]
+                /VariableDeclarator/VariableDeclaratorId/@Image = @Image
+            ]
+        or
+        Name[ancestor::MethodDeclaration/MethodDeclarator/FormalParameters/FormalParameter
+                [Type[PrimitiveType[@Image='double' or @Image='float']
+                      or ReferenceType/ClassOrInterfaceType[@Image='Double' or @Image='Float']]]
+                /VariableDeclaratorId/@Image = @Image
+            ]
+    ]
+]
  
-    </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-import java.math.BigDecimal;
-public class Test {
+<div>
+<pre>
 
-    public static void main(String[] args) {
-      // this would trigger the rule
-     BigDecimal bd=new BigDecimal(1.123);
-      // this wouldn't trigger the rule
-     BigDecimal bd=new BigDecimal("1.123");
-      // this wouldn't trigger the rule
-     BigDecimal bd=new BigDecimal(12);
-    }
-}
+BigDecimal bd = new BigDecimal(1.123);		// loss of precision, this would trigger the rule
 
-  
-            </pre></div>
-</BODY>
-</HTML>
+BigDecimal bd = new BigDecimal(&quot;1.123&quot;);   	// preferred approach
+
+BigDecimal bd = new BigDecimal(12);     	// preferred approach, ok for integer values
+
+</pre></div>
+</body>
+</html>

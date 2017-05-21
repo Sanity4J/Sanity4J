@@ -1,52 +1,70 @@
-<HTML>
-<HEAD>
-<TITLE>MissingStaticMethodInNonInstantiatableClass</TITLE>
-</HEAD>
-<BODY>
-<H2>MissingStaticMethodInNonInstantiatableClass</H2>
-A class that has private constructors and does not have any static methods or fields cannot be used.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>MissingStaticMethodInNonInstantiatableClass</title></head>
+<body>
+<h2><a name="MissingStaticMethodInNonInstantiatableClass"></a>MissingStaticMethodInNonInstantiatableClass</h2>
+
+<p>A class that has private constructors and does not have any static methods or fields cannot be used.</p>
+
+<div>
+<pre>
     
-//ClassOrInterfaceDeclaration[@Nested='false'][
-( count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration)&amp;gt;0
-  and count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration) = count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Private='true']) )
-and
-count(.//MethodDeclaration[@Static='true'])=0
-and
-count(.//FieldDeclaration[@Private='false'][@Static='true'])=0
+//ClassOrInterfaceDeclaration[@Nested='false']
+[
+  (
+    count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration)&gt;0
+    and
+    count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration) = count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Private='true'])
+  )
+  and
+  count(.//MethodDeclaration[@Static='true'])=0
+  and
+  count(.//FieldDeclaration[@Private='false'][@Static='true'])=0
+  and
+  count(.//ClassOrInterfaceDeclaration[@Nested='true']
+           [@Public='true']
+           [@Static='true']
+           [count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/ConstructorDeclaration[@Public='true']) &gt; 0]
+           [count(./ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/MethodDeclaration
+                    [@Public='true']
+                    [./ResultType/Type/ReferenceType/ClassOrInterfaceType
+                        [@Image = //ClassOrInterfaceDeclaration[@Nested='false']/@Image]
+                    ]
+            ) &gt; 0]
+        ) = 0
+  and
+  count(//ClassOrInterfaceDeclaration
+            [@Nested='true']
+            [@Static='true']
+            [@Public='true']
+            [.//MethodDeclaration
+              [@Public='true']
+              [.//ReturnStatement//AllocationExpression
+                [ClassOrInterfaceType
+                    [@Image = //ClassOrInterfaceDeclaration/@Image]
+                ]
+                [./Arguments//PrimaryPrefix/@ThisModifier='true']
+              ]
+            ]
+       ) = 0
 ]
     
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-/* This class is unusable, since it cannot be
- instantiated (private constructor),
- and no static method can be called.
- */
+<div>
+<pre>
+
+// This class is unusable, since it cannot be
+// instantiated (private constructor),
+// and no static method can be called.
+
 public class Foo {
- private Foo() {}
- void foo() {}
+  private Foo() {}
+  void foo() {}
 }
 
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

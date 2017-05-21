@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><title>SimplifiedTernary</title></head>
+<body>
+<h2><a name="SimplifiedTernary"></a>SimplifiedTernary</h2>
+
+<p>Look for ternary operators with the form <tt>condition ? literalBoolean : foo</tt> or <tt>condition ? foo : literalBoolean</tt>.</p>
+<p>These expressions can be simplified respectively to <tt>condition || foo</tt> when the literalBoolean is true <tt>!condition &amp;&amp; foo</tt> when the literalBoolean is false or <tt>!condition || foo</tt> when the literalBoolean is true <tt>condition &amp;&amp; foo</tt> when the literalBoolean is false</p>
+
+<div>
+<pre>
+//ConditionalExpression[@Ternary='true'][not(PrimaryExpression/*/Literal) and (Expression/PrimaryExpression/*/Literal/BooleanLiteral)]
+|
+//ConditionalExpression[@Ternary='true'][not(Expression/PrimaryExpression/*/Literal) and (PrimaryExpression/*/Literal/BooleanLiteral)]
+
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+        
+public class Foo {
+    public boolean test() {
+        return condition ? true : something(); // can be as simple as return condition || something();
+    }
+
+    public void test2() {
+        final boolean value = condition ? false : something(); // can be as simple as value = !condition &amp;&amp; something();
+    }
+
+    public boolean test3() {
+        return condition ? something() : true; // can be as simple as return !condition || something();
+    }
+
+    public void test4() {
+        final boolean otherValue = condition ? something() : false; // can be as simple as condition &amp;&amp; something();
+    }
+}
+        
+</pre></div>
+</body>
+</html>

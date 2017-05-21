@@ -1,39 +1,25 @@
-<HTML>
-<HEAD>
-<TITLE>NoPackage</TITLE>
-</HEAD>
-<BODY>
-<H2>NoPackage</H2>
-Detects when a class or interface does not have a package definition.
-    </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>NoPackage</title></head>
+<body>
+<h2><a name="NoPackage"></a>NoPackage</h2>
+
+<p>Detects when a class or interface does not have a package definition.</p>
+
+<div>
+<pre>
                   
 //ClassOrInterfaceDeclaration[count(preceding::PackageDeclaration) = 0]
                   
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 // no package declaration
 public class ClassInDefaultPackage {
 }
 
-    
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div></body>
+</html>

@@ -1,46 +1,32 @@
-<HTML>
-<HEAD>
-<TITLE>SuspiciousConstantFieldName</TITLE>
-</HEAD>
-<BODY>
-<H2>SuspiciousConstantFieldName</H2>
-A field name is all in uppercase characters, which in Sun's Java naming
-conventions indicate a constant. However, the field is not final.
-       </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>SuspiciousConstantFieldName</title></head>
+<body>
+<h2><a name="SuspiciousConstantFieldName"></a>SuspiciousConstantFieldName</h2>
+
+<p>Field names using all uppercase characters - Sun&#x2019;s Java naming conventions indicating constants - should be declared as final.</p>
+
+<div>
+<pre>
 
 //ClassOrInterfaceDeclaration[@Interface='false']
  /ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration
   [@Final='false']
   [VariableDeclarator/VariableDeclaratorId[upper-case(@Image)=@Image]]
  
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 public class Foo {
  // this is bad, since someone could accidentally
- // do PI = 2.71828; which is actualy e
+ // do PI = 2.71828; which is actually e
  // final double PI = 3.16; is ok
- double PI = 3.16;
+  double PI = 3.16;
 }
     
-       
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

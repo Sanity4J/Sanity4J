@@ -1,40 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>UnnecessaryConversionTemporary</TITLE>
-</HEAD>
-<BODY>
-<H2>UnnecessaryConversionTemporary</H2>
-Avoid unnecessary temporaries when converting primitives to Strings
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UnnecessaryConversionTemporary</title></head>
+<body>
+<h2><a name="UnnecessaryConversionTemporary"></a>UnnecessaryConversionTemporary</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/UnnecessaryConversionTemporary.html">net.sourceforge.pmd.rules.UnnecessaryConversionTemporary</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Avoid the use temporary objects when converting primitives to Strings. Use the static conversion methods on the wrapper classes instead.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/unnecessary/UnnecessaryConversionTemporaryRule.html">net.sourceforge.pmd.lang.java.rule.unnecessary.UnnecessaryConversionTemporaryRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public String convert(int x) {
-  // this wastes an object
-  String foo = new Integer(x).toString();
-  // this is better
-  return Integer.toString(x);
+	String foo = new Integer(x).toString();	// this wastes an object
+	
+	return Integer.toString(x);				// preferred approach
 }
  
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

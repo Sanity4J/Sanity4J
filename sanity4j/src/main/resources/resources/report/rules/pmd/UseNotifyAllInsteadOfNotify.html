@@ -1,52 +1,36 @@
-<HTML>
-<HEAD>
-<TITLE>UseNotifyAllInsteadOfNotify</TITLE>
-</HEAD>
-<BODY>
-<H2>UseNotifyAllInsteadOfNotify</H2>
-Thread.notify() awakens a thread monitoring the object. If more than one thread is monitoring, then only
-one is chosen.  The thread chosen is arbitrary; thus it's usually safer to call notifyAll() instead.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UseNotifyAllInsteadOfNotify</title></head>
+<body>
+<h2><a name="UseNotifyAllInsteadOfNotify"></a>UseNotifyAllInsteadOfNotify</h2>
+
+<p>Thread.notify() awakens a thread monitoring the object. If more than one thread is monitoring, then only one is chosen. The thread chosen is arbitrary; thus its usually safer to call notifyAll() instead.</p>
+
+<div>
+<pre>
     
 //StatementExpression/PrimaryExpression
-[count(PrimarySuffix/Arguments/ArgumentList) = 0]
+[PrimarySuffix/Arguments[@ArgumentCount = '0']]
 [
 PrimaryPrefix[./Name[@Image='notify' or ends-with(@Image,'.notify')]
-or @Image='notify'
+or ../PrimarySuffix/@Image='notify'
 or (./AllocationExpression and ../PrimarySuffix[@Image='notify'])
 ]
 ]
     
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
 
-public class Foo {
- void bar() {
-  x.notify();
-  // If many threads are monitoring x, only one (and you won't know which) will be notified.
-  // use instead:
-  x.notifyAll();
- }
-}
+<div>
+<pre>
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+  void bar() {
+    x.notify();
+    // If many threads are monitoring x, only one (and you won't know which) will be notified.
+    // use instead:
+    x.notifyAll();
+  }
+
+</pre></div>
+</body>
+</html>

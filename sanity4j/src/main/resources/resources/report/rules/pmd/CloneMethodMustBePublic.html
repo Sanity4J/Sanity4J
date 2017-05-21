@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><title>CloneMethodMustBePublic</title></head>
+<body>
+<h2><a name="CloneMethodMustBePublic"></a>CloneMethodMustBePublic</h2>
+
+<p>The java Manual says &#x201c;By convention, classes that implement this interface should override Object.clone (which is protected) with a public method.&#x201d;</p>
+
+<div>
+<pre>
+                    
+//MethodDeclaration[@Public='false']
+[
+MethodDeclarator/@Image = 'clone'
+and MethodDeclarator/FormalParameters/@ParameterCount = 0
+]
+                    
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
+            
+public class Foo implements Cloneable {
+    @Override
+    protected Object clone() throws CloneNotSupportedException { // Violation, must be public
+    }
+}
+
+public class Foo implements Cloneable {
+    @Override
+    protected Foo clone() { // Violation, must be public
+    }
+}
+
+public class Foo implements Cloneable {
+    @Override
+    public Object clone() // Ok
+}
+</pre></div>
+</body>
+</html>

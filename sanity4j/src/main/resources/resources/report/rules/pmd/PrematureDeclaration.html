@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><title>PrematureDeclaration</title></head>
+<body>
+<h2><a name="PrematureDeclaration"></a>PrematureDeclaration</h2>
+
+<p>Checks for variables that are defined before they might be used. A reference is deemed to be premature if it is created right before a block of code that doesn&#x2019;t use it that also has the ability to return or throw an exception.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/optimizations/PrematureDeclarationRule.html">net.sourceforge.pmd.lang.java.rule.optimizations.PrematureDeclarationRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+              
+public int getLength(String[] strings) {
+  
+  int length = 0;	// declared prematurely
+
+  if (strings == null || strings.length == 0) return 0;
+  
+  for (String str : strings) {
+    length += str.length();
+    }
+
+  return length;
+}
+              
+</pre></div>
+</body>
+</html>

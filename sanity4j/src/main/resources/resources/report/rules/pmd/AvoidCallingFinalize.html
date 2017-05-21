@@ -1,41 +1,21 @@
-<HTML>
-<HEAD>
-<TITLE>AvoidCallingFinalize</TITLE>
-</HEAD>
-<BODY>
-<H2>AvoidCallingFinalize</H2>
-Object.finalize() is called by the garbage collector on an object when garbage collection determines
-that there are no more references to the object.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>AvoidCallingFinalize</title></head>
+<body>
+<h2><a name="AvoidCallingFinalize"></a>AvoidCallingFinalize</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/AvoidCallingFinalize.html">net.sourceforge.pmd.rules.AvoidCallingFinalize</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>The method Object.finalize() is called by the garbage collector on an object when garbage collection determines that there are no more references to the object. It should not be invoked by application logic.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/finalizers/AvoidCallingFinalizeRule.html">net.sourceforge.pmd.lang.java.rule.finalizers.AvoidCallingFinalizeRule</a></p>
+<p>Example(s):</p>
 
-public class Foo {
- void foo() {
-  Bar b = new Bar();
-  b.finalize();
- }
+<div>
+<pre>
+
+void foo() {
+	Bar b = new Bar();
+	b.finalize();
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

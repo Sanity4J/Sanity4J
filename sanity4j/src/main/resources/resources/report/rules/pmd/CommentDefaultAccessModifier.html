@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><title>CommentDefaultAccessModifier</title></head>
+<body>
+<h2><a name="CommentDefaultAccessModifier"></a>CommentDefaultAccessModifier</h2>
+
+
+<div class="source">
+<div class="source"><pre class="prettyprint linenums">    To avoid mistakes if we want that a Method, Field or Nested class have a default access modifier
+    we must add a comment at the beginning of the Method, Field or Nested class.
+    By default the comment must be /* default */, if you want another, you have to provide a regex.
+</pre></div></div>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/comments/CommentDefaultAccessModifierRule.html">net.sourceforge.pmd.lang.java.rule.comments.CommentDefaultAccessModifierRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+        
+        public class Foo {
+            final String stringValue = &quot;some string&quot;;
+            String getString() {
+               return stringValue;
+            }
+
+            class NestedFoo {
+            }
+        }
+
+        // should be
+        public class Foo {
+            /* default */ final String stringValue = &quot;some string&quot;;
+            /* default */ String getString() {
+               return stringValue;
+            }
+
+            /* default */ class NestedFoo {
+            }
+        }
+        
+</pre></div>
+</body>
+</html>

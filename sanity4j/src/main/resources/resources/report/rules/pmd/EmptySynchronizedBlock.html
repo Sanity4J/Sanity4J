@@ -1,33 +1,21 @@
-<HTML>
-<HEAD>
-<TITLE>EmptySynchronizedBlock</TITLE>
-</HEAD>
-<BODY>
-<H2>EmptySynchronizedBlock</H2>
-Avoid empty synchronized blocks - they're useless.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>EmptySynchronizedBlock</title></head>
+<body>
+<h2><a name="EmptySynchronizedBlock"></a>EmptySynchronizedBlock</h2>
+
+<p>Empty synchronized blocks serve no purpose and should be removed.</p>
+
+<div>
+<pre>
 
 //SynchronizedStatement/Block[1][count(*) = 0]
 
-              </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
  public void bar() {
@@ -37,7 +25,6 @@ public class Foo {
  }
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

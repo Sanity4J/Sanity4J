@@ -1,46 +1,29 @@
-<HTML>
-<HEAD>
-<TITLE>UselessOperationOnImmutable</TITLE>
-</HEAD>
-<BODY>
-<H2>UselessOperationOnImmutable</H2>
-An operation on an Immutable object (BigDecimal or BigInteger) won't change the object itself. The
-    result of the operation is a new object. Therefore, ignoring the operation result is an error.
-      </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>UselessOperationOnImmutable</title></head>
+<body>
+<h2><a name="UselessOperationOnImmutable"></a>UselessOperationOnImmutable</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/UselessOperationOnImmutable.html">net.sourceforge.pmd.rules.UselessOperationOnImmutable</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>An operation on an Immutable object (String, BigDecimal or BigInteger) won&#x2019;t change the object itself since the result of the operation is a new object. Therefore, ignoring the operation result is an error.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/unnecessary/UselessOperationOnImmutableRule.html">net.sourceforge.pmd.lang.java.rule.unnecessary.UselessOperationOnImmutableRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
     
 import java.math.*;
+
 class Test {
- void method1() {
-  BigDecimal bd=new BigDecimal(10);
-  bd.add(new BigDecimal(5)); // this will trigger the rule
- }
- void method2() {
-  BigDecimal bd=new BigDecimal(10);
-  bd = bd.add(new BigDecimal(5)); // this won't trigger the rule
- }
+  void method1() {
+    BigDecimal bd=new BigDecimal(10);
+    bd.add(new BigDecimal(5)); 		// this will trigger the rule
+  }
+  void method2() {
+    BigDecimal bd=new BigDecimal(10);
+    bd = bd.add(new BigDecimal(5)); // this won't trigger the rule
+  }
 }
     
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

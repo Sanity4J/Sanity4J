@@ -1,45 +1,32 @@
-<HTML>
-<HEAD>
-<TITLE>UnconditionalIfStatement</TITLE>
-</HEAD>
-<BODY>
-<H2>UnconditionalIfStatement</H2>
-Do not use "if" statements that are always true or always false.
-      </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>UnconditionalIfStatement</title></head>
+<body>
+<h2><a name="UnconditionalIfStatement"></a>UnconditionalIfStatement</h2>
+
+<p>Do not use &#x201c;if&#x201d; statements whose conditionals are always true or always false.</p>
+
+<div>
+<pre>
  
 //IfStatement/Expression
  [count(PrimaryExpression)=1]
  /PrimaryExpression/PrimaryPrefix/Literal/BooleanLiteral
 
-                </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
   
 public class Foo {
- public void close() {
-  if (true) {
-       // ...
-   }
- }
+	public void close() {
+		if (true) {		// fixed conditional, not recommended
+			// ...
+		}
+	}
 }
 
-      
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

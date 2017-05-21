@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><title>GuardLogStatementJavaUtil</title></head>
+<body>
+<h2><a name="GuardLogStatementJavaUtil"></a>GuardLogStatementJavaUtil</h2>
+
+<p>Whenever using a log level, one should check if the loglevel is actually enabled, or otherwise skip the associate String creation and manipulation.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/logging/GuardLogStatementJavaUtilRule.html">net.sourceforge.pmd.lang.java.rule.logging.GuardLogStatementJavaUtilRule</a></p>
+<p>Example(s):</p>
+
+<div>
+<pre>
+ 
+ 	// Add this for performance
+	if (log.isLoggable(Level.FINE)) { ...
+ 	    log.fine(&quot;log something&quot; + &quot; and &quot; + &quot;concat strings&quot;);
+
+</pre></div>
+</body>
+</html>

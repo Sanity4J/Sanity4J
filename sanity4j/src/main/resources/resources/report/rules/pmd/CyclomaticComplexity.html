@@ -1,38 +1,17 @@
-<HTML>
-<HEAD>
-<TITLE>CyclomaticComplexity</TITLE>
-</HEAD>
-<BODY>
-<H2>CyclomaticComplexity</H2>
-Complexity is determined by the number of decision points in a method plus one for the
-method entry.  The decision points are 'if', 'while', 'for', and 'case labels'.  Generally,
-1-4 is low complexity, 5-7 indicates moderate complexity, 8-10 is high complexity,
- and 11+ is very high complexity.
-		
-   </p>
-		
-		
-		    
-		    
-    		    
-    		    
-    		    
+<!doctype html>
+<html lang="en">
+<head><title>CyclomaticComplexity</title></head>
+<body>
+<h2><a name="CyclomaticComplexity"></a>CyclomaticComplexity</h2>
 
-    		    <p>This rule is defined by the following Java class:
-    		    <a href="../xref/net/sourceforge/pmd/rules/CyclomaticComplexity.html">net.sourceforge.pmd.rules.CyclomaticComplexity</a>
-    		    </p>
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+<p>Complexity directly affects maintenance costs is determined by the number of decision points in a method plus one for the method entry. The decision points include &#x2018;if&#x2019;, &#x2018;while&#x2019;, &#x2018;for&#x2019;, and &#x2018;case labels&#x2019; calls.<br />Generally, numbers ranging from 1-4 denote low complexity, 5-7 denote moderate complexity, 8-10 denote high complexity, and 11+ is very high complexity.</p>
+<p>This rule is defined by the following Java class: <a href="../../xref/net/sourceforge/pmd/lang/java/rule/codesize/CyclomaticComplexityRule.html">net.sourceforge.pmd.lang.java.rule.codesize.CyclomaticComplexityRule</a></p>
+<p>Example(s):</p>
 
-// Cyclomatic Complexity = 12
-public class Foo {
+<div>
+<pre>
+
+public class Foo {		// This has a Cyclomatic Complexity = 12
 1   public void example()  {
 2       if (a == b)  {
 3           if (a1 == b1) {
@@ -69,36 +48,6 @@ public class Foo {
     }
 }
 
-   
-            </pre></div>
-  
-        
-
-        
-        
-            
-                <p>This rule has the following properties:</p>
-                <table class="bodyTable"><th>Name</th><th>Default value</th><th>Description</th>
-                
-                
-                    <tr class="a">
-                    <td>reportLevel</td>
-                    <td>10</td>
-                    <td>The Cyclomatic Complexity reporting threshold</td>
-                    </tr>
-                
-                    <tr class="b">
-                    <td>showClassesComplexity</td>
-                    <td>true</td>
-                    <td>Indicate if class average violation should be added to the report</td>
-                    </tr>
-                
-                    <tr class="a">
-                    <td>showMethodsComplexity</td>
-                    <td>true</td>
-                    <td>Indicate if class average violation should be added to the report</td>
-                    </tr>
-                
-                </table>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>

@@ -1,36 +1,22 @@
-<HTML>
-<HEAD>
-<TITLE>FinalizeOverloaded</TITLE>
-</HEAD>
-<BODY>
-<H2>FinalizeOverloaded</H2>
-Methods named finalize() should not have parameters.  It is
-confusing and probably a bug to overload finalize().  It will
-not be called by the VM.
-   </p>
-		
-		
-		    
-    			<p>This rule is defined by the following XPath expression:</p>
-    			
-    			
-    <div class="source"><pre>
+<!doctype html>
+<html lang="en">
+<head><title>FinalizeOverloaded</title></head>
+<body>
+<h2><a name="FinalizeOverloaded"></a>FinalizeOverloaded</h2>
+
+<p>Methods named finalize() should not have parameters. It is confusing and most likely an attempt to overload Object.finalize(). It will not be called by the VM.</p>
+
+<div>
+<pre>
 
 //MethodDeclaration
- /MethodDeclarator[@Image='finalize'][FormalParameters[count(*)&amp;gt;0]]
+ /MethodDeclarator[@Image='finalize'][FormalParameters[count(*)&gt;0]]
 
-            </pre></div>
-  
-		    
-		    
-	    
-	    
-        
-        
-        <p>Example:</p>
-            
-    <div class="source"><pre>
-                
+</pre></div>
+<p>Example(s):</p>
+
+<div>
+<pre>
 
 public class Foo {
    // this is confusing and probably a bug
@@ -38,7 +24,6 @@ public class Foo {
    }
 }
 
-   
-            </pre></div>
-</BODY>
-</HTML>
+</pre></div>
+</body>
+</html>
