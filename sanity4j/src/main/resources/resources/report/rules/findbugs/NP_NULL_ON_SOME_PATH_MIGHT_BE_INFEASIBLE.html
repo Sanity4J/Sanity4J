@@ -1,15 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Possible null pointer dereference on path that might be infeasible (NP_NULL_ON_SOME_PATH_MIGHT_BE_INFEASIBLE)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Possible null pointer dereference on path that might be infeasible (NP_NULL_ON_SOME_PATH_MIGHT_BE_INFEASIBLE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_NULL_ON_SOME_PATH_MIGHT_BE_INFEASIBLE</title></head>
+<body>
+<h3>NP: Possible null pointer dereference on branch that might be infeasible (NP_NULL_ON_SOME_PATH_MIGHT_BE_INFEASIBLE)</h3>
 <p> There is a branch of statement that, <em>if executed,</em>  guarantees that
 a null value will be dereferenced, which
 would generate a <code>NullPointerException</code> when the code is executed.
 Of course, the problem might be that the branch or statement is infeasible and that
 the null pointer exception can't ever be executed; deciding that is beyond the ability of FindBugs.
-Due to the fact that this value had been previously tested for nullness, this is a definite possiblity.
+Due to the fact that this value had been previously tested for nullness,
+this is a definite possibility.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

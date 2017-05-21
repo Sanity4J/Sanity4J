@@ -1,13 +1,12 @@
-<HTML>
-<HEAD>
-<TITLE>RV: Bad attempt to compute absolute value of signed 32-bit random integer (RV_ABSOLUTE_VALUE_OF_RANDOM_INT)</TITLE>
-</HEAD>
-<BODY>
-<H2>RV: Bad attempt to compute absolute value of signed 32-bit random integer (RV_ABSOLUTE_VALUE_OF_RANDOM_INT)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>RV_ABSOLUTE_VALUE_OF_RANDOM_INT</title></head>
+<body>
+<h3>RV: Bad attempt to compute absolute value of signed random integer (RV_ABSOLUTE_VALUE_OF_RANDOM_INT)</h3>
 <p> This code generates a random signed integer and then computes
 the absolute value of that random integer.  If the number returned by the random number
-generator is <code>Integer.MIN_VALUE</code>, then the result will be negative as well (since 
-<code>Math.abs(Integer.MIN_VALUE) == Integer.MIN_VALUE</code>).
+generator is <code>Integer.MIN_VALUE</code>, then the result will be negative as well (since
+<code>Math.abs(Integer.MIN_VALUE) == Integer.MIN_VALUE</code>). (Same problem arised for long values as well).
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

@@ -1,12 +1,11 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Possible null pointer dereference due to return value of called method (NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Possible null pointer dereference due to return value of called method (NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE</title></head>
+<body>
+<h3>NP: Possible null pointer dereference due to return value of called method (NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE)</h3>
 <p> The return value from a method is dereferenced without a null check,
 and the return value of that method is one that should generally be checked
 for null.  This may lead to a <code>NullPointerException</code> when the code is executed.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

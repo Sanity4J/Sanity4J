@@ -1,13 +1,14 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Method call passes null for unconditionally dereferenced parameter (NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Method call passes null for unconditionally dereferenced parameter (NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS</title></head>
+<body>
+<h3>NP: Method call passes null for non-null parameter (NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS)</h3>
 <p>
-      A possibly-null value is passed at a call site where all known
-      target methods will unconditionally dereference it.
-      This is very likely to result in a null pointer exception.
-      </p>
-</BODY>
-</HTML>
+A possibly-null value is passed at a call site where all known
+target methods require the parameter to be non-null.
+Either the parameter is annotated as a parameter that should
+always be non-null, or analysis has shown that it will always be
+dereferenced.
+</p>
+</body>
+</html>

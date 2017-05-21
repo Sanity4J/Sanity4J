@@ -1,11 +1,17 @@
-<HTML>
-<HEAD>
-<TITLE>BC: Impossible cast (BC_IMPOSSIBLE_CAST)</TITLE>
-</HEAD>
-<BODY>
-<H2>BC: Impossible cast (BC_IMPOSSIBLE_CAST)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>BC_IMPOSSIBLE_CAST</title></head>
+<body>
+<h3>BC: Impossible cast (BC_IMPOSSIBLE_CAST)</h3>
 <p>
 This cast will always throw a ClassCastException.
+FindBugs tracks type information from instanceof checks,
+and also uses more precise information about the types
+of values returned from methods and loaded from fields.
+Thus, it may have more precise information that just
+the declared type of a variable, and can use this to determine
+that a cast will always throw an exception at runtime.
+
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

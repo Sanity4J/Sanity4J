@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>REC: Exception is caught when Exception is not thrown (REC_CATCH_EXCEPTION)</TITLE>
-</HEAD>
-<BODY>
-<H2>REC: Exception is caught when Exception is not thrown (REC_CATCH_EXCEPTION)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>REC_CATCH_EXCEPTION</title></head>
+<body>
+<h3>REC: Exception is caught when Exception is not thrown (REC_CATCH_EXCEPTION)</h3>
 <p>
   This method uses a try-catch block that catches Exception objects, but Exception is not
   thrown within the try block, and RuntimeException is not explicitly caught.  It is a common bug pattern to
@@ -11,5 +10,15 @@
   each of whose catch blocks is identical, but this construct also accidentally catches RuntimeException as well,
   masking potential bugs.
   </p>
-</BODY>
-</HTML>
+  <p>A better approach is to either explicitly catch the specific exceptions that are thrown,
+  or to explicitly catch RuntimeException exception, rethrow it, and then catch all non-Runtime Exceptions, as shown below:</p>
+  <pre>
+  try {
+    ...
+  } catch (RuntimeException e) {
+    throw e;
+  } catch (Exception e) {
+    ... deal with all non-runtime exceptions ...
+  }</pre>
+</body>
+</html>

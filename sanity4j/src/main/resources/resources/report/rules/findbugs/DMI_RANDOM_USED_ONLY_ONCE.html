@@ -1,11 +1,10 @@
-<HTML>
-<HEAD>
-<TITLE>BC: Random object created and used only once (DMI_RANDOM_USED_ONLY_ONCE)</TITLE>
-</HEAD>
-<BODY>
-<H2>BC: Random object created and used only once (DMI_RANDOM_USED_ONLY_ONCE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>DMI_RANDOM_USED_ONLY_ONCE</title></head>
+<body>
+<h3>DMI: Random object created and used only once (DMI_RANDOM_USED_ONLY_ONCE)</h3>
 <p> This code creates a java.util.Random object, uses it to generate one random number, and then discards
-the Random object. This produces mediocre quality random numbers and is inefficient. 
+the Random object. This produces mediocre quality random numbers and is inefficient.
 If possible, rewrite the code so that the Random object is created once and saved, and each time a new random number
 is required invoke a method on the existing Random object to obtain it.
 </p>
@@ -14,5 +13,5 @@ is required invoke a method on the existing Random object to obtain it.
 number; the values are too easily guessable. You should strongly consider using a java.security.SecureRandom instead
 (and avoid allocating a new SecureRandom for each random number needed).
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

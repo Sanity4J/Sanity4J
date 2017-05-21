@@ -1,21 +1,20 @@
-<HTML>
-<HEAD>
-<TITLE>DL: Synchronization on boxed primative could lead to deadlock (DL_SYNCHRONIZATION_ON_BOXED_PRIMITIVE)</TITLE>
-</HEAD>
-<BODY>
-<H2>DL: Synchronization on boxed primative could lead to deadlock (DL_SYNCHRONIZATION_ON_BOXED_PRIMITIVE)</H2>
-<p> The code synchronizes on a boxed primitive constant, such as an Integer.
+<!doctype html>
+<html lang="en">
+<head><title>DL_SYNCHRONIZATION_ON_BOXED_PRIMITIVE</title></head>
+<body>
+<h3>DL: Synchronization on boxed primitive (DL_SYNCHRONIZATION_ON_BOXED_PRIMITIVE)</h3>
+<p> The code synchronizes on a boxed primitive constant, such as an Integer.</p>
 <pre>
 private static Integer count = 0;
 ...
-  synchronized(count) { 
+  synchronized(count) {
      count++;
      }
 ...
 </pre>
-</p>
 <p>Since Integer objects can be cached and shared,
 this code could be synchronizing on the same object as other, unrelated code, leading to unresponsiveness
 and possible deadlock</p>
-</BODY>
-</HTML>
+<p>See CERT <a href="https://www.securecoding.cert.org/confluence/display/java/CON08-J.+Do+not+synchronize+on+objects+that+may+be+reused">CON08-J. Do not synchronize on objects that may be reused</a> for more information.</p>
+</body>
+</html>

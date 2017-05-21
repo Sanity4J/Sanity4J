@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head><title>EC_INCOMPATIBLE_ARRAY_COMPARE</title></head>
+<body>
+<h3>EC: equals(...) used to compare incompatible arrays (EC_INCOMPATIBLE_ARRAY_COMPARE)</h3>
+<p>
+This method invokes the .equals(Object o) to compare two arrays, but the arrays of
+of incompatible types (e.g., String[] and StringBuffer[], or String[] and int[]).
+They will never be equal. In addition, when equals(...) is used to compare arrays it
+only checks to see if they are the same array, and ignores the contents of the arrays.
+</p>
+</body>
+</html>

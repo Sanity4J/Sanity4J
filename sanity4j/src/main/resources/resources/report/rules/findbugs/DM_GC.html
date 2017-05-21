@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>Dm: Explicit garbage collection; extremely dubious except in benchmarking code (DM_GC)</TITLE>
-</HEAD>
-<BODY>
-<H2>Dm: Explicit garbage collection; extremely dubious except in benchmarking code (DM_GC)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>DM_GC</title></head>
+<body>
+<h3>Dm: Explicit garbage collection; extremely dubious except in benchmarking code (DM_GC)</h3>
 <p> Code explicitly invokes garbage collection.
   Except for specific use in benchmarking, this is very dubious.</p>
   <p>In the past, situations where people have explicitly invoked
@@ -11,5 +10,5 @@
   has led to huge performance black holes. Garbage collection
    can be expensive. Any situation that forces hundreds or thousands
    of garbage collections will bring the machine to a crawl.</p>
-</BODY>
-</HTML>
+</body>
+</html>

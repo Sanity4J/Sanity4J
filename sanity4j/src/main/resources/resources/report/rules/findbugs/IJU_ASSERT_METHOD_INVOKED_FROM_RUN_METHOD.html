@@ -1,14 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>IJU: JUnit assertion in run method will not be noticed by JUnit (IJU_ASSERT_METHOD_INVOKED_FROM_RUN_METHOD)</TITLE>
-</HEAD>
-<BODY>
-<H2>IJU: JUnit assertion in run method will not be noticed by JUnit (IJU_ASSERT_METHOD_INVOKED_FROM_RUN_METHOD)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>IJU_ASSERT_METHOD_INVOKED_FROM_RUN_METHOD</title></head>
+<body>
+<h3>IJU: JUnit assertion in run method will not be noticed by JUnit (IJU_ASSERT_METHOD_INVOKED_FROM_RUN_METHOD)</h3>
 <p> A JUnit assertion is performed in a run method. Failed JUnit assertions
 just result in exceptions being thrown.
 Thus, if this exception occurs in a thread other than the thread that invokes
 the test method, the exception will terminate the thread but not result
 in the test failing.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

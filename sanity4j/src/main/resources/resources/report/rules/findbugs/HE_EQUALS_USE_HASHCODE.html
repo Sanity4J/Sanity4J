@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>HE: Class defines equals() and uses Object.hashCode() (HE_EQUALS_USE_HASHCODE)</TITLE>
-</HEAD>
-<BODY>
-<H2>HE: Class defines equals() and uses Object.hashCode() (HE_EQUALS_USE_HASHCODE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>HE_EQUALS_USE_HASHCODE</title></head>
+<body>
+<h3>HE: Class defines equals() and uses Object.hashCode() (HE_EQUALS_USE_HASHCODE)</h3>
 <p> This class overrides <code>equals(Object)</code>, but does not
   override <code>hashCode()</code>, and inherits the implementation of
   <code>hashCode()</code> from <code>java.lang.Object</code> (which returns
@@ -15,7 +14,7 @@
 the recommended <code>hashCode</code> implementation to use is:</p>
 <pre>public int hashCode() {
   assert false : "hashCode not designed";
-  return 42; // any arbitrary constant will do 
+  return 42; // any arbitrary constant will do
   }</pre>
-</BODY>
-</HTML>
+</body>
+</html>

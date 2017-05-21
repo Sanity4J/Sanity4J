@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>PZLA: Consider returning a zero length array rather than null (PZLA_PREFER_ZERO_LENGTH_ARRAYS)</TITLE>
-</HEAD>
-<BODY>
-<H2>PZLA: Consider returning a zero length array rather than null (PZLA_PREFER_ZERO_LENGTH_ARRAYS)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>PZLA_PREFER_ZERO_LENGTH_ARRAYS</title></head>
+<body>
+<h3>PZLA: Consider returning a zero length array rather than null (PZLA_PREFER_ZERO_LENGTH_ARRAYS)</h3>
 <p> It is often a better design to
 return a length zero array rather than a null reference to indicate that there
 are no results (i.e., an empty list of results).
@@ -14,5 +13,5 @@ This way, no explicit check for null is needed by clients of the method.</p>
 For example, <code>File.listFiles()</code> returns an empty list
 if given a directory containing no files, and returns null if the file
 is not a directory.</p>
-</BODY>
-</HTML>
+</body>
+</html>

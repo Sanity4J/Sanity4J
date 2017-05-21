@@ -1,14 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>VO: A volatile reference to an array doesn't treat the array elements as volatile (VO_VOLATILE_REFERENCE_TO_ARRAY)</TITLE>
-</HEAD>
-<BODY>
-<H2>VO: A volatile reference to an array doesn't treat the array elements as volatile (VO_VOLATILE_REFERENCE_TO_ARRAY)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>VO_VOLATILE_REFERENCE_TO_ARRAY</title></head>
+<body>
+<h3>VO: A volatile reference to an array doesn't treat the array elements as volatile (VO_VOLATILE_REFERENCE_TO_ARRAY)</h3>
 <p>This declares a volatile reference to an array, which might not be what
 you want. With a volatile reference to an array, reads and writes of
 the reference to the array are treated as volatile, but the array elements
 are non-volatile. To get volatile array elements, you will need to use
 one of the atomic array classes in java.util.concurrent (provided
 in Java 5.0).</p>
-</BODY>
-</HTML>
+</body>
+</html>

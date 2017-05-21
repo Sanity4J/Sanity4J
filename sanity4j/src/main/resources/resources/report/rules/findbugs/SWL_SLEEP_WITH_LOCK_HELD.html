@@ -1,15 +1,14 @@
-<HTML>
-<HEAD>
-<TITLE>SWL: Method calls Thread.sleep() with a lock held (SWL_SLEEP_WITH_LOCK_HELD)</TITLE>
-</HEAD>
-<BODY>
-<H2>SWL: Method calls Thread.sleep() with a lock held (SWL_SLEEP_WITH_LOCK_HELD)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>SWL_SLEEP_WITH_LOCK_HELD</title></head>
+<body>
+<h3>SWL: Method calls Thread.sleep() with a lock held (SWL_SLEEP_WITH_LOCK_HELD)</h3>
 <p>
-      This method calls Thread.sleep() with a lock held.  This may result
-      in very poor performance and scalability, or a deadlock, since other threads may
-      be waiting to acquire the lock.  It is a much better idea to call
-      wait() on the lock, which releases the lock and allows other threads
-      to run.
-      </p>
-</BODY>
-</HTML>
+This method calls Thread.sleep() with a lock held.  This may result
+in very poor performance and scalability, or a deadlock, since other threads may
+be waiting to acquire the lock.  It is a much better idea to call
+wait() on the lock, which releases the lock and allows other threads
+to run.
+</p>
+</body>
+</html>

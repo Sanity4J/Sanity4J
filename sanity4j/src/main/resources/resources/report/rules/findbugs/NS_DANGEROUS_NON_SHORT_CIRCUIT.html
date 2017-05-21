@@ -1,12 +1,11 @@
-<HTML>
-<HEAD>
-<TITLE>NS: Potentially dangerous use of non-short-circuit logic (NS_DANGEROUS_NON_SHORT_CIRCUIT)</TITLE>
-</HEAD>
-<BODY>
-<H2>NS: Potentially dangerous use of non-short-circuit logic (NS_DANGEROUS_NON_SHORT_CIRCUIT)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NS_DANGEROUS_NON_SHORT_CIRCUIT</title></head>
+<body>
+<h3>NS: Potentially dangerous use of non-short-circuit logic (NS_DANGEROUS_NON_SHORT_CIRCUIT)</h3>
 <p> This code seems to be using non-short-circuit logic (e.g., &amp;
 or |)
-rather than short-circuit logic (&amp;&amp; or ||). In addition, 
+rather than short-circuit logic (&amp;&amp; or ||). In addition,
 it seem possible that, depending on the value of the left hand side, you might not
 want to evaluate the right hand side (because it would have side effects, could cause an exception
 or could be expensive.</p>
@@ -22,5 +21,5 @@ when evaluating the right-hand side can generate an error.
 Language Specification</a> for details
 
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

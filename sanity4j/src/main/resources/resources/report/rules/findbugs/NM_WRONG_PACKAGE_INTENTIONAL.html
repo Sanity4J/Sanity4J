@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>Nm: Method doesn't override method in superclass due to wrong package for parameter (NM_WRONG_PACKAGE_INTENTIONAL)</TITLE>
-</HEAD>
-<BODY>
-<H2>Nm: Method doesn't override method in superclass due to wrong package for parameter (NM_WRONG_PACKAGE_INTENTIONAL)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NM_WRONG_PACKAGE_INTENTIONAL</title></head>
+<body>
+<h3>Nm: Method doesn't override method in superclass due to wrong package for parameter (NM_WRONG_PACKAGE_INTENTIONAL)</h3>
 <p> The method in the subclass doesn't override a similar method in a superclass because the type of a parameter doesn't exactly match
 the type of the corresponding parameter in the superclass. For example, if you have:</p>
 
@@ -23,7 +22,7 @@ public class B extends A {
 </blockquote>
 
 <p>The <code>f(Foo)</code> method defined in class <code>B</code> doesn't
-override the 
+override the
 <code>f(Foo)</code> method defined in class <code>A</code>, because the argument
 types are <code>Foo</code>'s from different packages.
 </p>
@@ -32,5 +31,5 @@ types are <code>Foo</code>'s from different packages.
 so this is presumably understood. However, such methods are exceptionally confusing. You should strongly consider
 removing or deprecating the method with the similar but not identical signature.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

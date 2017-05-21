@@ -1,13 +1,12 @@
-<HTML>
-<HEAD>
-<TITLE>Dm: The equals and hashCode methods of URL are blocking (DMI_BLOCKING_METHODS_ON_URL)</TITLE>
-</HEAD>
-<BODY>
-<H2>Dm: The equals and hashCode methods of URL are blocking (DMI_BLOCKING_METHODS_ON_URL)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>DMI_BLOCKING_METHODS_ON_URL</title></head>
+<body>
+<h3>Dm: The equals and hashCode methods of URL are blocking (DMI_BLOCKING_METHODS_ON_URL)</h3>
 <p> The equals and hashCode
 method of URL perform domain name resolution, this can result in a big performance hit.
 See <a href="http://michaelscharf.blogspot.com/2006/11/javaneturlequals-and-hashcode-make.html">http://michaelscharf.blogspot.com/2006/11/javaneturlequals-and-hashcode-make.html</a> for more information.
 Consider using <code>java.net.URI</code> instead.
    </p>
-</BODY>
-</HTML>
+</body>
+</html>

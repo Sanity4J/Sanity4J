@@ -1,10 +1,9 @@
-<HTML>
-<HEAD>
-<TITLE>SW: Certain swing methods needs to be invoked in Swing thread (SW_SWING_METHODS_INVOKED_IN_SWING_THREAD)</TITLE>
-</HEAD>
-<BODY>
-<H2>SW: Certain swing methods needs to be invoked in Swing thread (SW_SWING_METHODS_INVOKED_IN_SWING_THREAD)</H2>
-<p>(<a href="http://java.sun.com/developer/JDCTechTips/2003/tt1208.html#1">From JDC Tech Tip</a>): The Swing methods
+<!doctype html>
+<html lang="en">
+<head><title>SW_SWING_METHODS_INVOKED_IN_SWING_THREAD</title></head>
+<body>
+<h3>SW: Certain swing methods needs to be invoked in Swing thread (SW_SWING_METHODS_INVOKED_IN_SWING_THREAD)</h3>
+<p>(<a href="http://web.archive.org/web/20090526170426/http://java.sun.com/developer/JDCTechTips/2003/tt1208.html">From JDC Tech Tip</a>): The Swing methods
 show(), setVisible(), and pack() will create the associated peer for the frame.
 With the creation of the peer, the system creates the event dispatch thread.
 This makes things problematic because the event dispatch thread could be notifying
@@ -13,5 +12,5 @@ two threads going through the Swing component-based GUI -- it's a serious flaw t
 could result in deadlocks or other related threading issues. A pack call causes
 components to be realized. As they are being realized (that is, not necessarily
 visible), they could trigger listener notification on the event dispatch thread.</p>
-</BODY>
-</HTML>
+</body>
+</html>

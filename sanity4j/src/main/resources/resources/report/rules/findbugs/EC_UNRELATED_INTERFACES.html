@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>EC: Call to equals() comparing different interface types (EC_UNRELATED_INTERFACES)</TITLE>
-</HEAD>
-<BODY>
-<H2>EC: Call to equals() comparing different interface types (EC_UNRELATED_INTERFACES)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>EC_UNRELATED_INTERFACES</title></head>
+<body>
+<h3>EC: Call to equals() comparing different interface types (EC_UNRELATED_INTERFACES)</h3>
 <p> This method calls equals(Object) on two references of unrelated
 interface types, where neither is a subtype of the other,
 and there are no known non-abstract classes which implement both interfaces.
@@ -17,5 +16,5 @@ classes should always compare as unequal; therefore, according to the
 contract defined by java.lang.Object.equals(Object),
 the result of this comparison will always be false at runtime.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

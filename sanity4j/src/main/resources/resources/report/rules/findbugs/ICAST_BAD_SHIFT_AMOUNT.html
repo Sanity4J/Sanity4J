@@ -1,15 +1,15 @@
-<HTML>
-<HEAD>
-<TITLE>ICAST: Integer shift by an amount not in the range 0..31 (ICAST_BAD_SHIFT_AMOUNT)</TITLE>
-</HEAD>
-<BODY>
-<H2>ICAST: Integer shift by an amount not in the range 0..31 (ICAST_BAD_SHIFT_AMOUNT)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>ICAST_BAD_SHIFT_AMOUNT</title></head>
+<body>
+<h3>BSHIFT: 32 bit int shifted by an amount not in the range -31..31 (ICAST_BAD_SHIFT_AMOUNT)</h3>
 <p>
-The code performs an integer shift by a constant amount outside
-the range 0..31.
+The code performs shift of a 32 bit int by a constant amount outside
+the range -31..31.
 The effect of this is to use the lower 5 bits of the integer
-value to decide how much to shift by. This probably isn't want was expected,
-and it at least confusing.
+value to decide how much to shift by (e.g., shifting by 40 bits is the same as shifting by 8 bits,
+and shifting by 32 bits is the same as shifting by zero bits). This probably isn't what was expected,
+and it is at least confusing.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

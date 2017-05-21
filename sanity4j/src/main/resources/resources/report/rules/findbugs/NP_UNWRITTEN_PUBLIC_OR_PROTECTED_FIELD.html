@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><title>NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD</title></head>
+<body>
+<h3>NP: Read of unwritten public or protected field (NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD)</h3>
+<p> The program is dereferencing a public or protected
+field that does not seem to ever have a non-null value written to it.
+Unless the field is initialized via some mechanism not seen by the analysis,
+dereferencing this value will generate a null pointer exception.
+</p>
+</body>
+</html>

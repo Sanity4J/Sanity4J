@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><title>SA_LOCAL_SELF_ASSIGNMENT_INSTEAD_OF_FIELD</title></head>
+<body>
+<h3>SA: Self assignment of local rather than assignment to field (SA_LOCAL_SELF_ASSIGNMENT_INSTEAD_OF_FIELD)</h3>
+<p> This method contains a self assignment of a local variable, and there
+is a field with an identical name.
+assignment appears to have been ; e.g.</p>
+<pre>
+  int foo;
+  public void setFoo(int foo) {
+    foo = foo;
+  }
+</pre>
+<p>The assignment is useless. Did you mean to assign to the field instead?</p>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><title>RC_REF_COMPARISON_BAD_PRACTICE</title></head>
+<body>
+<h3>RC: Suspicious reference comparison to constant (RC_REF_COMPARISON_BAD_PRACTICE)</h3>
+<p> This method compares a reference value to a constant using the == or != operator,
+where the correct way to compare instances of this type is generally
+with the equals() method.
+It is possible to create distinct instances that are equal but do not compare as == since
+they are different objects.
+Examples of classes which should generally
+not be compared by reference are java.lang.Integer, java.lang.Float, etc.</p>
+</body>
+</html>

@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>SBSC: Method concatenates strings using + in a loop (SBSC_USE_STRINGBUFFER_CONCATENATION)</TITLE>
-</HEAD>
-<BODY>
-<H2>SBSC: Method concatenates strings using + in a loop (SBSC_USE_STRINGBUFFER_CONCATENATION)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>SBSC_USE_STRINGBUFFER_CONCATENATION</title></head>
+<body>
+<h3>SBSC: Method concatenates strings using + in a loop (SBSC_USE_STRINGBUFFER_CONCATENATION)</h3>
 <p> The method seems to be building a String using concatenation in a loop.
 In each iteration, the String is converted to a StringBuffer/StringBuilder,
    appended to, and converted back to a String.
@@ -28,5 +27,5 @@ a StringBuffer (or StringBuilder in Java 1.5) explicitly.</p>
   }
   String s = buf.toString();
 </pre>
-</BODY>
-</HTML>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><title>VA_FORMAT_STRING_BAD_CONVERSION_TO_BOOLEAN</title></head>
+<body>
+<h3>FS: Non-Boolean argument formatted using %b format specifier (VA_FORMAT_STRING_BAD_CONVERSION_TO_BOOLEAN)</h3>
+<p>
+An argument not of type Boolean is being formatted with a %b format specifier. This won't throw an
+exception; instead, it will print true for any non-null value, and false for null.
+This feature of format strings is strange, and may not be what you intended.
+</p>
+</body>
+</html>

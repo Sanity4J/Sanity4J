@@ -1,10 +1,9 @@
-<HTML>
-<HEAD>
-<TITLE>IS: Field not guarded against concurrent access (IS_FIELD_NOT_GUARDED)</TITLE>
-</HEAD>
-<BODY>
-<H2>IS: Field not guarded against concurrent access (IS_FIELD_NOT_GUARDED)</H2>
-<p> This field is annotated with net.jcip.annotations.GuardedBy, 
-but can be accessed in a way that seems to violate the annotation.</p>
-</BODY>
-</HTML>
+<!doctype html>
+<html lang="en">
+<head><title>IS_FIELD_NOT_GUARDED</title></head>
+<body>
+<h3>IS: Field not guarded against concurrent access (IS_FIELD_NOT_GUARDED)</h3>
+<p> This field is annotated with net.jcip.annotations.GuardedBy or javax.annotation.concurrent.GuardedBy,
+but can be accessed in a way that seems to violate those annotations.</p>
+</body>
+</html>

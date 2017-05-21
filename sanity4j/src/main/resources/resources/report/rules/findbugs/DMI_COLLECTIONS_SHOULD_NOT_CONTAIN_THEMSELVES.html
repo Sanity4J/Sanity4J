@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><title>DMI_COLLECTIONS_SHOULD_NOT_CONTAIN_THEMSELVES</title></head>
+<body>
+<h3>DMI: Collections should not contain themselves (DMI_COLLECTIONS_SHOULD_NOT_CONTAIN_THEMSELVES)</h3>
+<p> This call to a generic collection's method would only make sense if a collection contained
+itself (e.g., if <code>s.contains(s)</code> were true). This is unlikely to be true and would cause
+problems if it were true (such as the computation of the hash code resulting in infinite recursion).
+It is likely that the wrong value is being passed as a parameter.
+    </p>
+</body>
+</html>

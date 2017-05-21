@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head><title>BC_IMPOSSIBLE_DOWNCAST_OF_TOARRAY</title></head>
+<body>
+<h3>BC: Impossible downcast of toArray() result (BC_IMPOSSIBLE_DOWNCAST_OF_TOARRAY)</h3>
+<p>
+This code is casting the result of calling <code>toArray()</code> on a collection
+to a type more specific than <code>Object[]</code>, as in:</p>
+<pre>
+String[] getAsArray(Collection&lt;String&gt; c) {
+  return (String[]) c.toArray();
+  }
+</pre>
+<p>This will usually fail by throwing a ClassCastException. The <code>toArray()</code>
+of almost all collections return an <code>Object[]</code>. They can't really do anything else,
+since the Collection object has no reference to the declared generic type of the collection.
+<p>The correct way to do get an array of a specific type from a collection is to use
+  <code>c.toArray(new String[]);</code>
+  or <code>c.toArray(new String[c.size()]);</code> (the latter is slightly more efficient).
+<p>There is one common/known exception exception to this. The <code>toArray()</code>
+method of lists returned by <code>Arrays.asList(...)</code> will return a covariantly
+typed array. For example, <code>Arrays.asArray(new String[] { "a" }).toArray()</code>
+will return a <code>String []</code>. FindBugs attempts to detect and suppress
+such cases, but may miss some.
+</p>
+</body>
+</html>

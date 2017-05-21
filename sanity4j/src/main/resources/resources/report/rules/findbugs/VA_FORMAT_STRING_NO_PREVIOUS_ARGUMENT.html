@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><title>VA_FORMAT_STRING_NO_PREVIOUS_ARGUMENT</title></head>
+<body>
+<h3>FS: No previous argument for format string (VA_FORMAT_STRING_NO_PREVIOUS_ARGUMENT)</h3>
+<p>
+The format string specifies a relative index to request that the argument for the previous format specifier
+be reused. However, there is no previous argument.
+For example,
+</p>
+<p><code>formatter.format("%&lt;s %s", "a", "b")</code>
+</p>
+<p>would throw a MissingFormatArgumentException when executed.
+</p>
+</body>
+</html>

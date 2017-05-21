@@ -1,13 +1,12 @@
-<HTML>
-<HEAD>
-<TITLE>STCAL: Call to static Calendar (STCAL_INVOKE_ON_STATIC_CALENDAR_INSTANCE)</TITLE>
-</HEAD>
-<BODY>
-<H2>STCAL: Call to static Calendar (STCAL_INVOKE_ON_STATIC_CALENDAR_INSTANCE)</H2>
-<p>Even though the JavaDoc does not contain a hint about it, Calendars are inherently unsafe for multihtreaded use. 
+<!doctype html>
+<html lang="en">
+<head><title>STCAL_INVOKE_ON_STATIC_CALENDAR_INSTANCE</title></head>
+<body>
+<h3>STCAL: Call to static Calendar (STCAL_INVOKE_ON_STATIC_CALENDAR_INSTANCE)</h3>
+<p>Even though the JavaDoc does not contain a hint about it, Calendars are inherently unsafe for multihtreaded use.
 The detector has found a call to an instance of Calendar that has been obtained via a static
 field. This looks suspicous.</p>
 <p>For more information on this see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6231579">Sun Bug #6231579</a>
 and <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6178997">Sun Bug #6178997</a>.</p>
-</BODY>
-</HTML>
+</body>
+</html>

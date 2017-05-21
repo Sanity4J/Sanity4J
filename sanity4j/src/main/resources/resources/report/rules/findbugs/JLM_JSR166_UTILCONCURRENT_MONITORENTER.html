@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><title>JLM_JSR166_UTILCONCURRENT_MONITORENTER</title></head>
+<body>
+<h3><a name="JLM_JSR166_UTILCONCURRENT_MONITORENTER">JLM: Synchronization performed on util.concurrent instance (JLM_JSR166_UTILCONCURRENT_MONITORENTER)</h3>
+<p> This method performs synchronization an object that is an instance of
+a class from the java.util.concurrent package (or its subclasses). Instances
+of these classes have their own concurrency control mechanisms that are orthogonal to
+the synchronization provided by the Java keyword <code>synchronized</code>. For example,
+synchronizing on an <code>AtomicBoolean</code> will not prevent other threads
+from modifying the  <code>AtomicBoolean</code>.</p>
+<p>Such code may be correct, but should be carefully reviewed and documented,
+and may confuse people who have to maintain the code at a later date.
+</p>
+</body>
+</html>

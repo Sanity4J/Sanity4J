@@ -1,14 +1,16 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Null value is guaranteed to be dereferenced (NP_GUARANTEED_DEREF)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Null value is guaranteed to be dereferenced (NP_GUARANTEED_DEREF)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_GUARANTEED_DEREF</title></head>
+<body>
+<h3>NP: Null value is guaranteed to be dereferenced (NP_GUARANTEED_DEREF)</h3>
 <p>
-			  There is a statement or branch that if executed guarantees that
-			  a value is null at this point, and that 
-			  value that is guaranteed to be dereferenced
-			  (except on forward paths involving runtime exceptions).
-			  </p>
-</BODY>
-</HTML>
+There is a statement or branch that if executed guarantees that
+a value is null at this point, and that
+value that is guaranteed to be dereferenced
+(except on forward paths involving runtime exceptions).
+</p>
+<p>Note that a check such as
+<code>if (x == null) throw new NullPointerException();</code>
+is treated as a dereference of <code>x</code>.</p>
+</body>
+</html>

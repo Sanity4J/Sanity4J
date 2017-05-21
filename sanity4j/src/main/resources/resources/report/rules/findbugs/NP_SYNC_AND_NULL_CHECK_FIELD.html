@@ -1,12 +1,11 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Synchronize and null check on the same field. (NP_SYNC_AND_NULL_CHECK_FIELD)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Synchronize and null check on the same field. (NP_SYNC_AND_NULL_CHECK_FIELD)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_SYNC_AND_NULL_CHECK_FIELD</title></head>
+<body>
+<h3>NP: Synchronize and null check on the same field. (NP_SYNC_AND_NULL_CHECK_FIELD)</h3>
 <p>Since the field is synchronized on, it seems not likely to be null.
 If it is null and then synchronized on a NullPointerException will be
-thrown and the check would be pointless. Better to synchronize on 
+thrown and the check would be pointless. Better to synchronize on
 another field.</p>
-</BODY>
-</HTML>
+</body>
+</html>

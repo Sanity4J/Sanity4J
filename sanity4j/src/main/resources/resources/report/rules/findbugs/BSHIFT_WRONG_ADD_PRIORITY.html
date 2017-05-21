@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><title>BSHIFT_WRONG_ADD_PRIORITY</title></head>
+<body>
+<h3>BSHIFT: Possible bad parsing of shift operation (BSHIFT_WRONG_ADD_PRIORITY)</h3>
+<p>
+The code performs an operation like (x &lt;&lt; 8 + y). Although this might be correct, probably it was meant 
+to perform (x &lt;&lt; 8) + y, but shift operation has
+a lower precedence, so it's actually parsed as x &lt;&lt; (8 + y).
+</p>
+</body>
+</html>

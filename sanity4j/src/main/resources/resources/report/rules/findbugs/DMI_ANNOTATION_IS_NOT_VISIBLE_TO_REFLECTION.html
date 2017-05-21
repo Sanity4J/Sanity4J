@@ -1,12 +1,10 @@
-<HTML>
-<HEAD>
-<TITLE>Dm: Can't use reflection to check for presence of annotation with default retention (DMI_ANNOTATION_IS_NOT_VISIBLE_TO_REFLECTION)</TITLE>
-</HEAD>
-<BODY>
-<H2>Dm: Can't use reflection to check for presence of annotation with default retention (DMI_ANNOTATION_IS_NOT_VISIBLE_TO_REFLECTION)</H2>
-<p> Unless an annotation has itself been annotated with a @Retention other than the default
-of source-only retention, the annotation isn't retained in the classfile and can't be observed using reflection
-	(e.g., by using the isAnnotationPresent method).
+<!doctype html>
+<html lang="en">
+<head><title>DMI_ANNOTATION_IS_NOT_VISIBLE_TO_REFLECTION</title></head>
+<body>
+<h3>Dm: Can't use reflection to check for presence of annotation without runtime retention (DMI_ANNOTATION_IS_NOT_VISIBLE_TO_REFLECTION)</h3>
+<p> Unless an annotation has itself been annotated with  @Retention(RetentionPolicy.RUNTIME), the annotation can't be observed using reflection
+(e.g., by using the isAnnotationPresent method).
    .</p>
-</BODY>
-</HTML>
+</body>
+</html>

@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>HE: Class defines hashCode() and uses Object.equals() (HE_HASHCODE_USE_OBJECT_EQUALS)</TITLE>
-</HEAD>
-<BODY>
-<H2>HE: Class defines hashCode() and uses Object.equals() (HE_HASHCODE_USE_OBJECT_EQUALS)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>HE_HASHCODE_USE_OBJECT_EQUALS</title></head>
+<body>
+<h3>HE: Class defines hashCode() and uses Object.equals() (HE_HASHCODE_USE_OBJECT_EQUALS)</h3>
 <p> This class defines a <code>hashCode()</code> method but inherits its
   <code>equals()</code> method from <code>java.lang.Object</code>
   (which defines equality by comparing object references).&nbsp; Although
@@ -14,9 +13,9 @@
   than simple reference equality.)</p>
 <p>If you don't think instances of this class will ever be inserted into a HashMap/HashTable,
 the recommended <code>hashCode</code> implementation to use is:</p>
-<p><pre>public int hashCode() {
+<pre>public int hashCode() {
   assert false : "hashCode not designed";
-  return 42; // any arbitrary constant will do 
-  }</pre></p>
-</BODY>
-</HTML>
+  return 42; // any arbitrary constant will do
+  }</pre>
+</body>
+</html>

@@ -1,14 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Method with Boolean return type returns explicit null (NP_BOOLEAN_RETURN_NULL)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Method with Boolean return type returns explicit null (NP_BOOLEAN_RETURN_NULL)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_BOOLEAN_RETURN_NULL</title></head>
+<body>
+<h3>NP: Method with Boolean return type returns explicit null (NP_BOOLEAN_RETURN_NULL)</h3>
 <p>
-	A method that returns either Boolean.TRUE, Boolean.FALSE or null is an accident waiting to happen.
-	This method can be invoked as though it returned a value of type boolean, and
-	the compiler will insert automatic unboxing of the Boolean value. If a null value is returned,
-	this will result in a NullPointerException.
-  	 </p>
-</BODY>
-</HTML>
+A method that returns either Boolean.TRUE, Boolean.FALSE or null is an accident waiting to happen.
+This method can be invoked as though it returned a value of type boolean, and
+the compiler will insert automatic unboxing of the Boolean value. If a null value is returned,
+this will result in a NullPointerException.
+</p>
+</body>
+</html>

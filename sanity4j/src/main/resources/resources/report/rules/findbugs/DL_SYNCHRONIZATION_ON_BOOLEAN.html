@@ -1,14 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>DL: Synchronization on Boolean could lead to deadlock (DL_SYNCHRONIZATION_ON_BOOLEAN)</TITLE>
-</HEAD>
-<BODY>
-<H2>DL: Synchronization on Boolean could lead to deadlock (DL_SYNCHRONIZATION_ON_BOOLEAN)</H2>
-<p> The code synchronizes on a boxed primitive constant, such as an Boolean.
+<!doctype html>
+<html lang="en">
+<head><title>DL_SYNCHRONIZATION_ON_BOOLEAN</title></head>
+<body>
+<h3>DL: Synchronization on Boolean (DL_SYNCHRONIZATION_ON_BOOLEAN)</h3>
+<p> The code synchronizes on a boxed primitive constant, such as an Boolean.</p>
 <pre>
 private static Boolean inited = Boolean.FALSE;
 ...
-  synchronized(inited) { 
+  synchronized(inited) {
     if (!inited) {
        init();
        inited = Boolean.TRUE;
@@ -16,8 +15,8 @@ private static Boolean inited = Boolean.FALSE;
      }
 ...
 </pre>
-</p>
 <p>Since there normally exist only two Boolean objects, this code could be synchronizing on the same object as other, unrelated code, leading to unresponsiveness
 and possible deadlock</p>
-</BODY>
-</HTML>
+<p>See CERT <a href="https://www.securecoding.cert.org/confluence/display/java/CON08-J.+Do+not+synchronize+on+objects+that+may+be+reused">CON08-J. Do not synchronize on objects that may be reused</a> for more information.</p>
+</body>
+</html>

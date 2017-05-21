@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>RR: Method ignores results of InputStream.skip() (SR_NOT_CHECKED)</TITLE>
-</HEAD>
-<BODY>
-<H2>RR: Method ignores results of InputStream.skip() (SR_NOT_CHECKED)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>SR_NOT_CHECKED</title></head>
+<body>
+<h3>RR: Method ignores results of InputStream.skip() (SR_NOT_CHECKED)</h3>
 <p> This method ignores the return value of
   <code>java.io.InputStream.skip()</code> which can skip multiple bytes.&nbsp;
   If the return value is not checked, the caller will not be able to correctly
@@ -13,5 +12,5 @@
   causing the program to fail only sporadically. With Buffered streams, however,
   skip() will only skip data in the buffer, and will routinely fail to skip the
   requested number of bytes.</p>
-</BODY>
-</HTML>
+</body>
+</html>

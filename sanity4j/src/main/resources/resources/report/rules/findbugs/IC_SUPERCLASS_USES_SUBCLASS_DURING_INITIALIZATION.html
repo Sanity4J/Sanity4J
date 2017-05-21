@@ -1,21 +1,20 @@
-<HTML>
-<HEAD>
-<TITLE>IC: Superclass uses subclass during initialization (IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION)</TITLE>
-</HEAD>
-<BODY>
-<H2>IC: Superclass uses subclass during initialization (IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION</title></head>
+<body>
+<h3>IC: Superclass uses subclass during initialization (IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION)</h3>
 <p> During the initialization of a class, the class makes an active use of a subclass.
 That subclass will not yet be initialized at the time of this use.
 For example, in the following code, <code>foo</code> will be null.</p>
 
 <pre>
 public class CircularClassInitialization {
-	static class InnerClassSingleton extends CircularClassInitialization {
-		static InnerClassSingleton singleton = new InnerClassSingleton();
-	}
-	
-	static CircularClassInitialization foo = InnerClassSingleton.singleton;
+    static class InnerClassSingleton extends CircularClassInitialization {
+        static InnerClassSingleton singleton = new InnerClassSingleton();
+    }
+
+    static CircularClassInitialization foo = InnerClassSingleton.singleton;
 }
 </pre>
-</BODY>
-</HTML>
+</body>
+</html>

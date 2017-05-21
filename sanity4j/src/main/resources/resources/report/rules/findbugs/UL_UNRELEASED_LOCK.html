@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>UL: Method does not release lock on all paths (UL_UNRELEASED_LOCK)</TITLE>
-</HEAD>
-<BODY>
-<H2>UL: Method does not release lock on all paths (UL_UNRELEASED_LOCK)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>UL_UNRELEASED_LOCK</title></head>
+<body>
+<h3>UL: Method does not release lock on all paths (UL_UNRELEASED_LOCK)</h3>
 <p> This method acquires a JSR-166 (<code>java.util.concurrent</code>) lock,
 but does not release it on all paths out of the method.  In general, the correct idiom
 for using a JSR-166 lock is:
@@ -17,5 +16,5 @@ for using a JSR-166 lock is:
         l.unlock();
     }
 </pre>
-</BODY>
-</HTML>
+</body>
+</html>

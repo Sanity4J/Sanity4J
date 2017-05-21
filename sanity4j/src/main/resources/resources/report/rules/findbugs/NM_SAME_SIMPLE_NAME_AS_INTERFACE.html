@@ -1,14 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>Nm: Class names shouldn't shadow simple name of implemented interface (NM_SAME_SIMPLE_NAME_AS_INTERFACE)</TITLE>
-</HEAD>
-<BODY>
-<H2>Nm: Class names shouldn't shadow simple name of implemented interface (NM_SAME_SIMPLE_NAME_AS_INTERFACE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NM_SAME_SIMPLE_NAME_AS_INTERFACE</title></head>
+<body>
+<h3>Nm: Class names shouldn't shadow simple name of implemented interface (NM_SAME_SIMPLE_NAME_AS_INTERFACE)</h3>
 <p> This class/interface has a simple name that is identical to that of an implemented/extended interface, except
-that the interface is in a different package (e.g., <code>alpha.Foo</code> extends <code>beta.Foo</code>). 
+that the interface is in a different package (e.g., <code>alpha.Foo</code> extends <code>beta.Foo</code>).
 This can be exceptionally confusing, create lots of situations in which you have to look at import statements
 to resolve references and creates many
-opportunities to accidently define methods that do not override methods in their superclasses.
+opportunities to accidentally define methods that do not override methods in their superclasses.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

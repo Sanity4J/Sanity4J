@@ -1,20 +1,19 @@
-<HTML>
-<HEAD>
-<TITLE>DL: Synchronization on interned String could lead to deadlock (DL_SYNCHRONIZATION_ON_SHARED_CONSTANT)</TITLE>
-</HEAD>
-<BODY>
-<H2>DL: Synchronization on interned String could lead to deadlock (DL_SYNCHRONIZATION_ON_SHARED_CONSTANT)</H2>
-<p> The code synchronizes on interned String.
+<!doctype html>
+<html lang="en">
+<head><title>DL_SYNCHRONIZATION_ON_SHARED_CONSTANT</title></head>
+<body>
+<h3>DL: Synchronization on interned String  (DL_SYNCHRONIZATION_ON_SHARED_CONSTANT)</h3>
+<p> The code synchronizes on interned String.</p>
 <pre>
 private static String LOCK = "LOCK";
 ...
   synchronized(LOCK) { ...}
 ...
 </pre>
-</p>
 <p>Constant Strings are interned and shared across all other classes loaded by the JVM. Thus, this could
 is locking on something that other code might also be locking. This could result in very strange and hard to diagnose
 blocking and deadlock behavior. See <a href="http://www.javalobby.org/java/forums/t96352.html">http://www.javalobby.org/java/forums/t96352.html</a> and <a href="http://jira.codehaus.org/browse/JETTY-352">http://jira.codehaus.org/browse/JETTY-352</a>.
 </p>
-</BODY>
-</HTML>
+<p>See CERT <a href="https://www.securecoding.cert.org/confluence/display/java/CON08-J.+Do+not+synchronize+on+objects+that+may+be+reused">CON08-J. Do not synchronize on objects that may be reused</a> for more information.</p>
+</body>
+</html>

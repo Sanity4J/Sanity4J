@@ -1,9 +1,8 @@
-<HTML>
-<HEAD>
-<TITLE>DLS: Dead store to local variable (DLS_DEAD_LOCAL_STORE)</TITLE>
-</HEAD>
-<BODY>
-<H2>DLS: Dead store to local variable (DLS_DEAD_LOCAL_STORE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>DLS_DEAD_LOCAL_STORE</title></head>
+<body>
+<h3>DLS: Dead store to local variable (DLS_DEAD_LOCAL_STORE)</h3>
 <p>
 This instruction assigns a value to a local variable,
 but the value is not read or used in any subsequent instruction.
@@ -15,5 +14,5 @@ Note that Sun's javac compiler often generates dead stores for
 final local variables.  Because FindBugs is a bytecode-based tool,
 there is no easy way to eliminate these false positives.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

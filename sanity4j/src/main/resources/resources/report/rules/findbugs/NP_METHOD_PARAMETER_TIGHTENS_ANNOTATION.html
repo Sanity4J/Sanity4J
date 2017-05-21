@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><title>NP_METHOD_PARAMETER_TIGHTENS_ANNOTATION</title></head>
+<body>
+<h3>NP: Method tightens nullness annotation on parameter (NP_METHOD_PARAMETER_TIGHTENS_ANNOTATION)</h3>
+<p>
+A method should always implement the contract of a method it overrides. Thus, if a method takes a parameter
+that is marked as @Nullable, you shouldn't override that method in a subclass with a method where that parameter is @Nonnull.
+Doing so violates the contract that the method should handle a null parameter.
+</p>
+</body>
+</html>

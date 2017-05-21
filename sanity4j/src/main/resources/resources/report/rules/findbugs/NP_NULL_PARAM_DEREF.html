@@ -1,12 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>NP: Method call passes null for unconditionally dereferenced parameter (NP_NULL_PARAM_DEREF)</TITLE>
-</HEAD>
-<BODY>
-<H2>NP: Method call passes null for unconditionally dereferenced parameter (NP_NULL_PARAM_DEREF)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>NP_NULL_PARAM_DEREF</title></head>
+<body>
+<h3>NP: Method call passes null for non-null parameter (NP_NULL_PARAM_DEREF)</h3>
 <p>
-      This method call passes a null value to a method which might
-      dereference it unconditionally.
-      </p>
-</BODY>
-</HTML>
+This method call passes a null value for a non-null method parameter.
+Either the parameter is annotated as a parameter that should
+always be non-null, or analysis has shown that it will always be
+dereferenced.
+</p>
+</body>
+</html>

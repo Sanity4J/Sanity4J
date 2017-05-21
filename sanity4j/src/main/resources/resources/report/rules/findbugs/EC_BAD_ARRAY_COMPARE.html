@@ -1,13 +1,14 @@
-<HTML>
-<HEAD>
-<TITLE>EC: Invocation of equals() on an array, which is equivalent to == (EC_BAD_ARRAY_COMPARE)</TITLE>
-</HEAD>
-<BODY>
-<H2>EC: Invocation of equals() on an array, which is equivalent to == (EC_BAD_ARRAY_COMPARE)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>EC_BAD_ARRAY_COMPARE</title></head>
+<body>
+<h3>EC: Invocation of equals() on an array, which is equivalent to == (EC_BAD_ARRAY_COMPARE)</h3>
 <p>
 This method invokes the .equals(Object o) method on an array. Since arrays do not override the equals
 method of Object, calling equals on an array is the same as comparing their addresses. To compare the
-contents of the arrays, use java.util.Arrays.equals(Object[], Object[]).
+contents of the arrays, use <code>java.util.Arrays.equals(Object[], Object[])</code>.
+To compare the addresses of the arrays, it would be
+less confusing to explicitly check pointer equality using <code>==</code>.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

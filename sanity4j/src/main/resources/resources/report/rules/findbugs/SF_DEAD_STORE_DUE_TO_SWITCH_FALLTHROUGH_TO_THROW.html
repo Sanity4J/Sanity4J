@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><title>SF_DEAD_STORE_DUE_TO_SWITCH_FALLTHROUGH_TO_THROW</title></head>
+<body>
+<h3>SF: Dead store due to switch statement fall through to throw (SF_DEAD_STORE_DUE_TO_SWITCH_FALLTHROUGH_TO_THROW)</h3>
+<p> A value stored in the previous switch case is ignored here due to a switch fall through to a place where
+    an exception is thrown. It is likely that
+    you forgot to put a break or return at the end of the previous case.
+</p>
+</body>
+</html>

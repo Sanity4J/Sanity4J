@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><title>PZ_DONT_REUSE_ENTRY_OBJECTS_IN_ITERATORS</title></head>
+<body>
+<h3>PZ: Don't reuse entry objects in iterators (PZ_DONT_REUSE_ENTRY_OBJECTS_IN_ITERATORS)</h3>
+<p> The entrySet() method is allowed to return a view of the
+underlying Map in which an Iterator and Map.Entry. This clever
+idea was used in several Map implementations, but introduces the possibility
+of nasty coding mistakes. If a map <code>m</code> returns
+such an iterator for an entrySet, then
+<code>c.addAll(m.entrySet())</code> will go badly wrong. All of
+the Map implementations in OpenJDK 1.7 have been rewritten to avoid this,
+you should to.
+</p>
+</body>
+</html>

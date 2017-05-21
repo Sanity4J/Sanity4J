@@ -1,22 +1,19 @@
-<HTML>
-<HEAD>
-<TITLE>TQ: Value annotated as never carrying a type qualifier used where value carrying that qualifier is required (TQ_NEVER_VALUE_USED_WHERE_ALWAYS_REQUIRED)</TITLE>
-</HEAD>
-<BODY>
-<H2>TQ: Value annotated as never carrying a type qualifier used where value carrying that qualifier is required (TQ_NEVER_VALUE_USED_WHERE_ALWAYS_REQUIRED)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>TQ_NEVER_VALUE_USED_WHERE_ALWAYS_REQUIRED</title></head>
+<body>
+<h3>TQ: Value annotated as never carrying a type qualifier used where value carrying that qualifier is required (TQ_NEVER_VALUE_USED_WHERE_ALWAYS_REQUIRED)</h3>
 <p>
-        A value specified as not carrying a type qualifier annotation is guaranteed
-        to be consumed in a location or locations requiring that the value does
-        carry that annotation.
-        </p>
-        
-        <p>
-        More precisely, a value annotated with a type qualifier specifying when=NEVER
-        is guaranteed to reach a use or uses where the same type qualifier specifies when=ALWAYS.
-        </p>
-
-        <p>
-        TODO: example
-        </p>
-</BODY>
-</HTML>
+A value specified as not carrying a type qualifier annotation is guaranteed
+to be consumed in a location or locations requiring that the value does
+carry that annotation.
+</p>
+<p>
+More precisely, a value annotated with a type qualifier specifying when=NEVER
+is guaranteed to reach a use or uses where the same type qualifier specifies when=ALWAYS.
+</p>
+<p>
+TODO: example
+</p>
+</body>
+</html>

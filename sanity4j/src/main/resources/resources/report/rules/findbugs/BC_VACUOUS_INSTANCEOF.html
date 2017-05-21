@@ -1,12 +1,14 @@
-<HTML>
-<HEAD>
-<TITLE>BC: instanceof will always return true (BC_VACUOUS_INSTANCEOF)</TITLE>
-</HEAD>
-<BODY>
-<H2>BC: instanceof will always return true (BC_VACUOUS_INSTANCEOF)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>BC_VACUOUS_INSTANCEOF</title></head>
+<body>
+<h3>BC: instanceof will always return true (BC_VACUOUS_INSTANCEOF)</h3>
 <p>
-This instanceof test will always return true. Although this is safe, make sure it isn't
+This instanceof test will always return true (unless the value being tested is null).
+Although this is safe, make sure it isn't
 an indication of some misunderstanding or some other logic error.
+If you really want to test the value for being null, perhaps it would be clearer to do
+better to do a null test rather than an instanceof test.
 </p>
-</BODY>
-</HTML>
+</body>
+</html>

@@ -1,14 +1,13 @@
-<HTML>
-<HEAD>
-<TITLE>Dm: Method invokes inefficient new String() constructor (DM_STRING_VOID_CTOR)</TITLE>
-</HEAD>
-<BODY>
-<H2>Dm: Method invokes inefficient new String() constructor (DM_STRING_VOID_CTOR)</H2>
+<!doctype html>
+<html lang="en">
+<head><title>DM_STRING_VOID_CTOR</title></head>
+<body>
+<h3>Dm: Method invokes inefficient new String() constructor (DM_STRING_VOID_CTOR)</h3>
 <p> Creating a new <code>java.lang.String</code> object using the
   no-argument constructor wastes memory because the object so created will
   be functionally indistinguishable from the empty string constant
   <code>""</code>.&nbsp; Java guarantees that identical string constants
   will be represented by the same <code>String</code> object.&nbsp; Therefore,
   you should just use the empty string constant directly.</p>
-</BODY>
-</HTML>
+</body>
+</html>
