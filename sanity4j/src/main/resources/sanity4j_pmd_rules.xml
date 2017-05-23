@@ -446,7 +446,14 @@ preference to PMD.
     -->
     <rule ref="rulesets/java/junit.xml/JUnitSpelling"><priority>3</priority></rule>
     <rule ref="rulesets/java/junit.xml/JUnitAssertionsShouldIncludeMessage"><priority>3</priority></rule>
-    <rule ref="rulesets/java/junit.xml/JUnitTestContainsTooManyAsserts"><priority>4</priority></rule>
+    <rule ref="rulesets/java/junit.xml/JUnitTestContainsTooManyAsserts">
+    	<priority>4</priority>
+        <properties>
+            <property name="maximumAsserts">
+                <value>20</value>
+            </property>
+        </properties>
+   	</rule>
     <rule ref="rulesets/java/junit.xml/JUnitTestsShouldIncludeAssert"><priority>3</priority></rule>
     <rule ref="rulesets/java/junit.xml/TestClassWithoutTestCases"><priority>4</priority></rule>
     <rule ref="rulesets/java/junit.xml/UnnecessaryBooleanAssertion"><priority>3</priority></rule>
