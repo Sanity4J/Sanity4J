@@ -244,8 +244,10 @@ preference to PMD.
     <rule ref="rulesets/java/design.xml/GodClass"><priority>4</priority></rule>
     <rule ref="rulesets/java/design.xml/LogicInversion"><priority>4</priority></rule>
     <rule ref="rulesets/java/design.xml/PositionLiteralsFirstInCaseInsensitiveComparisons"><priority>3</priority></rule>
+    <!--
     <rule ref="rulesets/java/design.xml/SingleMethodSingleton"><priority>4</priority></rule>
     <rule ref="rulesets/java/design.xml/SingletonClassReturningNewInstance"><priority>4</priority></rule>
+    -->
     <rule ref="rulesets/java/design.xml/UseVarargs"><priority>5</priority></rule>
     <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"><priority>3</priority></rule>
     <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"><priority>3</priority></rule>
