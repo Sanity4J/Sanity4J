@@ -10,7 +10,7 @@
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.8.0-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j.run
@@ -33,7 +33,7 @@
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.8.0-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
             </library.path>
 
          </sanity4j.run>
@@ -49,7 +49,7 @@
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.8.0-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j
@@ -75,7 +75,7 @@
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.8.0-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
             </library.path>
 
             <coverage.data.files>

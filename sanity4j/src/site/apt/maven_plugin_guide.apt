@@ -173,7 +173,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
       </plugin>
       ...
     </plugins>
@@ -191,7 +191,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
         <configuration>
           <findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
           <pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
@@ -226,7 +226,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
         <dependencies>
           <dependency>
             <!--
@@ -250,7 +250,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
         <configuration>
           <aggregate>true</aggregate>
 
@@ -580,7 +580,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
     <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
         <configuration>
             <productsDir>${project.build.directory}/tools</productsDir>
         </configuration>

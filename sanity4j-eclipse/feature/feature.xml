@@ -2,7 +2,7 @@
 <feature
     id            ="com.github.sanity4j.eclipse.feature"
     label         ="Sanity4J Feature"
-    version       ="1.8.0"
+    version       ="1.8.1"
     provider-name ="The Sanity4J Team">
 
     <install-handler/>
@@ -660,7 +660,7 @@ copy of the Program in return for a fee.
         id            ="com.github.sanity4j.eclipse.plugin"
         download-size ="0"
         install-size  ="0"
-        version       ="1.8.0"
+        version       ="1.8.1"
         unpack        ="false"/>
 
 </feature>
