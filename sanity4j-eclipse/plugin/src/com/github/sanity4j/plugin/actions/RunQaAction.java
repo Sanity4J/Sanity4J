@@ -6,14 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.List;
 
-import com.github.sanity4j.plugin.Activator;
-import com.github.sanity4j.plugin.util.FileUtil;
-import com.github.sanity4j.plugin.views.SimpleBrowserView;
-import com.github.sanity4j.util.QAException;
-import com.github.sanity4j.workflow.QAConfig;
-import com.github.sanity4j.workflow.QAProcessor;
-import com.github.sanity4j.workflow.WorkUnit;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -40,6 +32,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.dialogs.InternalErrorDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
+import com.github.sanity4j.plugin.Activator;
+import com.github.sanity4j.plugin.util.FileUtil;
+import com.github.sanity4j.plugin.views.SimpleBrowserView;
+import com.github.sanity4j.util.QAException;
+import com.github.sanity4j.workflow.QAConfig;
+import com.github.sanity4j.workflow.QAProcessor;
+import com.github.sanity4j.workflow.WorkUnit;
+
 /**
  * RunQaAction - an eclipse action to run the Sanity4J task.
  *
@@ -57,6 +57,7 @@ public class RunQaAction implements IEditorActionDelegate
      * @param action the action proxy that handles presentation portion of the action
      * @param targetEditor the new editor
      */
+    @Override
     public void setActiveEditor(final IAction action, final IEditorPart targetEditor)
     {
         editor = targetEditor;
@@ -67,6 +68,7 @@ public class RunQaAction implements IEditorActionDelegate
      *
      * @param proxyAction the action proxy that handles the presentation portion of the action
      */
+    @Override
     public void run(final IAction proxyAction)
     {
         IJavaElement javaElement = JavaUI.getEditorInputJavaElement(editor.getEditorInput());
@@ -133,6 +135,7 @@ public class RunQaAction implements IEditorActionDelegate
     {
         return new IRunnableWithProgress()
         {
+            @Override
             public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
             {
                 monitor.setTaskName("Sanity4J task");
@@ -334,7 +337,7 @@ public class RunQaAction implements IEditorActionDelegate
      * @param message the message to display
      * @param detail the exception which caused the error.
      */
-    private void alert(final String message, Throwable detail)
+    private void alert(final String message, final Throwable detail)
     {
         Shell shell = editor.getEditorSite().getShell();
         InternalErrorDialog.openQuestion(shell, "Eclipse Sanity4J plugin", message, detail, 0);
@@ -420,8 +423,26 @@ public class RunQaAction implements IEditorActionDelegate
         {
             IJavaElement javaElement = JavaUI.getEditorInputJavaElement(editor.getEditorInput());
             IJavaProject project = javaElement.getJavaProject();
+            
+            IClasspathEntry[] classPath = project.getRawClasspath();
+            String relativeSourcePath = javaElement.getPath().toString();
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
+            for (int i = 0; i < classPath.length; i++)
+            {
+                if (classPath[i].getEntryKind() == IClasspathEntry.CPE_SOURCE)
+                {
+                    String projectSourcePath = classPath[i].getPath().toString();
+
+                    if (relativeSourcePath.startsWith(projectSourcePath))
+                    {
+                        IFolder folder = root.getFolder(classPath[i].getOutputLocation());
+                        return folder.getRawLocation();
+                    }
+                }
+            }
+            
+            // Not found, use project default output
             IFolder folder = root.getFolder(project.getOutputLocation());
             return folder.getRawLocation();
         }
@@ -438,6 +459,7 @@ public class RunQaAction implements IEditorActionDelegate
      * @param proxyAction the action proxy that handles the presentation portion of the action
      * @param selection the new selection
      */
+    @Override
     public void selectionChanged(final IAction proxyAction, final ISelection selection)
     {
         // do nothing, action is not dependent on the selection
@@ -466,11 +488,12 @@ public class RunQaAction implements IEditorActionDelegate
          *
          * @param workUnits the units of work to run.
          */
+        @Override
         protected void runWork(final List<WorkUnit> workUnits)
         {
             for (int i = 0; i < workUnits.size(); i++)
             {
-                WorkUnit work = (WorkUnit) workUnits.get(i);
+                WorkUnit work = workUnits.get(i);
 
                 if (monitor != null)
                 {

@@ -4,10 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.sanity4j.plugin.Activator;
-import com.github.sanity4j.util.FileUtil;
-import com.github.sanity4j.workflow.QAConfig;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
@@ -32,6 +28,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import com.github.sanity4j.plugin.Activator;
+import com.github.sanity4j.util.FileUtil;
+import com.github.sanity4j.workflow.QAConfig;
+
 /**
  * This class represents an Eclipse "Preference page" for the Sanity4J application. It is contributed to the Eclipse
  * "Preferences" dialog.
@@ -47,7 +47,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
     private static final String SEPARATOR = ":";
 
     /** A {@link Text} containing the configuration for the Sanity4J "products" directory. */
-    private Text productsDirectoryText;
+    private Text toolsDirectoryText;
 
     /** A {@link Text} containing the location of a "1.5" JVM executable. */
     private Text javaExecutableText;
@@ -222,7 +222,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
      * This method returns an array of Strings representing the defined versions of the given tool that will be run by
      * the Sanity4J application.
      * 
-     * @param tool The tool for whic the versions are to be retrieved.
+     * @param tool The tool for which the versions are to be retrieved.
      * @return An array of Strings representing the version of the of given <em>tool</em>.
      */
     private String[] getToolVersions(final String tool)
@@ -301,7 +301,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
      */
     private void loadFromStore(final boolean override, final IPreferenceStore store)
     {
-        productsDirectoryText.setText(store.getString(PreferenceConstants.PRODUCTS_DIRECTORY));
+        toolsDirectoryText.setText(store.getString(PreferenceConstants.PRODUCTS_DIRECTORY));
         javaExecutableText.setText(store.getString(PreferenceConstants.JAVA_RUNTIME));
         sanity4jPropertiesText.setText(store.getString(PreferenceConstants.SANITY4J_PROPERTIES));
         diagnosticFirstCheck.setSelection(store.getBoolean(PreferenceConstants.DIAGNOSTICS_FIRST));
@@ -322,18 +322,18 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
     private boolean validate()
     {
         // productsDirectoryText;
-        if (!FileUtil.hasValue(productsDirectoryText.getText()))
+        if (!FileUtil.hasValue(toolsDirectoryText.getText()))
         {
-            MessageDialog.openError(getShell(), "Invalid products directory", "Please enter a products directory");
+            MessageDialog.openError(getShell(), "Invalid tools directory", "Please enter a tools directory");
             return false;
         }
 
-        File productsDirectory = new File(productsDirectoryText.getText());
+        File toolsDirectory = new File(toolsDirectoryText.getText());
 
-        if (!productsDirectory.exists() || !productsDirectory.isDirectory())
+        if (!toolsDirectory.exists() || !toolsDirectory.isDirectory())
         {
-            MessageDialog.openError(getShell(), "Invalid products direcotory", "Could not find products directory ["
-                                                                               + productsDirectoryText.getText() + "]");
+            MessageDialog.openError(getShell(), "Invalid tools direcotory", "Could not find tools directory ["
+                                                                               + toolsDirectoryText.getText() + "]");
             return false;
         }
 
@@ -420,7 +420,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
 
     /**
      * This method creates a "External locations" {@link Group} containing {@link Text} fields for the
-     * "Products directory" and "Java executable".
+     * "tools directory" and "Java executable".
      * 
      * @param parent The {@link Composite} in which the group is to be created.
      */
@@ -448,23 +448,24 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         externalLocationDescriptionData.widthHint = BIG_WIDTH_HINT;
         externalLocationsDescription.setLayoutData(externalLocationDescriptionData);
 
-        // Products directory.
-        Label productsLabel = new Label(externalLocationsGroup, SWT.NULL);
-        productsLabel.setFont(font);
-        productsLabel.setText("&Product directory: ");
+        // Tools directory.
+        Label toolsLabel = new Label(externalLocationsGroup, SWT.NULL);
+        toolsLabel.setFont(font);
+        toolsLabel.setText("&Tools directory: ");
 
-        productsDirectoryText = new Text(externalLocationsGroup, SWT.BORDER);
-        productsDirectoryText.setFont(font);
+        toolsDirectoryText = new Text(externalLocationsGroup, SWT.BORDER);
+        toolsDirectoryText.setFont(font);
         GridData productsDirectoryData = new GridData(GridData.FILL_HORIZONTAL);
-        productsDirectoryText.setLayoutData(productsDirectoryData);
+        toolsDirectoryText.setLayoutData(productsDirectoryData);
         Button productsBrowseButton = new Button(externalLocationsGroup, SWT.PUSH);
         productsBrowseButton.setText("&Browse");
 
         SelectionListener productsButtonListener = new SelectionAdapter()
         {
+            @Override
             public void widgetSelected(final SelectionEvent event)
             {
-                productsDirectoryText.setText(browseDirectory(productsDirectoryText.getText()));
+                toolsDirectoryText.setText(browseDirectory(toolsDirectoryText.getText()));
             }
         };
 
@@ -473,7 +474,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         // Java 1.5 exectable.
         Label javaLocationLabel = new Label(externalLocationsGroup, SWT.NULL);
         javaLocationLabel.setFont(font);
-        javaLocationLabel.setText("&Java 1.5 executable: ");
+        javaLocationLabel.setText("&Java executable: ");
 
         javaExecutableText = new Text(externalLocationsGroup, SWT.BORDER);
         javaExecutableText.setFont(font);
@@ -488,6 +489,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
 
         SelectionListener javaExectuableButtonListener = new SelectionAdapter()
         {
+            @Override
             public void widgetSelected(final SelectionEvent event)
             {
                 javaExecutableText.setText(browseFile("Java Executable", "*.exe", javaExecutableText.getText()));
@@ -532,6 +534,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
 
         SelectionListener buttonListener = new SelectionAdapter()
         {
+            @Override
             public void widgetSelected(final SelectionEvent event)
             {
                 sanity4jPropertiesText.setText(browseFile("Properties Files", "*.properties",
@@ -627,7 +630,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         SelectionListener toolComboListener = new SelectionAdapter()
         {
             @Override
-            public void widgetSelected(SelectionEvent event)
+            public void widgetSelected(final SelectionEvent event)
             {
                 toolConfig.put(lastTool + SEPARATOR + lastVersion, configText.getText());
                 toolConfigClasspath.put(lastTool + SEPARATOR + lastVersion, configClasspathText.getText());
@@ -653,7 +656,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         SelectionListener versionComboListener = new SelectionAdapter()
         {
             @Override
-            public void widgetSelected(SelectionEvent event)
+            public void widgetSelected(final SelectionEvent event)
             {
                 toolConfig.put(lastTool + SEPARATOR + lastVersion, configText.getText());
                 toolConfigClasspath.put(lastTool + SEPARATOR + lastVersion, configClasspathText.getText());
@@ -673,7 +676,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         SelectionListener loadListener = new SelectionAdapter()
         {
             @Override
-            public void widgetSelected(SelectionEvent event)
+            public void widgetSelected(final SelectionEvent event)
             {
                 IPreferenceStore store = Activator.getDefault().getPreferenceStore();
                 loadToolConfig(false, store);
@@ -692,6 +695,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
      * Init.
      * @param workbench the workbench.
      */
+    @Override
     public void init(final IWorkbench workbench)
     {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
@@ -769,7 +773,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
             return false;
         }
 
-        store.setValue(PreferenceConstants.PRODUCTS_DIRECTORY, productsDirectoryText.getText());
+        store.setValue(PreferenceConstants.PRODUCTS_DIRECTORY, toolsDirectoryText.getText());
         store.setValue(PreferenceConstants.JAVA_RUNTIME, javaExecutableText.getText());
         store.setValue(PreferenceConstants.SANITY4J_PROPERTIES, sanity4jPropertiesText.getText());
         store.setValue(PreferenceConstants.DIAGNOSTICS_FIRST, diagnosticFirstCheck.getSelection());
