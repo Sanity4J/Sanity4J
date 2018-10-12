@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Local Eclipse Update Site" url="http://diacnexus/eclipseSites/sanity4j-1.8.1/site.xml">
+   <description name="Local Eclipse Update Site" url="http://diacnexus/eclipseSites/sanity4j-1.8.2/site.xml">
       Update Site for Sanity4J Eclipse Plugin.
    </description>
-   <feature url="features/com.github.sanity4j.eclipse.feature_1.8.1.jar" id="com.github.sanity4j.eclipse.feature" version="1.8.1">
+   <feature url="features/com.github.sanity4j.eclipse.feature_1.8.2.jar" id="com.github.sanity4j.eclipse.feature" version="1.8.2">
       <category name="qa"/>
    </feature>
    <category-def name="qa" label="Quality Assurance"/>

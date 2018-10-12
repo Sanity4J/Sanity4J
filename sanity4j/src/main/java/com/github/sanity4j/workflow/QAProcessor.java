@@ -21,7 +21,7 @@ import com.github.sanity4j.workflow.tool.ToolRunnerGroup;
 public class QAProcessor implements Runnable
 {
     /** The current Sanity4J version number. This is the version number which is logged, embedded in reports, etc. */
-    public static final String QA_VERSION = "1.8.1";
+    public static final String QA_VERSION = "1.8.2";
 
     /** The default Java runtime to use when running external tasks. */
     public static final String DEFAULT_JAVA_RUNTIME = "java";
@@ -51,7 +51,8 @@ public class QAProcessor implements Runnable
     /**
      * Executes the QA process.
      */
-    public void run()
+    @Override
+   public void run()
     {
         try
         {
@@ -188,11 +189,13 @@ public class QAProcessor implements Runnable
         // Determine line counts (for quality metric).
         work.add(new WorkUnit()
         {
+            @Override
             public String getDescription()
             {
                 return "Reading line counts";
             }
 
+            @Override
             public void run()
             {
                 try
