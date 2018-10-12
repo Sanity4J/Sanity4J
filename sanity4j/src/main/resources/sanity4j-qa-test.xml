@@ -69,16 +69,16 @@
 	**     products.dir 
 	**
     **          The location of the products vob containing the QA tools 
-    **          (FindBugs, PMD, CheckStyle, etc.)
+    **          (SpotBugs, PMD, CheckStyle, etc.)
     **
     **     report.dir
     **
     **          The report output directory. Subdirectories will be created
     **          for each type of report.    
     **
-    **     cobertura.data.file [optional]
+    **     coverage.data.file [optional]
     **
-    **          A cobertura data file (e.g. cobertura.ser) if you want to
+    **          A coverage data file (e.g. jacoco.exec) if you want to
     **          include unit testing coverage data in your report.
     **
     **     summary.data.file [optional]
@@ -144,7 +144,7 @@
     
         <attribute name="products.dir"/>
         <attribute name="report.dir"/>
-        <attribute name="cobertura.data.file" default=""/>
+        <attribute name="coverage.data.file" default=""/>
         <attribute name="summary.data.file" default=""/>
         <attribute name="java.runtime" default="java"/>
         <attribute name="include.tool.output" default="false"/>
@@ -164,7 +164,7 @@
 		  <sanity4j.runtask
 		    productsDir="@{products.dir}"
 		    reportDir="@{report.dir}"
-		    coberturaDataFile="@{cobertura.data.file}"
+		    coverageDataFile="@{coverage.data.file}"
 		    summaryDataFile="@{summary.data.file}"
 		    javaRuntime="@{java.runtime}" 
 		    includeToolOutput="@{include.tool.output}">

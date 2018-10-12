@@ -284,7 +284,7 @@
                     <productsDir>${project.build.directory}/tools</productsDir>
                     -->
 
-                    <findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
+                    <spotBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</spotBugsConfig>
                     <pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
                     <checkStyleConfig>$${sanity4j_checks.xml}</checkStyleConfig>
 
@@ -557,65 +557,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>sanity4j-tools-cobertura</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/tools/cobertura-2.0.2</outputDirectory>
-
-                            <artifactItems>
-								<artifactItem>
-									<groupId>net.sourceforge.cobertura</groupId>
-									<artifactId>cobertura</artifactId>
-									<version>2.0.2</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm</artifactId>
-									<version>4.1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-tree</artifactId>
-									<version>4.1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-commons</artifactId>
-									<version>4.1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-util</artifactId>
-									<version>4.1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-analysis</artifactId>
-									<version>4.1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>oro</groupId>
-									<artifactId>oro</artifactId>
-									<version>2.0.8</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>jaxen</groupId>
-									<artifactId>jaxen</artifactId>
-									<version>1.1-beta-8</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>log4j</groupId>
-									<artifactId>log4j</artifactId>
-									<version>1.2.9</version>
-								</artifactItem>
-                            </artifactItems>
-
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>sanity4j-tools-jacoco</id>
                         <phase>prepare-package</phase>
                         <goals>
@@ -640,79 +581,89 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>sanity4j-tools-findbugs</id>
+                        <id>sanity4j-tools-spotbugs</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/findbugs-3.0.1</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/spotbugs-3.1.6</outputDirectory>
 
                             <artifactItems>
 								<artifactItem>
-								    <groupId>com.google.code.findbugs</groupId>
-								    <artifactId>findbugs</artifactId>
-								    <version>3.0.1</version>
+									<groupId>com.github.spotbugs</groupId>
+									<artifactId>spotbugs</artifactId>
+									<version>3.1.6</version>
+  								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm</artifactId>
+									<version>6.2</version>
+      							</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-analysis</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-commons</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-tree</artifactId>
+									<version>6.2</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>com.google.code.findbugs</groupId>
-									<artifactId>bcel-findbugs</artifactId>
-									<version>6.0</version>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-util</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-xml</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.bcel</groupId>
+									<artifactId>bcel</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>commons-lang</groupId>
+									<artifactId>commons-lang</artifactId>
+									<version>2.6</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>com.google.code.findbugs</groupId>
-									<artifactId>jsr305</artifactId>
-									<version>2.0.1</version>
-								</artifactItem>
+									<groupId>org.dom4j</groupId>
+									<artifactId>dom4j</artifactId>
+									<version>2.1.0</version>
+   								</artifactItem>
 								<artifactItem>
-									<groupId>com.google.code.findbugs</groupId>
-									<artifactId>jFormatString</artifactId>
-									<version>2.0.1</version>
-								</artifactItem>
+									<groupId>jaxen</groupId>
+									<artifactId>jaxen</artifactId>
+									<version>1.1.6</version>
+   								</artifactItem>
 								<artifactItem>
 									<groupId>net.jcip</groupId>
 									<artifactId>jcip-annotations</artifactId>
 									<version>1.0</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>dom4j</groupId>
-									<artifactId>dom4j</artifactId>
-									<version>1.6.1</version>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>jFormatString</artifactId>
+									<version>3.0.0</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>xml-apis</groupId>
-									<artifactId>xml-apis</artifactId>
-									<version>1.0.b2</version>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>jsr305</artifactId>
+									<version>3.0.2</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>jaxen</groupId>
-									<artifactId>jaxen</artifactId>
-									<version>1.1.6</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm</artifactId>
-									<version>5.0.2</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-tree</artifactId>
-									<version>5.0.2</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-commons</artifactId>
-									<version>5.0.2</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ow2.asm</groupId>
-									<artifactId>asm-debug-all</artifactId>
-									<version>5.0.2</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>commons-lang</groupId>
-									<artifactId>commons-lang</artifactId>
-									<version>2.6</version>
+									<groupId>com.github.spotbugs</groupId>
+									<artifactId>spotbugs-annotations</artifactId>
+									<version>3.1.6</version>
 								</artifactItem>
 							</artifactItems>
 
@@ -792,41 +743,6 @@
             </plugin>
 
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.jvnet.jaxb2.maven2
-                                        </groupId>
-                                        <artifactId>
-                                            maven-jaxb2-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [0.7.3,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>generate</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <!--

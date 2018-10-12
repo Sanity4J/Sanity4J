@@ -19,7 +19,7 @@
 			
 			<p>
 				These rules are fundamentally sourced from widely used Open Source projects such as 
-				<a href="http://findbugs.sourceforge.net">FindBugs</a>, 
+				<a href="http://spotbugs.github.io">SpotBugs</a>, 
 				<a href="http://pmd.sourceforge.net">PMD</a> and 
 				<a href="http://checkstyle.sourceforge.net/">Checkstyle</a>.
 			</p>
@@ -66,8 +66,7 @@
 			when they make changes.</p>
 			
 			<p>Sanity4J integrates results from the open source Code Coverage
-			tools <a href="http://cobertura.sourceforge.net/">Cobetura</a> and
-			<a href="http://http://www.jacoco.org/jacoco/">JaCoCo</a>. Code 
+			tool <a href="http://http://www.jacoco.org/jacoco/">JaCoCo</a>. Code 
 			Coverage is the proportion of code executed during a jUnit test run. 
 			The coverage tools watch while jUnit tests run, and record which lines of 
 			code get executed. They then calculates the percentage of lines 

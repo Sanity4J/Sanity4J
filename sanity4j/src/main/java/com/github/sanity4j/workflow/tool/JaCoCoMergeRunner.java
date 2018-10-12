@@ -3,7 +3,7 @@ package com.github.sanity4j.workflow.tool;
 import com.github.sanity4j.util.Tool;
 
 /**
- * CoberturaMergeRunner - a work unit that merges JaCoco data files.
+ * JaCoCoMergeRunner - a work unit that merges JaCoco data files.
  * 
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.8.0
@@ -26,7 +26,7 @@ public class JaCoCoMergeRunner extends AbstractToolRunner
     @Override
     public void runTool(final String commandLine)
     {
-       // TODO: Does nothing
+        // TODO: Does nothing
     }
 
     /**

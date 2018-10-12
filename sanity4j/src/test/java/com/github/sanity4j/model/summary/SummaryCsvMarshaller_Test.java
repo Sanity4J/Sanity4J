@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.github.sanity4j.model.summary.PackageSummary;
-import com.github.sanity4j.model.summary.SummaryCsvMarshaller;
-
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 /** 
  * SummaryCsvMarshaller_Test - unit tests for {@link SummaryCsvMarshaller}. 
@@ -17,7 +15,7 @@ import junit.framework.TestCase;
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public class SummaryCsvMarshaller_Test extends TestCase
+public class SummaryCsvMarshaller_Test
 {
     /** The tolerance for comparing doubles (as floating point arithmetic is imprecise) - 0.01%. */
     private static final double DOUBLE_FIELD_TOLERANCE = 0.0001;
@@ -26,6 +24,7 @@ public class SummaryCsvMarshaller_Test extends TestCase
      * Tests summary marshalling by writing/reading in a set of summaries
      * and comparing the original and read data.
      */
+    @Test
     public void testMarshalling() throws Exception
     {
         PackageSummary[] summaries = new PackageSummary[]
@@ -49,46 +48,47 @@ public class SummaryCsvMarshaller_Test extends TestCase
         marshaller = new SummaryCsvMarshaller();
         PackageSummary[] readSummaries = marshaller.read(tempFile);
         
-        assertNotNull("Read summaries were null", readSummaries);
-        assertEquals("Incorrect number of summaries read", 
+        Assert.assertNotNull("Read summaries were null", readSummaries);
+        Assert.assertEquals("Incorrect number of summaries read", 
                      summaries.length, readSummaries.length);
         
         for (int i = 0; i < summaries.length; i++)
         {
-            assertEquals("Incorrect run date read", 
+            Assert.assertEquals("Incorrect run date read", 
                          summaries[i].getRunDate(), readSummaries[i].getRunDate());
             
-            assertEquals("Incorrect package name read", 
+            Assert.assertEquals("Incorrect package name read", 
                          summaries[i].getPackageName(), readSummaries[i].getPackageName());
             
-            assertEquals("Incorrect line coverage read", 
+            Assert.assertEquals("Incorrect line coverage read", 
                          summaries[i].getLineCoverage(), readSummaries[i].getLineCoverage(), DOUBLE_FIELD_TOLERANCE);
             
-            assertEquals("Incorrect branch coverage read", 
+            Assert.assertEquals("Incorrect branch coverage read", 
                          summaries[i].getBranchCoverage(), readSummaries[i].getBranchCoverage(), DOUBLE_FIELD_TOLERANCE);
             
-            assertEquals("Incorrect Line count read", 
+            Assert.assertEquals("Incorrect Line count read", 
                          summaries[i].getLineCount(), readSummaries[i].getLineCount());
             
-            assertEquals("Incorrect Info count read", 
+            Assert.assertEquals("Incorrect Info count read", 
                          summaries[i].getInfoCount(), readSummaries[i].getInfoCount());
             
-            assertEquals("Incorrect Low count read", 
+            Assert.assertEquals("Incorrect Low count read", 
                          summaries[i].getLowCount(), readSummaries[i].getLowCount());
             
-            assertEquals("Incorrect Moderate cound read", 
+            Assert.assertEquals("Incorrect Moderate cound read", 
                          summaries[i].getModerateCount(), readSummaries[i].getModerateCount());
             
-            assertEquals("Incorrect Significant count read", 
+            Assert.assertEquals("Incorrect Significant count read", 
                          summaries[i].getSignificantCount(), readSummaries[i].getSignificantCount());
             
-            assertEquals("Incorrect High count read", 
+            Assert.assertEquals("Incorrect High count read", 
                          summaries[i].getHighCount(), readSummaries[i].getHighCount());
         }
         
         tempFile.delete();
     }
     
+    @Test
     public void testTruncatedAndBadData() throws Exception
     {
         File tempFile = File.createTempFile("SummaryCsvMarshaller_Test", "csv");
@@ -123,8 +123,8 @@ public class SummaryCsvMarshaller_Test extends TestCase
         marshaller = new SummaryCsvMarshaller();
         PackageSummary[] readSummaries = marshaller.read(tempFile);
 
-        assertNotNull("Read summaries were null", readSummaries);
-        assertEquals("Incorrect number of summaries read", 
+        Assert.assertNotNull("Read summaries were null", readSummaries);
+        Assert.assertEquals("Incorrect number of summaries read", 
                      2, readSummaries.length);        
     }
 

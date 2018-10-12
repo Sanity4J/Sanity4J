@@ -5,8 +5,10 @@ import com.github.sanity4j.util.Tool;
 /**
  * JaCoCoRunner - work unit which produces a JaCoCo report.
  * 
- * Note: JaCoCo CLI is coming in a pending pull request - https://github.com/jacoco/jacoco/pull/525 . For now, we use the API directly
-* 
+ * This needs to be re-written to use the new JaCoCo CLI ( https://github.com/jacoco/jacoco/pull/525 ).
+ * Full documentation is available at https://www.jacoco.org/jacoco/trunk/doc/cli.html
+ * For now, we use the API directly
+ * 
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.8
  */

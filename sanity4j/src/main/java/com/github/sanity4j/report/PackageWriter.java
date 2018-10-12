@@ -59,7 +59,7 @@ public class PackageWriter
     /** The tools to include in the tool summary. */
     private static final int[] TOOLS = 
     {
-        Diagnostic.SOURCE_FINDBUGS,
+        Diagnostic.SOURCE_SPOTBUGS,
         Diagnostic.SOURCE_PMD,
         Diagnostic.SOURCE_PMD_CPD,
         Diagnostic.SOURCE_CHECKSTYLE,
@@ -168,7 +168,8 @@ public class PackageWriter
             Collections.sort(packageSources, 
                 new Comparator<String>()
                 {
-                    public int compare(final String obj1, final String obj2)
+                    @Override
+                  public int compare(final String obj1, final String obj2)
                     {
                         String name1 = obj1.substring(obj1.lastIndexOf(File.separatorChar) + 1);
                         String name2 = obj2.substring(obj2.lastIndexOf(File.separatorChar) + 1);

@@ -244,7 +244,7 @@
 				</xsl:attribute>
 
 				<xsl:choose>
-				  <xsl:when test="(@tool = 'PMD' or @tool = 'Findbugs')">
+				  <xsl:when test="(@tool = 'PMD' or @tool = 'SpotBugs')">
 					<a>
 						<xsl:attribute name="href">
 							<xsl:text>javascript:popupwindow('</xsl:text><xsl:value-of select="concat(/packageByRule/@pathToRoot, 'rules/', translate(@tool, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '/', @name)"/><xsl:text>.html');</xsl:text>

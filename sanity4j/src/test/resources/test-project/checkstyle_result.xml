@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="4.4">
-    <file name="src/package/ClassOne.java">
+    <file name="packagg/ClassOne.java">
         <error line="11" column="111" severity="warning" message="message text1" source="rule1"/>
     </file>
-    <file name="src/package/subpackage1/ClassTwo.java">
+    <file name="packagg/subpackage1/ClassTwo.java">
         <error line="22" column="222" severity="warning" message="message text2" source="rule2"/>
         <error line="33" column="333" severity="warning" message="message text3" source="rule3"/>
     </file>
-    <file name="src/package/subpackage2/ClassThree.java">
+    <file name="packagg/subpackage2/ClassThree.java">
         <error line="44" column="444" severity="warning" message="message text4" source="rule4"/>
         <error line="55" column="555" severity="warning" message="message text5" source="rule5"/>
     </file>
-    <file name="src/package/subpackage2/ClassFour.java">
+    <file name="packagg/subpackage2/ClassFour.java">
         <error line="66" column="666" severity="warning" message="message text6" source="rule6"/>
     </file>
 </checkstyle>

@@ -1,0 +1,8 @@
+--------------
+Sanity4J 1.8.2
+--------------
+
+Changes:
+
+ - Dropped support for old/dead tools (PMD 4.x, Cobertura, Findbugs). 
+ - Added support for Spotbugs to replace Findbugs.

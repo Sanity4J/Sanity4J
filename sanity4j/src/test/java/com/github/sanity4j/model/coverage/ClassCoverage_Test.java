@@ -1,8 +1,8 @@
 package com.github.sanity4j.model.coverage; 
 
-import com.github.sanity4j.model.coverage.ClassCoverage;
-
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /** 
  * ClassCoverage_Test - unit tests for ClassCoverage. 
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * @author Yiannis Paschalidis 
  * @since Sanity4J 1.0
  */
-public class ClassCoverage_Test extends TestCase
+public class ClassCoverage_Test
 {
     /** The ClassCoverage to be tested. */
     private ClassCoverage coverage;
@@ -18,6 +18,7 @@ public class ClassCoverage_Test extends TestCase
     /** A dummy string. */
     private static final String DUMMY_STRING = "dummy";
     
+    @Before
     public void setUp()
     {
         coverage = new ClassCoverage(DUMMY_STRING);
@@ -27,83 +28,91 @@ public class ClassCoverage_Test extends TestCase
         coverage.addLineCoverage(124, 2, false);
     }
     
+    @Test
     public void testConstructor()
     {
         String className = "ClassCoverage_Test"; 
         coverage = new ClassCoverage(className);
         
-        assertEquals("incorrect class name", className, coverage.getClassName());
+        Assert.assertEquals("incorrect class name", className, coverage.getClassName());
     }
     
+    @Test
     public void testBranchCoverageAccessors()
     {
         double branchCoverage = 12.3;
         
         coverage.setBranchCoverage(branchCoverage);        
-        assertEquals("branchCoverage accessor incorrect", branchCoverage, coverage.getBranchCoverage(), 0.0);
+        Assert.assertEquals("branchCoverage accessor incorrect", branchCoverage, coverage.getBranchCoverage(), 0.0);
     }
     
+    @Test
     public void testLineCoverageAccessors()
     {
         double lineCoverage = 12.3;
         
         coverage.setLineCoverage(lineCoverage);        
-        assertEquals("lineCoverage accessor incorrect", lineCoverage, coverage.getLineCoverage(), 0.0);
+        Assert.assertEquals("lineCoverage accessor incorrect", lineCoverage, coverage.getLineCoverage(), 0.0);
     }
     
+    @Test
     public void testGetInvocationsForLine()
     {
-        assertEquals("Incorrect invocations returned for empty coverage", 
+        Assert.assertEquals("Incorrect invocations returned for empty coverage", 
                      -1, new ClassCoverage(DUMMY_STRING).getInvocationsForLine(1));
         
-        assertEquals("Incorrect invocations returned for line 121", 
+        Assert.assertEquals("Incorrect invocations returned for line 121", 
                      0, coverage.getInvocationsForLine(121));
         
-        assertEquals("Incorrect invocations returned for line 122", 
+        Assert.assertEquals("Incorrect invocations returned for line 122", 
                      0, coverage.getInvocationsForLine(122));
         
-        assertEquals("Incorrect invocations returned for line 123", 
+        Assert.assertEquals("Incorrect invocations returned for line 123", 
                      1, coverage.getInvocationsForLine(123));
         
-        assertEquals("Incorrect invocations returned for line 124", 
+        Assert.assertEquals("Incorrect invocations returned for line 124", 
                      2, coverage.getInvocationsForLine(124));
         
-        assertEquals("Incorrect invocations returned for line 125", 
+        Assert.assertEquals("Incorrect invocations returned for line 125", 
                      -1, coverage.getInvocationsForLine(125));
     }
     
+    @Test
     public void testGetLineCount()
     {
-        assertEquals("Incorrect line count returned for empty coverage", 
+        Assert.assertEquals("Incorrect line count returned for empty coverage", 
                      0, new ClassCoverage(DUMMY_STRING).getLineCount());
         
-        assertEquals("Incorrect line count returned", 
+        Assert.assertEquals("Incorrect line count returned", 
                      4, coverage.getLineCount());
     }
     
+    @Test
     public void testGetCoveredLineCount()
     {
-        assertEquals("Incorrect covered line count returned for empty coverage", 
+        Assert.assertEquals("Incorrect covered line count returned for empty coverage", 
                      0, new ClassCoverage(DUMMY_STRING).getCoveredLineCount());
         
-        assertEquals("Incorrect covered line count returned", 
+        Assert.assertEquals("Incorrect covered line count returned", 
                      2, coverage.getCoveredLineCount());
     }
     
+    @Test
     public void testGetBranchCount()
     {
-        assertEquals("Incorrect branch count returned for empty coverage", 
+        Assert.assertEquals("Incorrect branch count returned for empty coverage", 
                      0, new ClassCoverage(DUMMY_STRING).getBranchCount());
         
-        assertEquals("Incorrect branch count returned", 2, coverage.getBranchCount());
+        Assert.assertEquals("Incorrect branch count returned", 2, coverage.getBranchCount());
     }
     
+    @Test
     public void testGetCoveredBranchCount()
     {
-        assertEquals("Incorrect covered branch count returned for empty coverage", 
+        Assert.assertEquals("Incorrect covered branch count returned for empty coverage", 
                      0, new ClassCoverage(DUMMY_STRING).getCoveredBranchCount());
         
-        assertEquals("Incorrect covered branch count returned", 
+        Assert.assertEquals("Incorrect covered branch count returned", 
                      1, coverage.getCoveredBranchCount());
     }    
 }

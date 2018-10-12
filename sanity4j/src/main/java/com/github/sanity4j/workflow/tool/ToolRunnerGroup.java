@@ -44,14 +44,14 @@ public final class ToolRunnerGroup extends WorkUnitGroup
             
             // Special case for coverage targets - only run them if a coverage data file has been provided
             // TODO: Generalise this to properties file to include cases where source and/or classes are not available
-            // ie. CheckStyle, PMD & PMD-CPD require source, FindBugs requires classes & libs.
-            if ((Tool.COBERTURA.equals(tool) || Tool.JACOCO.equals(tool)) && config.getCoverageDataFile() == null)
+            // ie. CheckStyle, PMD & PMD-CPD require source, SpotBugs requires classes & libs.
+            if (Tool.JACOCO.equals(tool) && config.getCoverageDataFile() == null)
             {
                 String message = tool.getName() + " included in tools to run, but no coverage file available - skipping.";
                 QaLogger.getInstance().warn(message);
                 continue;
             }
-            else if ((Tool.COBERTURA_MERGE.equals(tool) || Tool.JACOCO_MERGE.equals(tool)) && config.getCoverageDataFileCount() <= 1)
+            else if (Tool.JACOCO_MERGE.equals(tool) && config.getCoverageDataFileCount() <= 1)
             {
                 String message = tool.getName() + " not required.";
                 QaLogger.getInstance().info(message);

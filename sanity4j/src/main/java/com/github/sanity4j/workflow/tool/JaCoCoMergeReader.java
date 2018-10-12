@@ -17,19 +17,19 @@ public class JaCoCoMergeReader implements ResultReader
 	/** The properties used to configure this {@link ResultReader}. */
 	private final Properties properties = new Properties();
 	
-	/** {@inheritDoc} */
-	@Override
-   public void setProperties(final Properties properties) 
-	{
-		this.properties.putAll(properties);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void setProperties(final Properties properties) 
+    {
+        this.properties.putAll(properties);
+    }
 
     /**
      * Do nothing.
      * @param resultFile the result file.
      */
     @Override
-   public void setResultFile(final File resultFile)
+    public void setResultFile(final File resultFile)
     {
         // Do nothing.
     }
@@ -39,7 +39,7 @@ public class JaCoCoMergeReader implements ResultReader
      * @param stats the extract stats.
      */
     @Override
-   public void setStats(final ExtractStats stats)
+    public void setStats(final ExtractStats stats)
     {
         // Do nothing.
     }
@@ -48,7 +48,7 @@ public class JaCoCoMergeReader implements ResultReader
      * @return null
      */
     @Override
-   public String getDescription()
+    public String getDescription()
     {
         return null;
     }
@@ -57,7 +57,7 @@ public class JaCoCoMergeReader implements ResultReader
      * Do nothing.
      */
     @Override
-   public void run()
+    public void run()
     {
         // Do nothing.
     }

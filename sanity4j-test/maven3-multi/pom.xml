@@ -99,7 +99,7 @@
                 <configuration>
                     <aggregate>true</aggregate>
 
-                    <findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
+                    <spotBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</spotBugsConfig>
                     <pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
                     <checkStyleConfig>$${sanity4j_checks.xml}</checkStyleConfig>
 

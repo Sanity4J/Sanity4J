@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sanity4j.util.FileUtil;
-
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * FileUtil_Test - unit tests for {@link FileUtil}. 
@@ -15,8 +14,9 @@ import junit.framework.TestCase;
  * @author Yiannis Paschalidis 
  * @since Sanity4J 1.0
  */
-public class FileUtil_Test extends TestCase
+public class FileUtil_Test
 {
+    @Test
     public void testCreateDir() throws IOException
     {
         File tempDir = getTempDir();
@@ -24,15 +24,16 @@ public class FileUtil_Test extends TestCase
         try
         {
             FileUtil.createDir(tempDir.getPath());
-            assertTrue("Failed to create directory", tempDir.isDirectory());
+            Assert.assertTrue("Failed to create directory", tempDir.isDirectory());
         }
         finally
         {
             tempDir.delete();
-            assertFalse("Failed to delete temp dir " + tempDir.getPath(), tempDir.exists());
+            Assert.assertFalse("Failed to delete temp dir " + tempDir.getPath(), tempDir.exists());
         }
     }
     
+    @Test
     public void testFindJars() throws IOException
     {
         List<String> jars = new ArrayList<String>();
@@ -41,7 +42,7 @@ public class FileUtil_Test extends TestCase
         try
         {
             tempDir.mkdirs();
-            assertTrue("Failed to create directory", tempDir.isDirectory());
+            Assert.assertTrue("Failed to create directory", tempDir.isDirectory());
             
             File jar1 = new File(tempDir, "file1.jar");
             jar1.createNewFile();
@@ -60,10 +61,10 @@ public class FileUtil_Test extends TestCase
             jar3.createNewFile();
             
             FileUtil.findJars(tempDir, jars);
-            assertEquals("Incorrect number of jars found", 3, jars.size());
-            assertTrue("Missing jar at top level", jars.contains(jar1.getPath()));
-            assertTrue("Missing jar at subdirectory level", jars.contains(jar2.getPath()));
-            assertTrue("Missing jar at nested subdirectory level", jars.contains(jar3.getPath()));
+            Assert.assertEquals("Incorrect number of jars found", 3, jars.size());
+            Assert.assertTrue("Missing jar at top level", jars.contains(jar1.getPath()));
+            Assert.assertTrue("Missing jar at subdirectory level", jars.contains(jar2.getPath()));
+            Assert.assertTrue("Missing jar at nested subdirectory level", jars.contains(jar3.getPath()));
         }
         finally
         {
@@ -71,7 +72,7 @@ public class FileUtil_Test extends TestCase
             if (tempDir.exists())
             {
                 FileUtil.delete(tempDir);
-                assertFalse("FileUtil.delete failed to delete " + tempDir, tempDir.exists());
+                Assert.assertFalse("FileUtil.delete failed to delete " + tempDir, tempDir.exists());
             }
         }
     }
@@ -81,7 +82,7 @@ public class FileUtil_Test extends TestCase
         // Alternatively, could read system property java.io.tmpdir ...
         File file = File.createTempFile("FileUtil_Test", "tmp");
         file.delete();
-        assertFalse("Failed to delete temp file " + file.getPath(), file.exists());
+        Assert.assertFalse("Failed to delete temp file " + file.getPath(), file.exists());
         
         return file;
     }

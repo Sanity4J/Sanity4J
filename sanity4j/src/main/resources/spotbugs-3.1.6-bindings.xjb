@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jxb:bindings version="1.0"
+	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<jxb:bindings schemaLocation="spotbugs-3.1.6.xsd" node="/xs:schema">	
+	
+		<jxb:schemaBindings>
+            <jxb:package name="com.github.sanity4j.gen.spotbugs_3_1_6"/>
+        </jxb:schemaBindings>
+		
+		<jxb:bindings multiple="true" node="//xs:attribute[@name='class']">
+		  <jxb:property name="className"/>  
+		</jxb:bindings> 
+		
+	</jxb:bindings>
+
+</jxb:bindings> 	

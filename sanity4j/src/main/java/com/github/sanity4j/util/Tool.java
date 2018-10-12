@@ -5,40 +5,38 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This is a class rather than an enumeration
- * as we need additional attributes.
+ * An enumeration of available tools.
  *
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public final class Tool
+public enum Tool
 {
     /** <a href="http://checkstyle.sourceforge.net/">Checkstyle</a> static source code analyser. */
-    public static final Tool CHECKSTYLE = new Tool("checkstyle", "Checkstyle");
-    /** <a href="http://cobertura.sourceforge.net/">Cobertura</a> datafile merge tool. */
-    public static final Tool COBERTURA_MERGE = new Tool("cobertura-merge", "Cobertura Merge");
-    /** <a href="http://cobertura.sourceforge.net/">Cobertura</a> unit test coverage analysis. */
-    public static final Tool COBERTURA = new Tool("cobertura", "Cobertura");
-    /** <a href="http://findbugs.sourceforge.net/">FindBugs</a> static byte-code analyser. */
-    public static final Tool FINDBUGS = new Tool("findbugs", "FindBugs");
-    /** <a href="http://www.jacoco.org/jacoco/index.html">JaCoco</a> datafile merge tool. */
-    public static final Tool JACOCO_MERGE = new Tool("jacoco-merge", "JaCoCo merge");
-    /** <a href="http://www.jacoco.org/jacoco/index.html">JaCoco</a> unit test coverage analysis. */
-    public static final Tool JACOCO = new Tool("jacoco", "JaCoCo");
-    /** <a href="http://pmd.sourceforge.net/">PMD</a> static source code analyser. */
-    public static final Tool PMD = new Tool("pmd", "PMD");
-    /** <a href="http://pmd.sourceforge.net/">PMD CPD</a> copy &amp; pasted source code detector. */
-    public static final Tool PMD_CPD = new Tool("pmd-cpd", "PMD CPD");
+    CHECKSTYLE("checkstyle", "Checkstyle"),
 
-    //public static final Tool JUNIT = new Tool("junit", "JUnit");
+    /** <a href="https://spotbugs.github.io/">SpotBugs</a> static byte-code analyser. */
+    SPOTBUGS("spotbugs", "SpotBugs"),
+    
+    /** <a href="http://www.jacoco.org/jacoco/index.html">JaCoco</a> datafile merge tool. */
+    JACOCO_MERGE("jacoco-merge", "JaCoCo merge"),
+    
+    /** <a href="http://www.jacoco.org/jacoco/index.html">JaCoco</a> unit test coverage analysis. */
+    JACOCO("jacoco", "JaCoCo"),
+    
+    /** <a href="http://pmd.sourceforge.net/">PMD</a> static source code analyser. */
+    PMD("pmd", "PMD"),
+    
+    /** <a href="http://pmd.sourceforge.net/">PMD CPD</a> copy &amp; pasted source code detector. */
+    PMD_CPD("pmd-cpd", "PMD CPD");
+
+    //JUNIT("junit", "JUnit");
 
     /** A Read-only list of all the tools which are supported by Sanity4J. */
     public static final List<Tool> TOOLS = Collections.unmodifiableList(Arrays.asList(new Tool[]
     {
        CHECKSTYLE,
-       COBERTURA_MERGE,
-       COBERTURA,
-       FINDBUGS,
+       SPOTBUGS,
        JACOCO,
        JACOCO_MERGE,
        //JUNIT,
@@ -77,7 +75,7 @@ public final class Tool
 
     /** @return the id */
     @Override
-   public String toString()
+    public String toString()
     {
         return toolId;
     }
@@ -98,25 +96,5 @@ public final class Tool
         }
 
         return null;
-    }
-
-    /**
-     * Indicates if the given object is equal to this tool.
-     * Two tools are considered equal if their IDs match.
-     * 
-     * @param obj the object to test for equality.
-     * @return true if the object is equal to this tool.
-     */
-    @Override
-   public boolean equals(final Object obj)
-    {
-        return obj instanceof Tool && ((Tool) obj).toolId.equals(toolId);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-   public int hashCode()
-    {
-        return toolId.hashCode();
     }
 }

@@ -70,8 +70,8 @@
     **
     **     products.dir
     **
-    **          The location of the products VOB containing the QA tools
-    **          (FindBugs, PMD, CheckStyle, etc.)
+    **          The path to the directory which contains the QA tools
+    **          (SpotBugs, PMD, CheckStyle, etc.)
     **
     **     report.dir
     **
@@ -80,7 +80,7 @@
     **
     **     coverage.data.file [optional]
     **
-    **          A coverage data file (e.g. cobertura.ser) if you want to
+    **          A coverage data file (e.g. jacoco.exec) if you want to
     **          include unit testing coverage data in your report.
     **
     **     summary.data.file [optional]
@@ -128,7 +128,7 @@
     **
     **          This element accepts nested configuration elements,
     **          describing parameters that are passed to the underlying tools
-    **          (CheckStyle, FindBugs, PMD, etc...) to configure the particular
+    **          (CheckStyle, SpotBugs, PMD, etc...) to configure the particular
     **          tool.
     **
     ** EXAMPLE:
@@ -219,8 +219,8 @@
     **
     **     products.dir
     **
-    **          The location of the products VOB containing the QA tools
-    **          (FindBugs, PMD, CheckStyle, etc.)
+    **          The path to the directory which contains the QA tools
+    **          (SpotBugs, PMD, CheckStyle, etc.)
     **
     **     report.dir
     **
@@ -229,7 +229,7 @@
     **
     **     coverage.merge.data.file [optional]
     **
-    **          A coverage data file (e.g. cobertura-merged.ser) if you want to
+    **          A coverage data file (e.g. jacoco-merged.exec) if you want to
     **          merge multiple coverage data files into single report.
     **
     **     summary.data.file [optional]
@@ -282,7 +282,7 @@
     **
     **          This element accepts nested configuration elements,
     **          describing parameters that are passed to the underlying tools
-    **          (CheckStyle, FindBugs, PMD, etc...) to configure the particular
+    **          (CheckStyle, SpotBugs, PMD, etc...) to configure the particular
     **          tool.
     **
     ** EXAMPLE:
@@ -290,7 +290,7 @@
     **     <sanity4j
     **         products.dir="${component.rootdir}/tools"
     **         report.dir="${build.dir}/reports"
-    **         coverage.merge.data.file="${build.dir}/cobertura-merged.ser">
+    **         coverage.merge.data.file="${build.dir}/jacoco.exec">
     **
     **         <source.path>
     **             <path path="${component.rootdir}"/>
@@ -307,8 +307,8 @@
     **             </path>
     **         </library.files>
     **         <coverage.data.files>
-    **             <path path="${build.dir}/yourProject1/cobertura.ser"/>
-    **             <path path="${build.dir}/yourProject2/cobertura.ser"/>
+    **             <path path="${build.dir}/yourProject1/jacoco.exec"/>
+    **             <path path="${build.dir}/yourProject2/jacoco.exec"/>
     **         </coverage.data.files>
     **         <configurations>
     **             <configuration tool="checkstyle" config="local-checkstyle.xml"/>
@@ -320,7 +320,7 @@
 
         <attribute name="products.dir"/>
         <attribute name="report.dir"/>
-        <attribute name="coverage.merge.data.file" default="cobertura-merged.ser"/>
+        <attribute name="coverage.merge.data.file" default="coverage-merged.exec"/>
         <attribute name="summary.data.file" default=""/>
         <attribute name="java.runtime" default="java"/>
         <attribute name="include.tool.output" default="false"/>

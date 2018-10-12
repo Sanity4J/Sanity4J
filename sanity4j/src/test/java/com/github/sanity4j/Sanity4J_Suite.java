@@ -1,5 +1,8 @@
 package com.github.sanity4j;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.github.sanity4j.model.coverage.ClassCoverage_Test;
 import com.github.sanity4j.model.coverage.Coverage_Test;
 import com.github.sanity4j.model.coverage.PackageCoverage_Test;
@@ -17,9 +20,6 @@ import com.github.sanity4j.util.JaxbMarshaller_Test;
 import com.github.sanity4j.util.PipeInputThread_Test;
 import com.github.sanity4j.util.StringUtil_Test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * This class is the <a href="http://www.junit.org">JUnit</a> TestSuite for the classes within
  * {@link com.github.sanity4j} package within the <b>Sanity4J</b> project.
@@ -27,40 +27,30 @@ import junit.framework.TestSuite;
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public class Sanity4J_Suite extends TestSuite
+@RunWith(Suite.class)
+@Suite.SuiteClasses
+({
+   Coverage_Test.class,
+   ClassCoverage_Test.class,
+   PackageCoverage_Test.class,
+   
+   Diagnostic_Test.class,
+   DiagnosticCategory_Test.class,
+   DiagnosticSet_Test.class,
+   
+   ChartFactory_Test.class,
+   ReportUtil_Test.class,
+   
+   SummaryCsvMarshaller_Test.class,
+   PackageSummary_Test.class,
+   
+   ExternalProcessRunner_Test.class,
+   ExtractStats_Test.class,
+   FileUtil_Test.class,
+   PipeInputThread_Test.class,
+   JaxbMarshaller_Test.class,
+   StringUtil_Test.class
+})
+public class Sanity4J_Suite
 {
-    /**
-     * Returns a JUnit TestSuite comprising of the tests for the {@link com.github.sanity4j} package within the <b>Sanity4J</b>
-     * library.
-     * 
-     * @return A JUnit TestSuite.
-     */
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite();
-        suite.setName(Sanity4J_Suite.class.getName());
-
-        suite.addTestSuite(Coverage_Test.class);
-        suite.addTestSuite(ClassCoverage_Test.class);
-        suite.addTestSuite(PackageCoverage_Test.class);
-        
-        suite.addTestSuite(Diagnostic_Test.class);
-        suite.addTestSuite(DiagnosticCategory_Test.class);
-        suite.addTestSuite(DiagnosticSet_Test.class);
-        
-        suite.addTestSuite(ChartFactory_Test.class);
-        suite.addTestSuite(ReportUtil_Test.class);
-        
-        suite.addTestSuite(SummaryCsvMarshaller_Test.class);
-        suite.addTestSuite(PackageSummary_Test.class);
-        
-        suite.addTestSuite(ExternalProcessRunner_Test.class);
-        suite.addTestSuite(ExtractStats_Test.class);
-        suite.addTestSuite(FileUtil_Test.class);
-        suite.addTestSuite(PipeInputThread_Test.class);
-        suite.addTestSuite(JaxbMarshaller_Test.class);
-        suite.addTestSuite(StringUtil_Test.class);
-        
-        return suite;
-    }
 }

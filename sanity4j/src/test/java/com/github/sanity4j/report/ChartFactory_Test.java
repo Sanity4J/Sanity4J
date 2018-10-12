@@ -5,10 +5,11 @@ import java.awt.image.PixelGrabber;
 import java.util.Arrays;
 import java.util.Date;
 
-import com.github.sanity4j.model.summary.PackageSummary;
-import com.github.sanity4j.report.ChartFactory;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import com.github.sanity4j.model.summary.PackageSummary;
 
 /**
  * <p>ChartFactory_Test - unit tests for ChartFactory.</p>
@@ -20,13 +21,15 @@ import junit.framework.TestCase;
  * @author Yiannis Paschalidis 
  * @since Sanity4J 1.0
  */
-public class ChartFactory_Test extends TestCase
+public class ChartFactory_Test
 {
     /** An empty set of package summaries, to ensure that there are no NPE, OOB etc. errors. */
     private final PackageSummary[] noSummary = new PackageSummary[0];
+    
     /** A set of two package summaries, for producing chart data. */
     private PackageSummary[] twoSummary;
-    
+
+    @Before
     public void setUp()
     {
         Date runDate1 = new Date();
@@ -48,47 +51,51 @@ public class ChartFactory_Test extends TestCase
         twoSummary = new PackageSummary[] { summary1, summary2 };
     }
     
+    @Test
     public void testCreateImageNoSummaryIdentical()
     {        
         int[] noSummaryAllPackages1 = createImage(noSummary, "");
         int[] noSummaryAllPackages2 = createImage(noSummary, "");
         
-        assertTrue("Images with identical data should be identical", 
+        Assert.assertTrue("Images with identical data should be identical", 
                    Arrays.equals(noSummaryAllPackages1, noSummaryAllPackages2));
     }
     
+    @Test
     public void testCreateImageNoSummaryDifferentPackages()
     {
         int[] noSummaryAllPackages = createImage(noSummary, "");
         int[] noSummaryAuPackage = createImage(noSummary, "au");
         
-        assertFalse("Images for different packages should never be identical", 
+        Assert.assertFalse("Images for different packages should never be identical", 
                    Arrays.equals(noSummaryAuPackage, noSummaryAllPackages));
     }
     
+    @Test
     public void testCreateImmageTwoSummaryIdentical()
     {
         int[] twoSummaryAllPackages1 = createImage(twoSummary, "");
         int[] twoSummaryAllPackages2 = createImage(twoSummary, "");
         
-        assertTrue("Images with identical data should be identical", 
+        Assert.assertTrue("Images with identical data should be identical", 
                    Arrays.equals(twoSummaryAllPackages1, twoSummaryAllPackages2));
     }
     
+    @Test
     public void testCreateImageTwoSummaryDifferentData()
     {
         // No data vs some data
         int[] noSummaryAllPackages = createImage(noSummary, "");
         int[] twoSummaryAllPackages = createImage(twoSummary, "");
         
-        assertFalse("Images with different data should not be identical", 
+        Assert.assertFalse("Images with different data should not be identical", 
                     Arrays.equals(noSummaryAllPackages, twoSummaryAllPackages));
         
         // Data vs changed data
         twoSummary[1].setHighCount(twoSummary[1].getHighCount() + 100);
         int[] twoSummaryAllPackages2 = createImage(twoSummary, "");
         
-        assertFalse("Images with different data should not be identical", 
+        Assert.assertFalse("Images with different data should not be identical", 
                     Arrays.equals(twoSummaryAllPackages, twoSummaryAllPackages2));        
     }
     
@@ -97,7 +104,7 @@ public class ChartFactory_Test extends TestCase
         BufferedImage image = ChartFactory.createImage(summaries, packageName);
         image.flush();
         
-        assertNotNull("Image should not be null", image);
+        Assert.assertNotNull("Image should not be null", image);
         return imageToBytes(image);
     }
     
@@ -121,7 +128,7 @@ public class ChartFactory_Test extends TestCase
         }
         catch (InterruptedException e)
         {
-            fail("Test interrupted whilst grabbing pixels");
+            Assert.fail("Test interrupted whilst grabbing pixels");
         }
         
         return rgba;

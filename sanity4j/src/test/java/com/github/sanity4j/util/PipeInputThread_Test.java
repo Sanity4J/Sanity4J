@@ -5,9 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.github.sanity4j.util.PipeInputThread;
-
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 /** 
  * PipeInputStream_Test - unit test for PipeInputStream.
@@ -15,13 +14,15 @@ import junit.framework.TestCase;
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public class PipeInputThread_Test extends TestCase
+public class PipeInputThread_Test
 {
     /** Should complete in far less than 1 second. */
     private static final int SLEEP_TIME = 100;
+    
     /** Retry count. */
     private static final int RETRY_COUNT = 10;
-    
+
+    @Test
     public void testPipeInput()
     {
         // Test with a fair amount of data that would 
@@ -49,13 +50,13 @@ public class PipeInputThread_Test extends TestCase
             }
             catch (InterruptedException e)
             {
-                fail("Interrupted");
+                Assert.fail("Interrupted");
             }
         }
         
         byte[] dataOut = baos.toByteArray();
         
-        assertEquals("Incorrect amount of data read", dataIn.length, dataOut.length);
-        assertTrue("Incorrect data read", Arrays.equals(dataIn, dataOut));
+        Assert.assertEquals("Incorrect amount of data read", dataIn.length, dataOut.length);
+        Assert.assertTrue("Incorrect data read", Arrays.equals(dataIn, dataOut));
     }
 }

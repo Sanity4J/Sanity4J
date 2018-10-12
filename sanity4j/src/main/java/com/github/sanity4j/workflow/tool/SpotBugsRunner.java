@@ -18,33 +18,34 @@ import com.github.sanity4j.util.Tool;
 import com.github.sanity4j.workflow.QAConfig;
 
 /**
- * FindBugsRunner - a work unit that runs FindBugs.
+ * SpotBugsRunner - a work unit that runs SpotBugs.
  *
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public class FindBugsRunner extends AbstractToolRunner
+public class SpotBugsRunner extends AbstractToolRunner
 {
-    /** The generated FindBugs project file. */
+    /** The generated SpotBugs project file. */
     private File projectFile = null;
 
     /**
-     * Creates a FindBugsRunner.
+     * Creates a SpotBugsRunner.
      */
-    public FindBugsRunner()
+    public SpotBugsRunner()
     {
-        super(Tool.FINDBUGS);
+        super(Tool.SPOTBUGS);
     }
 
     /**
-     * Runs FindBugs.
-     * @param commandLine the FindBugs command line.
+     * Runs SpotBugs.
+     * @param commandLine the SpotBugs command line.
      */
-    public void runTool(final String commandLine)
+    @Override
+   public void runTool(final String commandLine)
     {
         QAConfig config = getConfig();
         
-        File resultFile = config.getToolResultFile(Tool.FINDBUGS);
+        File resultFile = config.getToolResultFile(Tool.SPOTBUGS);
         FileUtil.createDir(resultFile.getParentFile().getPath());
 
         ByteArrayOutputStream stdout = null; 
@@ -75,7 +76,7 @@ public class FindBugsRunner extends AbstractToolRunner
             {
                 String out = new String(stdout.toByteArray());
                 String err = new String(stderr.toByteArray());
-                throw new QAException("FindBugs Command [" + commandLine + "] failed : [" + out  + "] [" + err + "]");
+                throw new QAException("SpotBugs Command [" + commandLine + "] failed : [" + out  + "] [" + err + "]");
             }
         }
         finally
@@ -86,9 +87,9 @@ public class FindBugsRunner extends AbstractToolRunner
     }
 
     /**
-     * Creates the FindBugs project file, which controls the FindBugs run.
+     * Creates the SpotBugs project file, which controls the SpotBugs run.
      */
-    private void createFindBugsProjectFile()
+    private void createSpotBugsProjectFile()
     {
         QAConfig config = getConfig();
         List<String> sourcePaths = Arrays.asList(new String[]{config.getCombinedSourceDir().getPath()});
@@ -101,67 +102,70 @@ public class FindBugsRunner extends AbstractToolRunner
         libraryPaths.add(config.getCombinedLibraryDir().getPath());
         FileUtil.findJars(config.getCombinedLibraryDir(), libraryPaths);
 
-        String xml = generateFindBugsProjectXml(sourcePaths, classPaths, libraryPaths);
+        String xml = generateSpotBugsProjectXml(sourcePaths, classPaths, libraryPaths);
 
         try
         {
-            projectFile = File.createTempFile("findbugsproject", ".fbp");
+            projectFile = File.createTempFile("spotbugsproject", ".fbp");
             FileUtil.writeToFile(xml, projectFile);
             projectFile.deleteOnExit();
         }
         catch (IOException e)
         {
-            throw new QAException("Failed to create FindBugs project file", e);
+            throw new QAException("Failed to create SpotBugs project file", e);
         }
     }
 
     /**
-     * Overridden to add FindBugs specific parameters to the map.
+     * Overridden to add SpotBugs specific parameters to the map.
      * @return a map of parameters to use for replacing configuration tokens.
      */
-    protected Map<String, String> getParameterMap()
+    @Override
+   protected Map<String, String> getParameterMap()
     {
         Map<String, String> map = super.getParameterMap();
         
         if (projectFile == null)
         {
-            createFindBugsProjectFile();
+            createSpotBugsProjectFile();
         }
 
-        map.put("findBugsProjectFile", projectFile.getPath());
+        map.put("spotBugsProjectFile", projectFile.getPath());
         
         return map;
     }
 
     /**
      * Overriden to remove the GUI jar from the class path, as we want to run the text UI.
-     * @return a list of paths to all the jars needed to run FindBugs.
+     * @return a list of paths to all the jars needed to run SpotBugs.
      */
-    protected List<String> getToolJars()
+    @Override
+   protected List<String> getToolJars()
     {
-        List<String> findbugsJars = super.getToolJars();
+        List<String> spotbugsJars = super.getToolJars();
 
-        for (Iterator<String> i = findbugsJars.iterator(); i.hasNext();)
+        for (Iterator<String> i = spotbugsJars.iterator(); i.hasNext();)
         {
-            if (i.next().endsWith("findbugsGUI.jar"))
+            if (i.next().endsWith("spotbugsGUI.jar"))
             {
                 i.remove();
             }
         }
 
-        return findbugsJars;
+        return spotbugsJars;
     }
 
     /**
      * @return the description of this WorkUnit
      */
-    public String getDescription()
+    @Override
+   public String getDescription()
     {
-        return "Running FindBugs";
+        return "Running SpotBugs";
     }
 
     /**
-     * Build the findbugs project file, as there doesn't seem to be a nicer way to run it.
+     * Build the spotbugs project file, as there doesn't seem to be a nicer way to run it.
      * The final XML will look like the following:
      * <pre>
      *   &lt;Project filename="unnamed project" projectName="unnamed project"&gt;
@@ -181,9 +185,9 @@ public class FindBugsRunner extends AbstractToolRunner
      * @param classPaths the class paths
      * @param libraryPaths the library paths
      *
-     * @return the FindBugs project xml for the given data
+     * @return the SpotBugs project xml for the given data
      */
-    private String generateFindBugsProjectXml(final List<String> sourcePaths,
+    private String generateSpotBugsProjectXml(final List<String> sourcePaths,
                                               final List<String> classPaths, final List<String> libraryPaths)
     {
         StringBuffer buf = new StringBuffer("<Project filename=\"unnamed project\" projectName=\"unnamed project\">\n");

@@ -218,16 +218,16 @@ public class RunQAMojo extends AbstractMavenReport
     private String checkStyleConfigClasspath;
 
     /**
-     * The configuration passed to the FindBugs ${sanity4j.tool.findbugs.command} as ${sanity4j.tool.findbugs.config}.
+     * The configuration passed to the SpotBugs ${sanity4j.tool.spotbugs.command} as ${sanity4j.tool.spotbugs.config}.
      */
     @Parameter    
-    private String findBugsConfig;
+    private String spotBugsConfig;
 
     /**
-     * The class path used by the configuration passed to the FindBugs ${sanity4j.tool.findbugs.command} as ${sanity4j.tool.findbugs.config}.
+     * The class path used by the configuration passed to the SpotBugs ${sanity4j.tool.spotbugs.command} as ${sanity4j.tool.spotbugs.config}.
      */
     @Parameter    
-    private String findBugsConfigClasspath;
+    private String spotBugsConfigClasspath;
 
     /**
      * The configuration passed to the PMD ${sanity4j.tool.pmd.command} as ${sanity4j.tool.pmd.config}.
@@ -562,11 +562,11 @@ public class RunQAMojo extends AbstractMavenReport
             qaConfig.setToolConfig(Tool.CHECKSTYLE.getId(), version, getCheckStyleConfig(), getCheckStyleConfigClasspath());
         }
 
-        if (getFindBugsConfig() != null)
+        if (getSpotBugsConfig() != null)
         {
-            String version = qaConfig.getToolVersion(Tool.FINDBUGS.getId());
-            qaConfig.setToolConfig(Tool.FINDBUGS.getId(), null, getFindBugsConfig(), getFindBugsConfigClasspath());
-            qaConfig.setToolConfig(Tool.FINDBUGS.getId(), version, getFindBugsConfig(), getFindBugsConfigClasspath());
+            String version = qaConfig.getToolVersion(Tool.SPOTBUGS.getId());
+            qaConfig.setToolConfig(Tool.SPOTBUGS.getId(), null, getSpotBugsConfig(), getSpotBugsConfigClasspath());
+            qaConfig.setToolConfig(Tool.SPOTBUGS.getId(), version, getSpotBugsConfig(), getSpotBugsConfigClasspath());
         }
 
         if (getPmdConfig() != null)
@@ -1182,19 +1182,19 @@ public class RunQAMojo extends AbstractMavenReport
     }
 
     /**
-     * @return The Fins Bugs Config.
+     * @return The SpotBugs Config.
      */
-    public String getFindBugsConfig() 
+    public String getSpotBugsConfig() 
     {
-        return findBugsConfig;
+        return spotBugsConfig;
     }
 
     /**
-     * @return The Find Bugs Config Classpath. 
+     * @return The SpotBugs Config Classpath. 
      */
-    public String getFindBugsConfigClasspath() 
+    public String getSpotBugsConfigClasspath() 
     {
-        return findBugsConfigClasspath;
+        return spotBugsConfigClasspath;
     }
 
     /**

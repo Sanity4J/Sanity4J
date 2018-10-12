@@ -1,10 +1,8 @@
 package com.github.sanity4j.model.coverage; 
 
-import com.github.sanity4j.model.coverage.ClassCoverage;
-import com.github.sanity4j.model.coverage.Coverage;
-import com.github.sanity4j.model.coverage.PackageCoverage;
-
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /** 
  * Coverage_Test - unit tests for {@link Coverage}. 
@@ -12,21 +10,22 @@ import junit.framework.TestCase;
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public class Coverage_Test extends TestCase
+public class Coverage_Test
 {
-	/** Dummy Package Name 1. */
+    /** Dummy Package Name 1. */
     private static final String PACKAGE_NAME_1 = "package.one";
-	/** Dummy Package Name 2. */
+    /** Dummy Package Name 2. */
     private static final String PACKAGE_NAME_2 = "package.two";
-	/** Dummy Class Name 1. */
+    /** Dummy Class Name 1. */
     private static final String CLASS_NAME_1 = PACKAGE_NAME_1 + ".DummyClass";
-	/** Dummy Class Name 2. */
+    /** Dummy Class Name 2. */
     private static final String CLASS_NAME_2 = PACKAGE_NAME_2 + ".AnotherDummyClass";
 
     /** The Coverage to be tested. */
-	private Coverage coverage;
-	
-	public void setUp()
+    private Coverage coverage;
+
+    @Before
+    public void setUp()
     {
         coverage = new Coverage();
 
@@ -45,85 +44,93 @@ public class Coverage_Test extends TestCase
         coverage.addPackage(packageCoverage);
     }
 
+    @Test
     public void testBranchCoverageAccessors()
     {
         double branchCoverage = 12.3;
 
         coverage.setBranchCoverage(branchCoverage);
-        assertEquals("branchCoverage accessor incorrect", branchCoverage, coverage.getBranchCoverage(), 0.0);
+        Assert.assertEquals("branchCoverage accessor incorrect", branchCoverage, coverage.getBranchCoverage(), 0.0);
     }
     
+    @Test
     public void testLineCoverageAccessors()
     {
         double lineCoverage = 12.3;
 
         coverage.setLineCoverage(lineCoverage);
-        assertEquals("lineCoverage accessor incorrect", lineCoverage, coverage.getLineCoverage(), 0.0);
+        Assert.assertEquals("lineCoverage accessor incorrect", lineCoverage, coverage.getLineCoverage(), 0.0);
     }
     
+    @Test
     public void testGetLineCount()
     {
-        assertEquals("Incorrect line count returned for empty coverage", 
+        Assert.assertEquals("Incorrect line count returned for empty coverage", 
                      0, new Coverage().getLineCount());
         
-        assertEquals("Incorrect line count returned", 
+        Assert.assertEquals("Incorrect line count returned", 
                      4, coverage.getLineCount());
     }
     
+    @Test
     public void testGetCoveredLineCount()
     {
-        assertEquals("Incorrect covered line count returned for empty coverage", 
+        Assert.assertEquals("Incorrect covered line count returned for empty coverage", 
                      0, new Coverage().getCoveredLineCount());
         
-        assertEquals("Incorrect covered line count returned", 
+        Assert.assertEquals("Incorrect covered line count returned", 
                      2, coverage.getCoveredLineCount());
     }
     
+    @Test
     public void testGetBranchCount()
     {
-        assertEquals("Incorrect branch count returned for empty coverage", 
+        Assert.assertEquals("Incorrect branch count returned for empty coverage", 
                      0, new Coverage().getBranchCount());
         
-        assertEquals("Incorrect branch count returned", 
+        Assert.assertEquals("Incorrect branch count returned", 
                      2, coverage.getBranchCount());
     }
     
+    @Test
     public void testGetCoveredBranchCount()
     {
-        assertEquals("Incorrect covered branch count returned for empty coverage", 
-        			 0, new Coverage().getBranchCount());
-        			 
-        assertEquals("Incorrect covered branch count returned", 
+        Assert.assertEquals("Incorrect covered branch count returned for empty coverage", 
+                     0, new Coverage().getBranchCount());
+                     
+        Assert.assertEquals("Incorrect covered branch count returned", 
                      1, coverage.getCoveredBranchCount());
     }
 
+    @Test
     public void testGetPackageCoverage()
     {
-        assertNull("Class coverage returned for empty coverage", 
+        Assert.assertNull("Class coverage returned for empty coverage", 
                    new Coverage().getPackageCoverage(PACKAGE_NAME_1));
         
-        assertNotNull("Class coverage for package 1 missing", 
+        Assert.assertNotNull("Class coverage for package 1 missing", 
                       coverage.getPackageCoverage(PACKAGE_NAME_1));
         
-        assertNotNull("Class coverage for package 2 missing", 
+        Assert.assertNotNull("Class coverage for package 2 missing", 
                       coverage.getPackageCoverage(PACKAGE_NAME_2));
         
-        assertNull("Class coverage returned for incorrect package name", 
+        Assert.assertNull("Class coverage returned for incorrect package name", 
                    coverage.getClassCoverage(PACKAGE_NAME_1 + PACKAGE_NAME_2));
     }
     
+    @Test
     public void testGetClassCoverage()
     {
-        assertNull("Class coverage returned for empty coverage", 
-        		   new Coverage().getClassCoverage(CLASS_NAME_1));
+        Assert.assertNull("Class coverage returned for empty coverage", 
+                   new Coverage().getClassCoverage(CLASS_NAME_1));
         
-        assertNotNull("Class coverage for class 1 missing", 
-        		      coverage.getClassCoverage(CLASS_NAME_1));
+        Assert.assertNotNull("Class coverage for class 1 missing", 
+                      coverage.getClassCoverage(CLASS_NAME_1));
         
-        assertNotNull("Class coverage for class 2 missing", 
-        		      coverage.getClassCoverage(CLASS_NAME_2));
+        Assert.assertNotNull("Class coverage for class 2 missing", 
+                      coverage.getClassCoverage(CLASS_NAME_2));
         
-        assertNull("Class coverage returned for incorrect class name", 
-        		   coverage.getClassCoverage(CLASS_NAME_1 + CLASS_NAME_2));
+        Assert.assertNull("Class coverage returned for incorrect class name", 
+                   coverage.getClassCoverage(CLASS_NAME_1 + CLASS_NAME_2));
     }
 }

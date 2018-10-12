@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sanity4j.util.FileUtil;
-import com.github.sanity4j.util.JaxbMarshaller;
-import com.github.sanity4j.util.QAException;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 import com.github.sanity4j.gen.checkstyle_4_4.Checkstyle;
 import com.github.sanity4j.gen.checkstyle_4_4.File;
 
@@ -19,7 +19,7 @@ import com.github.sanity4j.gen.checkstyle_4_4.File;
  * @author Yiannis Paschalidis
  * @since Sanity4J 1.0
  */
-public class JaxbMarshaller_Test extends TestCase
+public class JaxbMarshaller_Test
 {
     /** A temporary file to write the test data to. */
     private java.io.File tempFile;
@@ -38,76 +38,75 @@ public class JaxbMarshaller_Test extends TestCase
       + "    </file>\n"
       + "</checkstyle>\n";
 
-    @Override
+    @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         tempFile = java.io.File.createTempFile("JaxbMarshaller_Test", ".xml");
     }
 
-    @Override
+    @After
     public void tearDown() throws Exception
     {
-        super.tearDown();
-
         if (!tempFile.delete())
         {
             throw new IOException("Failed to delete temp file: " + tempFile.getPath());
         }
     }
 
+    @Test
     public void testUnmarshalMissingFile()
     {
         try
         {
             java.io.File file = new java.io.File("JaxbMarshaller_Test.nonExistantFile");
             JaxbMarshaller.unmarshal(file, TARGET_PACKAGE, "http://com.github.sanity4j/namespace/dummy");
-            fail("Should have thrown a QAException");
+            Assert.fail("Should have thrown a QAException");
         }
         catch (QAException expected)
         {
-            assertNotNull("Thrown exception should contain a message", expected.getMessage());
-            assertTrue("Throws exception should contain the original cause", expected.getCause() instanceof IOException);
+            Assert.assertNotNull("Thrown exception should contain a message", expected.getMessage());
+            Assert.assertTrue("Throws exception should contain the original cause", expected.getCause() instanceof IOException);
         }
     }
 
+    @Test
     public void testUnmarshallMalformedFile() throws IOException
     {
         try
         {
             FileUtil.writeToFile(XML.substring(0, XML.length() / 2), tempFile);
             JaxbMarshaller.unmarshal(tempFile, TARGET_PACKAGE, "http://com.github.sanity4j/namespace/dummy");
-            fail("Should have thrown a QAException");
+            Assert.fail("Should have thrown a QAException");
         }
         catch (QAException expected)
         {
-            assertNotNull("Thrown exception should contain a message", expected.getMessage());
-            assertNotNull("Throws exception should contain the original cause", expected.getCause());
+            Assert.assertNotNull("Thrown exception should contain a message", expected.getMessage());
+            Assert.assertNotNull("Throws exception should contain the original cause", expected.getCause());
         }
     }
 
+    @Test
     public void testUnmarshall() throws IOException
     {
         FileUtil.writeToFile(XML, tempFile);
 
         Object result = JaxbMarshaller.unmarshal(tempFile, TARGET_PACKAGE, "http://com.github.sanity4j/namespace/checkstyle-4.4");
 
-        assertNotNull("unmarshall returned null", result);
+        Assert.assertNotNull("unmarshall returned null", result);
 
-        assertTrue("Incorrect type unmarshalled",
+        Assert.assertTrue("Incorrect type unmarshalled",
                    Checkstyle.class.isAssignableFrom(result.getClass()));
 
         Checkstyle checkStyle = (Checkstyle) result;
 
-        assertEquals("Incorrect version field value unmarshalled",
+        Assert.assertEquals("Incorrect version field value unmarshalled",
                      new BigDecimal("4.4"), checkStyle.getVersion());
 
-        assertEquals("Incorrect number of files unmarshalled",
+        Assert.assertEquals("Incorrect number of files unmarshalled",
                      1, checkStyle.getFile().size());
 
         File file = checkStyle.getFile().get(0);
-        assertEquals("Incorrect file name value unmarshalled",
+        Assert.assertEquals("Incorrect file name value unmarshalled",
                      "/someDir/SomeJavaFile.java", file.getName());
 
         List<Object> errors = new ArrayList<Object>();
@@ -120,7 +119,7 @@ public class JaxbMarshaller_Test extends TestCase
             }
         }
 
-        assertEquals("Incorrect number of errors unmarshalled",
+        Assert.assertEquals("Incorrect number of errors unmarshalled",
                      3, errors.size());
     }
 }
