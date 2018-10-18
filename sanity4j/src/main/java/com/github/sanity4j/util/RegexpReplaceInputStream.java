@@ -2,7 +2,7 @@ package com.github.sanity4j.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -159,26 +159,19 @@ public class RegexpReplaceInputStream extends InputStream
      */
     private void updateMatchOffset()
     {
-        try
+        if (lookaheadRemaining > 0 && matchOffset == -1)
         {
-            if ((lookaheadRemaining > 0) && (matchOffset == -1))
+            String buffer = new String(lookahead, lookaheadOffset, lookaheadRemaining - lookaheadOffset, StandardCharsets.UTF_8);
+
+            Matcher matcher = pattern.matcher(buffer);
+
+            if (matcher.find() && matcher.start() < lookaheadLength)
             {
-                String buffer = new String(lookahead, lookaheadOffset, lookaheadRemaining - lookaheadOffset, "UTF-8");
-
-                Matcher matcher = pattern.matcher(buffer);
-
-                if (matcher.find() && matcher.start() < lookaheadLength)
-                {
-                    matchOffset = lookaheadOffset + matcher.start();
-                    matchFinishOffset = lookaheadOffset + matcher.end();
-                    
-                    replace = buffer.substring(matcher.start(), matcher.end()).replaceFirst(pattern.pattern(), replaceRegexp);
-                }
+                matchOffset = lookaheadOffset + matcher.start();
+                matchFinishOffset = lookaheadOffset + matcher.end();
+                
+                replace = buffer.substring(matcher.start(), matcher.end()).replaceFirst(pattern.pattern(), replaceRegexp);
             }
-        }
-        catch (UnsupportedEncodingException uue)
-        {
-            // Should never happen, java has to support UTF-8.
         }
     }
 
@@ -273,6 +266,7 @@ public class RegexpReplaceInputStream extends InputStream
      * @return The character read from the underlying stream, or -1 if we have reached the end of the stream.
      * @throws IOException if there is an error reading from the backing stream.
      */
+    @Override
     public int read() throws IOException
     {
         if (lookaheadOffset >= lookaheadLength)

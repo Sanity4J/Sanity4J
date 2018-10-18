@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import com.github.sanity4j.util.ExternalProcessRunner;
@@ -11,6 +12,7 @@ import com.github.sanity4j.util.FileUtil;
 import com.github.sanity4j.util.QAException;
 import com.github.sanity4j.util.QaLogger;
 import com.github.sanity4j.util.QaUtil;
+import com.github.sanity4j.util.StringUtil;
 import com.github.sanity4j.util.Tool;
 
 /**
@@ -56,16 +58,16 @@ public class PmdCpd5Runner extends AbstractToolRunner
                 throw new QAException("PMD CPD returned error code " + result);
             }
 
-            String stderrString = new String(stderr.toByteArray());
+            String stderrString = new String(stderr.toByteArray(), Charset.defaultCharset());
 
-            if (FileUtil.hasValue(stderrString))
+            if (!StringUtil.empty(stderrString))
             {
                 QaLogger.getInstance().error(stderrString);
             }
         }
         catch (IOException e)
         {
-            String err = new String(stderr.toByteArray());
+            String err = new String(stderr.toByteArray(), Charset.defaultCharset());
             throw new QAException("PMD CPD Command [" + commandLine + "] failed : [" + err + "]", e);
         }
         finally
@@ -103,6 +105,7 @@ public class PmdCpd5Runner extends AbstractToolRunner
     /**
      * @return the description of this WorkUnit.
      */
+    @Override
     public String getDescription()
     {
         return "Running PMD CPD";

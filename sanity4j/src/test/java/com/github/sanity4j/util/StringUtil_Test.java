@@ -7,8 +7,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.sanity4j.util.StringUtil;
-
 /**
  * StringUtil_Test - unit tests for {@link StringUtil}.
  * 

@@ -14,6 +14,7 @@ import com.github.sanity4j.util.FileUtil;
 import com.github.sanity4j.util.QAException;
 import com.github.sanity4j.util.QaLogger;
 import com.github.sanity4j.util.QaUtil;
+import com.github.sanity4j.util.StringUtil;
 import com.github.sanity4j.util.Tool;
 import com.github.sanity4j.workflow.QAConfig;
 
@@ -60,14 +61,14 @@ public class SpotBugsRunner extends AbstractToolRunner
 
             String stdoutString = new String(stdout.toByteArray());
 
-            if (FileUtil.hasValue(stdoutString))
+            if (!StringUtil.empty(stdoutString))
             {
                 QaLogger.getInstance().info(stdoutString);
             }
             
             String stderrString = new String(stderr.toByteArray());
 
-            if (FileUtil.hasValue(stderrString))
+            if (!StringUtil.empty(stderrString))
             {
                 QaLogger.getInstance().error(stderrString);
             }
@@ -190,7 +191,7 @@ public class SpotBugsRunner extends AbstractToolRunner
     private String generateSpotBugsProjectXml(final List<String> sourcePaths,
                                               final List<String> classPaths, final List<String> libraryPaths)
     {
-        StringBuffer buf = new StringBuffer("<Project filename=\"unnamed project\" projectName=\"unnamed project\">\n");
+        StringBuilder buf = new StringBuilder("<Project filename=\"unnamed project\" projectName=\"unnamed project\">\n");
 
         for (int i = 0; i < classPaths.size(); i++)
         {

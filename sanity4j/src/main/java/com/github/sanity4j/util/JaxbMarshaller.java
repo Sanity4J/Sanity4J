@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -54,24 +55,24 @@ public final class JaxbMarshaller
             fis = new FileInputStream(file);
             InputStream stream = namespace == null ? fis : new RegexpReplaceInputStream(fis, "<([^!?])([^>]*)>", "<$1$2 xmlns=\"" + namespace + "\">");
 
-            //Create an XMLReader to use with our filter
+            // Create an XMLReader to use with our filter
             XMLReader reader = XMLReaderFactory.createXMLReader();
 
-            // since DNS can be be flaky (or disabled in some organisations), we want to ignore all DTDs etc.        
+            // Since DNS can be be flaky (or disabled in some organisations), we want to ignore all DTDs etc.        
             reader.setEntityResolver(new EntityResolver() 
             {
-                public InputSource resolveEntity(final String publicId, final String systemId)
-                throws SAXException, java.io.IOException
+                @Override
+                public InputSource resolveEntity(final String publicId, final String systemId) throws SAXException, IOException
                 {
-                    // this deactivates all DTDs
-                    return new InputSource(new ByteArrayInputStream("<?xml version='1.0' encoding='UTF-8'?>".getBytes()));
+                    // This deactivates all DTDs
+                    return new InputSource(new ByteArrayInputStream("<?xml version='1.0' encoding='UTF-8'?>".getBytes(StandardCharsets.UTF_8)));
                 }
             });               
 
-            //Create a SAXSource specifying the filter
+            // Create a SAXSource specifying the filter
             SAXSource source = new SAXSource(reader, new InputSource(stream));
 
-            //Do unmarshalling
+            // Do unmarshalling
             JAXBContext jaxbContext = JAXBContext.newInstance(pkg, JaxbMarshaller.class.getClassLoader());              
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             return unmarshaller.unmarshal(source);

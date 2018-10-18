@@ -73,15 +73,8 @@ public final class QaApp extends JFrame
     /** Controls whether to open the report on successful completion. */
     private final JCheckBox openReportOnCompletion = new JCheckBox("Open report on completion");
     
-    ///** The button which displays the {@link QaConfigFrame}. */
-    //private final JButton advancedButton = new JButton("Advanced");
-    
     /** The configuration used by the sanity4j application. */
     private final QAProcessor processor = new QAProcessor();
-    
-    // Disable the advanced button for now
-    ///** A frame used to modify the {@link QAConfig}. */
-    //private final QaConfigFrame qaConfigFrame = new QaConfigFrame(processor);
     
     /** The button which starts the analysis. */
     private final JButton runButton = new JButton("Analyse");
@@ -115,23 +108,9 @@ public final class QaApp extends JFrame
             }
         });
         
-        // Disable the "Advanced" button for now.
-        //advancedButton.addActionListener(new ActionListener()
-        //{
-        //    public void actionPerformed(final ActionEvent event)
-        //    {
-        //        if (!validateInput())
-        //        {
-        //            return;
-        //        }
-        //
-        //        saveConfig();
-        //        qaConfigFrame.setVisible(true);
-        //    }
-        //});
-        
         runButton.addActionListener(new ActionListener()
         {
+            @Override
             public void actionPerformed(final ActionEvent event)
             {
                 runQA();
@@ -190,9 +169,6 @@ public final class QaApp extends JFrame
         
         add(new FieldLabel("Summary data CSV export file", false), 0, gridy, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
         add(summaryOutputFile, 1, gridy++, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
-        
-        // Disable the "Advanced" button for now.
-        //add(advancedButton, 0, gridy++, 2, 1, GridBagConstraints.EAST, GridBagConstraints.NONE); 
         
         try
         {

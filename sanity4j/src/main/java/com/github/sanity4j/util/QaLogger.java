@@ -91,7 +91,7 @@ public abstract class QaLogger
         throwable.printStackTrace(new PrintWriter(writer));        
         String stackTrace = writer.toString();
         
-        StringBuffer msgBuffer = new StringBuffer();        
+        StringBuilder msgBuffer = new StringBuilder();        
         msgBuffer.append(message);
         msgBuffer.append('\n');
         msgBuffer.append(throwable.getMessage());

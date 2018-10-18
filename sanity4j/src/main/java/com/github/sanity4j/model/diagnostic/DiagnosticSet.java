@@ -1,11 +1,11 @@
 package com.github.sanity4j.model.diagnostic; 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 /** 
  * DiagnosticSet a set of Diagnostics.
@@ -38,12 +38,9 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         if (diagnosticsByFileName == null)
         {
             diagnosticsByFileName = new HashMap<String, List<Diagnostic>>();
-            final int numDiagnositcs = diagnostics.size();
 
-            for (int i = 0; i < numDiagnositcs; i++)
+            for (Diagnostic diagnostic : diagnostics)
             {
-                Diagnostic diagnostic = diagnostics.get(i);
-
                 if (diagnostic.getFileName() != null)
                 {
                     String fileName = diagnostic.getFileName();
@@ -55,7 +52,7 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         return diagnosticsByFileName;
     }
 
-	/**
+    /**
      * @return the current Lists of Diagnostics, keyed by the class name
      */
     public Map<String, List<Diagnostic>> getDiagnosticsByClassName()
@@ -64,15 +61,13 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         if (diagnosticsByClassName == null)
         {
             diagnosticsByClassName = new HashMap<String, List<Diagnostic>>();
-            final int numDiagnositcs = diagnostics.size();
 
-            for (int i = 0; i < numDiagnositcs; i++)
+            for (Diagnostic diagnostic : diagnostics)
             {
-                Diagnostic diagnostic = diagnostics.get(i);
-
-                if (diagnostic.getClassName() != null)
+                String className = diagnostic.getClassName();
+               
+                if (className != null)
                 {
-                    String className = diagnostic.getClassName();
                     addToMapList(diagnosticsByClassName, className, diagnostic);
                 }
             }
@@ -81,7 +76,7 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         return diagnosticsByClassName;
     }
 
-	/**
+    /**
      * @return the current Lists of Diagnostics, keyed by package
      */
     public Map<String, List<Diagnostic>> getDiagnosticsByPackageName()
@@ -90,12 +85,9 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         if (diagnosticsByPackageName == null)
         {
             diagnosticsByPackageName = new HashMap<String, List<Diagnostic>>();
-            final int numDiagnositcs = diagnostics.size();
 
-            for (int i = 0; i < numDiagnositcs; i++)
+            for (Diagnostic diagnostic : diagnostics)
             {
-                Diagnostic diagnostic = diagnostics.get(i);
-
                 if (diagnostic.getClassName() != null)
                 {
                     String pkg = diagnostic.getClassName();
@@ -112,8 +104,8 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         return diagnosticsByPackageName;
     }
-	
-	/**
+   
+    /**
      * @return the current Lists of Diagnostics, keyed by severity
      */
     public Map<String, List<Diagnostic>> getDiagnosticsBySeverity()
@@ -122,12 +114,9 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         if (diagnosticsBySeverity == null)
         {
             diagnosticsBySeverity = new HashMap<String, List<Diagnostic>>();
-            final int numDiagnositcs = diagnostics.size();
 
-            for (int i = 0; i < numDiagnositcs; i++)
+            for (Diagnostic diagnostic : diagnostics)
             {
-                Diagnostic diagnostic = diagnostics.get(i);
-
                 String severity = String.valueOf(diagnostic.getSeverity());
                 addToMapList(diagnosticsBySeverity, severity, diagnostic);
             }
@@ -136,7 +125,7 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         return diagnosticsBySeverity;
     }
 
-	/**
+    /**
      * @return the current Lists of Diagnostics, keyed by tool
      */
     public Map<String, List<Diagnostic>> getDiagnosticsByTool()
@@ -145,12 +134,9 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         if (diagnosticsByTool == null)
         {
             diagnosticsByTool = new HashMap<String, List<Diagnostic>>();
-            final int numDiagnositcs = diagnostics.size();
 
-            for (int i = 0; i < numDiagnositcs; i++)
+            for (Diagnostic diagnostic : diagnostics)
             {
-                Diagnostic diagnostic = diagnostics.get(i);
-
                 String tool = String.valueOf(diagnostic.getSource());
                 addToMapList(diagnosticsByTool, tool, diagnostic);
             }
@@ -158,8 +144,8 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         return diagnosticsByTool;
     }
-	
-	/**
+
+    /**
      * Adds the given diagnostic to the set of diagnostics.
      * 
      * @param diagnostic the diagnostic to add.
@@ -171,15 +157,15 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
             diagnostics.add(diagnostic);
         }
     }
-	
-	/**
-	 * Utility method to add a Diagnostic to a list of Diagnostics in a Map.
-	 * 
-	 * @param map the map to add to
-	 * @param key the map key containing the list
-	 * @param diag the Diagnostic to add
-	 */
-	private void addToMapList(final Map<String, List<Diagnostic>> map, final String key, final Diagnostic diag)
+
+    /**
+     * Utility method to add a Diagnostic to a list of Diagnostics in a Map.
+     * 
+     * @param map the map to add to
+     * @param key the map key containing the list
+     * @param diag the Diagnostic to add
+     */
+    private void addToMapList(final Map<String, List<Diagnostic>> map, final String key, final Diagnostic diag)
     {
         List<Diagnostic> list = map.get(key);
 
@@ -191,20 +177,20 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         list.add(diag);
     }
-	
-	/**
-	 * Returns the diagnostics obtained from the given tool.
-	 * 
-	 * @param tool the tool, see Diagnostic.SOURCE_*
-	 * 
-	 * @return the set of diagnostics for the given tool, may be empty
-	 */
-	public DiagnosticSet getDiagnosticsForTool(final int tool)
+
+    /**
+     * Returns the diagnostics obtained from the given tool.
+     * 
+     * @param tool the tool, see Diagnostic.SOURCE_*
+     * 
+     * @return the set of diagnostics for the given tool, may be empty
+     */
+    public DiagnosticSet getDiagnosticsForTool(final int tool)
     {
         // No-op for all
         if (tool == Diagnostic.SOURCE_ALL)
         {
-            return (DiagnosticSet) clone();
+            return clone();
         }
 
         DiagnosticSet subset = new DiagnosticSet();
@@ -213,10 +199,8 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         if (list != null)
         {
-            for (int i = 0; i < list.size(); i++)
+            for (Diagnostic diagnostic : list)
             {
-                Diagnostic diagnostic = list.get(i);
-
                 if (diagnostic.getSource() == tool)
                 {
                     subset.diagnostics.add(diagnostic);
@@ -225,21 +209,21 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         }
 
         return subset;
-    }		
+    }   
 
-	/**
-	 * Returns the diagnostics with the given severity.
-	 * 
-	 * @param severity the severity, see Diagnostic.SEVERITY_*
-	 * 
-	 * @return the set of diagnostics for the given severity, may be empty
-	 */
-	public DiagnosticSet getDiagnosticsForSeverity(final int severity)
+    /**
+     * Returns the diagnostics with the given severity.
+     * 
+     * @param severity the severity, see Diagnostic.SEVERITY_*
+     * 
+     * @return the set of diagnostics for the given severity, may be empty
+     */
+    public DiagnosticSet getDiagnosticsForSeverity(final int severity)
     {
         // No-op for all
         if (severity == Diagnostic.SEVERITY_ALL)
         {
-            return (DiagnosticSet) clone();
+            return clone();
         }
 
         DiagnosticSet subset = new DiagnosticSet();
@@ -248,10 +232,8 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         if (list != null)
         {
-            for (int i = 0; i < list.size(); i++)
+            for (Diagnostic diagnostic : list)
             {
-                Diagnostic diagnostic = list.get(i);
-
                 if (diagnostic.getSeverity() == severity)
                 {
                     subset.diagnostics.add(diagnostic);
@@ -260,29 +242,29 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         }
 
         return subset;
-    }		
+    }      
 
-	/**
-	 * Returns the diagnostics for the given package and sub-packages.
-	 * 
-	 * @param packageName the package name
-	 * 
-	 * @return the set of diagnostics for the given package and sub-packages
-	 */
-	public DiagnosticSet getDiagnosticsForPackage(final String packageName)
+    /**
+     * Returns the diagnostics for the given package and sub-packages.
+     * 
+     * @param packageName the package name
+     * 
+     * @return the set of diagnostics for the given package and sub-packages
+     */
+    public DiagnosticSet getDiagnosticsForPackage(final String packageName)
     {
         return getDiagnosticsForPackage(packageName, true);
     }
-	
-	/**
-	 * Returns the diagnostics for the given package, and optionally, sub-packages.
-	 * 
-	 * @param packageName the package name
-	 * @param includeSubpackages if true, also include diagnostics for sub-packages 
-	 * 
-	 * @return the set of diagnostics for the given package
-	 */
-	public DiagnosticSet getDiagnosticsForPackage(final String packageName, 
+
+   /**
+    * Returns the diagnostics for the given package, and optionally, sub-packages.
+    * 
+    * @param packageName the package name
+    * @param includeSubpackages if true, also include diagnostics for sub-packages 
+    * 
+    * @return the set of diagnostics for the given package
+    */
+   public DiagnosticSet getDiagnosticsForPackage(final String packageName, 
                                                   final boolean includeSubpackages)
     {
         DiagnosticSet subset = new DiagnosticSet();
@@ -291,10 +273,8 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         if (list != null)
         {
-            for (int i = 0; i < list.size(); i++)
+            for (Diagnostic diag : list)
             {
-                Diagnostic diag = list.get(i);
-
                 if (includeSubpackages || packageName.equals(diag.getPackageName()))
                 {
                     subset.diagnostics.add(diag);
@@ -305,14 +285,14 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
         return subset;
     }
 
-	/**
-	 * Returns the diagnostics for the given file.
-	 * 
-	 * @param fileName the name of the file.
-	 * 
-	 * @return the set of diagnostics for the given file.
-	 */
-	public DiagnosticSet getDiagnosticsForFile(final String fileName)
+    /**
+     * Returns the diagnostics for the given file.
+     * 
+     * @param fileName the name of the file.
+     * 
+     * @return the set of diagnostics for the given file.
+     */
+    public DiagnosticSet getDiagnosticsForFile(final String fileName)
     {
         DiagnosticSet subset = new DiagnosticSet();
 
@@ -320,9 +300,8 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         if (list != null)
         {
-            for (int i = 0; i < list.size(); i++)
+            for (Diagnostic diagnostic : list)
             {
-                Diagnostic diagnostic = list.get(i);
                 subset.diagnostics.add(diagnostic);
             }
         }
@@ -333,13 +312,14 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
     /**
      * @return a shallow copy of this DiagnosticSet.
      */
-    public Object clone()
+    @Override
+    public DiagnosticSet clone()
     {
-        Object clone = null;
+        DiagnosticSet clone = null;
 
         try
         {
-            clone = super.clone();
+            clone = (DiagnosticSet) super.clone();
         }
         catch (CloneNotSupportedException ignored)
         {
@@ -348,14 +328,14 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
 
         return clone;
     }
-	
-	/**
-	 * Returns the number of diagnostics with the given severity.
-	 * 
-	 * @param severity the severity.
-	 * @return the number of diagnostics with the given severity.
-	 */
-	public int getCountForSeverity(final int severity)
+   
+    /**
+     * Returns the number of diagnostics with the given severity.
+     * 
+     * @param severity the severity.
+     * @return the number of diagnostics with the given severity.
+     */
+    public int getCountForSeverity(final int severity)
     {
         if (severity == Diagnostic.SEVERITY_ALL)
         {
@@ -386,65 +366,9 @@ public final class DiagnosticSet implements Cloneable, Iterable<Diagnostic>
     /**
      * @return an iteration over the diagnostics in this DiagnosticSet.
      */
+    @Override
     public Iterator<Diagnostic> iterator()
     {
-        return new ReadOnlyIterator<Diagnostic>(diagnostics);
+        return Collections.unmodifiableList(diagnostics).iterator();
     }
-
-    /**
-     * Read only iterator for iterating over the diagnostics in this DiagnosticSet.
-     *
-     * @param <T> generic type parameter.
-     */
-	private static final class ReadOnlyIterator<T> implements Iterator<T>
-	{
-        /** The current position in the list. */
-        private int index = 0;
-        /** The list being iterated over. */
-        private final List<T> list;
-	    
-        /**
-         * Creates a ReadOnlyIterator for the given list.
-         * 
-         * @param list the list to iterate over.
-         */
-        ReadOnlyIterator(final List<T> list)
-        {
-            this.list = list;
-        }
-
-        /**
-         * Returns <tt>true</tt> if the iteration has more elements. (In other
-         * words, returns <tt>true</tt> if <tt>next</tt> would return an element
-         * rather than throwing an exception.)
-         *
-         * @return <tt>true</tt> if the iterator has more elements.
-         */
-        public boolean hasNext()
-        {
-            return index < list.size();
-        }
-
-        /**
-         * @return the next element in the iteration.
-         */
-        public T next()
-        {
-            if (index == list.size())
-            {
-                throw new NoSuchElementException("iteration has no more elements");
-            }
-            
-            return list.get(index++);
-        }
-
-        /**
-         * Remove is not supported, calling this method will
-         * result in an UnsupportedOperationException being thrown.
-         */
-        public void remove()
-        {
-            throw new UnsupportedOperationException("ReadOnlyIterator does not support remove");
-        }
-	}
 }

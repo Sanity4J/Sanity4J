@@ -66,6 +66,7 @@ public abstract class AbstractFileCollector implements WorkUnit
     /**
      * Performs the file copying.
      */
+    @Override
     public void run()
     {
         QaLogger.getInstance().info("Creating combined " + getItemType() + " directory.");        
@@ -151,7 +152,7 @@ public abstract class AbstractFileCollector implements WorkUnit
             if (packageName == null)
             {
                 // Unable to determine package, use relative path from root.
-                StringBuffer relativePath = new StringBuffer(file.getName());
+                StringBuilder relativePath = new StringBuilder(file.getName());
                 File parent = null;
                 
                 for (parent = file.getParentFile(); parent != null; parent = parent.getParentFile())

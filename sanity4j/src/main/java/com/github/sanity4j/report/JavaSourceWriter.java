@@ -73,7 +73,7 @@ public class JavaSourceWriter
         File destFile = new File(reportDir, relativeDestPath);
 
         // Buffer and diagnostics for this source file
-        StringBuffer html = new StringBuffer((int) sourceFile.length());
+        StringBuilder html = new StringBuilder((int) sourceFile.length());
         DiagnosticSet diags = stats.getDiagnostics().getDiagnosticsForFile(sourcePath);
         List<Diagnostic> orderedDiags = sortDiags(diags);
 
@@ -125,7 +125,7 @@ public class JavaSourceWriter
      * 
      * @throws IOException if there is an error reading from the source file
      */
-    private void writeSourceLines(final File sourceFile, final DiagnosticSet diags, final List<Diagnostic> orderedDiags, final ClassCoverage coverage, final StringBuffer html) throws IOException
+    private void writeSourceLines(final File sourceFile, final DiagnosticSet diags, final List<Diagnostic> orderedDiags, final ClassCoverage coverage, final StringBuilder html) throws IOException
     {
         FileInputStream fis = new FileInputStream(sourceFile);
         
@@ -236,7 +236,7 @@ public class JavaSourceWriter
      */
     private void writeErrorsSummary(final List<Diagnostic> orderedDiags, 
                                     final boolean diagsFirst,
-                                    final StringBuffer html)
+                                    final StringBuilder html)
     {
         if (orderedDiags != null && !orderedDiags.isEmpty())
         {
@@ -294,6 +294,7 @@ public class JavaSourceWriter
          *         first argument is less than, equal to, or greater than the
          *         second. 
          */
+        @Override
         public int compare(final Diagnostic diag1, final Diagnostic diag2)
         {
             if (diag1 == null)

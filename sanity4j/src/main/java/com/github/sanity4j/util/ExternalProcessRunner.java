@@ -37,7 +37,7 @@ public final class ExternalProcessRunner
     public static int runProcess(final String[] cmdLine, 
         final OutputStream out, final OutputStream err)
     {    
-        StringBuffer cmdLineStr = new StringBuffer();                   
+        StringBuilder cmdLineStr = new StringBuilder();                   
         
         for (int i = 0; i < cmdLine.length; i++)
         {
@@ -83,7 +83,7 @@ public final class ExternalProcessRunner
             // http://stackoverflow.com/questions/5946471/splitting-at-space-if-not-between-quotes
             String[] cmdArray = cmdLine.split("[ ]+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 
-            StringBuffer cmdBuf = new StringBuffer();
+            StringBuilder cmdBuf = new StringBuilder();
             for (int index = 0; index < cmdArray.length; index++)
             {
                 if (SystemUtils.IS_OS_UNIX)

@@ -1,10 +1,10 @@
 package com.github.sanity4j.workflow.tool;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Properties;
 
@@ -12,6 +12,7 @@ import com.github.sanity4j.model.diagnostic.Diagnostic;
 import com.github.sanity4j.model.diagnostic.DiagnosticFactory;
 import com.github.sanity4j.model.diagnostic.DiagnosticSet;
 import com.github.sanity4j.util.ExtractStats;
+import com.github.sanity4j.util.FileUtil;
 import com.github.sanity4j.util.JaxbMarshaller;
 import com.github.sanity4j.util.QAException;
 
@@ -27,9 +28,6 @@ import com.github.sanity4j.gen.pmd_4_2_1.Violation;
  */
 public final class PmdResultReader implements ResultReader
 {
-    /** The size of the internal copy buffer. */
-    private static final int BUFFER_SIZE = 4096;
-    
     /** The properties used to configure this {@link ResultReader}. */
     private final Properties properties = new Properties();
 
@@ -48,62 +46,34 @@ public final class PmdResultReader implements ResultReader
      */
     private static String fileToString(final File file)
     {
-        String string = "";
-        FileInputStream fis = null;
-        
         try
         {
-            byte[] buffer = new byte[BUFFER_SIZE];
-            fis = new FileInputStream(file);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            int read = fis.read(buffer);
-            
-            while (read > 0)
-            {
-                baos.write(buffer, 0, read);
-                read = fis.read(buffer);
-            }
-        
-            string = new String(baos.toByteArray());
+            return new String(FileUtil.read(file), Charset.defaultCharset());
         }
         catch (IOException ioe)
         {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream stream = new PrintStream(baos);
-            stream.flush();
-            string = new String(baos.toByteArray());
+            StringWriter writer = new StringWriter();
+            ioe.printStackTrace(new PrintWriter(writer));        
+            return writer.toString();
         }
-        finally 
-        {
-            if (fis != null)
-            {
-                try
-                {
-                    fis.close();
-                }
-                catch (IOException ioe)
-                {
-                    // Ignore
-                }
-            }
-        }
-        
-        return string;
     }
     
     /** {@inheritDoc} */
+    @Override
     public void setProperties(final Properties properties)
     {
         this.properties.putAll(properties);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setResultFile(final File resultFile)
     {
         this.pmdResultFile = resultFile;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setStats(final ExtractStats stats)
     {
         this.stats = stats;
@@ -112,11 +82,9 @@ public final class PmdResultReader implements ResultReader
     /**
      * Extracts the PMD statistics from the pmdResultFile.
      */
+    @Override
     public void run()
     {
-        DiagnosticFactory diagnosticFactory = DiagnosticFactory.getInstance(properties);
-        DiagnosticSet diagnostics = stats.getDiagnostics();
-
         Pmd result = null;
         
         try
@@ -132,6 +100,9 @@ public final class PmdResultReader implements ResultReader
         
         List<com.github.sanity4j.gen.pmd_4_2_1.File> files = result.getFile();
 
+        DiagnosticFactory diagnosticFactory = DiagnosticFactory.getInstance(properties);
+        DiagnosticSet diagnostics = stats.getDiagnostics();
+        
         for (com.github.sanity4j.gen.pmd_4_2_1.File file : files)
         {
             for (Violation violation : file.getViolation())
@@ -200,6 +171,7 @@ public final class PmdResultReader implements ResultReader
     /**
      * @return the description of this WorkUnit
      */
+    @Override
     public String getDescription()
     {
         return "Reading PMD results";

@@ -142,7 +142,7 @@ public abstract class AbstractToolRunner implements WorkUnit
             toolConfig = paramMap.get(toolConfigParam);
         }
 
-        if (FileUtil.hasValue(toolConfig))
+        if (!StringUtil.empty(toolConfig))
         {
             InputStream stream = this.getClass().getResourceAsStream("/" + toolConfig);
 
@@ -171,7 +171,7 @@ public abstract class AbstractToolRunner implements WorkUnit
         }
         
         // Add the class path for this tool to the javaArgs.
-        StringBuffer javaArgsBuf = new StringBuffer();
+        StringBuilder javaArgsBuf = new StringBuilder();
         javaArgsBuf.append(paramMap.get("javaArgs"));
         List<String> toolJars = getToolJars();
         String classPath = StringUtil.concatList(toolJars, File.pathSeparator);
@@ -202,6 +202,7 @@ public abstract class AbstractToolRunner implements WorkUnit
      * The entry point for the work unit. This implementation looks up the command line necessary to run the tool, then
      * calls {@link #runTool(String)}.
      */
+    @Override
     public void run()
     {
         Map<String, String> params = getParameterMap();

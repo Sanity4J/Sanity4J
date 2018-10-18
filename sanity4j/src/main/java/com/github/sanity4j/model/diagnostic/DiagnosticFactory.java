@@ -15,10 +15,9 @@ public final class DiagnosticFactory
 {
     /**
      * The <b>default</b> {@link DiagnosticFactory} instance properties. These properties control the severities,
-     * exclusions and categorisation of the {@link Diagnostic} messages created by the default {@link DiagnosticFactory}
-     * .
+     * exclusions and categorisation of the {@link Diagnostic} messages created by the default {@link DiagnosticFactory}.
      */
-    private static final Properties properties = QaUtil.getProperties("/com/github/sanity4j/model/diagnostic/Diagnostic.properties");
+    private static final Properties PROPERTIES = QaUtil.getProperties("/com/github/sanity4j/model/diagnostic/Diagnostic.properties");
 
     /**
      * The default {@link DiagnosticFactory} instance.
@@ -42,7 +41,7 @@ public final class DiagnosticFactory
      */
     private DiagnosticFactory(final Properties properties)
     {
-        DiagnosticFactory.properties.putAll(properties);
+        DiagnosticFactory.PROPERTIES.putAll(properties);
     }
 
     /**
@@ -86,7 +85,7 @@ public final class DiagnosticFactory
      */
     public String getProperty(final String key)
     {
-        return properties.getProperty(key);
+        return PROPERTIES.getProperty(key);
     }
 
     /**
@@ -97,6 +96,6 @@ public final class DiagnosticFactory
      */
     public void setProperty(final String key, final String value)
     {
-        properties.setProperty(key, value);
+        PROPERTIES.setProperty(key, value);
     }
 }

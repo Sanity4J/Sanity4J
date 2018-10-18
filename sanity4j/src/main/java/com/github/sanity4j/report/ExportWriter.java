@@ -61,7 +61,7 @@ public class ExportWriter
 	 */
 	public void writeExport() throws IOException
 	{
-        StringBuffer xml = new StringBuffer();
+        StringBuilder xml = new StringBuilder();
 
         // Write top-level package summary info        
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -81,9 +81,9 @@ public class ExportWriter
 	 * Writes out the findings for a single package.
 	 * 
 	 * @param packageName the name of the package to write
-	 * @param xml the StringBuffer to write the XML to.
+	 * @param xml the StringBuilder to write the XML to.
 	 */
-	private void writePackage(final String packageName, final StringBuffer xml)
+	private void writePackage(final String packageName, final StringBuilder xml)
 	{
         boolean allPackages = "".equals(packageName);
 
@@ -199,9 +199,9 @@ public class ExportWriter
      * Writes out the findings for the classes in a single package.
      * 
      * @param packageName the name of the package to write
-     * @param xml the StringBuffer to write the XML to.
+     * @param xml the StringBuilder to write the XML to.
      */
-    private void writePackageClasses(final String packageName, final StringBuffer xml)
+    private void writePackageClasses(final String packageName, final StringBuilder xml)
     {
         List<String> packageSources = sourcesByPackage.get(packageName);
         

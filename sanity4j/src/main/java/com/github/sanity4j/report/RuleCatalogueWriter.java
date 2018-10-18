@@ -49,7 +49,7 @@ public class RuleCatalogueWriter
      */
     public void writeRuleCatalogue() throws IOException
     {
-        StringBuffer xml = new StringBuffer(INITIAL_BUF_SIZE);
+        StringBuilder xml = new StringBuilder(INITIAL_BUF_SIZE);
 
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                        + "<?xml-stylesheet type=\"text/xsl\" href=\"xslt/rule-catalogue.xsl\"?>\n"
@@ -133,6 +133,7 @@ public class RuleCatalogueWriter
 
         Collections.sort(result, new Comparator<DiagnosticProperty>()
         {
+            @Override
             public int compare(final DiagnosticProperty prop1, final DiagnosticProperty prop2)
             {
                 int diff = prop2.severity - prop1.severity;
@@ -174,10 +175,10 @@ public class RuleCatalogueWriter
     private static final class DiagnosticProperty
     {
         /** The tool name. */
-        private String tool;
+        private final String tool;
 
         /** The rule name. */
-        private String rule;
+        private final String rule;
 
         /** The severity of the diagnostic. */
         private int severity = Diagnostic.SEVERITY_INFO;
@@ -203,14 +204,6 @@ public class RuleCatalogueWriter
         }
 
         /**
-         * @param rule The rule to set.
-         */
-        public void setRule(final String rule)
-        {
-            this.rule = rule;
-        }
-
-        /**
          * @return Returns the severity.
          */
         public int getSeverity()
@@ -232,14 +225,6 @@ public class RuleCatalogueWriter
         public String getTool()
         {
             return tool;
-        }
-
-        /**
-         * @param tool The tool to set.
-         */
-        public void setTool(final String tool)
-        {
-            this.tool = tool;
         }
     }
 }

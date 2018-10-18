@@ -188,7 +188,7 @@ public class ReportWriter
      */
     private void writePackagesFrame() throws IOException
     {
-        StringBuffer html = new StringBuffer();
+        StringBuilder html = new StringBuilder();
 
         // Write top-level package summary info        
         html.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

@@ -25,7 +25,7 @@ public final class StringUtil
      */
     public static String concatList(final List<?> list, final String separator)
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         for (int i = 0; i < list.size(); i++)
         {

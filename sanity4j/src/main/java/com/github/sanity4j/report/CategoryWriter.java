@@ -57,7 +57,7 @@ public class CategoryWriter
         
         if (packageName != null)
         {
-        	StringBuffer buf = new StringBuffer();
+        	StringBuilder buf = new StringBuilder();
         	buf.append(packageName.replace('.', File.separatorChar))
         		.append(File.separatorChar)
         		.append(fileName);
@@ -82,7 +82,7 @@ public class CategoryWriter
                           ? "" 
                           : (packageName.replaceAll("[^\\.]", "").replaceAll("\\.", "../") + "../");
         
-        StringBuffer xml = new StringBuffer();
+        StringBuilder xml = new StringBuilder();
 
         // Write top-level package summary info        
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -121,7 +121,7 @@ public class CategoryWriter
      * @param xml the string buffer to append the XML output to
      */
     private void generateCategoryDetails(final DiagnosticCategory category, 
-                                          final StringBuffer xml)
+                                          final StringBuilder xml)
     {
         xml.append("<category name=\"").append(category.getName()).append("\">\n");
                 

@@ -1,12 +1,15 @@
 package com.github.sanity4j.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Stack;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.sanity4j.model.coverage.ClassCoverage;
@@ -45,6 +48,77 @@ public class ExtractStats_Test
     /** A temporary directory used to hold test data. */
     private QAConfig config;
     
+    /** The temporary directory containing the result files. */
+    private static File tempDir;
+
+    /**
+     * Extracts the test project into a temporary directory.
+     * This avoid the classes/sources being analysed during a build.
+     */
+    @BeforeClass
+    public static void extractFiles() throws IOException
+    {
+        tempDir = File.createTempFile("ExtractStats_Test", "");
+        tempDir.delete();
+        tempDir.mkdirs();
+        tempDir.deleteOnExit();
+
+        byte[] buf = new byte[1024];
+        
+        try (ZipInputStream zis = new ZipInputStream(ExtractStats.class.getResourceAsStream("/test-project.zip")))
+        {
+            for (ZipEntry ze = zis.getNextEntry() ; ze != null ; ze = zis.getNextEntry())
+            {
+                String fileName = ze.getName();
+                File newFile = new File(tempDir, fileName);
+
+                // We create the dirs individually rather than using mkDirs() so that they are deleted on exit 
+                Stack<File> dirsToCreate = new Stack<File>();
+                
+                for (File parentDir = newFile.getParentFile() ; !parentDir.exists() ; parentDir = parentDir.getParentFile())
+                {
+                    dirsToCreate.push(parentDir);
+                }
+                
+                while (!dirsToCreate.isEmpty())
+                {
+                    File dir = dirsToCreate.pop();
+                    
+                    if (!dir.mkdir())
+                    {
+                        throw new IOException("Failed to create dir: " + dir);
+                    }
+                    
+                    dir.deleteOnExit();
+                }
+
+                newFile.deleteOnExit();
+
+                if (ze.isDirectory())
+                {
+                    if (!newFile.exists() && !newFile.mkdir())
+                    {
+                        throw new IOException("Failed to create dir: " + newFile);
+                    }
+                }
+                else
+                {
+                    try (FileOutputStream fos = new FileOutputStream(newFile))
+                    {
+                        int len;
+                        
+                        while ((len = zis.read(buf)) > 0)
+                        {
+                            fos.write(buf, 0, len);
+                        }
+                    }
+                }
+                
+                zis.closeEntry();
+            }
+        }
+    }
+    
     /**
      * Since ExtractStats uses canonical paths, the test files
      * do actually need to exist on the file system. This sets
@@ -54,8 +128,8 @@ public class ExtractStats_Test
     public void setUp() throws IOException
     {
         config = new QAConfig();
-        config.setTempDir(new File(getClass().getResource("/test-project").getFile()));
-        config.setCoverageDataFile(new File(config.getTempDir(), "jacoco.exec").getPath());
+        config.setTempDir(tempDir);
+        config.setCoverageDataFile(new File(tempDir, "jacoco.exec").getPath());
     }
 
     @Test
@@ -235,7 +309,7 @@ public class ExtractStats_Test
      */
     public static String replace(final String data, final String search, final String replace)
     {
-        StringBuffer buf = new StringBuffer(data.length());
+        StringBuilder buf = new StringBuilder(data.length());
         int lastPos = 0;
 
         for (int pos = data.indexOf(search, 0); pos != -1; pos = data.indexOf(search, lastPos))
@@ -246,32 +320,5 @@ public class ExtractStats_Test
 
         buf.append(data.substring(lastPos));
         return buf.toString();
-    }
-
-    /**
-     * Returns a byte array containing all the information contained in the
-     * given input stream.
-     *
-     * @param stream the stream to read from.
-     * @return the stream contents as a byte array.
-     * @throws IOException if there is an error reading from the stream.
-     */
-    private byte[] getBytes(final InputStream stream) throws IOException
-    {
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-
-        final byte[] buf = new byte[4096];
-        int bytesRead = stream.read(buf);
-
-        while (bytesRead != -1)
-        {
-            result.write(buf, 0, bytesRead);
-            bytesRead = stream.read(buf);
-        }
-
-        result.flush();
-        result.close();
-
-        return result.toByteArray();
     }
 }

@@ -62,7 +62,7 @@ public final class InfixExpression
      */
     private static boolean charIn(final char operator, final String operators)
     {
-        return (operators.indexOf(operator) != -1);
+        return operators.indexOf(operator) != -1;
     }
 
     /**
@@ -88,7 +88,7 @@ public final class InfixExpression
      */
     public static String[] parseInfixToPostfix(final String inval) throws SyntaxException
     {
-        StringBuffer opString = new StringBuffer();
+        StringBuilder opString = new StringBuilder();
         char ltr = ' ';
         List<String> postfixOp = new ArrayList<String>();
         boolean unary = true; // determines whether operand is unary - used for -ve
@@ -112,7 +112,7 @@ public final class InfixExpression
                         break;
                         
                     case ')':
-                        while ((opString.length() > 0) && (opString.charAt(opString.length() - 1) != '('))
+                        while (opString.length() > 0 && opString.charAt(opString.length() - 1) != '(')
                         {
                             postfixOp.add(opString.substring(opString.length() - 1));
                             opString.setLength(opString.length() - 1);
@@ -163,7 +163,7 @@ public final class InfixExpression
 
                     default: // is number/text
                         
-                        StringBuffer numString = new StringBuffer();
+                        StringBuilder numString = new StringBuilder();
                         numString.append(ltr);
 
                         while (i + 1 < inval.length())

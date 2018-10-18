@@ -213,7 +213,7 @@ public final class FileUtil
         }
         else
         {
-	        StringBuffer buf = new StringBuffer(); 
+	        StringBuilder buf = new StringBuilder(); 
 
         	if (classpath != null)
         	{
@@ -233,16 +233,5 @@ public final class FileUtil
         	
         	return buf.toString();
         }
-    }
-    
-    /**
-     * Evaluates a string for emptiness.
-     * 
-     * @param str the string to evaluate.
-     * @return true if the string is non-null and has a trimmed length greater than zero.
-     */
-    public static boolean hasValue(final String str)
-    {
-    	return str == null ? false : str.trim().length() > 0;
     }
 }

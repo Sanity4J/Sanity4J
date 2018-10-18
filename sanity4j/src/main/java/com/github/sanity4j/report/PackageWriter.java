@@ -143,7 +143,7 @@ public class PackageWriter
                           ? "" 
                           : (packageName.replaceAll("[^\\.]", "").replaceAll("\\.", "../") + "../");
         
-        StringBuffer html = new StringBuffer();
+        StringBuilder html = new StringBuilder();
 
         // Write top-level package summary info        
         html.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -221,7 +221,7 @@ public class PackageWriter
                               ? stats.getDiagnostics()
                               : stats.getDiagnostics().getDiagnosticsForPackage(packageName);
         
-        StringBuffer html = new StringBuffer();
+        StringBuilder html = new StringBuilder();
 
         // Write top-level package summary info        
         html.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -308,7 +308,7 @@ public class PackageWriter
                               ? stats.getDiagnostics()
                               : stats.getDiagnostics().getDiagnosticsForPackage(packageName);
 
-        StringBuffer html = new StringBuffer();
+        StringBuilder html = new StringBuilder();
                               
         // Write top-level package summary info        
         html.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -361,9 +361,9 @@ public class PackageWriter
      * 
      * @param tool the tool to output the information for.
      * @param diags the full list of diagnostics for the package being written.
-     * @param html the StringBuffer to append XML output to.
+     * @param html the StringBuilder to append XML output to.
      */
-    private void outputTool(final int tool, final DiagnosticSet diags, final StringBuffer html)
+    private void outputTool(final int tool, final DiagnosticSet diags, final StringBuilder html)
     {
         DiagnosticSet toolDiags = diags.getDiagnosticsForTool(tool);
         
@@ -384,9 +384,9 @@ public class PackageWriter
      * Outputs category information, recursing for sub-categories.
      * 
      * @param category the DiagnosticCategory to output.
-     * @param html the StringBuffer to append XML output to.
+     * @param html the StringBuilder to append XML output to.
      */
-    private void outputCategory(final DiagnosticCategory category, final StringBuffer html)
+    private void outputCategory(final DiagnosticCategory category, final StringBuilder html)
     {
         DiagnosticSet diags = new DiagnosticSet();
         
@@ -424,12 +424,12 @@ public class PackageWriter
     
     /**
      * If there is sufficient data available, 
-     * append a summary image to the given HTML StringBuffer.
+     * append a summary image to the given HTML StringBuilder.
      * 
      * @param packageName the package name
      * @param html the string buffer to append the image tag to
      */
-    private void appendSummaryImage(final String packageName, final StringBuffer html)
+    private void appendSummaryImage(final String packageName, final StringBuilder html)
     {
         String nonNullPackageName = StringUtil.empty(packageName) ? "" : packageName;
         PackageSummary[] summaries = stats.getPackageSummary(nonNullPackageName);
@@ -460,9 +460,9 @@ public class PackageWriter
      * Generates the quality summary table HTML.
      * 
      * @param packageName the package name to create the tables for
-     * @param html the StringBuffer to append XML output to.
+     * @param html the StringBuilder to append XML output to.
      */
-    private void outputQualitySummary(final String packageName, final StringBuffer html)
+    private void outputQualitySummary(final String packageName, final StringBuilder html)
     {
         // Display package and subpackages first
         Set<String> packageNames = new TreeSet<String>(sourcesByPackage.keySet());
@@ -509,7 +509,7 @@ public class PackageWriter
      */
     private void appendPackageQualityStatsRow(final String currentPackageName, 
                                               final String packageName, 
-                                              final StringBuffer html)
+                                              final StringBuilder html)
     {
         boolean allPackages = "".equals(packageName);
 
@@ -603,7 +603,7 @@ public class PackageWriter
      * @param sourcePath the source file to write the stats for
      * @param html the string buffer to append to
      */
-    private void appendClassQualityStatsRow(final String sourcePath, final StringBuffer html)
+    private void appendClassQualityStatsRow(final String sourcePath, final StringBuilder html)
     {
         if (sourcePath != null)
         {       

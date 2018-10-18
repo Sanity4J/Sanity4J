@@ -175,9 +175,6 @@ public class QAProcessor implements Runnable
 
         WorkUnitGroup work = new WorkUnitGroup("Performing analysis");
 
-        // Check configuration
-        work.add(new JavaVersionCheck(config));
-
         // Collect the various files necessary for analysis
         work.add(new SourceFileCollector(config));
         work.add(new ClassFileCollector(config));

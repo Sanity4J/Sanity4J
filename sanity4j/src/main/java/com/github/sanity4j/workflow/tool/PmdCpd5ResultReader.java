@@ -46,18 +46,9 @@ public final class PmdCpd5ResultReader implements ResultReader
 
    /** {@inheritDoc} */
    @Override
-   public final void setResultFile(final File resultFile)
+   public void setResultFile(final File resultFile)
    {
        this.pmdCpdResultFile = resultFile;
-   }
-
-   /**
-    * Retrieves the result file. 
-    * @return the result file.
-    */
-   protected final File getResultFile()
-   {
-       return pmdCpdResultFile;
    }
    
    /** {@inheritDoc} */
@@ -73,8 +64,6 @@ public final class PmdCpd5ResultReader implements ResultReader
    @Override
    public void run()
    {
-       File pmdCpdResultFile = getResultFile();
-      
        if (pmdCpdResultFile.exists() && pmdCpdResultFile.length() == 0)
        {
           // PMD-CPD 5.x doesn't output the empty <pmd-cpd> element if there are no results

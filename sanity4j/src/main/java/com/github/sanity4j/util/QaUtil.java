@@ -73,7 +73,7 @@ public final class QaUtil
     {
         Properties properties = new Properties();
         
-        if (FileUtil.hasValue(resourcePath))
+        if (!StringUtil.empty(resourcePath))
         {
             String resourceFile;
             
@@ -124,7 +124,7 @@ public final class QaUtil
         Properties stringProperties = new Properties();
         
         // Parse the properties string as if it were a properties file.
-        if (FileUtil.hasValue(propertiesString))
+        if (!StringUtil.empty(propertiesString))
         {
             InputStream stringStream = null;
             try 
@@ -182,7 +182,7 @@ public final class QaUtil
         // Apply overrides
         
         // Look for the external properties on the classpath first.
-        if (FileUtil.hasValue(externalPropertiesPath))
+        if (!StringUtil.empty(externalPropertiesPath))
         {
             String resource = externalPropertiesPath.startsWith("/") ? externalPropertiesPath : "/" + externalPropertiesPath;
             
@@ -231,7 +231,7 @@ public final class QaUtil
     {
         File propertiesFile = null;
 
-        if (FileUtil.hasValue(externalPropertiesPath))
+        if (!StringUtil.empty(externalPropertiesPath))
         {
             File externalProperties = new File(externalPropertiesPath);
 
@@ -271,7 +271,7 @@ public final class QaUtil
         // not the full pathname. Then we use that name to check if the
         // named file exists in the user home directory.
         
-        if (FileUtil.hasValue(externalPropertiesPath))
+        if (!StringUtil.empty(externalPropertiesPath))
         {
             File externalProperties = new File(externalPropertiesPath);
 
@@ -365,7 +365,7 @@ public final class QaUtil
     public static String getPackageForSourceFile(final File file)
     {
         final String token = "package ";
-        StringBuffer packageName = new StringBuffer();
+        StringBuilder packageName = new StringBuilder();
         FileInputStream fis = null;
 
         try
@@ -520,7 +520,7 @@ public final class QaUtil
             return string;
         }
 
-        StringBuffer result = new StringBuffer(string.length());
+        StringBuilder result = new StringBuilder(string.length());
 
         while (tokenStart != -1 && tokenStart < string.length() - TOKENLENGTH)
         {

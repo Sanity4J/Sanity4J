@@ -2,12 +2,14 @@ package com.github.sanity4j.workflow.tool;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.charset.Charset;
 
 import com.github.sanity4j.util.ExternalProcessRunner;
 import com.github.sanity4j.util.FileUtil;
 import com.github.sanity4j.util.QAException;
 import com.github.sanity4j.util.QaLogger;
 import com.github.sanity4j.util.QaUtil;
+import com.github.sanity4j.util.StringUtil;
 import com.github.sanity4j.util.Tool;
 
 /**
@@ -30,6 +32,7 @@ public class CheckStyleRunner extends AbstractToolRunner
      * Runs CheckStyle.
      * @param commandLine the CheckStyle command line.
      */
+    @Override
     protected void runTool(final String commandLine)
     {
         File resultFile = getConfig().getToolResultFile(Tool.CHECKSTYLE);
@@ -46,16 +49,16 @@ public class CheckStyleRunner extends AbstractToolRunner
             
             ExternalProcessRunner.runProcess(commandLine, stdout, stderr);
             
-            String stdoutString = new String(stdout.toByteArray());
+            String stdoutString = new String(stdout.toByteArray(), Charset.defaultCharset());
 
-            if (FileUtil.hasValue(stdoutString))
+            if (!StringUtil.empty(stdoutString))
             {
                 QaLogger.getInstance().info(stdoutString);
             }
             
-            String stderrString = new String(stderr.toByteArray());
+            String stderrString = new String(stderr.toByteArray(), Charset.defaultCharset());
 
-            if (FileUtil.hasValue(stderrString))
+            if (!StringUtil.empty(stderrString))
             {
                 QaLogger.getInstance().error(stderrString);
             }
@@ -71,8 +74,8 @@ public class CheckStyleRunner extends AbstractToolRunner
         // the output file has been created successfully
         if (!resultFile.exists() || resultFile.length() == 0)
         {
-            String out = new String(stdout.toByteArray());
-            String err = new String(stderr.toByteArray());
+            String out = new String(stdout.toByteArray(), Charset.defaultCharset());
+            String err = new String(stderr.toByteArray(), Charset.defaultCharset());
             throw new QAException("Checkstyle Command [" + commandLine + "] failed to generate output: [" + out  + "] [" + err + "]");
         }
     }
@@ -80,6 +83,7 @@ public class CheckStyleRunner extends AbstractToolRunner
     /**
      * @return the description of this WorkUnit
      */
+    @Override
     public String getDescription()
     {
         return "Running CheckStyle";

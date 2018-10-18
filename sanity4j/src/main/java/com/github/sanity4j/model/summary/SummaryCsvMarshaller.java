@@ -6,8 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.sanity4j.util.QaLogger;
+import com.github.sanity4j.util.QaUtil;
 
 /** 
  * SummaryCsvMarshaller - reads/writes summary entries to a CSV file.
@@ -53,10 +53,6 @@ public class SummaryCsvMarshaller
     /** The number of characters on a line. */
     private static final int CHARS_PER_LINE = 80;
     
-    
-    /** The character encoding when writing the file. */
-    private static final String ENCODING = "UTF-8";
-    
     /** The date format used to encode dates. */
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd-HH:mm");
     
@@ -74,7 +70,7 @@ public class SummaryCsvMarshaller
         try
         {
             FileInputStream fis = new FileInputStream(file);
-            reader = new BufferedReader(new InputStreamReader(fis));
+            reader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
 
             // Skip the header
             String line = reader.readLine();
@@ -124,12 +120,12 @@ public class SummaryCsvMarshaller
                 }
             }
             
-            safeClose(reader);            
+            QaUtil.safeClose(reader);            
         }
         catch (IOException e)
         {
             QaLogger.getInstance().error("Error reading summary data", e);
-            safeClose(reader);
+            QaUtil.safeClose(reader);
         }
 
         return entries.toArray(new PackageSummary[entries.size()]);
@@ -152,7 +148,7 @@ public class SummaryCsvMarshaller
         boolean newFile = !file.exists() || file.length() == 0;
 
         FileOutputStream fos = null;
-        StringBuffer line = new StringBuffer();
+        StringBuilder line = new StringBuilder();
 
         // Write header if new file
         try
@@ -161,7 +157,7 @@ public class SummaryCsvMarshaller
 
             if (newFile)
             {
-                fos.write("Run date,Package name,Line coverage,Branch coverage,Info diags,Low diags,Moderate diags,Significant diags,High diags,Line count".getBytes(ENCODING));
+                fos.write("Run date,Package name,Line coverage,Branch coverage,Info diags,Low diags,Moderate diags,Significant diags,High diags,Line count".getBytes(StandardCharsets.UTF_8));
             }
 
             for (int i = 0; i < entries.length; i++)
@@ -188,56 +184,16 @@ public class SummaryCsvMarshaller
                 line.append(',');
                 line.append(entries[i].getLineCount());
 
-                fos.write(line.toString().getBytes(ENCODING));
+                fos.write(line.toString().getBytes(StandardCharsets.UTF_8));
                 fos.flush();
             }
             
-            safeClose(fos);
+            QaUtil.safeClose(fos);
         }
         catch (IOException e)
         {
             QaLogger.getInstance().error("Error writing summary data", e);
-            safeClose(fos);
-        }
-    }
-    
-    /**
-     * Closes a reader, logging any exceptions.
-     * @param reader the reader to close.
-     */
-    private void safeClose(final Reader reader)
-    {
-        if (reader != null)
-        {
-            try
-            {
-                reader.close();
-            }
-            catch (IOException e)
-            {
-                // Don't really care
-                QaLogger.getInstance().debug("Error closing stream", e);
-            }
-        }
-    }
-    
-    /**
-     * Closes an OutputStream, logging any exceptions.
-     * @param stream the OutputStream to close.
-     */
-    private void safeClose(final OutputStream stream)
-    {
-        if (stream != null)
-        {
-            try
-            {
-                stream.close();
-            }
-            catch (IOException e)
-            {
-                // Don't really care
-                QaLogger.getInstance().debug("Error closing stream", e);
-            }
+            QaUtil.safeClose(fos);
         }
     }
 }

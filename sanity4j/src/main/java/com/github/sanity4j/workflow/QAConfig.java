@@ -840,7 +840,7 @@ public final class QAConfig
      */
     private String getToolParam(final String tool, final String version, final String key)
     {
-        StringBuffer configBuf = new StringBuffer();
+        StringBuilder configBuf = new StringBuilder();
         
         configBuf.append(QA_TOOL_PREFIX).append(tool).append('.');
         
