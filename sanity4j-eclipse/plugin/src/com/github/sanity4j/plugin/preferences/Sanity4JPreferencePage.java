@@ -29,6 +29,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.github.sanity4j.plugin.Activator;
+import com.github.sanity4j.util.FileUtil;
+import com.github.sanity4j.util.StringUtil;
+import com.github.sanity4j.workflow.QAConfig;
 
 /**
  * This class represents an Eclipse "Preference page" for the Sanity4J application. It is contributed to the Eclipse
