@@ -29,9 +29,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.github.sanity4j.plugin.Activator;
-import com.github.sanity4j.util.FileUtil;
-import com.github.sanity4j.util.StringUtil;
-import com.github.sanity4j.workflow.QAConfig;
 
 /**
  * This class represents an Eclipse "Preference page" for the Sanity4J application. It is contributed to the Eclipse
@@ -116,7 +113,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         String javaSpecificationVersion = System.getProperty("java.specification.version");
 
         // Naive method of ensuring we are getting at least a 1.8 JVM.
-        if ("1.8".equalsIgnoreCase(javaSpecificationVersion) || "9".equalsIgnoreCase(javaSpecificationVersion) || "10".equalsIgnoreCase(javaSpecificationVersion))
+        if (("1.8".equalsIgnoreCase(javaSpecificationVersion) || "9".equalsIgnoreCase(javaSpecificationVersion) || "10".equalsIgnoreCase(javaSpecificationVersion))
             && javaHome != null)
         {
             File javaHomeFile = new File(javaHome);
