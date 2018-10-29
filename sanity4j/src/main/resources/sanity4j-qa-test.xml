@@ -13,7 +13,7 @@
 **
 ** USAGE
 ** Ensure that you are running at least Java 1.8, as some of the tools 
-** don't work on 1.4 or earlier VMs.
+** don't work on 1.7 or earlier VMs.
 **
 ** Within a project's build.xml file, include the following line:
 **

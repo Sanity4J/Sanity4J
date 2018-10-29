@@ -43,7 +43,7 @@ Sanity4J Maven plugin user guide
 |                        | a directory containing all the tools in use.           |           |
 |                        | For example, with a default configuration, these       |           |
 |                        | could be spotbugs-3.1.6, pmd-5.0.4, checkstyle-5.6     |           |
-|                        | and cobertura-2.0.2.                                   |           |
+|                        | and jacoco-0.7.9.                                      |           |
 *------------------------+--------------------------------------------------------+-----------+
 | reportDir              | The report output directory. This parameter defaults   | No        |
 |                        | to the project's site directory.                       |           |
@@ -162,7 +162,7 @@ Sanity4J Maven plugin user guide
 
   The productsDir can point to a directory containing all the tools in use. For example, with
   a default configuration, these could be spotbugs-3.1.6, pmd-5.0.4, checkstyle-5.6 and
-  cobertura-2.0.2.
+  jacoco-0.7.9.
 
   Below is a simple example XML to integrate Sanity4J into your project's POM.
 
@@ -280,11 +280,11 @@ sanity4j.tool.checkstyle.versions          =4.4
 sanity4j.tool.checkstyle.4.4.maven         =my_company:custom_qa_checkstyle44_rules:1.0.0:jar
 sanity4j.tool.checkstyle.4.4.config        =custom_checkstyle4-4_rules.xml
 
-sanity4j.tool.cobertura.versions           =1.9.2
-sanity4j.tool.cobertura.1.9.2.maven        =net.sourceforge.cobertura:cobertura:1.9.2:jar
+sanity4j.tool.jacoco.versions              =0.7.9
+sanity4j.tool.jacoco.0.7.9.maven           =org.jacoco:jacoco-maven-plugin:0.7.9:jar
 
-sanity4j.tool.cobertura-merge.versions     =1.9.2
-sanity4j.tool.cobertura-merge.1.9.2.maven  =net.sourceforge.cobertura:cobertura:1.9.2:jar
+sanity4j.tool.jacoco-merge.versions        =0.7.9
+sanity4j.tool.jacoco-merge.0.7.9.maven     =org.jacoco:jacoco-maven-plugin:0.7.9:jar
 
 # custom_qa_spotbugs316_rules needs to be bundled inside the custom_qa_rules artifact so that it
 # can be passed as a config parameter to spotbugs.
@@ -366,60 +366,25 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
                         </configuration>
                     </execution>
                     <execution>
-                        <id>sanity4j-tools-cobertura</id>
-                        <phase>pre-site</phase>
+                        <id>sanity4j-tools-jacoco</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/cobertura-2.0.2</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/jacoco-0.7.9</outputDirectory>
 
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>net.sourceforge.cobertura</groupId>
-                                    <artifactId>cobertura</artifactId>
-                                    <version>2.0.2</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.ow2.asm</groupId>
-                                    <artifactId>asm</artifactId>
-                                    <version>4.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.ow2.asm</groupId>
-                                    <artifactId>asm-tree</artifactId>
-                                    <version>4.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.ow2.asm</groupId>
-                                    <artifactId>asm-commons</artifactId>
-                                    <version>4.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.ow2.asm</groupId>
-                                    <artifactId>asm-util</artifactId>
-                                    <version>4.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.ow2.asm</groupId>
-                                    <artifactId>asm-analysis</artifactId>
-                                    <version>4.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>oro</groupId>
-                                    <artifactId>oro</artifactId>
-                                    <version>2.0.8</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jaxen</groupId>
-                                    <artifactId>jaxen</artifactId>
-                                    <version>1.1-beta-8</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>log4j</groupId>
-                                    <artifactId>log4j</artifactId>
-                                    <version>1.2.9</version>
-                                </artifactItem>
+								<artifactItem>
+									<groupId>org.jacoco</groupId>
+									<artifactId>org.jacoco.core</artifactId>
+									<version>0.7.9</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-debug-all</artifactId>
+									<version>5.2</version>
+								</artifactItem>
                             </artifactItems>
 
                         </configuration>

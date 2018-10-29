@@ -49,7 +49,7 @@ Sanity4J Ant Task user guide
 | products.dir             | The products.dir must point to a directory containing  | Yes       |
 |                          | all the tools in use. For example, with a default      |           |
 |                          | configuration, these could be spotbugs-3.1.6,          |           |
-|                          | pmd-5.0.4, checkstyle-5.6 and cobertura-2.0.1          |           |
+|                          | pmd-5.0.4, checkstyle-5.6 and jacoco-0.7.9             |           |
 *--------------------------+--------------------------------------------------------+-----------+
 | report.dir               | The report output directory.                           | Yes       |
 *--------------------------+--------------------------------------------------------+-----------+
@@ -207,7 +207,7 @@ Sanity4J Ant Task user guide
         <sanity4j
             products.dir="target/tools"
             report.dir="target/sanity4j-ant-report-multi"
-            coverage.merge.data.file="target/cobertura/cobertura-merged.ser">
+            coverage.merge.data.file="target/jacoco.exec">
 
             <source.path>
                <fileset dir="../sanity4j-test/maven3-multi/child1/src/main/java">
