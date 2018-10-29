@@ -21,6 +21,9 @@ Acknowledgements
    This product includes software developed by the FindBugs project\
    {{http://findbugs.sourceforge.net/}}
 
+   This product includes software developed by the SpotBugs project\
+   {{https://spotbugs.github.io/}}
+
    This product includes software developed by the JaCoCo project\
    {{http://www.jacoco.org/jacoco/}}
    

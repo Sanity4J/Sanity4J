@@ -19,11 +19,11 @@ Sanity4J Maven plugin user guide
 
     * Maven 3+
 
-    * JDK/JRE 1.5.x+
+    * JDK/JRE 1.8.x+
 
     * A directory containing the tools needed by Sanity4J (see parameters below). *
 
-    * A Maven project, optionally with a Cobertura plugin already included.
+    * A Maven project, optionally with a JaCoCo plugin already included.
 
     * Depending on the size of your project, you may need to increase the memory available to
       Maven. This can be set using the MAVEN_OPTS environment variable, e.g. "<<<set MAVEN_OPTS=-Xmx512M>>>"
@@ -42,17 +42,17 @@ Sanity4J Maven plugin user guide
 |                        | Alternatively, the productsDir can be set to point to  |           |
 |                        | a directory containing all the tools in use.           |           |
 |                        | For example, with a default configuration, these       |           |
-|                        | could be findbugs-2.0.1, pmd-5.0.4, checkstyle-5.6     |           |
+|                        | could be spotbugs-3.1.6, pmd-5.0.4, checkstyle-5.6     |           |
 |                        | and cobertura-2.0.2.                                   |           |
 *------------------------+--------------------------------------------------------+-----------+
 | reportDir              | The report output directory. This parameter defaults   | No        |
 |                        | to the project's site directory.                       |           |
 *------------------------+--------------------------------------------------------+-----------+
 | coverageDataFile       | The location of a coverage data file (e.g.             | No        |
-|                        | cobertura.ser for Cobertura) if you want to include    |           |
+|                        | jacoco.exec for JaCoCo) if you want to include         |           |
 |                        | unit testing coverage data in your report. If this     |           |
 |                        | parameter is omitted, it is assumed that the default   |           |
-|                        | Cobertura data file will be used.                      |           |
+|                        | JaCoCo data file will be used.                         |           |
 *------------------------+--------------------------------------------------------+-----------+
 | aggregate              | If this Maven project is a multi module parent, then   | No        |
 |                        | setting aggregate to true will enable merging of       |           |
@@ -79,9 +79,9 @@ Sanity4J Maven plugin user guide
 |                        | compared with the classpath and the full path to the   |           |
 |                        | jar is then passed to the tool instead.                |           |
 *------------------------+--------------------------------------------------------+-----------+
-| findBugsConfig         | The configuration passed to the FindBugs               | No        |
-|                        | ${sanity4j.tool.findbugs.command} as                   |           |
-|                        | ${sanity4j.tool.findbugs.config}.                      |           |
+| spotBugsConfig         | The configuration passed to the SpotBugs               | No        |
+|                        | ${sanity4j.tool.spotbugs.command} as                   |           |
+|                        | ${sanity4j.tool.spotbugs.config}.                      |           |
 |                        |                                                        |           |
 |                        | The resource can be a file contained within a jar file |           |
 |                        | on the classpath, or an external file in the file      |           |
@@ -161,7 +161,7 @@ Sanity4J Maven plugin user guide
   find all the nested source/class directories.
 
   The productsDir can point to a directory containing all the tools in use. For example, with
-  a default configuration, these could be findbugs-2.0.1, pmd-5.0.4, checkstyle-5.6 and
+  a default configuration, these could be spotbugs-3.1.6, pmd-5.0.4, checkstyle-5.6 and
   cobertura-2.0.2.
 
   Below is a simple example XML to integrate Sanity4J into your project's POM.
@@ -173,7 +173,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.1</version>
+        <version>1.8.2</version>
       </plugin>
       ...
     </plugins>
@@ -191,9 +191,9 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.1</version>
+        <version>1.8.2</version>
         <configuration>
-          <findBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</findBugsConfig>
+          <spotBugsConfig>-exclude $${sanity4j_filter_exclude.xml}</spotBugsConfig>
           <pmdConfig>$${sanity4j_pmd_rules.xml}</pmdConfig>
           <checkStyleConfig>$${sanity4j_checks.xml}</checkStyleConfig>
 
@@ -210,7 +210,7 @@ Sanity4J Maven plugin user guide
 +-------------------------------+
 
   Sanity4J supports Maven dependencies for configuring 3rd party product tools
-  such as findbugs, pmd, checkstyle etc. As each tool may have different
+  such as spotbugs, pmd, checkstyle etc. As each tool may have different
   versions of the same dependency, the transitive dependencies of
   each tool are used individually. The default tools are specified in the
   in sanity4j.properties file. However, these can be overridden if you
@@ -226,7 +226,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.1</version>
+        <version>1.8.2</version>
         <dependencies>
           <dependency>
             <!--
@@ -250,7 +250,7 @@ Sanity4J Maven plugin user guide
       <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.1</version>
+        <version>1.8.2</version>
         <configuration>
           <aggregate>true</aggregate>
 
@@ -286,11 +286,11 @@ sanity4j.tool.cobertura.1.9.2.maven        =net.sourceforge.cobertura:cobertura:
 sanity4j.tool.cobertura-merge.versions     =1.9.2
 sanity4j.tool.cobertura-merge.1.9.2.maven  =net.sourceforge.cobertura:cobertura:1.9.2:jar
 
-# custom_qa_findbugs139_rules needs to be bundled inside the custom_qa_rules artifact so that it
-# can be passed as a config parameter to findbugs.
-sanity4j.tool.findbugs.versions            =1.3.9
-sanity4j.tool.findbugs.1.3.9.maven         =com.google.code.findbugs:findbugs:1.3.9:jar
-sanity4j.tool.findbugs.1.3.9.config        =-pluginList ${custom_qa_findbugs139_rules.jar}${path.separator}${more_custom_qa_findbugs139_rules.jar}
+# custom_qa_spotbugs316_rules needs to be bundled inside the custom_qa_rules artifact so that it
+# can be passed as a config parameter to spotbugs.
+sanity4j.tool.spotbugs.versions            =1.3.9
+sanity4j.tool.spotbugs.3.1.6.maven         =com.google.code.spotbugs:spotbugs:3.1.6:jar
+sanity4j.tool.spotbugs.3.1.6.config        =-pluginList ${custom_qa_spotbugs316_rules.jar}${path.separator}${more_custom_qa_spotbugs316_rules.jar}
 
 # custom_qa_pmd4_rules defines a dependency on pmd:pmd:4.3:jar
 # custom_qa_pmd4_rules needs to be bundled inside the custom_qa_rules artifact so that it
@@ -425,71 +425,91 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
                         </configuration>
                     </execution>
                     <execution>
-                        <id>sanity4j-tools-findbugs</id>
+                        <id>sanity4j-tools-spotbugs</id>
                         <phase>pre-site</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/tools/findbugs-2.0.1</outputDirectory>
+                            <outputDirectory>${project.build.directory}/tools/spotbugs-3.1.6</outputDirectory>
 
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>findbugs</artifactId>
-                                    <version>2.0.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>bcel</artifactId>
-                                    <version>2.0.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>jsr305</artifactId>
-                                    <version>2.0.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>jFormatString</artifactId>
-                                    <version>2.0.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.google.code.findbugs</groupId>
-                                    <artifactId>annotations</artifactId>
-                                    <version>2.0.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>dom4j</groupId>
-                                    <artifactId>dom4j</artifactId>
-                                    <version>1.6.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jaxen</groupId>
-                                    <artifactId>jaxen</artifactId>
-                                    <version>1.1.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm</artifactId>
-                                    <version>3.3</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-tree</artifactId>
-                                    <version>3.3</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>asm</groupId>
-                                    <artifactId>asm-commons</artifactId>
-                                    <version>3.3</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>commons-lang</groupId>
-                                    <artifactId>commons-lang</artifactId>
-                                    <version>2.4</version>
-                                </artifactItem>
-                            </artifactItems>
+								<artifactItem>
+									<groupId>com.github.spotbugs</groupId>
+									<artifactId>spotbugs</artifactId>
+									<version>3.1.6</version>
+  								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm</artifactId>
+									<version>6.2</version>
+      							</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-analysis</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-commons</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-tree</artifactId>
+									<version>6.2</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-util</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-xml</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.bcel</groupId>
+									<artifactId>bcel</artifactId>
+									<version>6.2</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>commons-lang</groupId>
+									<artifactId>commons-lang</artifactId>
+									<version>2.6</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.dom4j</groupId>
+									<artifactId>dom4j</artifactId>
+									<version>2.1.0</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>jaxen</groupId>
+									<artifactId>jaxen</artifactId>
+									<version>1.1.6</version>
+   								</artifactItem>
+								<artifactItem>
+									<groupId>net.jcip</groupId>
+									<artifactId>jcip-annotations</artifactId>
+									<version>1.0</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>jFormatString</artifactId>
+									<version>3.0.0</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>jsr305</artifactId>
+									<version>3.0.2</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.github.spotbugs</groupId>
+									<artifactId>spotbugs-annotations</artifactId>
+									<version>3.1.6</version>
+								</artifactItem>
+							</artifactItems>
 
                         </configuration>
                     </execution>
@@ -580,7 +600,7 @@ sanity4j.tool.pmd-cpd.4.3.0.maven          =my_company:custom_qa_pmd4_rules:1.0.
     <plugin>
         <groupId>com.github.sanity4j</groupId>
         <artifactId>sanity4j</artifactId>
-        <version>1.8.1</version>
+        <version>1.8.2</version>
         <configuration>
             <productsDir>${project.build.directory}/tools</productsDir>
         </configuration>

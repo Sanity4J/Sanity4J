@@ -19,11 +19,11 @@ Sanity4J Ant Task user guide
 
 	* Apache Ant 1.6.5+
 
-	* JDK/JRE 1.5.x+
+	* JDK/JRE 1.8.x+
 
 	* A directory containing the tools needed by Sanity4J (see parameters below).
 
-	* A built project, optionally with a Cobertura coverage data file.
+	* A built project, optionally with a JaCoco coverage data file.
 
 	* Depending on the size of your project, you may need to increase the memory available to
 	  Ant. This can be set using the ANT_OPTS environment variable, e.g. "<<<set ANT_OPTS=-Xmx512M>>>"
@@ -33,11 +33,11 @@ Sanity4J Ant Task user guide
 
   There are two Ant macros that can be run.
 
-  * sanity4j - The "santy4j" macro supports multiple cobertura coverage datafiles by merging them.
+  * sanity4j - The "santy4j" macro supports multiple JaCoCo coverage datafiles by merging them.
                This can also be run against a single coverage datafile without merging.
                Sanity4j will detect whether a merge is required based on the number of supplied datafiles.
 
-  * sanity4j.run - The "sanity4j.run" macro supports only a single cobertura coverage datafile without merging.
+  * sanity4j.run - The "sanity4j.run" macro supports only a single JaCoCo coverage datafile without merging.
                    This exists primarily to support backward compatability as Ant nested elements cannot
                    be made optional.
 
@@ -48,13 +48,13 @@ Sanity4J Ant Task user guide
 *--------------------------+--------------------------------------------------------+-----------+
 | products.dir             | The products.dir must point to a directory containing  | Yes       |
 |                          | all the tools in use. For example, with a default      |           |
-|                          | configuration, these could be findbugs-2.0.1,          |           |
+|                          | configuration, these could be spotbugs-3.1.6,          |           |
 |                          | pmd-5.0.4, checkstyle-5.6 and cobertura-2.0.1          |           |
 *--------------------------+--------------------------------------------------------+-----------+
 | report.dir               | The report output directory.                           | Yes       |
 *--------------------------+--------------------------------------------------------+-----------+
 | coverage.data.file       | The location of a coverage data file (e.g.             | No        |
-|                          | cobertura.ser for Cobertura) if you want to include    |           |
+|                          | jacoco.exec for JaCoCo) if you want to include         |           |
 |                          | unit testing coverage data in your report.             |           |
 *--------------------------+--------------------------------------------------------+-----------+
 | coverage.merge.data.file | The location of the merged coverage data file.         | No        |
@@ -110,7 +110,7 @@ Sanity4J Ant Task user guide
   nested source/class directories.
 
   The products.dir must point to a directory containing all the tools in use. For example, with
-  a default configuration, these could be findbugs-2.0.1, pmd-5.0.4, checkstyle-5.6 and
+  a default configuration, these could be spotbugs-3.1.6, pmd-5.0.4, checkstyle-5.6 and
   cobertura-2.0.1.
 
   The configurations element accepts nested "configuration" elements.  "configuration" elements
@@ -120,7 +120,7 @@ Sanity4J Ant Task user guide
 || Attribute    || Description                                                    || Required |
 *---------------+-----------------------------------------------------------------+-----------+
 | tool          | The name of the tool for which the configuration is to be       | Yes       |
-|               | specified ("checkstyle", "findbugs", "pmd")                     |           |
+|               | specified ("checkstyle", "spotbugs", "pmd")                     |           |
 *---------------+-----------------------------------------------------------------+-----------+
 | version       | The version of the tool for which the configuration is to be    | No        |
 |               | specified.  (If no version is specified this configuration will |           |
@@ -158,13 +158,13 @@ Sanity4J Ant Task user guide
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.8.2-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j.run
             products.dir="target/tools"
             report.dir="target/sanity4j-ant-report-single"
-            coverage.data.file="target/cobertura/cobertura.ser">
+            coverage.data.file="target/jacoco.exec">
 
             <source.path>
                <fileset dir="src/main/java">
@@ -181,7 +181,7 @@ Sanity4J Ant Task user guide
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.8.2-jar-with-dependencies.jar"/>
             </library.path>
 
             <configurations>
@@ -201,7 +201,7 @@ Sanity4J Ant Task user guide
         <!-- Imports -->
         <typedef
             resource  ="sanity4j-ant.xml"
-            classpath ="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
+            classpath ="target/sanity4j-1.8.2-jar-with-dependencies.jar"/>
 
         <!-- Run the Sanity4J QA task -->
         <sanity4j
@@ -227,16 +227,16 @@ Sanity4J Ant Task user guide
             </class.path>
 
             <library.path>
-               <path path="target/sanity4j-1.8.1-jar-with-dependencies.jar"/>
+               <path path="target/sanity4j-1.8.2-jar-with-dependencies.jar"/>
             </library.path>
 
             <coverage.data.files>
-               <path path="../sanity4j-test/maven3-multi/child1/target/cobertura/cobertura.ser"/>
-               <path path="../sanity4j-test/maven3-multi/child2/target/cobertura/cobertura.ser"/>
+               <path path="../sanity4j-test/maven3-multi/child1/target/jacoco.exec"/>
+               <path path="../sanity4j-test/maven3-multi/child2/target/jacoco.exec"/>
             </coverage.data.files>
 
             <configurations>
-                <configuration tool="findbugs" config="-pluginList local_plugin.jar"/>
+                <configuration tool="spotbugs" config="-pluginList local_plugin.jar"/>
                 <configuration tool="pmd"      config="local_pmd_rules.xml"/>
             </configurations>
 

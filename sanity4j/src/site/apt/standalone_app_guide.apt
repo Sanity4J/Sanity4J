@@ -28,7 +28,7 @@ java -jar sanity4j.jar
 *-------------------------------+--------------------------------------------------------+-----------+
 | Directory containing          | This parameter must point to a directory containing    | Yes       | 
 | analysis tools                | all the tools in use. For example, with a default      |           |
-|                               | configuration, these could be findbugs-2.0.1,          |           |
+|                               | configuration, these could be spotbugs-3.1.6,          |           |
 |                               | pmd-5.0.4, checkstyle-5.6 and cobertura-2.0.1.         |           |
 *-------------------------------+--------------------------------------------------------+-----------+
 | Path to java executable       | The full path to the java run-time to use.             | Yes       | 
@@ -51,7 +51,7 @@ java -jar sanity4j.jar
 |                               | direct dependencies.                                   |           |  
 *-------------------------------+--------------------------------------------------------+-----------+
 | Test coverage data file       | The location of a coverage data file (e.g.             | No        |
-|                               | cobertura.ser for Cobertura) if you want to include    |           |
+|                               | jacoco.exec for JaCoCo) if you want to include         |           |
 |                               | unit testing coverage data in your report.             |           |
 *-------------------------------+--------------------------------------------------------+-----------+
 | Summary data CSV export file  | The location of a (persistent) summary data file if    | No        | 
@@ -78,7 +78,7 @@ java -jar sanity4j.jar
 [./images/standalone/complete.png] Sanity4J UI screenshot showing completed analysis.  
 
 ~~  To modify the command line options used to run the underlying tools
-~~  (<CheckStyle>, <FindBugs>, <PMD>), click the "Advanced" button to display the
+~~  (<CheckStyle>, <SpotBugs>, <PMD>), click the "Advanced" button to display the
 ~~  "Advanced" properties configuration dialog.  This dialog is used to modify the
 ~~  properties specified within the <<sanity4j.properties>> file (See
 ~~  {{{customising.html}Customising}})

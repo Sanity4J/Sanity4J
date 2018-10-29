@@ -17,12 +17,12 @@ Sanity4J Eclipse plugin user guide
 
   To run the Eclipse plugin, you will need the following:
 
-    * The Sanity4J Eclipse plugin ZIP file; sanity4j-1.8.1-eclipse.zip
+    * The Sanity4J Eclipse plugin ZIP file; sanity4j-1.8.2-eclipse.zip
 
-    * JDK/JRE 1.5.x+
+    * JDK/JRE 1.8.x+
 
     * A directory containing the tools needed by Sanity4J.
-      These can be extracted from the Tools download ZIP file; sanity4j-1.8.1-bin-with-tools.zip
+      These can be extracted from the Tools download ZIP file; sanity4j-1.8.2-bin-with-tools.zip
 
 ** Installing the Eclipse plugin
 
@@ -45,7 +45,7 @@ Sanity4J Eclipse plugin user guide
 
 [./images/eclipse34_plugin_install/step03.PNG] Eclipse screenshot showing Location of the Site to add.
 
-  Choose the location of the Archive; sanity4j-1.8.1-eclipse.zip
+  Choose the location of the Archive; sanity4j-1.8.2-eclipse.zip
 
 [./images/eclipse34_plugin_install/step04.PNG] Eclipse screenshot showing Location of the Archive.
 
@@ -86,11 +86,11 @@ Sanity4J Eclipse plugin user guide
 [./images/eclipse34_plugin_install/step11.PNG] Eclipse screenshot showing the Eclipse Preferences list.
 
   Choose the location of the product tools, then click OK.
-  This can be the extracted location of the sanity4j-1.8.1-bin-with-tools.zip
+  This can be the extracted location of the sanity4j-1.8.2-bin-with-tools.zip
 
 [./images/eclipse34_plugin_install/step12.PNG] Eclipse screenshot showing the Product Tools Location.
 
-  Click the "Browse" button next to the "Java 1.5 executable" field.
+  Click the "Browse" button next to the "Java executable" field.
 
 [./images/eclipse34_plugin_install/step13.PNG] Eclipse screenshot showing the Java bin location.
 
