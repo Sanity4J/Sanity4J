@@ -18,7 +18,7 @@
 
     <property name="products.home"  value="../../sanity4j/target/tools"/>
     <property name="junit.home"     value="${products.home}/junit-4.8.2"/>
-    <property name="cobertura.home" value="${products.home}/cobertura-2.0.2"/>
+    <property name="jacoco.home" value="${products.home}/jacoco-0.7.9"/>
     <property name="sanity4j.home"  value="../../sanity4j/target"/>
 
     <property name="build.dir" value="target"/>
@@ -30,8 +30,8 @@
         </fileset>
     </path>
 
-    <path id="cobertura.path">
-        <fileset dir="${cobertura.home}">
+    <path id="jacoco.path">
+        <fileset dir="${jacoco.home}">
             <include name="**/*.jar"/>
         </fileset>
     </path>
@@ -92,55 +92,35 @@
     </target>
 
     <target
-        name        ="instrument.cobertura"
-        description ="Instrument the compiled classes / test classes to enable the recording of coverage statistics.">
-
-        <taskdef resource="tasks.properties">
-            <classpath refid="cobertura.path"/>
-        </taskdef>
-
-        <mkdir dir="${build.dir}/cobertura/classes"/>
-
-        <cobertura-instrument
-            todir    ="${build.dir}/cobertura/classes"
-            datafile ="${build.dir}/cobertura/cobertura.ser">
-
-            <fileset dir="${build.dir}/classes"/>
-            <fileset dir="${build.dir}/test-classes"/>
-
-        </cobertura-instrument>
-
-    </target>
-
-    <target
         name        ="run.junit"
         description ="Run the junit tests using the instrumented classes.">
 
+        <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+            <classpath refid="jacoco.path"/>
+        </taskdef>
+    	
         <mkdir dir="${build.dir}/test"/>
 
         <path id="run.junit.path">
-            <path refid="cobertura.path"/>
-            <path path="${build.dir}/cobertura/classes"/>
             <path refid="junit.path"/>
             <path path="src/test/resources"/>
         </path>
 
-        <junit printsummary="true">
 
-            <classpath refid="run.junit.path"/>
-            <formatter type="xml"/>
-
-            <sysproperty
-                key   ="net.sourceforge.cobertura.datafile"
-                value ="${build.dir}/cobertura/cobertura.ser"/>
-
-            <test
-                name  ="muck.HelloTest"
-                fork  ="true"
-                todir ="${build.dir}/test"/>
-
-        </junit>
-
+    	<coverage output="${build.dir}/jacoco.exec">
+	    	<junit printsummary="true">
+	
+	            <classpath refid="run.junit.path"/>
+	            <formatter type="xml"/>
+	
+	            <test
+	                name  ="muck.HelloTest"
+	                fork  ="true"
+	                todir ="${build.dir}/test"/>
+	
+	        </junit>
+    	</coverage>
+    	
     </target>
 
     <target
@@ -158,7 +138,7 @@
         <sanity4j.run
             products.dir       ="${products.home}"
             report.dir         ="${build.dir}/site/sanity4j"
-            coverage.data.file ="${build.dir}/cobertura/cobertura.ser">
+            coverage.data.file ="${build.dir}/jacoco.exec">
 
             <source.path>
 
@@ -211,7 +191,6 @@ Sanity4j Report written to: file:///${build.dir.url}/site/sanity4j/index.html
         depends     ="clean,
                       build.java,
                       build.test,
-                      instrument.cobertura,
                       run.junit,
                       report.analyse"/>
 

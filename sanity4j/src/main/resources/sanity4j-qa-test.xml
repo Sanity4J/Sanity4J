@@ -12,7 +12,7 @@
 ** various third party tools.
 **
 ** USAGE
-** Ensure that you are running at least Java 1.5, as some of the tools 
+** Ensure that you are running at least Java 1.8, as some of the tools 
 ** don't work on 1.4 or earlier VMs.
 **
 ** Within a project's build.xml file, include the following line:
@@ -93,7 +93,7 @@
     **
 	**     java.runtime [optional]
 	**
-    **          The location of the java executable; 1.5 or later.
+    **          The location of the java executable; 1.8 or later.
     **
 	** Elements:
 	**

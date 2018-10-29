@@ -30,6 +30,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.github.sanity4j.plugin.Activator;
 import com.github.sanity4j.util.FileUtil;
+import com.github.sanity4j.util.StringUtil;
 import com.github.sanity4j.workflow.QAConfig;
 
 /**
@@ -49,7 +50,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
     /** A {@link Text} containing the configuration for the Sanity4J "products" directory. */
     private Text toolsDirectoryText;
 
-    /** A {@link Text} containing the location of a "1.5" JVM executable. */
+    /** A {@link Text} containing the location of a "1.8" JVM executable. */
     private Text javaExecutableText;
 
     /** A {@link Button} used to flag whether diagnostics should be listed first. */
@@ -103,7 +104,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
     // ****************************************************************
 
     /**
-     * This method will attempt to derive the location of a "1.5" java executable from the System properties of the
+     * This method will attempt to derive the location of a "1.8" java executable from the System properties of the
      * currently running JVM.
      * 
      * @return The fully qualified path to a java executable, or <b>null</b> if none could be found by this method.
@@ -114,9 +115,8 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         String javaHome = System.getProperty("java.home");
         String javaSpecificationVersion = System.getProperty("java.specification.version");
 
-        // Naive method of ensuring we are getting at least a 1.5 JVM.
-        if (("1.5".equalsIgnoreCase(javaSpecificationVersion) || "1.6".equalsIgnoreCase(javaSpecificationVersion)
-             || "1.7".equalsIgnoreCase(javaSpecificationVersion) || "1.8".equalsIgnoreCase(javaSpecificationVersion))
+        // Naive method of ensuring we are getting at least a 1.8 JVM.
+        if ("1.8".equalsIgnoreCase(javaSpecificationVersion) || "9".equalsIgnoreCase(javaSpecificationVersion) || "10".equalsIgnoreCase(javaSpecificationVersion))
             && javaHome != null)
         {
             File javaHomeFile = new File(javaHome);
@@ -208,7 +208,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         QAConfig qaConfig = new QAConfig();
         String externalPropertiesPath = sanity4jPropertiesText.getText();
 
-        if (FileUtil.hasValue(externalPropertiesPath))
+        if (!StringUtil.empty(externalPropertiesPath))
         {
             qaConfig.setExternalPropertiesPath(externalPropertiesPath);
         }
@@ -230,7 +230,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         QAConfig qaConfig = new QAConfig();
         String externalPropertiesPath = sanity4jPropertiesText.getText();
 
-        if (FileUtil.hasValue(externalPropertiesPath))
+        if (!StringUtil.empty(externalPropertiesPath))
         {
             qaConfig.setExternalPropertiesPath(externalPropertiesPath);
         }
@@ -280,7 +280,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
                 {
                     String configClasspathOverride = store.getString(PreferenceConstants.TOOL_CONFIG_CLASSPATH_PREFIX + key);
 
-                    if (FileUtil.hasValue(configClasspathOverride))
+                    if (!StringUtil.empty(configClasspathOverride))
                     {
                         configClasspath = configClasspathOverride;
                     }
@@ -322,7 +322,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
     private boolean validate()
     {
         // productsDirectoryText;
-        if (!FileUtil.hasValue(toolsDirectoryText.getText()))
+        if (StringUtil.empty(toolsDirectoryText.getText()))
         {
             MessageDialog.openError(getShell(), "Invalid tools directory", "Please enter a tools directory");
             return false;
@@ -338,7 +338,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         }
 
         // javaExecutableText;
-        if (!FileUtil.hasValue(javaExecutableText.getText()))
+        if (StringUtil.empty(javaExecutableText.getText()))
         {
             MessageDialog.openError(getShell(), "Invalid java executable", "Please enter a java executable");
             return false;
@@ -354,7 +354,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
         }
 
         // sanity4jPropertiesText;
-        if (FileUtil.hasValue(sanity4jPropertiesText.getText()))
+        if (!StringUtil.empty(sanity4jPropertiesText.getText()))
         {
             File sanity4jProperties = new File(sanity4jPropertiesText.getText());
 
@@ -471,7 +471,7 @@ public class Sanity4JPreferencePage extends PreferencePage implements IWorkbench
 
         productsBrowseButton.addSelectionListener(productsButtonListener);
 
-        // Java 1.5 exectable.
+        // Java 1.8 exectable.
         Label javaLocationLabel = new Label(externalLocationsGroup, SWT.NULL);
         javaLocationLabel.setFont(font);
         javaLocationLabel.setText("&Java executable: ");

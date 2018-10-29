@@ -1,5 +1,6 @@
 package com.github.sanity4j.ui; 
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -264,24 +265,7 @@ public final class QaApp extends JFrame
                     if (openReportOnCompletion.isVisible() && openReportOnCompletion.isSelected())
                     {
                         File index = new File(reportDir.getFile(), "index.html");
-                        
-                        // Use of reflections here is required as we still need to compile under java 1.5.
-                        //Desktop.getDesktop().open(index);
-                        try
-                        {
-                            Class<?> clazz = Class.forName("java.awt.Desktop");
-                            Object instance = clazz.getMethod("getDesktop").invoke(null);
-                            clazz.getMethod("open", File.class).invoke(instance, index);
-                        }
-                        catch (ClassNotFoundException ex)
-                        {
-                            // Pre-java 1.6
-                            QaLogger.getInstance().error("Open document failed, Requires java 1.6+", ex);
-                        }
-                        catch (Exception ex)
-                        {
-                            QaLogger.getInstance().error("Failed to open report", ex);
-                        }
+                        Desktop.getDesktop().open(index);
                     }
                 }
                 catch (Throwable ex)

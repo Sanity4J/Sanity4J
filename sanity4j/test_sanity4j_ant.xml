@@ -16,7 +16,7 @@
         <sanity4j.run
             products.dir="target/tools"
             report.dir="target/sanity4j-ant-report-single"
-            coverage.data.file="target/cobertura/cobertura.ser">
+            coverage.data.file="target/jacoco.exec">
 
             <source.path>
                <fileset dir="src/main/java">
@@ -79,8 +79,8 @@
             </library.path>
 
             <coverage.data.files>
-               <path path="../sanity4j-test/maven3-multi/child1/target/cobertura/cobertura.ser"/>
-               <path path="../sanity4j-test/maven3-multi/child2/target/cobertura/cobertura.ser"/>
+               <path path="../sanity4j-test/maven3-multi/child1/target/jacoco.exec"/>
+               <path path="../sanity4j-test/maven3-multi/child2/target/jacoco.exec"/>
             </coverage.data.files>
 
          </sanity4j>
